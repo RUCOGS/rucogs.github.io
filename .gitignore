@@ -1,5 +1,8 @@
 # See http://help.github.com/ignore-files/ for more about ignoring files.
 
+# IDE - VSCode
+.vscode/
+
 # compiled output
 /dist
 /tmp
@@ -21,9 +24,6 @@ chrome-profiler-events*.json
 *.launch
 .settings/
 *.sublime-workspace
-
-# IDE - VSCode
-.vscode/*
 
 # misc
 /.sass-cache
