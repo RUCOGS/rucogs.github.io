@@ -1,0 +1,29 @@
+.button {
+	background-color: #B3002D;
+	border: none;
+	color: white;
+	text-align: center;
+	text-decoration: none;
+	display: inline-block;
+	font-size: 18px;
+	font-family: 'Urbanist', sans-serif;
+	font-weight: bold;
+	padding: 0px 20px;
+	height: 50px;
+  width: 100%;
+	border-radius: 50px;
+	margin: 4px 2px;
+	display: flex;  
+  align-items: center;
+  justify-content: center;
+}
+
+.icon {
+  width: 22px;
+  margin-right: auto;
+}
+
+.text {
+  margin-left: 10px;
+  margin-right: auto;
+}
