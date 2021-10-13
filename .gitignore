@@ -23,7 +23,7 @@ chrome-profiler-events*.json
 *.sublime-workspace
 
 # IDE - VSCode
-.vscode
+/.vscode
 
 # misc
 /.sass-cache
