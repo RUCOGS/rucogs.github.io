@@ -13,7 +13,7 @@ jobs:
       uses: actions/checkout@v2 # If you're using actions/checkout@v2 you must set persist-credentials to false in most cases for the deployment to work correctly.
       with:
         persist-credentials: false
-    - name: Use Node.js 10.x
+    - name: Use Node.js (Latest)
       uses: actions/setup-node@v2
       with:
         node-version: '14'
@@ -27,6 +27,6 @@ jobs:
       uses: JamesIves/github-pages-deploy-action@releases/v2
       env:
         ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
-        BASE_BRANCH: master
+        BASE_BRANCH: main
         BRANCH: gh-pages
-        FOLDER: dist/FarmingGameNetAssetCalculator
+        FOLDER: dist
