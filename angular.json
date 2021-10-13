@@ -19,7 +19,7 @@
           "options": {
 		  	"baseHref" : "/angular-cogs.github.io/",
         	"deployUrl": "/angular-cogs.github.io/",
-            "outputPath": "docs",
+            "outputPath": "dist",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
