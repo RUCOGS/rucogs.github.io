@@ -1,0 +1,114 @@
+
+// Custom Theming for Angular Material
+// For more information: https://material.angular.io/guide/theming
+@use '~@angular/material' as mat;
+// Plus imports for other components in your app.
+
+// Custom color palettes
+$cogs-grey-palette: (
+  50: #FFFFFF,
+  100: #FFFFFF,
+  200: #D6D5D5,
+  300: #D6D5D5,
+  400: #9F9998,
+  500: #9F9998,
+  600: #726E6E,
+  700: #726E6E,
+  800: #3A3737,
+  900: #3A3737,
+  contrast: (
+    50: #000000,
+    100: #000000,
+    200: #000000,
+    300: #000000,
+    400: #ffffff,
+    500: #ffffff,
+    600: #ffffff,
+    700: #ffffff,
+    800: #ffffff,
+    900: #ffffff,
+  )
+);
+
+$cogs-red-palette: (
+  50: #FFFFFF,
+  100: #FFFFFF,
+  200: #d31f2c,
+  300: #d31f2c,
+  400: #B21F30,
+  500: #B21F30,
+  600: #941121,
+  700: #941121,
+  800: #65071D,
+  900: #65071D,
+  contrast: (
+    50: #000000,
+    100: #000000,
+    200: #000000,
+    300: #000000,
+    400: #ffffff,
+    500: #ffffff,
+    600: #ffffff,
+    700: #ffffff,
+    800: #ffffff,
+    900: #ffffff,
+  )
+);
+
+$cogs-orange-palette: (
+  50: #FFFFFF,
+  100: #FFFFFF,
+  200: #f5c012,
+  300: #f5c012,
+  400: #e9891b,
+  500: #e9891b,
+  600: #d86c14,
+  700: #d86c14,
+  800: #ca4a00,
+  900: #ca4a00,
+  contrast: (
+    50: #000000,
+    100: #000000,
+    200: #000000,
+    300: #000000,
+    400: #000000,
+    500: #000000,
+    600: #ffffff,
+    700: #ffffff,
+    800: #ffffff,
+    900: #ffffff,
+  )
+);
+
+// Define the palettes for your theme using the Material Design palettes available in palette.scss
+// (imported above). For each palette, you can optionally specify a default, lighter, and darker
+// hue. Available color palettes: https://material.io/design/color/
+$cogs-primary: mat.define-palette($cogs-red-palette);
+$cogs-accent: mat.define-palette($cogs-grey-palette, A200, A100, A400);
+
+// The warn palette is optional (defaults to red).
+$cogs-warn: mat.define-palette($cogs-orange-palette);
+
+// Create the theme object. A theme consists of configurations for individual
+// theming systems such as "color" or "typography".
+$cogs-theme: mat.define-light-theme((
+  color: (
+    primary: $cogs-primary,
+    accent: $cogs-accent,
+    warn: $cogs-warn,
+  )
+));
+
+// Include theme styles for core and each component used in your app.
+// Alternatively, you can import and @include the theme mixins for each component
+// that you are using.
+@include mat.all-component-themes($cogs-theme);
+
+$cogs-typography: mat.define-typography-config(
+  $display-4: mat.define-typography-level(112px)
+);
+
+// Include the common styles for Angular Material. We include this here so that you only
+// have to load a single css file for Angular Material in your app.
+// Be sure that you only ever include this mixin once!
+@include mat.core($cogs-typography);

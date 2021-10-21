@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { Color } from '../color';
+import { Color } from "@utils/color";
 
 // TODO: Update angular on wifi with `ng update`
 // TODO: Download angular material on wifi with `ng add @angular/material`
