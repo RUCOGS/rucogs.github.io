@@ -10,6 +10,7 @@
 	    "@services/*": ["app/services/*"],
 	    "@utils/*": ["app/utils/*"],
 	    "@assets/*": ["assets/*"],
+	    "@directives/*": ["app/directives/*"],
     },
     "outDir": "./dist/out-tsc",
     "forceConsistentCasingInFileNames": true,

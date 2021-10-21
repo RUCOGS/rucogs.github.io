@@ -17,12 +17,12 @@ export class ButtonComponent implements OnInit {
   @Input() hoverColorHex?: string;
   @Input() iconifyIcon: string = "ant-design:mail-filled";
   @Input() text: string = "Button";
+  @Input() link: string = "";
   
   backgroundColor?: Color;
   pressedColor?: Color;
   hoverColor?: Color;
   
-
   hover: boolean = false;
   pressed: boolean = false;
 
@@ -48,5 +48,11 @@ export class ButtonComponent implements OnInit {
       'background-color': (this.pressed ? this.pressedColor?.hexString() : (this.hover ? this.hoverColor?.hexString() : this.backgroundColor?.hexString())),
       ...(this.width > 0 && {'width': this.width}),
     };
+  }
+
+  onMouseUp(): void {
+    this.pressed = false;
+    if (this.link != "")
+      window.open(this.link, "_blank");
   }
 }

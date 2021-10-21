@@ -1,3 +1,67 @@
 /* You can add global styles to this file, and also import other style files */
 
-html, body { height: 100%; }
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+/* use viewport-relative units to cover page fully */
+body {
+  height: 100vh;
+  width: 100vw;
+}
+
+.vbox-32 > * {
+  display: block;
+  margin-top: 32px !important;
+}
+
+.vbox-32 > :first-child {
+	margin-top: 0px !important;
+}
+
+.vbox-16 > * {
+  display: block;
+  margin-top: 16px !important;
+}
+
+.vbox-16 > :first-child {
+	margin-top: 0px !important;
+}
+
+.vbox-8 > * {
+  display: block;
+  margin-top: 8px !important;
+}
+
+.vbox-8 > :first-child {
+	margin-top: 0px !important;
+}
+
+body {
+  font: 'Urbanist';
+  font-weight: 400;
+  font-size: 18px;
+}
+
+h1.small-title {
+  font-weight: 900;
+  font-size: 24px;
+  line-height: 24px;
+  margin-bottom: 10px;
+}
+
+h1.medium-title {
+  font-weight: 900;
+  font-size: 48px;
+  line-height: 48px;
+  margin-bottom: 50px;
+}
+
+h1.large-title {
+  font-weight: 900;
+  font-size: 64px;
+  line-height: 64px;
+  margin-bottom: 50px;
+}

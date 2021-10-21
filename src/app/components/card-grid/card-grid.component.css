@@ -1,0 +1,8 @@
+:host {
+  box-sizing: border-box;
+  display: grid;
+	align-items: stretch;
+	margin-left: auto;
+	margin-right: auto;
+	grid-template-columns: repeat( auto-fit, minmax(250px, 1fr) );
+}

@@ -7,7 +7,7 @@
 	display: inline-block;
 	font-size: 18px;
 	font-family: 'Urbanist', sans-serif;
-	font-weight: bold;
+	font-weight: 700;
 	padding: 0px 20px;
 	height: 50px;
   width: 100%;
@@ -19,7 +19,6 @@
 }
 
 .icon {
-  width: 22px;
   margin-right: auto;
 }
 

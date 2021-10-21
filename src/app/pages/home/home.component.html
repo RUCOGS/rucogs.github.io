@@ -1,17 +1,52 @@
-<div style="width: 200px;">
-  <app-button text="Mailing List" iconifyIcon="ant-design:mail-filled" backgroundColorHex="#B3002D"></app-button>
-  <app-button text="Discord" iconifyIcon="akar-icons:discord-fill" backgroundColorHex="#5865F2"></app-button>
-  <app-button text="Another Button" iconifyIcon="akar-icons:discord-fill" backgroundColorHex="#5865F2"></app-button>
-  <mat-slider min="1" max="100" step="1" value="50"></mat-slider>
-  <button mat-flat-button color="primary">hello</button>
-</div>
-<div style="width: 200px">
-  <app-card>
-    <h1>Hellood</h1>
-    <p>It's me</p>
-  </app-card>
-  <app-card>
-    <p>Helloo</p>
-    <p>It's me</p>
-  </app-card>
-</div>
+<app-section title="About" color="#fffff" textColor="black">
+  <app-card-grid>
+    <app-card>
+      <h1 class="small-title">Who are we?</h1>
+      <p style="margin-bottom: 0px !important;">We are Creation of Games Society, a club at Rutgers University that is dedicated to researching, learning, understanding, and teaching the techniques and theories used in video game development.</p>
+    </app-card>
+    <app-card>
+      <h1 class="small-title">How do I join?</h1>
+      <p style="margin-bottom: 16px;">Join the mailing list or Discord. This is where we will provide information about our meetings and events that we plan to hold over the year.</p>
+      <div class="vbox-8">
+        <app-button text="Mailing List" iconifyIcon="ant-design:mail-filled" backgroundColorHex="#B3002D" link="http://eepurl.com/cgDAk5"></app-button>
+        <app-button text="Discord" iconifyIcon="akar-icons:discord-fill" backgroundColorHex="#5865F2" link="https://discord.gg/PjZrqyu"></app-button>
+      </div>
+    </app-card>
+    <app-card>
+      <h1 class="small-title">Events</h1>
+      <p style="margin-bottom: 0px !important;">In addition to weekly club meetings, COGS will be hosting game nights and social events throughout the year.</p>
+    </app-card>
+  </app-card-grid>
+</app-section>
+<app-section title="About" color="#fffff" textColor="black">
+  <app-card-grid>
+    <app-card>
+      <h1 class="small-title">Who are we?</h1>
+      <p style="margin-bottom: 0px !important;">We are Creation of Games Society, a club at Rutgers University that is dedicated to researching, learning, understanding, and teaching the techniques and theories used in video game development.</p>
+    </app-card>
+    <app-card>
+      <h1 class="small-title">How do I join?</h1>
+      <p style="margin-bottom: 16px;">Join the mailing list or Discord. This is where we will provide information about our meetings and events that we plan to hold over the year.</p>
+      <div class="vbox-8">
+        <app-button text="Mailing List" iconifyIcon="ant-design:mail-filled" backgroundColorHex="#B3002D"></app-button>
+        <app-button text="Discord" iconifyIcon="akar-icons:discord-fill" backgroundColorHex="#5865F2"></app-button>
+      </div>
+    </app-card>
+    <app-card>
+      <h1 class="small-title">Events</h1>
+      <p style="margin-bottom: 0px !important;">In addition to weekly club meetings, COGS will be hosting game nights and social events throughout the year.</p>
+    </app-card>
+  </app-card-grid>
+</app-section>
+<!-- 
+  <mat-card>
+    <mat-card-title>Events</mat-card-title>
+    <mat-card-content>In addition to weekly club meetings, COGS will be hosting game nights and social events throughout the year.</mat-card-content>
+    <mat-card-actions>
+      <button mat-button>
+        <mat-icon>mic</mat-icon>
+        Start Recording
+      </button>
+    </mat-card-actions>
+  </mat-card>
+ -->

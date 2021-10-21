@@ -9,6 +9,10 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { MatSliderModule } from '@angular/material/slider';
 import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
+import { MatIconModule } from '@angular/material/icon';
+
+
 import { HomeComponent } from '@pages/home/home.component';
 import { CalendarComponent } from '@pages/calendar/calendar.component';
 import { ProjectsComponent } from '@pages/projects/projects.component';
@@ -16,6 +20,9 @@ import { PicturesComponent } from '@pages/pictures/pictures.component';
 import { ResourcesComponent } from '@pages/resources/resources.component';
 import { ScarletGameJamComponent } from '@pages/scarlet-game-jam/scarlet-game-jam.component';
 import { CardComponent } from '@components/cards/card/card.component';
+import { CardGridComponent } from '@components/card-grid/card-grid.component';
+import { SectionComponent } from '@components/section/section.component';
+import { DogEarDirective } from '@directives/dog-ear/dog-ear.directive'
 
 const routes: Routes = [
   { path: 'home', component: HomeComponent },
@@ -36,7 +43,10 @@ const routes: Routes = [
     PicturesComponent,
     ResourcesComponent,
     ScarletGameJamComponent,
-    CardComponent
+    CardComponent,
+    CardGridComponent,
+    SectionComponent,
+    DogEarDirective,
   ],
   imports: [
     BrowserModule,
@@ -44,6 +54,8 @@ const routes: Routes = [
     BrowserAnimationsModule,
     MatSliderModule,
     MatButtonModule,
+    MatCardModule,
+    MatIconModule,
     RouterModule.forRoot(routes),
   ],
   providers: [],
