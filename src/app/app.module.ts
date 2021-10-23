@@ -55,7 +55,7 @@ const routes: Routes = [
     MatButtonModule,
     MatCardModule,
     MatIconModule,
-    RouterModule.forRoot(routes, { useHash: true }),
+    RouterModule.forRoot(routes),
   ],
   providers: [],
   bootstrap: [AppComponent]
