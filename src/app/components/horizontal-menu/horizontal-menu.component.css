@@ -1,0 +1,7 @@
+div.bg {
+  align-items: center;
+	box-sizing: border-box;
+	min-height: 100px;
+	padding: 50px;
+	width: 80%;
+}

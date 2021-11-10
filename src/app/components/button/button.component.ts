@@ -12,9 +12,9 @@ import { Color } from "@utils/color";
 export class ButtonComponent implements OnInit {
 
   @Input() width: number = -1;
-  @Input() backgroundColorHex: string = "#B3002D";
-  @Input() pressedColorHex?: string;
-  @Input() hoverColorHex?: string;
+  @Input('background-color') backgroundColorText: string = "#B3002D";
+  @Input('pressed-color') pressedColorText?: string;
+  @Input('hover-color') hoverColorText?: string;
   @Input() iconifyIcon: string = "ant-design:mail-filled";
   @Input() text: string = "Button";
   @Input() link: string = "";
@@ -29,15 +29,16 @@ export class ButtonComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
-    this.backgroundColor = Color.fromHex(this.backgroundColorHex);
+    console.log("trying fromText on '" + this.backgroundColorText + "'");
+    this.backgroundColor = Color.fromTextOrDefault(this.backgroundColorText);
 
-    if (this.pressedColorHex != null)
-      this.pressedColor = Color.fromHex(this.pressedColorHex);
+    if (this.pressedColorText != null)
+      this.pressedColor = Color.fromTextOrDefault(this.pressedColorText);
     else
       this.pressedColor = this.backgroundColor.copy();
 
-    if (this.hoverColorHex != null)
-      this.hoverColor = Color.fromHex(this.hoverColorHex);
+    if (this.hoverColorText != null)
+      this.hoverColor = Color.fromTextOrDefault(this.hoverColorText);
     else
       this.hoverColor = this.backgroundColor.shade(0.2);
   }

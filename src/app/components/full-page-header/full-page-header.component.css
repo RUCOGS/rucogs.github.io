@@ -1,0 +1,23 @@
+div.bg {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+	box-sizing: border-box;
+	min-height: 100vh;
+	padding: 50px;
+	background-size: cover;
+	background-position: center;
+}
+
+div.content {
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+@media (min-width: 720px) {
+	div.content {
+		width: 80%;
+	}
+}

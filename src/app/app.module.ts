@@ -21,7 +21,13 @@ import { ScarletGameJamComponent } from '@pages/scarlet-game-jam/scarlet-game-ja
 import { CardComponent } from '@components/cards/card/card.component';
 import { CardGridComponent } from '@components/card-grid/card-grid.component';
 import { SectionComponent } from '@components/section/section.component';
-import { DogEarDirective } from '@directives/dog-ear/dog-ear.directive'
+import { DogEarDirective } from '@directives/dog-ear/dog-ear.directive';
+import { PageHeaderComponent } from './components/page-header/page-header.component';
+import { FullPageHeaderComponent } from './components/full-page-header/full-page-header.component';
+import { SiteHeaderComponent } from './components/site-header/site-header.component';
+import { SiteFooterComponent } from './components/site-footer/site-footer.component';
+import { HorizontalMenuComponent } from './components/horizontal-menu/horizontal-menu.component';
+import { HamburgerMenuComponent } from './components/hamburger-menu/hamburger-menu.component'
 
 const routes: Routes = [
   { path: 'home', component: HomeComponent },
@@ -46,6 +52,12 @@ const routes: Routes = [
     CardGridComponent,
     SectionComponent,
     DogEarDirective,
+    PageHeaderComponent,
+    FullPageHeaderComponent,
+    SiteHeaderComponent,
+    SiteFooterComponent,
+    HorizontalMenuComponent,
+    HamburgerMenuComponent,
   ],
   imports: [
     BrowserModule,
