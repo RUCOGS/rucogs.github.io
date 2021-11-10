@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-site-header',
@@ -7,9 +7,16 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SiteHeaderComponent implements OnInit {
 
+  scrolled: boolean = false;
+
   constructor() { }
 
   ngOnInit(): void {
+    
   }
 
+  @HostListener('window:scroll', ['$event']) // for window scroll events
+  onScroll() {
+    this.scrolled = (window.pageYOffset != 0);
+  }
 }

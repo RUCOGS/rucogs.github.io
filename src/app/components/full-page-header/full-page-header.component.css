@@ -1,10 +1,11 @@
 div.bg {
+	margin-top: var(--site-header-height);
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
 	box-sizing: border-box;
-	min-height: 100vh;
+	min-height: calc(100vh - var(--site-header-height)); /* Accounting for header */
 	padding: 50px;
 	background-size: cover;
 	background-position: center;

@@ -116,13 +116,27 @@ export class Color {
   }
   
   static fromTextOrDefault(text: string, defaultColor: Color = new Color(0, 0, 0)): Color {
-    console.log("running fromTextOrDefault on '" + text + "'");
     var result: Color | null = this.fromText(text);
     if (result !== null)
       return result;
     return defaultColor; 
   }
 
+  static fromVarOrDefault(text: string, defaultColor: Color = new Color(0, 0, 0)): Color {
+    var result: Color | null = this.fromVar(text);
+    if (result !== null)
+      return result;
+    return defaultColor; 
+  }
+
+  static useDarkText(backgroundColor: Color) {
+    return ((backgroundColor.r*0.299 + backgroundColor.g*0.587 + backgroundColor.b*0.114) > 186);
+  }
+
+  static getTextColor(backgroundColor: Color) : Color {
+    return this.useDarkText(backgroundColor) ? this.fromVarOrDefault("var(--dark)") : this.fromVarOrDefault("var(--light)");
+  }
+  
   public static Types = class {
     // CSS color names
     public static black = Color.fromHexOrDefault("#000000");

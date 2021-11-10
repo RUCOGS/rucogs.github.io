@@ -12,7 +12,7 @@ import { Color } from "@utils/color";
 export class ButtonComponent implements OnInit {
 
   @Input() width: number = -1;
-  @Input('background-color') backgroundColorText: string = "#B3002D";
+  @Input('background-color') backgroundColorText: string = "var(--light)";
   @Input('pressed-color') pressedColorText?: string;
   @Input('hover-color') hoverColorText?: string;
   @Input() iconifyIcon: string = "ant-design:mail-filled";
@@ -22,6 +22,7 @@ export class ButtonComponent implements OnInit {
   backgroundColor?: Color;
   pressedColor?: Color;
   hoverColor?: Color;
+  textColor?: Color;
   
   hover: boolean = false;
   pressed: boolean = false;
@@ -29,7 +30,6 @@ export class ButtonComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
-    console.log("trying fromText on '" + this.backgroundColorText + "'");
     this.backgroundColor = Color.fromTextOrDefault(this.backgroundColorText);
 
     if (this.pressedColorText != null)
@@ -41,12 +41,16 @@ export class ButtonComponent implements OnInit {
       this.hoverColor = Color.fromTextOrDefault(this.hoverColorText);
     else
       this.hoverColor = this.backgroundColor.shade(0.2);
+    
+    this.textColor = Color.getTextColor(this.backgroundColor);
+    console.log('currTextColor: ' + this.textColor.rgbString());
   }
 
   getCurrentStyle(): Object {
     return {
       'transition': '0.1s',
       'background-color': (this.pressed ? this.pressedColor?.hexString() : (this.hover ? this.hoverColor?.hexString() : this.backgroundColor?.hexString())),
+      'color': this.textColor?.hexString(),
       ...(this.width > 0 && {'width': this.width}),
     };
   }

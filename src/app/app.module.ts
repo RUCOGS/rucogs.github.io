@@ -27,13 +27,16 @@ import { FullPageHeaderComponent } from './components/full-page-header/full-page
 import { SiteHeaderComponent } from './components/site-header/site-header.component';
 import { SiteFooterComponent } from './components/site-footer/site-footer.component';
 import { HorizontalMenuComponent } from './components/horizontal-menu/horizontal-menu.component';
-import { HamburgerMenuComponent } from './components/hamburger-menu/hamburger-menu.component'
+import { HamburgerMenuComponent } from './components/hamburger-menu/hamburger-menu.component';
+import { HorizontalMenuButtonComponent } from './components/horizontal-menu-button/horizontal-menu-button.component';
+import { BgContainerComponent } from './components/bg-container/bg-container.component'
 
 const routes: Routes = [
   { path: 'home', component: HomeComponent },
   { path: 'calendar', component: CalendarComponent },
   { path: 'projects', component: ProjectsComponent },
   { path: 'pictures', component: PicturesComponent },
+  { path: 'resources', component: ResourcesComponent },
   { path: 'scarlet-game-jam', component: ScarletGameJamComponent },
   { path: '', redirectTo: '/home', pathMatch: 'full' }
 ]
@@ -58,6 +61,8 @@ const routes: Routes = [
     SiteFooterComponent,
     HorizontalMenuComponent,
     HamburgerMenuComponent,
+    HorizontalMenuButtonComponent,
+    BgContainerComponent,
   ],
   imports: [
     BrowserModule,

@@ -1,7 +1,9 @@
 /* You can add global styles to this file, and also import other style files */
 
 :root {
+  --primary-color-light: #d33744;
   --primary-color: #B3002D;
+  --primary-color-med: #810020;
   --primary-color-dark: #66001A;
   --secondary-color-light: #D7D5D5;
   --secondary-color: #9F9A99;
@@ -10,10 +12,13 @@
   --light: #FFFFFF;
   --dark: #2d2d2d;
   --discord-color: #5865F2;
+  --site-header-height: 80px;
+  --site-footer-height: 80px;
 }
 
 html,
 body {
+  height: 100%;
   margin: 0;
   padding: 0;
 }
@@ -63,6 +68,12 @@ h1.small-title {
   line-height: 24px;
 }
 
+h1.small-plus-title {
+  font-weight: 900;
+  font-size: 32px;
+  line-height: 32px;
+}
+
 h1.mb-1 {
   margin-bottom: 10px;
 }
@@ -71,6 +82,12 @@ h1.medium-title {
   font-weight: 900;
   font-size: 48px;
   line-height: 48px;
+}
+
+h1.medium-plus-title {
+  font-weight: 900;
+  font-size: 52px;
+  line-height: 52px;
 }
 
 h1.mb-2 {
@@ -87,3 +104,24 @@ h1.mb-3 {
   margin-bottom: 50px;
 }
 
+a:link {
+  color: var(--primary-color);
+}
+
+a:visited {
+  color: var(--primary-color-med);
+}
+
+a:hover {
+  color: var(--primary-color-light);
+}
+
+a:active {
+  color: var(--primary-color);
+}
+
+.page {
+	flex: 1 1 auto; 
+	display:flex; 
+	flex-flow: column;
+}

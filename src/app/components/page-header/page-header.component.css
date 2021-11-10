@@ -3,6 +3,7 @@
 }
 
 div.bg {
+	margin-top: var(--site-header-height);
 	padding: 50px;
 }
 

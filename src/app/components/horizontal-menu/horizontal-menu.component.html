@@ -1,6 +1,19 @@
 <div class="bg">
   <div class="content">
-    <h1 class="large-title mb-3" style="color: white;">Menu</h1>
+    <div style="
+      display: flex;  
+      align-items: center;
+      justify-content: left;
+    ">
+      <object data="assets/icons/cogs-logo-white.svg" width="50" height="50" style="float: left; margin-right: 10px;"> </object>
+      <h1 class="small-plus-title" style="color: var(--light); float: left; margin-top: auto; margin-bottom: auto; height: 100%; vertical-align: middle;">COGS</h1>
+    </div>
+    <app-horizontal-menu-button link="home" text="Home"></app-horizontal-menu-button>
+    <app-horizontal-menu-button link="calendar" text="Calendar"></app-horizontal-menu-button>
+    <app-horizontal-menu-button link="pictures" text="Pictures"></app-horizontal-menu-button>
+    <app-horizontal-menu-button link="projects" text="Projects"></app-horizontal-menu-button>
+    <app-horizontal-menu-button link="resources" text="Resources"></app-horizontal-menu-button>
+    <app-horizontal-menu-button link="scarlet-game-jam" text="Scarlet Game Jam"></app-horizontal-menu-button>
     <ng-content></ng-content>
   </div>
 </div>

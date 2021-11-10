@@ -1,0 +1,21 @@
+:host {
+	flex: 0 1 auto;
+}
+
+div.bg {
+  align-items: center;
+	width: 100%;
+	background-color: var(--secondary-color-dark);
+	color: var(--secondary-color);
+	height: var(--site-footer-height);
+	box-shadow: 0px 0px 32px 0px rgba(0,0,0,127);
+}
+
+div.content {
+	display: flex;  
+	align-items: center;
+	justify-content: center;
+	margin: auto;
+	height: 100%;
+	width: 80%;
+}
