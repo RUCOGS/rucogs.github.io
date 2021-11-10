@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Attribute, Optional } from '@angular/core';
 
 @Component({
   selector: 'app-section',
@@ -10,10 +10,21 @@ export class SectionComponent implements OnInit {
   @Input() title: string = "";
   @Input() color: string = "";
   @Input() textColor: string = "";
+  
+  last: boolean;
 
-  constructor() { }
-
-  ngOnInit(): void {
+  constructor(@Optional() @Attribute('last') last: any) {
+    this.last = last == undefined;
   }
 
+  ngOnInit(): void {
+    console.log(this.last);
+  }
+
+  getBottomStyle(): Object {
+    return { 
+      'background-color': this.color,
+      ...(!this.last && {'height': '0px'}), 
+    };
+  }
 }
