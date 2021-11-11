@@ -22,7 +22,7 @@ export class ButtonComponent implements OnInit {
   backgroundColor?: Color;
   pressedColor?: Color;
   hoverColor?: Color;
-  textColor?: Color;
+  textColor?: Color = Color.Types.cadetblue;
   
   hover: boolean = false;
   pressed: boolean = false;
@@ -42,8 +42,11 @@ export class ButtonComponent implements OnInit {
     else
       this.hoverColor = this.backgroundColor.shade(0.2);
     
-    this.textColor = Color.getTextColor(this.backgroundColor);
-    console.log('currTextColor: ' + this.textColor.rgbString() + 'bg color: ' + this.backgroundColor.rgbString());
+    setTimeout(function(this: ButtonComponent){
+      this.backgroundColor = Color.fromTextOrDefault(this.backgroundColorText);
+      this.textColor = Color.getTextColor(this.backgroundColor);
+      console.log('currTextColor: ' + this.textColor.rgbString() + 'bg color: ' + this.backgroundColor.rgbString());
+    }.bind(this), 1000);
   }
 
   getCurrentStyle(): Object {
