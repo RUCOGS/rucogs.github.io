@@ -134,7 +134,7 @@ export class Color {
   }
 
   static getTextColor(backgroundColor: Color) : Color {
-    return this.useDarkText(backgroundColor) ? this.fromVarOrDefault("var(--dark)") : this.fromVarOrDefault("var(--light)");
+    return this.useDarkText(backgroundColor) ? this.fromVarOrDefault("var(--dark)", this.Types.cyan) : this.fromVarOrDefault("var(--light)", this.Types.cyan);
   }
   
   public static Types = class {

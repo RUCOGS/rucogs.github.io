@@ -43,7 +43,7 @@ export class ButtonComponent implements OnInit {
       this.hoverColor = this.backgroundColor.shade(0.2);
     
     this.textColor = Color.getTextColor(this.backgroundColor);
-    console.log('currTextColor: ' + this.textColor.rgbString());
+    console.log('currTextColor: ' + this.textColor.rgbString() + 'bg color: ' + this.backgroundColor.rgbString());
   }
 
   getCurrentStyle(): Object {
