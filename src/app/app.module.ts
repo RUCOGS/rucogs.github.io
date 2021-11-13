@@ -7,10 +7,16 @@ import { AppComponent } from './app.component';
 import { ButtonComponent } from './components/button/button.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatSliderModule } from '@angular/material/slider';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatCommonModule } from '@angular/material/core';
+import { MatMomentDateModule } from '@angular/material-moment-adapter';
+import { MatInputModule } from '@angular/material/input';
 
 import { HomeComponent } from '@pages/home/home.component';
 import { CalendarComponent } from '@pages/calendar/calendar.component';
@@ -29,7 +35,9 @@ import { SiteFooterComponent } from './components/site-footer/site-footer.compon
 import { HorizontalMenuComponent } from './components/horizontal-menu/horizontal-menu.component';
 import { HamburgerMenuComponent } from './components/hamburger-menu/hamburger-menu.component';
 import { HorizontalMenuButtonComponent } from './components/horizontal-menu-button/horizontal-menu-button.component';
-import { BgContainerComponent } from './components/bg-container/bg-container.component'
+import { BgContainerComponent } from './components/bg-container/bg-container.component';
+import { DarkModeToggleComponent } from './components/dark-mode-toggle/dark-mode-toggle.component';
+import { ThemeManagerComponent } from './components/theme-manager/theme-manager.component'
 
 const routes: Routes = [
   { path: 'home', component: HomeComponent },
@@ -63,15 +71,23 @@ const routes: Routes = [
     HamburgerMenuComponent,
     HorizontalMenuButtonComponent,
     BgContainerComponent,
+    DarkModeToggleComponent,
+    ThemeManagerComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
+    MatSlideToggleModule,
     MatSliderModule,
     MatButtonModule,
     MatCardModule,
     MatIconModule,
+    MatDatepickerModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatCommonModule,
+    MatMomentDateModule,
     RouterModule.forRoot(routes),
   ],
   providers: [],

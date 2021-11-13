@@ -1,7 +1,7 @@
-<div class="bg" [ngStyle]="getBgStyle()">
+<div class="bg" [ngStyle]="getBgStyle()" [ngClass]="getClass()">
   <div class="content">
-    <h1 class="mat-display-2 mb-32" [ngStyle]="{ 'color': textColor }">{{title}}</h1>
+    <h1 class="mat-display-2 mb-32">{{title}}</h1>
     <ng-content></ng-content>
   </div>
 </div>
-<div class="bottom" [ngStyle]="getBottomStyle()"></div>
+<div class="bottom" [ngStyle]="getBottomStyle()" [ngClass]="getClass()"></div>

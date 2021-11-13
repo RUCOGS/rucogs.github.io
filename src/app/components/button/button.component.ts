@@ -42,8 +42,7 @@ export class ButtonComponent implements OnInit {
     else
       this.hoverColor = this.backgroundColor.shade(0.2);
     
-    this.backgroundColor = Color.fromTextOrDefault(this.backgroundColorText);
-    this.textColor = Color.getTextColor(this.backgroundColor);
+    this.textColor = Color.getContrastColorFromText(this.backgroundColorText);
   }
 
   getCurrentStyle(): Object {

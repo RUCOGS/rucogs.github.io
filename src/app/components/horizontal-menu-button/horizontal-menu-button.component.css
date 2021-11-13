@@ -14,7 +14,7 @@
   align-items: center;
   justify-content: center;
 	outline: 0px;
-	color: var(--light) !important;
+	color: var(--light);
 }
 
 .text {

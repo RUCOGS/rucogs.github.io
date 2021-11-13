@@ -100,12 +100,9 @@ export class Color {
     var matches: string[] | null = this.cssVarRegex.exec(cssVar);
     if (matches !== null) {
       // Get value of the CSS variable without any white spaces
-      console.log("matched var for " + cssVar);
       var varValue: string = window.getComputedStyle(document.body).getPropertyValue(matches[1]).replace(/ /g,'');
-      console.log("matched var result " + varValue);
       return this.fromText(varValue);
     }
-    console.log("no matches for " + cssVar);
     return null;
   }
 
@@ -132,12 +129,29 @@ export class Color {
     return defaultColor; 
   }
 
-  static useDarkText(backgroundColor: Color) {
-    return ((backgroundColor.r*0.299 + backgroundColor.g*0.587 + backgroundColor.b*0.114) > 186);
+  // Unused
+  static useDarkColor(color: Color) {
+    return ((color.r*0.299 + color.g*0.587 + color.b*0.114) > 186);
   }
 
-  static getTextColor(backgroundColor: Color) : Color {
-    return this.useDarkText(backgroundColor) ? this.fromVarOrDefault("var(--dark)", this.Types.cyan) : this.fromVarOrDefault("var(--light)", this.Types.cyan);
+  // Unused
+  static getConstrastColor(color: Color) : Color {
+    return this.useDarkColor(color) ? this.fromVarOrDefault("var(--dark)", this.Types.cyan) : this.fromVarOrDefault("var(--light)", this.Types.cyan);
+  }
+
+  // Attempts to fetch the contrast color for a given color.
+  //
+  // If the input is in 'var(--theme-level)' format, it will fetch the
+  // constrast color using 'var(--theme-level-contrast)'.
+  static getContrastColorFromText(colorText: string): Color {
+    var matches: string[] | null = this.cssVarRegex.exec(colorText);
+    if (matches !== null) {
+      var contrast: Color | null = this.fromVar(`var(${matches[1]}-contrast)`);
+      if (contrast !== null)
+        return contrast;
+    }
+    // Fallback for getting color. Relies on --dark or --light as contrast colors
+    return this.getConstrastColor(this.fromTextOrDefault(colorText));
   }
   
   public static Types = class {
