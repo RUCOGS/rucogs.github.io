@@ -42,11 +42,8 @@ export class ButtonComponent implements OnInit {
     else
       this.hoverColor = this.backgroundColor.shade(0.2);
     
-    setTimeout(function(this: ButtonComponent){
-      this.backgroundColor = Color.fromTextOrDefault(this.backgroundColorText);
-      this.textColor = Color.getTextColor(this.backgroundColor);
-      console.log('currTextColor: ' + this.textColor.rgbString() + 'bg color: ' + this.backgroundColor.rgbString());
-    }.bind(this), 1000);
+    this.backgroundColor = Color.fromTextOrDefault(this.backgroundColorText);
+    this.textColor = Color.getTextColor(this.backgroundColor);
   }
 
   getCurrentStyle(): Object {

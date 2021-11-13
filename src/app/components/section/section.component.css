@@ -27,10 +27,5 @@ div.bottom {
 div.content {
 	display: block;
 	margin: auto;
-}
-
-@media (min-width: 720px) {
-	div.content {
-		max-width: 80%;
-	}
+	max-width: var(--content-width);
 }

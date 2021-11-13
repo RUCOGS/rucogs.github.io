@@ -15,10 +15,5 @@ div.content {
 	display: block;
 	margin-left: auto;
 	margin-right: auto;
-}
-
-@media (min-width: 720px) {
-	div.content {
-		width: 80%;
-	}
+	width: var(--content-width);
 }

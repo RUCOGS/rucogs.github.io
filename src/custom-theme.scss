@@ -1,19 +1,19 @@
+//----- THEMING -----//
 
 // Custom Theming for Angular Material
 // For more information: https://material.angular.io/guide/theming
 @use '~@angular/material' as mat;
-// Plus imports for other components in your app.
 
 // Custom color palettes
-$cogs-grey-palette: (
+$cogs-grey: mat.define-palette((
   50: #FFFFFF,
   100: #FFFFFF,
-  200: #D6D5D5,
-  300: #D6D5D5,
-  400: #9F9998,
-  500: #9F9998,
-  600: #726E6E,
-  700: #726E6E,
+  200: #D7D5D5,
+  300: #D7D5D5,
+  400: #9F9A99,
+  500: #9F9A99,
+  600: #726D6D,
+  700: #726D6D,
   800: #3A3737,
   900: #3A3737,
   contrast: (
@@ -28,19 +28,19 @@ $cogs-grey-palette: (
     800: #ffffff,
     900: #ffffff,
   )
-);
+));
 
-$cogs-red-palette: (
-  50: #FFFFFF,
-  100: #FFFFFF,
-  200: #d31f2c,
-  300: #d31f2c,
-  400: #B21F30,
-  500: #B21F30,
-  600: #941121,
-  700: #941121,
-  800: #65071D,
-  900: #65071D,
+$cogs-red: mat.define-palette((
+  50: #d33744,
+  100: #d33744,
+  200: #B3002D,
+  300: #B3002D,
+  400: #B3002D,
+  500: #B3002D,
+  600: #810020,
+  700: #810020,
+  800: #66001A,
+  900: #66001A,
   contrast: (
     50: #000000,
     100: #000000,
@@ -53,49 +53,20 @@ $cogs-red-palette: (
     800: #ffffff,
     900: #ffffff,
   )
-);
-
-$cogs-orange-palette: (
-  50: #FFFFFF,
-  100: #FFFFFF,
-  200: #f5c012,
-  300: #f5c012,
-  400: #e9891b,
-  500: #e9891b,
-  600: #d86c14,
-  700: #d86c14,
-  800: #ca4a00,
-  900: #ca4a00,
-  contrast: (
-    50: #000000,
-    100: #000000,
-    200: #000000,
-    300: #000000,
-    400: #000000,
-    500: #000000,
-    600: #ffffff,
-    700: #ffffff,
-    800: #ffffff,
-    900: #ffffff,
-  )
-);
+));
 
 // Define the palettes for your theme using the Material Design palettes available in palette.scss
 // (imported above). For each palette, you can optionally specify a default, lighter, and darker
 // hue. Available color palettes: https://material.io/design/color/
-$cogs-primary: mat.define-palette($cogs-red-palette);
-$cogs-accent: mat.define-palette($cogs-grey-palette, A200, A100, A400);
-
-// The warn palette is optional (defaults to red).
-$cogs-warn: mat.define-palette($cogs-orange-palette);
+$primary: $cogs-red;
+$accent: $cogs-grey;
 
 // Create the theme object. A theme consists of configurations for individual
 // theming systems such as "color" or "typography".
 $cogs-theme: mat.define-light-theme((
   color: (
-    primary: $cogs-primary,
-    accent: $cogs-accent,
-    warn: $cogs-warn,
+    primary: $primary,
+    accent: $accent,
   )
 ));
 
@@ -106,18 +77,76 @@ $cogs-theme: mat.define-light-theme((
 
 $cogs-typography: mat.define-typography-config(
   $font-family: 'Urbanist',
-  $display-4:   mat.define-typography-level(112px, 112px, 900),
-  $display-3:   mat.define-typography-level(56px, 56px, 900),
-  $display-2:   mat.define-typography-level(45px, 45px, 900),
-  $display-1:   mat.define-typography-level(34px, 34px, 900),
-  $title:       mat.define-typography-level(24px, 24px, 700),
-  $headline:    mat.define-typography-level(24px, 24px, 700),
+  $display-4:   mat.define-typography-level(80px, 80px, 900),
+  $display-3:   mat.define-typography-level(64px, 64px, 900),
+  $display-2:   mat.define-typography-level(52px, 52px, 900),
+  $display-1:   mat.define-typography-level(48px, 48px, 900),
+  $headline:    mat.define-typography-level(32px, 32px, 800),
+  $title:       mat.define-typography-level(24px, 24px, 800),
   $body-1:      mat.define-typography-level(18px, 32px, 400),
   $body-2:      mat.define-typography-level(18px, 32px, 400),
   $caption:     mat.define-typography-level(16px, 24px, 400),
+  $button:      mat.define-typography-level(18px, 32px, 800),
 );
 
 // Include the common styles for Angular Material. We include this here so that you only
 // have to load a single css file for Angular Material in your app.
 // Be sure that you only ever include this mixin once!
 @include mat.core($cogs-typography);
+
+
+
+
+
+//----- CUSTOM THEME CLASSES -----//
+
+$themes: ("primary": $primary, "secondary": $accent);
+$levels: (50, 100, 200, 300, 400, 500, 600, 700, 800, 900);
+:root {
+  @each $theme-name, $theme in $themes {
+    @each $level in $levels {
+        $color: mat.get-color-from-palette($theme, $level);
+        $color-contrast: mat.get-color-from-palette($theme, $level + '-contrast');
+        
+        .#{$theme-name}-#{$level} {
+          color: #{$color};
+        }
+        
+        .#{$theme-name}-#{$level}-bg {
+          background-color: #{$color};
+        }
+
+        --#{$theme-name}-#{$level}: #{$color};
+        --#{$theme-name}-#{$level}-contrast: #{$color-contrast};
+    }
+  }
+}
+
+
+
+
+
+//----- UTILITIES -----//
+
+// Margin utility
+$spaceamounts: (0, 2, 4, 6, 8, 10, 12, 14, 16, 18, 24, 32, 48, 52, 64, 128);
+$sides: (top, bottom, left, right); // Leave this variable alone
+@each $space in $spaceamounts {
+  @each $side in $sides {
+    .m#{str-slice($side, 0, 1)}-#{$space} {
+      margin-#{$side}: #{$space}px !important;
+    }
+    .p#{str-slice($side, 0, 1)}-#{$space} {
+      padding-#{$side}: #{$space}px !important;
+    }
+  }
+}
+
+@each $space in $spaceamounts {
+  .m-#{$space} {
+    margin: #{$space}px !important;
+  }
+  .p-#{$space} {
+    padding: #{$space}px !important;
+  }
+}

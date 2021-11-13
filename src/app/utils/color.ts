@@ -100,9 +100,12 @@ export class Color {
     var matches: string[] | null = this.cssVarRegex.exec(cssVar);
     if (matches !== null) {
       // Get value of the CSS variable without any white spaces
+      console.log("matched var for " + cssVar);
       var varValue: string = window.getComputedStyle(document.body).getPropertyValue(matches[1]).replace(/ /g,'');
+      console.log("matched var result " + varValue);
       return this.fromText(varValue);
     }
+    console.log("no matches for " + cssVar);
     return null;
   }
 

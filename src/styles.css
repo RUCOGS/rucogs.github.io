@@ -1,19 +1,38 @@
 /* You can add global styles to this file, and also import other style files */
 
 :root {
-  --primary-color-light: #d33744;
-  --primary-color: #B3002D;
-  --primary-color-med: #810020;
-  --primary-color-dark: #66001A;
-  --secondary-color-light: #D7D5D5;
-  --secondary-color: #9F9A99;
-  --secondary-color-med: #726D6D;
-  --secondary-color-dark: #3A3737;
+  --primary-color-light: var(--primary-100);
+  --primary-color: var(--primary-500);
+  --primary-color-med: var(--primary-700);
+  --primary-color-dark: var(--primary-900);
+  --secondary-color-light: var(--secondary-300);
+  --secondary-color: var(--secondary-500);
+  --secondary-color-med: var(--secondary-700);
+  --secondary-color-dark: var(--secondary-900);
   --light: #FFFFFF;
   --dark: #2d2d2d;
   --discord-color: #5865F2;
   --site-header-height: 80px;
   --site-footer-height: 80px;
+
+  /* --font-size-tiny: 10px;
+  --font-size-tiny-plus: 18px;
+  --font-size-small: 24px;
+  --font-size-small-plus: 32px;
+  --font-size-medium: 48px;
+  --font-size-medium-plus: 52px;
+  --font-size-large: 64px; */
+  
+  /* Desktop values */
+  --content-width: 80%;
+}
+
+
+/* Mobile values */
+@media screen and (max-width: 1080px) {
+  :root {
+    --content-width: auto;
+  }
 }
 
 html,
@@ -74,10 +93,6 @@ h1.small-plus-title {
   line-height: 32px;
 }
 
-h1.mb-1 {
-  margin-bottom: 10px;
-}
-
 h1.medium-title {
   font-weight: 900;
   font-size: 48px;
@@ -90,18 +105,10 @@ h1.medium-plus-title {
   line-height: 52px;
 }
 
-h1.mb-2 {
-  margin-bottom: 24px;
-}
-
 h1.large-title {
   font-weight: 900;
   font-size: 64px;
   line-height: 64px;
-}
-
-h1.mb-3 {
-  margin-bottom: 50px;
 }
 
 a:link {
