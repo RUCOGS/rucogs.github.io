@@ -196,36 +196,32 @@ $cogs-red: mat.define-palette((
   )
 ));
 
-// Define the palettes for your theme using the Material Design palettes available in palette.scss
-// (imported above). For each palette, you can optionally specify a default, lighter, and darker
-// hue. Available color palettes: https://material.io/design/color/
-$primary: $cogs-red;
-$accent: $cogs-grey;
+$cogs-typography: mat.define-typography-config(
+  $font-family: 'Urbanist',
+  $display-4:   mat.define-typography-level(80px, 80px, 900),
+  $display-3:   mat.define-typography-level(64px, 64px, 900),
+  $display-2:   mat.define-typography-level(52px, 52px, 900),
+  $display-1:   mat.define-typography-level(48px, 48px, 900),
+  $headline:    mat.define-typography-level(32px, 32px, 800),
+  $title:       mat.define-typography-level(24px, 24px, 800),
+  $body-1:      mat.define-typography-level(18px, 32px, 400),
+  $body-2:      mat.define-typography-level(18px, 32px, 400),
+  $caption:     mat.define-typography-level(16px, 24px, 400),
+  $button:      mat.define-typography-level(18px, 32px, 800),
+);
 
 // Create the theme object. A theme consists of configurations for individual
 // theming systems such as "color" or "typography".
 $cogs-theme: create-complete-theme((
   color: (
-    primary: $primary, 
-    accent: $accent,
+    primary: $cogs-red, 
+    accent: $cogs-grey,
     warn: mat.$red-palette,
     is-dark: false, 
     foreground: $light-theme-foreground-palette, 
     background: $light-theme-background-palette,
   ),
-  typography: mat.define-typography-config(
-    $font-family: 'Urbanist',
-    $display-4:   mat.define-typography-level(80px, 80px, 900),
-    $display-3:   mat.define-typography-level(64px, 64px, 900),
-    $display-2:   mat.define-typography-level(52px, 52px, 900),
-    $display-1:   mat.define-typography-level(48px, 48px, 900),
-    $headline:    mat.define-typography-level(32px, 32px, 800),
-    $title:       mat.define-typography-level(24px, 24px, 800),
-    $body-1:      mat.define-typography-level(18px, 32px, 400),
-    $body-2:      mat.define-typography-level(18px, 32px, 400),
-    $caption:     mat.define-typography-level(16px, 24px, 400),
-    $button:      mat.define-typography-level(18px, 32px, 800),
-  ),
+  typography: $cogs-typography,
 ));
 
 $cogs-theme-dark: create-complete-theme((
@@ -237,7 +233,7 @@ $cogs-theme-dark: create-complete-theme((
     foreground: $dark-theme-foreground-palette, 
     background: $dark-theme-background-palette,
   ),
-  typography: map.get($cogs-theme, typography),
+  typography: $cogs-typography,
 ));
 
 @mixin custom-component-themes($theme) {
@@ -246,20 +242,22 @@ $cogs-theme-dark: create-complete-theme((
 }
 
 .default-theme {
-  @include mat.all-component-themes($cogs-theme);
+  @include mat.all-component-colors($cogs-theme);
   @include custom-component-themes($cogs-theme);
+  @include mat.all-component-typographies($cogs-theme);
 }
 
 .dark-theme {
-  @include mat.all-component-themes($cogs-theme-dark);
+  // This mixin only generates the color styles now.
+  @include mat.all-component-colors($cogs-theme-dark);
   @include custom-component-themes($cogs-theme-dark);
+  @include mat.all-component-typographies($cogs-theme-dark);
 }
 
-@include mat.all-component-themes($cogs-theme);
 // Include the common styles for Angular Material. We include this here so that you only
 // have to load a single css file for Angular Material in your app.
 // Be sure that you only ever include this mixin once!
-@include mat.core($cogs-theme);
+@include mat.core($cogs-typography);
 
 
 
@@ -268,7 +266,7 @@ $cogs-theme-dark: create-complete-theme((
 //----- CUSTOM THEME CLASSES -----//
 // TODO: Depreciate this in favor of direct theming.
 
-@mixin theme-colors($theme) {
+@mixin theme-color-vars($theme) {
   $palettes: ("primary": map.get(map.get($theme, color), primary), "secondary": map.get(map.get($theme, color), accent));
   $levels: (50, 100, 200, 300, 400, 500, 600, 700, 800, 900);
   @each $palette-name, $palette in $palettes {
@@ -291,7 +289,7 @@ $cogs-theme-dark: create-complete-theme((
 }
 
 :root {
-  @include theme-colors($cogs-theme);
+  @include theme-color-vars($cogs-theme);
 }
 
 
