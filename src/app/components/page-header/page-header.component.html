@@ -1,8 +1,6 @@
-<div class="bg" [ngStyle]="{ 
-    'background-color': color
-  }">
-  <div class="content">
-    <h1 class="large-title" [ngStyle]="{ 'color': textColor }">{{title}}</h1>
+<div class="app-page-header bg {{color}}">
+  <div class="app-page-header content">
+    <h1 class="large-title">{{title}}</h1>
     <ng-content></ng-content>
   </div>
 </div>

@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, ElementRef, Input, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-full-page-header',
@@ -9,8 +9,7 @@ import { Component, Input, OnInit } from '@angular/core';
 export class FullPageHeaderComponent implements OnInit {
   
   @Input() bgImage: string = "";
-  @Input() color: string = "";
-  @Input() textColor: string = "";
+  @Input() color: string = "primary";
 
   constructor() { }
 
@@ -19,8 +18,7 @@ export class FullPageHeaderComponent implements OnInit {
 
   getBgStyle(): Object {
     return { 
-      'background-color': this.color,
-      'background-image': 'linear-gradient(to bottom, ' + this.color + ', #00000000), url(' + this.bgImage + ')',
+      'background-image': 'linear-gradient(to bottom, var(--background-color), #00000000), url(' + this.bgImage + ')',
     }
   }
 

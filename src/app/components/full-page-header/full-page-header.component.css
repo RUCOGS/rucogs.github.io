@@ -1,4 +1,4 @@
-div.bg {
+.bg {
 	margin-top: var(--site-header-height);
   display: -webkit-box;
   display: -webkit-flex;
@@ -11,7 +11,7 @@ div.bg {
 	background-position: center;
 }
 
-div.content {
+.content {
 	display: block;
 	margin-left: auto;
 	margin-right: auto;

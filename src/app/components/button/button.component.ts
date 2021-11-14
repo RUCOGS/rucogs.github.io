@@ -1,8 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Color } from "@utils/color";
 
-// TODO: Update angular on wifi with `ng update`
-// TODO: Download angular material on wifi with `ng add @angular/material`
+// TODO: Make button use scss for custom colors instead of directly passing in a color.
 
 @Component({
   selector: 'app-button',
@@ -12,17 +11,11 @@ import { Color } from "@utils/color";
 export class ButtonComponent implements OnInit {
 
   @Input() width: number = -1;
-  @Input('background-color') backgroundColorText: string = "var(--light)";
-  @Input('pressed-color') pressedColorText?: string;
-  @Input('hover-color') hoverColorText?: string;
+  @Input() color: string = "primary";
   @Input() iconifyIcon: string = "ant-design:mail-filled";
   @Input() text: string = "Button";
   @Input() link: string = "";
-  
-  backgroundColor?: Color;
-  pressedColor?: Color;
-  hoverColor?: Color;
-  textColor?: Color = Color.Types.cadetblue;
+  @Input() target: string = "_self";
   
   hover: boolean = false;
   pressed: boolean = false;
@@ -30,33 +23,10 @@ export class ButtonComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
-    this.backgroundColor = Color.fromTextOrDefault(this.backgroundColorText);
-
-    if (this.pressedColorText != null)
-      this.pressedColor = Color.fromTextOrDefault(this.pressedColorText);
-    else
-      this.pressedColor = this.backgroundColor.copy();
-
-    if (this.hoverColorText != null)
-      this.hoverColor = Color.fromTextOrDefault(this.hoverColorText);
-    else
-      this.hoverColor = this.backgroundColor.shade(0.2);
-    
-    this.textColor = Color.getContrastColorFromText(this.backgroundColorText);
-  }
-
-  getCurrentStyle(): Object {
-    return {
-      'transition': '0.1s',
-      'background-color': (this.pressed ? this.pressedColor?.hexString() : (this.hover ? this.hoverColor?.hexString() : this.backgroundColor?.hexString())),
-      'color': this.textColor?.hexString(),
-      ...(this.width > 0 && {'width': this.width}),
-    };
   }
 
   onMouseUp(): void {
     this.pressed = false;
-    if (this.link != "")
-      window.open(this.link, "_blank");
+    window.open(this.link, this.target);
   }
 }

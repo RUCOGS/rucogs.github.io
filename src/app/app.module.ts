@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouterModule, Routes } from '@angular/router';
+import { LayoutModule } from '@angular/cdk/layout';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -17,6 +18,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatCommonModule } from '@angular/material/core';
 import { MatMomentDateModule } from '@angular/material-moment-adapter';
 import { MatInputModule } from '@angular/material/input';
+import { MatToolbarModule } from '@angular/material/toolbar';
 
 import { HomeComponent } from '@pages/home/home.component';
 import { CalendarComponent } from '@pages/calendar/calendar.component';
@@ -27,14 +29,13 @@ import { ScarletGameJamComponent } from '@pages/scarlet-game-jam/scarlet-game-ja
 import { CardComponent } from '@components/cards/card/card.component';
 import { CardGridComponent } from '@components/card-grid/card-grid.component';
 import { SectionComponent } from '@components/section/section.component';
-import { DogEarDirective } from '@directives/dog-ear/dog-ear.directive';
 import { PageHeaderComponent } from './components/page-header/page-header.component';
 import { FullPageHeaderComponent } from './components/full-page-header/full-page-header.component';
 import { SiteHeaderComponent } from './components/site-header/site-header.component';
 import { SiteFooterComponent } from './components/site-footer/site-footer.component';
 import { HorizontalMenuComponent } from './components/horizontal-menu/horizontal-menu.component';
 import { HamburgerMenuComponent } from './components/hamburger-menu/hamburger-menu.component';
-import { HorizontalMenuButtonComponent } from './components/horizontal-menu-button/horizontal-menu-button.component';
+import { TextButtonComponent } from './components/text-button/text-button.component';
 import { BgContainerComponent } from './components/bg-container/bg-container.component';
 import { DarkModeToggleComponent } from './components/dark-mode-toggle/dark-mode-toggle.component';
 import { ThemeManagerComponent } from './components/theme-manager/theme-manager.component'
@@ -62,14 +63,13 @@ const routes: Routes = [
     CardComponent,
     CardGridComponent,
     SectionComponent,
-    DogEarDirective,
     PageHeaderComponent,
     FullPageHeaderComponent,
     SiteHeaderComponent,
     SiteFooterComponent,
     HorizontalMenuComponent,
     HamburgerMenuComponent,
-    HorizontalMenuButtonComponent,
+    TextButtonComponent,
     BgContainerComponent,
     DarkModeToggleComponent,
     ThemeManagerComponent,
@@ -88,9 +88,13 @@ const routes: Routes = [
     MatInputModule,
     MatCommonModule,
     MatMomentDateModule,
+    LayoutModule,
+    MatToolbarModule,
     RouterModule.forRoot(routes),
   ],
   providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
+
+// TODO NOW: Fix error: "If 'app-page-header' is an Angular component, then verify that it is part of this module."

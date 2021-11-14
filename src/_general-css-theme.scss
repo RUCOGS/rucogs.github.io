@@ -1,0 +1,24 @@
+@use 'sass:map';
+@use '@angular/material' as mat;
+
+@mixin theme($theme) {
+  $color-config: mat.get-color-config($theme);
+
+	$primary: map.get($color-config, primary);
+
+	a:link {
+		color: mat.get-color-from-palette($primary, 500);
+	}
+
+	a:visited {
+		color: mat.get-color-from-palette($primary, 500);
+	}
+
+	a:hover {
+		color: mat.get-color-from-palette($primary, 100);
+	}
+
+	a:active {
+		color: mat.get-color-from-palette($primary, 500);
+	}
+}

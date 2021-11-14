@@ -8,12 +8,10 @@ import { Component, Input, OnInit } from '@angular/core';
 export class PageHeaderComponent implements OnInit {
 
   @Input() title: string = "";
-  @Input() color: string = "var(--primary-color)";
-  @Input() textColor: string = "var(--light)";
+  @Input() color: string = "primary";
 
   constructor() { }
 
   ngOnInit(): void {
   }
-
 }

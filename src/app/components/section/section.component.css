@@ -2,7 +2,7 @@
 	overflow: visible;
 }
 
-div.bg {
+.main-bg {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -17,14 +17,22 @@ div.bg {
 	z-index: 1;
 }
 
-div.bottom {
+.dog-ear {
+	border-top-left-radius: 64px;
+}
+
+div.last {
+	height: 0px;
+}
+
+.bottom {
 	position: absolute;
 	height: 128px;
 	width: 100%;
 	z-index: -100;
 }
 
-div.content {
+.content {
 	display: block;
 	margin: auto;
 	max-width: var(--content-width);

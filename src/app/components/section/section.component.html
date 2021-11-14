@@ -1,7 +1,7 @@
-<div class="bg" [ngStyle]="getBgStyle()" [ngClass]="getClass()">
+<div class="app-section bg main-bg" class="{{color}}" [ngClass]="{'dog-ear': dogEar}">
   <div class="content">
     <h1 class="mat-display-2 mb-32">{{title}}</h1>
     <ng-content></ng-content>
   </div>
 </div>
-<div class="bottom" [ngStyle]="getBottomStyle()" [ngClass]="getClass()"></div>
+<div class="app-section bg bottom" class="{{color}}" [ngClass]="{'last': last}"></div>

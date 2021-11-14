@@ -9,7 +9,8 @@ export class HamburgerMenuComponent implements OnInit {
 
   constructor() { }
 
+  expanded: boolean = false;
+
   ngOnInit(): void {
   }
-
 }

@@ -1,1 +1,34 @@
-<p>hamburger-menu works!</p>
+<div class="app-hamburger-menu bg">
+  <div class="app-hamburger-menu content">
+    <div class="app-hamburger-menu dropdown-bg" [hidden]="!expanded">
+      <div class="app-hamburger-menu dropdown-content">
+        <app-text-button link="home" text="Home"></app-text-button>
+        <app-text-button link="calendar" text="Calendar"></app-text-button>
+        <app-text-button link="pictures" text="Pictures"></app-text-button>
+        <app-text-button link="projects" text="Projects"></app-text-button>
+        <app-text-button link="resources" text="Resources"></app-text-button>
+        <app-text-button link="scarlet-game-jam" text="Scarlet Game Jam"></app-text-button>
+        <div style="display: flex; flex-direction: row; height: 50px; align-items: center;">
+          <!-- SUPER HACKY!!! :( -->
+          <div style="margin-left: 8px;"></div>
+          <app-dark-mode-toggle></app-dark-mode-toggle>
+        </div>
+      </div>
+    </div>
+    <div style="
+      position: relative;
+      display: flex;  
+      justify-content: left;
+    ">
+      <object data="assets/icons/cogs-logo-white.svg" height="42" style="float: left; margin-right: 10px;"> </object>
+      <h1 class="app-hamburger-menu cogs-title">COGS</h1>
+    </div>
+    <div style="position: absolute; right: 0;">
+      <button mat-icon-button (click)="expanded = !expanded">
+        <mat-icon class="app-hamburger-menu hamburger-icon" *ngIf="!expanded">menu</mat-icon>
+        <mat-icon class="app-hamburger-menu hamburger-icon" *ngIf="expanded">close</mat-icon>
+      </button>
+    </div>
+    <ng-content></ng-content>
+  </div>
+</div>

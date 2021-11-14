@@ -1,5 +1,5 @@
-<button (mouseenter)="hover=true" (mouseleave)="hover=false; pressed=false" (mousedown)="pressed=true" (mouseup)="onMouseUp();"
-  type="button" class="button" [ngStyle]="getCurrentStyle()">
+<button (mouseup)="onMouseUp();" class="app-button button {{color}}"
+  type="button">
   <span data-height="24px" class="iconify icon" [attr.data-icon]="iconifyIcon"></span>
   <span class="mat-button text">{{text}}</span>
 </button>

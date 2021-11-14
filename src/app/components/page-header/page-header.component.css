@@ -2,12 +2,12 @@
 	overflow: visible;
 }
 
-div.bg {
+.bg {
 	margin-top: var(--site-header-height);
 	padding: 50px;
 }
 
-div.content {
+.content {
 	display: block;
 	margin: auto;
 	max-width: var(--content-width);

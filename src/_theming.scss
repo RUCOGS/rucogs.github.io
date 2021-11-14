@@ -1,0 +1,260 @@
+@use 'sass:map';
+@use '~@angular/material' as mat;
+@use 'custom-components-theme' as custom-components;
+@use 'general-css-theme' as general-css;
+
+//----- DARK & LIGHT FOREGROUND & BACKGROUND PALETTES -----//
+$dark-primary-text: rgba(black, 0.87);
+$dark-secondary-text: rgba(black, 0.54);
+$dark-disabled-text: rgba(black, 0.38);
+$dark-dividers: rgba(black, 0.12);
+$dark-focused: rgba(black, 0.12);
+$light-primary-text: white;
+$light-secondary-text: rgba(white, 0.7);
+$light-disabled-text: rgba(white, 0.5);
+$light-dividers: rgba(white, 0.12);
+$light-focused: rgba(white, 0.12);
+
+$grey-palette: (
+	50: #fafafa,
+	100: #f5f5f5,
+	200: #eeeeee,
+	300: #e0e0e0,
+	400: #bdbdbd,
+	500: #9e9e9e,
+	600: #757575,
+	700: #616161,
+	800: #424242,
+	900: #212121,
+	A100: #ffffff,
+	A200: #eeeeee,
+	A400: #bdbdbd,
+	A700: #616161,
+	contrast: (
+		50: $dark-primary-text,
+		100: $dark-primary-text,
+		200: $dark-primary-text,
+		300: $dark-primary-text,
+		400: $dark-primary-text,
+		500: $dark-primary-text,
+		600: $light-primary-text,
+		700: $light-primary-text,
+		800: $light-primary-text,
+		900: $light-primary-text,
+		A100: $dark-primary-text,
+		A200: $dark-primary-text,
+		A400: $dark-primary-text,
+		A700: $light-primary-text,
+	)
+);
+
+// Background palette for light themes.
+$light-theme-background-palette: (
+	status-bar: map.get($grey-palette, 300),
+	app-bar:    map.get($grey-palette, 100),
+	background: map.get($grey-palette, 50),
+	hover:      rgba(black, 0.04), // TODO(kara): check style with Material Design UX
+	card:       white,
+	dialog:     white,
+	disabled-button: rgba(black, 0.12),
+	raised-button: white,
+	focused-button: $dark-focused,
+	selected-button: map.get($grey-palette, 300),
+	selected-disabled-button: map.get($grey-palette, 400),
+	disabled-button-toggle: map.get($grey-palette, 200),
+	unselected-chip: map.get($grey-palette, 300),
+	disabled-list-option: map.get($grey-palette, 200),
+	tooltip: map.get($grey-palette, 700),
+);
+
+// Background palette for dark themes.
+$dark-theme-background-palette: (
+	status-bar: black,
+	app-bar:    map.get($grey-palette, 900),
+	background: #303030,
+	hover:      rgba(white, 0.04), // TODO(kara): check style with Material Design UX
+	card:       map.get($grey-palette, 800),
+	dialog:     map.get($grey-palette, 800),
+	disabled-button: rgba(white, 0.12),
+	raised-button: map.get($grey-palette, 800),
+	focused-button: $light-focused,
+	selected-button: map.get($grey-palette, 900),
+	selected-disabled-button: map.get($grey-palette, 800),
+	disabled-button-toggle: black,
+	unselected-chip: map.get($grey-palette, 700),
+	disabled-list-option: black,
+	tooltip: map.get($grey-palette, 700),
+);
+
+// Foreground palette for light themes.
+$light-theme-foreground-palette: (
+	base:              black,
+	divider:           $dark-dividers,
+	dividers:          $dark-dividers,
+	disabled:          $dark-disabled-text,
+	disabled-button:   rgba(black, 0.26),
+	disabled-text:     $dark-disabled-text,
+	elevation:         black,
+	hint-text:         $dark-disabled-text,
+	secondary-text:    $dark-secondary-text,
+	icon:              rgba(black, 0.54),
+	icons:             rgba(black, 0.54),
+	text:              rgba(black, 0.87),
+	slider-min:        rgba(black, 0.87),
+	slider-off:        rgba(black, 0.26),
+	slider-off-active: rgba(black, 0.38),
+);
+
+// Foreground palette for dark themes.
+$dark-theme-foreground-palette: (
+	base:              white,
+	divider:           $light-dividers,
+	dividers:          $light-dividers,
+	disabled:          $light-disabled-text,
+	disabled-button:   rgba(white, 0.3),
+	disabled-text:     $light-disabled-text,
+	elevation:         black,
+	hint-text:         $light-disabled-text,
+	secondary-text:    $light-secondary-text,
+	icon:              white,
+	icons:             white,
+	text:              white,
+	slider-min:        white,
+	slider-off:        rgba(white, 0.3),
+	slider-off-active: rgba(white, 0.3),
+);
+
+// Creates a theme, with optional arguement for foreground and background
+@function create-complete-theme($theme) {
+	@if not map.get($theme, color) {
+		@return $theme;
+	}
+	$color: map.get($theme, color);
+	@return map.merge($theme, $color);
+}
+
+
+
+
+
+//----- THEMING -----//
+
+// Custom color palettes
+$cogs-grey: mat.define-palette((
+	50: #FFFFFF,
+	100: #FFFFFF,
+	200: #D7D5D5,
+	300: #D7D5D5,
+	400: #9F9A99,
+	500: #9F9A99,
+	600: #726D6D,
+	700: #726D6D,
+	800: #3A3737,
+	900: #3A3737,
+	contrast: (
+		50: #000000,
+		100: #000000,
+		200: #000000,
+		300: #000000,
+		400: #ffffff,
+		500: #ffffff,
+		600: #ffffff,
+		700: #ffffff,
+		800: #ffffff,
+		900: #ffffff,
+	)
+));
+
+$cogs-red: mat.define-palette((
+	50: #d33744,
+	100: #d33744,
+	200: #B3002D,
+	300: #B3002D,
+	400: #B3002D,
+	500: #B3002D,
+	600: #810020,
+	700: #810020,
+	800: #66001A,
+	900: #66001A,
+	contrast: (
+		50: #000000,
+		100: #000000,
+		200: #ffffff,
+		300: #ffffff,
+		400: #ffffff,
+		500: #ffffff,
+		600: #ffffff,
+		700: #ffffff,
+		800: #ffffff,
+		900: #ffffff,
+	)
+));
+
+$misc: mat.define-palette((
+	discord: #5865F2,
+	contrast: (
+		discord: #ffffff,
+	)
+));
+
+$cogs-typography: mat.define-typography-config(
+	$font-family: 'Urbanist',
+	$display-4:   mat.define-typography-level(64px, 64px, 900),
+	$display-3:   mat.define-typography-level(52px, 52px, 900),
+	$display-2:   mat.define-typography-level(48px, 48px, 900),
+	$display-1:   mat.define-typography-level(42px, 42px, 900),
+	$headline:    mat.define-typography-level(32px, 32px, 800),
+	$title:       mat.define-typography-level(24px, 24px, 800),
+	$body-1:      mat.define-typography-level(16px, 28px, 400),
+	$body-2:      mat.define-typography-level(16px, 28px, 400),
+	$caption:     mat.define-typography-level(16px, 24px, 400),
+	$button:      mat.define-typography-level(18px, 32px, 800),
+);
+
+// Create the theme object. A theme consists of configurations for individual
+// theming systems such as "color" or "typography".
+$cogs-theme: create-complete-theme((
+	color: (
+		primary: $cogs-red, 
+		accent: $cogs-grey,
+		warn: mat.define-palette(mat.$red-palette),
+		misc: $misc,
+		is-dark: false, 
+		foreground: $light-theme-foreground-palette, 
+		background: $light-theme-background-palette,
+	),
+	typography: $cogs-typography,
+));
+
+$cogs-theme-dark: create-complete-theme((
+	color: (
+		primary: map.get(map.get($cogs-theme, color), primary),
+		accent: map.get(map.get($cogs-theme, color), accent),
+		warn: map.get(map.get($cogs-theme, color), warn),
+		misc: map.get(map.get($cogs-theme, color), misc),
+		is-dark: true,
+		foreground: $dark-theme-foreground-palette, 
+		background: $dark-theme-background-palette,
+	),
+	typography: $cogs-typography,
+));
+
+.default-theme {
+	@include mat.all-component-colors($cogs-theme);
+	@include custom-components.theme($cogs-theme);
+	@include general-css.theme($cogs-theme);
+	@include mat.all-component-typographies($cogs-theme);
+}
+
+.dark-theme {
+	// This mixin only generates the color styles now.
+	@include mat.all-component-colors($cogs-theme-dark);
+	@include custom-components.theme($cogs-theme-dark);
+	@include general-css.theme($cogs-theme-dark);
+	@include mat.all-component-typographies($cogs-theme-dark);
+}
+
+// Include the common styles for Angular Material. We include this here so that you only
+// have to load a single css file for Angular Material in your app.
+// Be sure that you only ever include this mixin once!
+@include mat.core($cogs-typography);

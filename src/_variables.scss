@@ -1,0 +1,9 @@
+:root {
+	--site-header-height: 72px;
+
+	/* Desktop values */
+	--content-width: 80%;
+}
+
+// TODO: Depreciate this with some universal breakpoint system that jives with Angular's BreakpointObserver
+$mobile-width: 1080px;

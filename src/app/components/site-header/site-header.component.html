@@ -1,3 +1,4 @@
-<div class="container" [ngClass]="{detatched: scrolled}">
-  <app-horizontal-menu></app-horizontal-menu>
+<div class="container" [ngClass]="{detached: scrolled}">
+  <app-horizontal-menu [hidden]="breakpointManager.currentBreakpoint != 'desktop'"></app-horizontal-menu>
+  <app-hamburger-menu [hidden]="breakpointManager.currentBreakpoint != 'mobile'"></app-hamburger-menu>
 </div>

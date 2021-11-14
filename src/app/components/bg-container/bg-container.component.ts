@@ -7,16 +7,10 @@ import { Component, Input, OnInit } from '@angular/core';
 })
 export class BgContainerComponent implements OnInit {
 
-  @Input() color: string = "var(--primary-color)";
+  @Input() color: string = "primary";
   
   constructor() { }
 
   ngOnInit(): void {
-  }
-
-  getBgStyle(): Object {
-    return {
-      'background-color': this.color,
-    }
   }
 }

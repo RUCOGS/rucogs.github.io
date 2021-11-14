@@ -1,0 +1,35 @@
+//----- MARGIN UTILITY -----//
+$spaceamounts: (0, 2, 4, 6, 8, 10, 12, 14, 16, 18, 24, 32, 48, 52, 64, 128);
+$sides: (top, bottom, left, right); // Leave this variable alone
+@each $space in $spaceamounts {
+	@each $side in $sides {
+		.m#{str-slice($side, 0, 1)}-#{$space} {
+			margin-#{$side}: #{$space}px !important;
+		}
+		.p#{str-slice($side, 0, 1)}-#{$space} {
+			padding-#{$side}: #{$space}px !important;
+		}
+	}
+}
+
+@each $space in $spaceamounts {
+	.m-#{$space} {
+		margin: #{$space}px !important;
+	}
+	.p-#{$space} {
+		padding: #{$space}px !important;
+	}
+}
+
+//----- V-BOX UTILITY -----//
+$spaceamounts: (0, 2, 4, 6, 8, 10, 12, 14, 16, 18, 24, 32, 48, 52, 64, 128);
+@each $space in $spaceamounts {
+	.vbox-#{$space} > * {
+		display: block;
+		margin-top: #{$space}px !important;
+	}
+
+	.vbox-#{$space} > :first-child {
+		margin-top: 0px !important;
+	}
+}

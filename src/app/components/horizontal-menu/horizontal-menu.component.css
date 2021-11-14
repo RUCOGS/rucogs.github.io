@@ -1,11 +1,10 @@
-div.bg {
+.bg {
   align-items: center;
 	width: 100%;
 	height: 100%;
-	background-color: var(--primary-color);
 }
 
-div.content {
+.content {
 	display: flex;  
 	align-items: center;
 	justify-content: left;
@@ -14,6 +13,14 @@ div.content {
 	width: 80%;
 }
 
-div.content > * {
+.content > * {
   padding-right: 20px;
+}
+
+.cogs-title {
+	float: left; 
+	margin-top: auto; 
+	margin-bottom: auto; 
+	height: 100%; 
+	vertical-align: middle;
 }
