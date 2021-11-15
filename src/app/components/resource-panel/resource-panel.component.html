@@ -1,0 +1,11 @@
+<mat-expansion-panel>
+  <mat-expansion-panel-header class="resource-panel header">
+    <mat-panel-title class="resource-panel title mat-headline mb-0">
+      <span class="iconify mr-16" [attr.data-icon]="iconifyIcon" data-height="52px"></span>
+      {{title}}
+    </mat-panel-title>
+  </mat-expansion-panel-header>
+  <mat-action-list>
+    <ng-content></ng-content>
+  </mat-action-list>
+</mat-expansion-panel>

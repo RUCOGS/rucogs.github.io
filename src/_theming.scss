@@ -146,7 +146,7 @@ $cogs-grey: mat.define-palette((
 	200: #D7D5D5,
 	300: #D7D5D5,
 	400: #9F9A99,
-	500: #9F9A99,
+	500: #817c7b,
 	600: #726D6D,
 	700: #726D6D,
 	800: #3A3737,
@@ -192,8 +192,10 @@ $cogs-red: mat.define-palette((
 
 $misc: mat.define-palette((
 	discord: #5865F2,
+	form: #7248b9,
 	contrast: (
 		discord: #ffffff,
+		form: #ffffff,
 	)
 ));
 

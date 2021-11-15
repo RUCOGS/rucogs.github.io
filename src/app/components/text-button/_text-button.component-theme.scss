@@ -24,7 +24,6 @@
   $warn: map.get($config, warn);
 
   .app-text-button.button {
-		transition: 0.2s;
     &:hover {
 			transition: 0.2s;
     }

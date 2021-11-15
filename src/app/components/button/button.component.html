@@ -1,5 +1,7 @@
 <button (mouseup)="onMouseUp();" class="app-button button {{color}}"
   type="button">
-  <span data-height="24px" class="iconify icon" [attr.data-icon]="iconifyIcon"></span>
-  <span class="mat-button text">{{text}}</span>
+  <span data-height="24px" class="app-button iconify icon" [attr.data-icon]="iconifyIcon" [hidden]="iconifyIcon != ''" [ngClass]="{'ml-10': iconifyIcon != ''}"></span>
+  <span class="app-button mat-button text">
+    <ng-content></ng-content>
+  </span>
 </button>

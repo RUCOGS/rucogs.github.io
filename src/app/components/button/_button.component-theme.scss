@@ -51,6 +51,13 @@
       mat.get-color-from-palette($misc, discord-contrast)
     );
   }
+
+  .form {
+    @include styles(
+      mat.get-color-from-palette($misc, form), 
+      mat.get-color-from-palette($misc, form-contrast)
+    );
+  }
 }
 
 @mixin typography($config) {

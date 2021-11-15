@@ -13,7 +13,6 @@ export class TextButtonComponent implements OnInit {
   @Input() width: number = -1;
   @Input() color: string = "primary";
   @Input() iconifyIcon: string = "ant-design:mail-filled";
-  @Input() text: string = "Button";
   @Input() link: string = "";
   @Input() target: string = "_self";
 
