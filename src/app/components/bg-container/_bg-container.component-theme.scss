@@ -18,6 +18,11 @@
   $primary: map.get($config, primary);
   $accent: map.get($config, accent);
   $warn: map.get($config, warn);
+  $background: map.get($config, background);
+
+  .blank {
+    @include styles(mat.get-color-from-palette($background, background))
+  }
 
   .primary {
     @include palette-styles($primary);

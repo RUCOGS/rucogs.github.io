@@ -1,0 +1,15 @@
+:host {
+	height: 24px;
+	width: fit-content;
+}
+
+.bg {
+	display: flex;
+	align-items: center;
+	height: 100%;
+	width: fit-content;
+	border-radius: 32px;
+	padding-left: 16px;
+	padding-right: 16px;
+	padding-top: auto;
+}

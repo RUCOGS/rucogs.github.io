@@ -1,0 +1,46 @@
+:host {
+	display: flex;
+  margin: 5px;
+	height: calc(100% - 5px * 2);
+}
+
+.card {
+	display: flex;
+	flex-direction: column;
+  position: relative;
+	flex: 1;
+  width: 300px;
+  height: auto;
+  border-style: solid;
+  border-width: 2px;
+  border-radius: 8px;
+  box-sizing: border-box;
+}
+
+.card-content {
+	display: flex;
+	flex-direction: column;
+  box-sizing: border-box;
+	flex: 1;
+	width: 100%;
+	height: auto;
+	padding: 36px;
+}
+  
+.image {	
+  width: 100%;
+  vertical-align: top;
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  object-fit: cover;
+}
+
+.image-wrapper {
+  height: 0px;
+  overflow: hidden;
+  padding-top: 100%;
+  box-sizing: border-box;
+  position: relative;
+}

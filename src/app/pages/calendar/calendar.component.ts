@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { BreakpointManagerService } from '@app/services/breakpoint-manager.service';
 
 @Component({
   selector: 'app-calendar',
@@ -10,7 +11,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CalendarComponent implements OnInit {
 
-  constructor() { }
+  constructor(public breakpointManager: BreakpointManagerService) { }
 
   ngOnInit(): void {
   }
