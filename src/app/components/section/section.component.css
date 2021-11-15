@@ -13,12 +13,21 @@
   align-items: center;
 	box-sizing: border-box;
 	min-height: 100vh;
-	padding: 50px;
+	padding: 64px;
 	z-index: 1;
 }
 
 .dog-ear {
 	border-top-left-radius: 64px;
+}
+
+@media only screen and (max-width: 1080px) {
+	.main-bg {
+		padding: 32px;
+	}
+	.dog-ear {
+		border-top-left-radius: 32px;
+	}	
 }
 
 div.last {
