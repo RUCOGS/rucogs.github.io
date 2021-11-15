@@ -19,7 +19,7 @@ export class ProjectManagerService {
           if (xhr.status == 200) {
             var parser = new DOMParser();
             var doc = parser.parseFromString(xhr.responseText, "text/html");
-            var arr = [];
+            var arr: Project[] = [];
             for (let i = 0; i < doc.body.children.length; i++) {
               if (doc.body.children[i].tagName == "DIV") {
                 var title = unescapeHTML(doc.body.children[i].getElementsByTagName("channeltitle")[0].innerHTML);

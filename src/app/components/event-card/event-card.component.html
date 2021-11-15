@@ -1,0 +1,13 @@
+<app-card>
+  <h2 class="mb-8">{{title}}</h2>
+  <div class="mb-16" style="width: 100%; display: flex; flex: row;">
+    <app-tag-container style="text-align: left; flex: 1;">
+      <app-tag color="primary">{{date}}</app-tag>
+      <app-tag color="warn">{{time}}</app-tag>
+    </app-tag-container>
+    <app-tag color="accent">{{type}}</app-tag>
+  </div>
+  <p class="mb-0">
+    <ng-content></ng-content>
+  </p>
+</app-card>

@@ -19,6 +19,9 @@ import { MatCommonModule } from '@angular/material/core';
 import { MatMomentDateModule } from '@angular/material-moment-adapter';
 import { MatInputModule } from '@angular/material/input';
 import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { MatListModule } from '@angular/material/list';
+import { MatDividerModule } from '@angular/material/divider';
 
 import { HomeComponent } from '@pages/home/home.component';
 import { CalendarComponent } from '@pages/calendar/calendar.component';
@@ -43,7 +46,10 @@ import { ImageGalleryComponent } from './components/image-gallery/image-gallery.
 import { ImageGalleryItemComponent } from './components/image-gallery-item/image-gallery-item.component';
 import { ProjectItemComponent } from './components/project-item/project-item.component';
 import { TagComponent } from './components/tag/tag.component';
-import { TagContainerComponent } from './components/tag-container/tag-container.component'
+import { TagContainerComponent } from './components/tag-container/tag-container.component';
+import { ResourcePanelComponent } from './components/resource-panel/resource-panel.component';
+import { ResourceItemComponent } from './components/resource-item/resource-item.component';
+import { EventCardComponent } from './components/event-card/event-card.component'
 
 const routes: Routes = [
   { path: 'home', component: HomeComponent },
@@ -83,6 +89,9 @@ const routes: Routes = [
     ProjectItemComponent,
     TagComponent,
     TagContainerComponent,
+    ResourcePanelComponent,
+    ResourceItemComponent,
+    EventCardComponent,
   ],
   imports: [
     BrowserModule,
@@ -100,6 +109,9 @@ const routes: Routes = [
     MatMomentDateModule,
     LayoutModule,
     MatToolbarModule,
+    MatExpansionModule,
+    MatListModule,
+    MatDividerModule,
     RouterModule.forRoot(routes),
   ],
   providers: [],

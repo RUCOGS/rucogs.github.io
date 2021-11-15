@@ -29,14 +29,17 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.scss"
+              "src/styles.scss",
+              "./node_modules/flipdown/dist/flipdown.min.css"
             ],
             "stylePreprocessorOptions": {
               "includePaths": [
                 "src/"
               ]
             },
-            "scripts": []
+            "scripts": [
+              "./node_modules/flipdown/dist/flipdown.min.js"
+            ]
           },
           "configurations": {
             "production": {
@@ -101,14 +104,17 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.scss"
+              "src/styles.scss",
+              "./node_modules/flipdown/dist/flipdown.min.css"
             ],
             "stylePreprocessorOptions": {
               "includePaths": [
                 "src/"
               ]
             },
-            "scripts": []
+            "scripts": [
+              "./node_modules/flipdown/dist/flipdown.min.js"
+            ]
           }
         },
         "deploy": {

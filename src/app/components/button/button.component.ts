@@ -12,8 +12,7 @@ export class ButtonComponent implements OnInit {
 
   @Input() width: number = -1;
   @Input() color: string = "primary";
-  @Input() iconifyIcon: string = "ant-design:mail-filled";
-  @Input() text: string = "Button";
+  @Input() iconifyIcon: string = "";
   @Input() link: string = "";
   @Input() target: string = "_self";
   
