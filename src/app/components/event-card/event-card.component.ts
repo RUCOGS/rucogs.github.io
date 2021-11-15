@@ -13,6 +13,7 @@ export class EventCardComponent implements OnInit {
   @Input() title: string = "";
   @Input() time: string = "";
   @Input() type: string = "In-person";
+  @Input('event-page') eventPage: string = "";
 
   ngOnInit(): void {
   }

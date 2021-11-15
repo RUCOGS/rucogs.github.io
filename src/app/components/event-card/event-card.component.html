@@ -7,7 +7,10 @@
     </app-tag-container>
     <app-tag color="accent">{{type}}</app-tag>
   </div>
-  <p class="mb-0">
+  <p class="mb-16">
     <ng-content></ng-content>
   </p>
+  <div style="max-width: 300px;">
+    <app-button *ngIf="eventPage != ''" [link]="eventPage" target="_blank" color="primary">📃 Event Page</app-button>
+  </div>
 </app-card>

@@ -45,7 +45,7 @@
 @mixin typography($config) {
   .app-tag.bg {
     font-family: mat.font-family($config);
-		font-size: 12px;
+		font-size: 14px;
 		font-weight: 800;
   }
 }
