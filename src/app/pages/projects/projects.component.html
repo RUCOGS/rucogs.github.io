@@ -1,1 +1,8 @@
 <app-page-header title="Projects"></app-page-header>
+<app-bg-container color="blank">
+  <app-card-grid column-width="300px">
+    <div *ngFor="let project of projects">
+      <app-project-item [project]="project"></app-project-item>
+    </div>
+  </app-card-grid>
+</app-bg-container>

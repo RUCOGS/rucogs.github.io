@@ -21,6 +21,7 @@
 	height: 100%;
 	display: block;
 	margin: auto;
+	width: 100%;
 }
 
 @media (min-width: 720px) {

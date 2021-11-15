@@ -1,1 +1,8 @@
 <app-page-header title="Pictures"></app-page-header>
+<app-bg-container color="blank">
+  <app-image-gallery class="app-pictures image-gallery">
+    <div *ngFor="let item of [].constructor(17); let i = index">
+      <app-image-gallery-item src="assets/pictures-page-images/{{i + 1}}.png" preview-src="assets/pictures-page-images/previews/{{i + 1}}.png"></app-image-gallery-item>
+    </div>
+  </app-image-gallery>
+</app-bg-container>

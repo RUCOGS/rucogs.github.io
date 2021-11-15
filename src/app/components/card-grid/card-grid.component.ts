@@ -7,15 +7,16 @@ import { Component, HostBinding, Input, OnInit } from '@angular/core';
 })
 export class CardGridComponent implements OnInit {
   
-  @HostBinding('style.grid-template-columns')
-  gridTemplateColumns: string = 'repeat( auto-fit, minmax(250px, 1fr) )';
-  
+  @Input('column-width') columnWidth: string = "250px";
   @Input() columns: string = "auto-fit";
+
+  @HostBinding('style.grid-template-columns')
+  gridTemplateColumns: string = '';
 
   constructor() { }
 
   ngOnInit(): void {
-    this.gridTemplateColumns = `repeat( ${this.columns}, minmax(250px, 1fr) )`
+    this.gridTemplateColumns = `repeat( ${this.columns}, minmax(${this.columnWidth}, 1fr) )`
   }
 
 }

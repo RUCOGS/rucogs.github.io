@@ -9,6 +9,8 @@
 @use './app/components/bg-container/_bg-container.component-theme' as bg-container;
 @use './app/components/site-footer/_site-footer.component-theme' as site-footer;
 @use './app/components/hamburger-menu/_hamburger-menu.component-theme' as hamburger-menu;
+@use './app/components/project-item/_project-item.component-theme' as project-item;
+@use './app/components/tag/_tag.component-theme' as tag;
 
 @mixin theme($theme) {
   @include card.theme($theme);
@@ -22,4 +24,6 @@
   @include bg-container.theme($theme);
   @include site-footer.theme($theme);
   @include hamburger-menu.theme($theme);
+  @include project-item.theme($theme);
+  @include tag.theme($theme);
 }
