@@ -12,8 +12,8 @@
   -ms-flex-align: center;
   align-items: center;
 	box-sizing: border-box;
-	padding: 50px;
 	height: 100%;
+	padding: 64px;
 	z-index: 1;
 }
 
@@ -24,7 +24,13 @@
 	width: 100%;
 }
 
-@media (min-width: 720px) {
+@media only screen and (max-width: 1080px) {
+	.bg {
+		padding: 32px;
+	}
+}
+
+@media (min-width: 1080px) {
 	.content {
 		max-width: 80%;
 	}
