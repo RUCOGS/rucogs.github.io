@@ -15,14 +15,7 @@
         </div>
       </div>
     </div>
-    <div style="
-      position: relative;
-      display: flex;  
-      justify-content: left;
-    ">
-      <object data="assets/icons/cogs-logo-white.svg" height="42" style="float: left; margin-right: 10px;"> </object>
-      <h1 class="app-hamburger-menu cogs-title">COGS</h1>
-    </div>
+    <app-cogs-logo-text-button></app-cogs-logo-text-button>
     <div style="position: absolute; right: 0;">
       <button mat-icon-button (click)="expanded = !expanded">
         <mat-icon class="app-hamburger-menu hamburger-icon" *ngIf="!expanded">menu</mat-icon>

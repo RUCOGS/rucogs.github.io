@@ -49,7 +49,8 @@ import { TagComponent } from './components/tag/tag.component';
 import { TagContainerComponent } from './components/tag-container/tag-container.component';
 import { ResourcePanelComponent } from './components/resource-panel/resource-panel.component';
 import { ResourceItemComponent } from './components/resource-item/resource-item.component';
-import { EventCardComponent } from './components/event-card/event-card.component'
+import { EventCardComponent } from './components/event-card/event-card.component';
+import { CogsLogoTextButtonComponent } from './components/cogs-logo-text-button/cogs-logo-text-button.component'
 
 const routes: Routes = [
   { path: 'home', component: HomeComponent },
@@ -92,6 +93,7 @@ const routes: Routes = [
     ResourcePanelComponent,
     ResourceItemComponent,
     EventCardComponent,
+    CogsLogoTextButtonComponent,
   ],
   imports: [
     BrowserModule,
