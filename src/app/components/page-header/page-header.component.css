@@ -12,7 +12,3 @@
 	margin: auto;
 	max-width: var(--content-width);
 }
-
-.title {
-	margin-left: var(--inner-content-padding) !important;
-}

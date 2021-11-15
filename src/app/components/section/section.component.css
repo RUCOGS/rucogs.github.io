@@ -14,7 +14,7 @@
 	box-sizing: border-box;
 	min-height: 100vh;
 	padding: var(--content-padding);
-	padding-top: var(--dog-ear);
+	padding-top: var(--dog-ear-padding);
 	padding-bottom: var(--dog-ear);
 	z-index: 1;
 }

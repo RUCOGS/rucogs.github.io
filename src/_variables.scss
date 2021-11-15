@@ -2,8 +2,8 @@
 	--site-header-height: 72px;
 	--content-padding: 64px;
 	--dog-ear: 64px;
+	--dog-ear-padding: 64px;
 	--content-width: 80%;
-	--inner-content-padding: 0px;
 }
 
 // TODO: Depreciate this with some universal breakpoint system that jives with Angular's BreakpointObserver
@@ -14,7 +14,7 @@ $mobile-width: 1080px;
 	:root {
 		--content-width: auto;
 		--content-padding: 16px;
-		--inner-content-padding: 36px;
-		--dog-ear: 64px;
+		--dog-ear-padding: 42px;
+		--dog-ear: 32px;
 	}
 }

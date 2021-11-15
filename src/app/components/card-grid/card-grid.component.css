@@ -4,6 +4,7 @@
 	align-items: stretch;
 	margin-left: auto;
 	margin-right: auto;
+	gap: 12px;
 }
 
 :host > * {
