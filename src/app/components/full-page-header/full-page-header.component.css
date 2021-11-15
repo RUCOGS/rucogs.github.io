@@ -6,7 +6,7 @@
   display: flex;
 	box-sizing: border-box;
 	min-height: calc(100vh - var(--site-header-height)); /* Accounting for header */
-	padding: 50px;
+	padding: var(--content-padding);
 	background-size: cover;
 	background-position: center;
 }

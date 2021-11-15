@@ -201,10 +201,10 @@ $misc: mat.define-palette((
 
 $cogs-typography: mat.define-typography-config(
 	$font-family: 'Urbanist',
-	$display-4:   mat.define-typography-level(64px, 64px, 900),
-	$display-3:   mat.define-typography-level(52px, 52px, 900),
-	$display-2:   mat.define-typography-level(48px, 48px, 900),
-	$display-1:   mat.define-typography-level(42px, 42px, 900),
+	$display-4:   mat.define-typography-level(52px, 52px, 900),
+	$display-3:   mat.define-typography-level(48, 48, 900),
+	$display-2:   mat.define-typography-level(42px, 42px, 900),
+	$display-1:   mat.define-typography-level(36px, 36px, 900),
 	$headline:    mat.define-typography-level(32px, 32px, 800),
 	$title:       mat.define-typography-level(24px, 24px, 800),
 	$body-1:      mat.define-typography-level(16px, 28px, 400),

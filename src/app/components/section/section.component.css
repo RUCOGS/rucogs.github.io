@@ -13,21 +13,14 @@
   align-items: center;
 	box-sizing: border-box;
 	min-height: 100vh;
-	padding: 64px;
+	padding: var(--content-padding);
+	padding-top: var(--dog-ear);
+	padding-bottom: var(--dog-ear);
 	z-index: 1;
 }
 
 .dog-ear {
-	border-top-left-radius: 64px;
-}
-
-@media only screen and (max-width: 1080px) {
-	.main-bg {
-		padding: 32px;
-	}
-	.dog-ear {
-		border-top-left-radius: 32px;
-	}	
+	border-top-left-radius: var(--dog-ear);
 }
 
 div.last {
