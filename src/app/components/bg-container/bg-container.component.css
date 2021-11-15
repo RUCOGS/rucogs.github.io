@@ -13,7 +13,7 @@
   align-items: center;
 	box-sizing: border-box;
 	height: 100%;
-	padding: 64px;
+	padding: var(--content-padding);
 	z-index: 1;
 }
 
@@ -22,16 +22,5 @@
 	display: block;
 	margin: auto;
 	width: 100%;
-}
-
-@media only screen and (max-width: 1080px) {
-	.bg {
-		padding: 32px;
-	}
-}
-
-@media (min-width: 1080px) {
-	.content {
-		max-width: 80%;
-	}
+	max-width: var(--content-width);
 }

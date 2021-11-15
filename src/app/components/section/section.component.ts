@@ -9,7 +9,7 @@ export class SectionComponent implements OnInit {
 
   @Input() title: string = "";
   @Input() color: string = "blank";
-  
+
   last: boolean;
   dogEar: boolean;
 

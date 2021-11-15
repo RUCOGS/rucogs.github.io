@@ -1,12 +1,5 @@
 @import 'variables';
 
-/* Mobile values */
-@media screen and (max-width: $mobile-width) {
-	:root {
-		--content-width: auto;
-	}
-}
-
 html,
 body {
 	height: 100%;
@@ -18,36 +11,6 @@ body {
 body {
 	height: 100%;
 	width: 100%;
-}
-
-h1.small-title {
-	font-weight: 900;
-	font-size: 24px;
-	line-height: 24px;
-}
-
-h1.small-plus-title {
-	font-weight: 900;
-	font-size: 32px;
-	line-height: 32px;
-}
-
-h1.medium-title {
-	font-weight: 900;
-	font-size: 48px;
-	line-height: 48px;
-}
-
-h1.medium-plus-title {
-	font-weight: 900;
-	font-size: 52px;
-	line-height: 52px;
-}
-
-h1.large-title {
-	font-weight: 900;
-	font-size: 64px;
-	line-height: 64px;
 }
 
 .page {

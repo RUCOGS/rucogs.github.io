@@ -4,11 +4,15 @@
 
 .bg {
 	margin-top: var(--site-header-height);
-	padding: 50px;
+	padding: var(--content-padding);
 }
 
 .content {
 	display: block;
 	margin: auto;
 	max-width: var(--content-width);
+}
+
+.title {
+	margin-left: var(--inner-content-padding) !important;
 }
