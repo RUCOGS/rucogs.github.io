@@ -13,6 +13,7 @@
 @use './app/components/tag/_tag.component-theme' as tag;
 @use './app/pages/home/_home.component-theme' as home-page;
 @use './app/pages/scarlet-game-jam/_scarlet-game-jam.component-theme' as scarlet-game-jam-page;
+@use './app/components/cogs-logo-text-button/_cogs-logo-text-button.component-theme' as cogs-logo-text-button;
 
 @mixin theme($theme) {
   @include card.theme($theme);
@@ -30,4 +31,5 @@
   @include tag.theme($theme);
   @include home-page.theme($theme);
   @include scarlet-game-jam-page.theme($theme);
+  @include cogs-logo-text-button.theme($theme);
 }

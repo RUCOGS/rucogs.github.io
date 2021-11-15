@@ -8,10 +8,6 @@
   .app-horizontal-menu.bg {
 	  background-color: mat.get-color-from-palette($primary, 500);
   }
-
-  .app-horizontal-menu.cogs-title {
-    color: mat.get-color-from-palette($primary, 500-contrast);
-  }
 }
 
 @mixin typography($config) {
