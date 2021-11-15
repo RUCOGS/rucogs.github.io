@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, HostBinding, Input, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-resource-panel',
@@ -9,6 +9,7 @@ export class ResourcePanelComponent implements OnInit {
 
   constructor() { }
 
+  @HostBinding('class.mat-expansion-panel') isExpansionPanel;
   @Input() iconifyIcon: string = "";
   @Input() title: string = "";
 
