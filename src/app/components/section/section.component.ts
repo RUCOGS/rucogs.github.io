@@ -12,12 +12,15 @@ export class SectionComponent implements OnInit {
 
   last: boolean;
   dogEar: boolean;
+  fullPage: boolean;
 
   constructor(
     @Optional() @Attribute('last') last: any,
-    @Optional() @Attribute('dog-ear') dogEar: any) {
+    @Optional() @Attribute('dog-ear') dogEar: any,
+    @Optional() @Attribute('full-page') fullPage: any) {
     this.last = last != undefined;
     this.dogEar = dogEar != undefined;
+    this.fullPage = fullPage != undefined;
   }
 
   ngOnInit(): void {}

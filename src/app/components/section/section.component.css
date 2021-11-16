@@ -12,15 +12,18 @@
   -ms-flex-align: center;
   align-items: center;
 	box-sizing: border-box;
-	min-height: 100vh;
 	padding: var(--content-padding);
 	padding-top: var(--dog-ear-padding);
-	padding-bottom: var(--dog-ear);
+	padding-bottom: var(--dog-ear-padding);
 	z-index: 1;
 }
 
 .dog-ear {
 	border-top-left-radius: var(--dog-ear);
+}
+
+.full-page {
+	min-height: 100vh;
 }
 
 div.last {
