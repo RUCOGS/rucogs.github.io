@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Optional, Attribute } from '@angular/core';
 import { Color } from "@utils/color";
 
 // TODO: Make button use scss for custom colors instead of directly passing in a color.
@@ -15,11 +15,21 @@ export class ButtonComponent implements OnInit {
   @Input() iconifyIcon: string = "";
   @Input() link: string = "";
   @Input() target: string = "_self";
-  
+
   hover: boolean = false;
   pressed: boolean = false;
+  
+  outline: string;
 
-  constructor() { }
+  constructor(
+    @Optional() @Attribute('outlined') outlined: any,
+    @Optional() @Attribute('outlined-contrast') outlinedContrast: any) {
+    this.outline = "";
+    if (outlined != undefined)
+      this.outline = "outlined";
+    else if (outlinedContrast != undefined)
+      this.outline = "outlined contrast";
+  }
 
   ngOnInit(): void {
   }

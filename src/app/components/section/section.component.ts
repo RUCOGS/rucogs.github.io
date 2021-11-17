@@ -13,14 +13,17 @@ export class SectionComponent implements OnInit {
   last: boolean;
   dogEar: boolean;
   fullPage: boolean;
+  shadow: boolean;
 
   constructor(
     @Optional() @Attribute('last') last: any,
     @Optional() @Attribute('dog-ear') dogEar: any,
-    @Optional() @Attribute('full-page') fullPage: any) {
+    @Optional() @Attribute('full-page') fullPage: any,
+    @Optional() @Attribute('shadow') shadow: any) {
     this.last = last != undefined;
     this.dogEar = dogEar != undefined;
     this.fullPage = fullPage != undefined;
+    this.shadow = shadow != undefined;
   }
 
   ngOnInit(): void {}

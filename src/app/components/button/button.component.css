@@ -20,3 +20,8 @@
 .text {
   margin-right: auto;
 }
+
+.outlined {
+	border: solid;
+	border-width: 2px;
+}

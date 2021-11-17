@@ -8,7 +8,7 @@
 .logo-painted {
 	position: absolute;
 	top: 30%;
-	right: 10%;
+	right: 15%;
 	max-height: 40%;
   filter: drop-shadow(0 0 1rem black);
 }

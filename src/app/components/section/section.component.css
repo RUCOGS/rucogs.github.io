@@ -3,6 +3,7 @@
 }
 
 .main-bg {
+	position: relative;
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -15,7 +16,10 @@
 	padding: var(--content-padding);
 	padding-top: var(--dog-ear-padding);
 	padding-bottom: var(--dog-ear-padding);
-	z-index: 1;
+}
+
+.shadow {
+	box-shadow: 0px 0px 32px 0px rgba(0,0,0,127);
 }
 
 .dog-ear {
@@ -34,7 +38,6 @@ div.last {
 	position: absolute;
 	height: 128px;
 	width: 100%;
-	z-index: -100;
 }
 
 .content {
