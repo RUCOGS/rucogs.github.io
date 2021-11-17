@@ -13,3 +13,7 @@
   padding: 36px;
   box-sizing: border-box;
 }
+
+.outlined {
+  border-width: 2px;
+}

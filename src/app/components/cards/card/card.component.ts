@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Attribute, Component, Input, OnInit, Optional } from '@angular/core';
 
 @Component({
   selector: 'app-card',
@@ -7,7 +7,13 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CardComponent implements OnInit {
 
-  constructor() { }
+  @Input() color: string = "blank";
+  outlined: boolean;
+
+  constructor(
+    @Optional() @Attribute('outlined') outlined: any) {
+    this.outlined = outlined != undefined;
+  }
 
   ngOnInit(): void {
   }

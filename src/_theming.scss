@@ -165,6 +165,31 @@ $cogs-grey: mat.define-palette((
 	)
 ));
 
+$cogs-dark-accent: mat.define-palette((
+	50: #3A3737,
+	100: #3A3737,
+	200: #726D6D,
+	300: #726D6D,
+	400: #817c7b,
+	500: #9F9A99,
+	600: #D7D5D5,
+	700: #D7D5D5,
+	800: #ffffff,
+	900: #ffffff,
+	contrast: (
+		50: #ffffff,
+		100: #ffffff,
+		200: #ffffff,
+		300: #ffffff,
+		400: #ffffff,
+		500: #ffffff,
+		600: #000000,
+		700: #000000,
+		800: #000000,
+		900: #000000,
+	)
+));
+
 $cogs-red: mat.define-palette((
 	50: #d33744,
 	100: #d33744,
