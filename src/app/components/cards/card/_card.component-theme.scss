@@ -1,17 +1,105 @@
 @use 'sass:map';
 @use '@angular/material' as mat;
 
+@-webkit-keyframes ani {
+  from {
+    -webkit-mask-position: 0 0;
+    mask-position: 0 0;
+  }
+
+  to {
+    -webkit-mask-position: 100% 0;
+    mask-position: 100% 0;
+  }
+}
+
+@keyframes ani {
+  from {
+    -webkit-mask-position: 0 0;
+    mask-position: 0 0;
+  }
+
+  to {
+    -webkit-mask-position: 100% 0;
+    mask-position: 100% 0;
+  }
+}
+
+@-webkit-keyframes ani2 {
+  from {
+    -webkit-mask-position: 100% 0;
+    mask-position: 100% 0;
+  }
+
+  to {
+    -webkit-mask-position: 0 0;
+    mask-position: 0 0;
+  }
+}
+
+@keyframes ani2 {
+  from {
+    -webkit-mask-position: 100% 0;
+    mask-position: 100% 0;
+  }
+
+  to {
+    -webkit-mask-position: 0 0;
+    mask-position: 1.3% 0;
+  }
+}
+
 @mixin styles($bg-color, $text-color, $outline-color) {
   &.app-card.card {
     color: $text-color;
     background-color: $bg-color;
     border-color: $outline-color;
-  }
+  
+    &.outlined {
+      color: $bg-color;
+      background-color: transparent;
+      border-color: $bg-color;
+      
+    &.fill {
+      // Fill not working
+      // $url: "https://raw.githubusercontent.com/pizza3/asset/master/natureSmaller.png";
+      // $x1: 7000%;
+      // $y1: 300%;
 
-  &.app-card.card.outlined {
-    color: $bg-color;
-    background-color: transparent;
-    border-color: $bg-color;
+      // -webkit-mask: url($url);
+      // mask: url($url);
+      // -webkit-mask-size: $x1 $y1;
+      // mask-size: $x1 $y1;
+
+      // -webkit-animation: ani2 2s steps(70) forwards;
+      // animation: ani2 2s steps(70) forwards;
+
+      // &:hover {
+      //   -webkit-animation: ani 0.7s steps(70) forwards;
+      //   animation: ani 0.7s steps(70) forwards;
+      // }
+
+      // -webkit-animation: ani2 0.1s steps(70) forwards;
+      // animation: ani2 0.1s steps(70) forwards;
+
+      // &:hover {
+      //   -webkit-animation: ani 0.7s steps(70) forwards;
+      //   animation: ani 0.7s steps(70) forwards;
+      // }
+
+      // Linear fill
+        background: linear-gradient(to top, $bg-color 50%, transparent 50%);
+        background-size: 100% 200%;
+        background-position: right top;
+        transition: 0.5s ease;
+        
+        &:hover {
+          background-position: right bottom;
+          transition: 0.5s ease;
+          color: $text-color;
+        }
+      }
+    }
   }
 }
 
@@ -24,7 +112,7 @@
   &-contrast {
     @include styles(
       mat.get-color-from-palette($palette, #{$level}-contrast),
-      mat.get-color-from-palette($palette, ($level + 200)-contrast),
+      mat.get-color-from-palette($palette, $level),
       mat.get-color-from-palette($palette, #{$level}-contrast),
     );
   }

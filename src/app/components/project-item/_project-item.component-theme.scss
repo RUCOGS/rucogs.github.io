@@ -5,15 +5,15 @@
   $background: map.get($config, background);
   $foreground: map.get($config, foreground);
 
-  .card {
-    background: mat.get-color-from-palette($background, card);
+  .app-project-item.card {
+    background-color: mat.get-color-from-palette($background, card);
     color: mat.get-color-from-palette($foreground, text);
     border-color: mat.get-color-from-palette($foreground, divider)
   }
 }
 
 @mixin typography($config) {
-  .card {
+  .app-project-item.card {
     font-family: mat.font-family($config);
   }
 }
