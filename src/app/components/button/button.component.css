@@ -21,7 +21,8 @@
   margin-right: auto;
 }
 
-.outlined {
+.app-button.button.outlined {
+  background-color: transparent;
 	border: solid;
 	border-width: 2px;
 }

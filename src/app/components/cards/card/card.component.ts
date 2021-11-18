@@ -8,6 +8,7 @@ import { Attribute, Component, Input, OnInit, Optional } from '@angular/core';
 export class CardComponent implements OnInit {
 
   @Input() color: string = "blank";
+  @Input() hover: string = "";
   outlined: boolean;
 
   constructor(

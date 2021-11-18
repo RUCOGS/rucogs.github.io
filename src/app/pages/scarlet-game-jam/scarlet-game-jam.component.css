@@ -9,6 +9,6 @@
 	position: absolute;
 	top: 30%;
 	right: 15%;
-	max-height: 40%;
+	max-height: 20vw;
   filter: drop-shadow(0 0 1rem black);
 }
