@@ -8,10 +8,7 @@ import { Project } from '@app/utils/project';
 })
 export class ProjectItemComponent implements OnInit {
 
-  @Input() project: Project = {
-    title: 'EMPTY',
-    description: 'EMPTY',
-  };
+  @Input() project: Project = new Project();
 
   constructor() { }
 

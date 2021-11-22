@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { PageLink } from '@app/utils/pagelink';
 
 @Component({
   selector: 'app-horizontal-menu',
@@ -7,6 +8,8 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HorizontalMenuComponent implements OnInit {
 
+  @Input() pageLinks: PageLink[] = [];
+  
   constructor() { }
 
   ngOnInit(): void {
