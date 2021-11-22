@@ -2,7 +2,7 @@
   <div class="app-hamburger-menu content">
     <div class="app-hamburger-menu dropdown-bg" [hidden]="!expanded">
       <div class="app-hamburger-menu dropdown-content">
-        <app-text-button *ngFor="let pageLink of pageLinks" [link]="pageLink.link">{{pageLink.name}}</app-text-button>
+        <app-text-button *ngFor="let pageLink of pageLinks" [link]="pageLink.link" route>{{pageLink.name}}</app-text-button>
         <div style="display: flex; flex-direction: row; height: 50px; align-items: center;">
           <!-- SUPER HACKY!!! :( -->
           <div style="margin-left: 8px;"></div>

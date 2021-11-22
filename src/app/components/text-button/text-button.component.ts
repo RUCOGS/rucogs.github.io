@@ -1,4 +1,5 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Attribute, Component, Input, OnInit, Optional } from '@angular/core';
+import { Router } from '@angular/router';
 import { Color } from '@app/utils/color';
 
 @Component({
@@ -8,20 +9,27 @@ import { Color } from '@app/utils/color';
 })
 export class TextButtonComponent implements OnInit {
 
-  // TODO: Refactore to use scss for color
-
   @Input() width: number = -1;
   @Input() color: string = "primary";
   @Input() iconifyIcon: string = "ant-design:mail-filled";
   @Input() link: string = "";
   @Input() target: string = "_self";
+  
+  route: boolean = false;
 
-  constructor() { }
+  constructor(
+    private router: Router,
+    @Optional() @Attribute('route') route: any) {
+    this.route = route != undefined;
+  }
 
   ngOnInit(): void {
   }
 
-  onMouseUp(): void {
-    window.open(this.link, this.target);
+  onClick(): void {
+    if (this.route)
+      this.router.navigateByUrl(this.link);
+    else
+      window.open(this.link, this.target);
   }
 }
