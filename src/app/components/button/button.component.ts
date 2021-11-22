@@ -1,4 +1,6 @@
 import { Component, OnInit, Input, Optional, Attribute } from '@angular/core';
+import { Router } from '@angular/router';
+import { BaseButtonComponent } from '@app/utils/basebutton';
 import { Color } from "@utils/color";
 
 // TODO: Make button use scss for custom colors instead of directly passing in a color.
@@ -8,13 +10,9 @@ import { Color } from "@utils/color";
   templateUrl: './button.component.html',
   styleUrls: ['./button.component.css']
 })
-export class ButtonComponent implements OnInit {
+export class ButtonComponent extends BaseButtonComponent {
 
-  @Input() width: number = -1;
-  @Input() color: string = "primary";
   @Input() iconifyIcon: string = "";
-  @Input() link: string = "";
-  @Input() target: string = "_self";
 
   hover: boolean = false;
   pressed: boolean = false;
@@ -22,8 +20,13 @@ export class ButtonComponent implements OnInit {
   outline: string;
 
   constructor(
+    router: Router,
+    @Optional() @Attribute('route') route: any,
+
     @Optional() @Attribute('outlined') outlined: any,
     @Optional() @Attribute('outlined-contrast') outlinedContrast: any) {
+    super(router, route);
+    
     this.outline = "";
     if (outlined != undefined)
       this.outline = "outlined";
@@ -32,10 +35,5 @@ export class ButtonComponent implements OnInit {
   }
 
   ngOnInit(): void {
-  }
-
-  onClick(): void {
-    this.pressed = false;
-    window.open(this.link, this.target);
   }
 }

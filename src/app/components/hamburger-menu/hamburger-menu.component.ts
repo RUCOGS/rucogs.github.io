@@ -10,9 +10,9 @@ export class HamburgerMenuComponent implements OnInit {
 
   @Input() pageLinks: PageLink[] = [];
 
-  constructor() { }
-
   expanded: boolean = false;
+
+  constructor() { }
 
   ngOnInit(): void {
   }
