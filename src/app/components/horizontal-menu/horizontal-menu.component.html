@@ -1,7 +1,7 @@
 <div class="app-horizontal-menu bg">
   <div class="app-horizontal-menu content">
     <app-cogs-logo-text-button></app-cogs-logo-text-button>
-    <app-text-button *ngFor="let pageLink of pageLinks" [link]="pageLink.link">{{pageLink.name}}</app-text-button>
+    <app-text-button *ngFor="let pageLink of pageLinks" [link]="pageLink.link" route>{{pageLink.name}}</app-text-button>
     <app-dark-mode-toggle style="position: absolute;
   right: 0;"></app-dark-mode-toggle>
     <ng-content></ng-content>

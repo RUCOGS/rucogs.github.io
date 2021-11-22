@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-cogs-logo-text-button',
@@ -7,12 +8,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CogsLogoTextButtonComponent implements OnInit {
 
-  constructor() { }
+  constructor(private router: Router) { }
 
   ngOnInit(): void {
   }
 
   onClick() {
-    window.open("home", "_self");
+    this.router.navigateByUrl("home");
   }
 }

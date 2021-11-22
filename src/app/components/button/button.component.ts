@@ -34,7 +34,7 @@ export class ButtonComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  onMouseUp(): void {
+  onClick(): void {
     this.pressed = false;
     window.open(this.link, this.target);
   }
