@@ -1,18 +1,17 @@
 @use 'sass:map';
-@use 'sass:color';
 @use '@angular/material' as mat;
 
 @mixin color($config) {
+  $primary: map.get($config, primary);
   $accent: map.get($config, accent);
 
-  .app-site-footer.bg {
-    background-color: mat.get-color-from-palette($accent, 800);
-    color: mat.get-color-from-palette($accent, 400);
+  .app-header-social-media-buttons.button {
+	  color: mat.get-color-from-palette($primary, 500-contrast);
   }
 }
 
 @mixin typography($config) {
-
+  
 }
 
 @mixin theme($theme) {
