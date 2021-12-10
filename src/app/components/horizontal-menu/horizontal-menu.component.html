@@ -2,8 +2,16 @@
   <div class="app-horizontal-menu content">
     <app-cogs-logo-text-button></app-cogs-logo-text-button>
     <app-text-button *ngFor="let pageLink of pageLinks" [link]="pageLink.link" route>{{pageLink.name}}</app-text-button>
-    <app-dark-mode-toggle style="position: absolute;
-  right: 0;"></app-dark-mode-toggle>
+    <div style="
+      position: absolute;
+      right: 0; 
+      display: flex;
+      flex-direction: row;
+      gap: 20px;
+      justify-content: center;">
+      <app-header-social-media-buttons></app-header-social-media-buttons>
+      <app-dark-mode-toggle></app-dark-mode-toggle>
+    </div>
     <ng-content></ng-content>
   </div>
 </div>

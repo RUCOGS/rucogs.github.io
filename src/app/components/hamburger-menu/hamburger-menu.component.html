@@ -3,6 +3,7 @@
     <div class="app-hamburger-menu dropdown-bg" [hidden]="!expanded">
       <div class="app-hamburger-menu dropdown-content">
         <app-text-button *ngFor="let pageLink of pageLinks" [link]="pageLink.link" (click)="expanded = false" route>{{pageLink.name}}</app-text-button>
+        <app-header-social-media-buttons></app-header-social-media-buttons>
         <div style="display: flex; flex-direction: row; height: 50px; align-items: center;">
           <!-- SUPER HACKY!!! :( -->
           <div style="margin-left: 8px;"></div>
