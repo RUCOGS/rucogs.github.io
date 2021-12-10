@@ -1,4 +1,4 @@
-class ImageInfo {
+export class ImageInfo {
   public filePath: string;
   public description: string;
   public tags: string[];
@@ -11,11 +11,6 @@ class ImageInfo {
 }
 
 export const PicturePageImages = [
-  new ImageInfo(
-    /* File path   */ "1.png",
-    /* Description */ "cool desc",
-    /* Tags        */ ["Tag 1", "tag 2"],
-  ),
   new ImageInfo(
     /* File path   */ "10.png",
     /* Description */ "",
@@ -63,11 +58,6 @@ export const PicturePageImages = [
   ),
   new ImageInfo(
     /* File path   */ "19.png",
-    /* Description */ "",
-    /* Tags        */ [],
-  ),
-  new ImageInfo(
-    /* File path   */ "2.png",
     /* Description */ "",
     /* Tags        */ [],
   ),
@@ -273,6 +263,16 @@ export const PicturePageImages = [
   ),
   new ImageInfo(
     /* File path   */ "9.png",
+    /* Description */ "",
+    /* Tags        */ [],
+  ),
+  new ImageInfo(
+    /* File path   */ "first-meeting-1.png",
+    /* Description */ "",
+    /* Tags        */ [],
+  ),
+  new ImageInfo(
+    /* File path   */ "sgj-2021-the-perished.png",
     /* Description */ "",
     /* Tags        */ [],
   ),

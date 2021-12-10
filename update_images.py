@@ -1,5 +1,8 @@
 #!/usr/bin/env python3
 
+# The packages needed for running this file are stored under "requirements.txt"
+# Run 'pip install -r requirements.txt' from this repository's folder to install the dependendecies.
+
 from PIL import Image, ImageFilter
 from typing import List, Dict
 from tqdm import tqdm
