@@ -50,7 +50,9 @@ import { TagContainerComponent } from './components/tag-container/tag-container.
 import { ResourcePanelComponent } from './components/resource-panel/resource-panel.component';
 import { ResourceItemComponent } from './components/resource-item/resource-item.component';
 import { EventCardComponent } from './components/event-card/event-card.component';
-import { CogsLogoTextButtonComponent } from './components/cogs-logo-text-button/cogs-logo-text-button.component'
+import { CogsLogoTextButtonComponent } from './components/cogs-logo-text-button/cogs-logo-text-button.component';
+import { HeaderSocialMediaButtonsComponent } from './components/header-social-media-buttons/header-social-media-buttons.component';
+import { FooterSocialMediaButtonsComponent } from './components/footer-social-media-buttons/footer-social-media-buttons.component'
 
 const routes: Routes = [
   { path: 'home', component: HomeComponent },
@@ -94,6 +96,8 @@ const routes: Routes = [
     ResourceItemComponent,
     EventCardComponent,
     CogsLogoTextButtonComponent,
+    HeaderSocialMediaButtonsComponent,
+    FooterSocialMediaButtonsComponent,
   ],
   imports: [
     BrowserModule,
