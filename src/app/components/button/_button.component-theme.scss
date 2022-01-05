@@ -6,6 +6,7 @@
   &.app-button.button {
     background-color: $color;
     color: $contrast;
+    cursor: pointer;
 
     &:hover {
       background-color: lighten($color, 5%);

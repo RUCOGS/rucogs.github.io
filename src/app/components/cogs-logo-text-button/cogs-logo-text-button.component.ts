@@ -8,6 +8,8 @@ import { Router } from '@angular/router';
 })
 export class CogsLogoTextButtonComponent implements OnInit {
 
+  hover: boolean = false;
+
   constructor(private router: Router) { }
 
   ngOnInit(): void {
