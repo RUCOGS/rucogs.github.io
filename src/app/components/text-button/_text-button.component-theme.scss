@@ -5,10 +5,11 @@
 @mixin styles($color) {
   &.app-text-button.button {
     color: $color;
+    cursor: pointer;
   }
 
   &.app-text-button.button:hover {
-    color: darken($color, 20%);
+    color: darken($color, 25%);
   }
 }
 
