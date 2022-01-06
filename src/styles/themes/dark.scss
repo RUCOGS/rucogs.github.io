@@ -1,0 +1,22 @@
+@use 'sass:map';
+@use '@angular/material' as mat;
+@use '../custom-components-theme' as custom-components;
+@use '../general-css-theme' as general-css;
+@import '../shared-palettes';
+
+$cogs-theme-dark: create-complete-theme((
+	color: (
+		primary: $cogs-red, 
+		accent: $cogs-grey,
+		warn: mat.define-palette(mat.$red-palette),
+		misc: $misc,
+		is-dark: true, 
+		foreground: $dark-theme-foreground-palette, 
+		background: $dark-theme-background-palette,
+	),
+	typography: $cogs-typography,
+));
+
+@include custom-components.theme($cogs-theme-dark);
+@include general-css.theme($cogs-theme-dark);
+@include mat.all-component-themes($cogs-theme-dark);

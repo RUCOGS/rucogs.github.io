@@ -41,7 +41,6 @@ import { HamburgerMenuComponent } from './components/hamburger-menu/hamburger-me
 import { TextButtonComponent } from './components/text-button/text-button.component';
 import { BgContainerComponent } from './components/bg-container/bg-container.component';
 import { DarkModeToggleComponent } from './components/dark-mode-toggle/dark-mode-toggle.component';
-import { ThemeManagerComponent } from './components/theme-manager/theme-manager.component';
 import { ImageGalleryComponent } from './components/image-gallery/image-gallery.component';
 import { ImageGalleryItemComponent } from './components/image-gallery-item/image-gallery-item.component';
 import { ProjectItemComponent } from './components/project-item/project-item.component';
@@ -87,7 +86,6 @@ const routes: Routes = [
     TextButtonComponent,
     BgContainerComponent,
     DarkModeToggleComponent,
-    ThemeManagerComponent,
     ImageGalleryComponent,
     ImageGalleryItemComponent,
     ProjectItemComponent,

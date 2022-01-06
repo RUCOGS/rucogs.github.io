@@ -1,31 +1,25 @@
-/**
- * Copied from https://github.com/angular/material.angular.io/blob/master/src/app/shared/style-manager/style-manager.ts
- */
-
-import { Injectable } from "@angular/core";
-import { BehaviorSubject } from "rxjs";
+import { Injectable } from '@angular/core';
 import { CookieService } from 'ngx-cookie-service';
+import { StyleManagerService } from './style-manager.service';
 
 @Injectable({
-  // declares that this service should be created
-  // by the root application injector.
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class ThemeManagerService {
-  
-  constructor(private cookieSerivce: CookieService) {
-    if (cookieSerivce.check('theme'))
-      this.currentTheme = cookieSerivce.get('theme');
-    else
-      this.selectTheme('default-theme');
+
+  private _currentTheme: string = 'light';
+
+  constructor(private styleManagerService: StyleManagerService, private cookieService: CookieService) {
+    this.currentTheme = cookieService.check('theme') ? cookieService.get('theme') : 'light';
   }
 
-  currentTheme: string = "default-theme";
-  themeSelected: BehaviorSubject<string> = new BehaviorSubject("");
+  set currentTheme(theme: string) {
+    this._currentTheme = theme;
+    this.cookieService.set('theme', this._currentTheme);
+    this.styleManagerService.setStyle('theme', this._currentTheme + '.css');
+  }
 
-  selectTheme(theme: string) {
-    this.themeSelected.next(theme);
-    this.currentTheme = theme;
-    this.cookieSerivce.set('theme', this.currentTheme);
+  get currentTheme() {
+    return this._currentTheme;
   }
 }
