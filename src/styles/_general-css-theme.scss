@@ -8,10 +8,6 @@
 	$background: map.get($color-config, background);
 	$foreground: map.get($color-config, foreground);
 	
-	mat-form-field {
-		color: mat.get-color-from-palette($foreground, text);
-	}
-
 	a:link {
 		color: mat.get-color-from-palette($primary, 500);
 	}
