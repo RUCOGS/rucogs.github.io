@@ -1,0 +1,26 @@
+<form class="example-form">
+  <mat-form-field style="width: 100%;" appearance="fill">
+    <mat-label>Search</mat-label>
+    <input type="search" matInput>
+    <mat-icon matSuffix>search</mat-icon>
+  </mat-form-field>
+  <mat-form-field style="width: 100%;" appearance="fill">
+    <mat-label>Search</mat-label>
+    <input type="search" matInput>
+    <mat-icon matSuffix>search</mat-icon>
+  </mat-form-field>
+    <mat-form-field style="width: 100%;" appearance="fill">
+    <mat-label>Search</mat-label>
+    <input type="search" matInput>
+    <mat-icon matSuffix>search</mat-icon>
+  </mat-form-field>
+  <mat-form-field appearance="fill">
+    <mat-label>Enter a date range</mat-label>
+    <mat-date-range-input [rangePicker]="datePicker">
+      <input matStartDate placeholder="Start date">
+      <input matEndDate placeholder="End date">
+    </mat-date-range-input>
+    <mat-datepicker-toggle matSuffix [for]="datePicker"></mat-datepicker-toggle>
+    <mat-datepicker #datePicker></mat-datepicker>
+  </mat-form-field>
+</form>

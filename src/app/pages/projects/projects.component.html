@@ -1,13 +1,6 @@
 <app-page-header title="Projects"></app-page-header>
 <app-bg-container color="blank">
-  <form class="example-form">
-    <mat-form-field class="example-full-width" appearance="fill">
-      <mat-label>Telephone</mat-label>
-      <span matPrefix>+1 &nbsp;</span>
-      <input type="tel" matInput placeholder="555-555-1234">
-      <mat-icon matSuffix>mode_edit</mat-icon>
-    </mat-form-field>
-  </form>
+  <app-filter-header></app-filter-header>
   <app-card-grid column-width="300px">
     <app-project-item *ngFor="let project of projects" [project]="project"></app-project-item>
   </app-card-grid>
