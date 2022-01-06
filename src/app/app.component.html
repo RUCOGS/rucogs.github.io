@@ -1,13 +1,11 @@
-<app-theme-manager>
-  <div style="
-    display: flex;
-    flex-flow: column;
-    height: 100%;
-  ">
-    <app-site-header></app-site-header>
-    <div class="outlet-container">
-      <router-outlet></router-outlet>
-    </div>
-    <app-site-footer></app-site-footer>
+<div style="
+  display: flex;
+  flex-flow: column;
+  height: 100%;
+">
+  <app-site-header></app-site-header>
+  <div class="outlet-container">
+    <router-outlet></router-outlet>
   </div>
-</app-theme-manager>
+  <app-site-footer></app-site-footer>
+</div>
