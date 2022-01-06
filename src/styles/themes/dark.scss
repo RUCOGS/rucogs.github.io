@@ -17,6 +17,22 @@ $cogs-theme-dark: create-complete-theme((
 	typography: $cogs-typography,
 ));
 
+$cogs-theme-dark-bright-color: (
+	primary: $cogs-bright-red, 
+	accent: $cogs-grey,
+	warn: mat.define-palette(mat.$red-palette),
+	misc: $misc,
+	is-dark: true, 
+	foreground: $dark-theme-foreground-palette, 
+	background: $dark-theme-background-palette,
+);
+
+
 @include custom-components.theme($cogs-theme-dark);
 @include general-css.theme($cogs-theme-dark);
 @include mat.all-component-themes($cogs-theme-dark);
+
+// Darkmode form fields are unreadable using the regular cogs-red color for primary.
+// Therefore we use cogs-bright-red to make it readable, and we have to manually
+// override the form-field's colors.
+@include mat.form-field-color($cogs-theme-dark-bright-color);
