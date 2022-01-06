@@ -149,22 +149,22 @@ $cogs-grey: mat.define-palette((
 	800: #3A3737,
 	900: #3A3737,
 	contrast: (
-		50: #000000,
-		100: #000000,
-		200: #000000,
-		300: #000000,
-		400: #ffffff,
-		500: #ffffff,
-		600: #ffffff,
-		700: #ffffff,
-		800: #ffffff,
-		900: #ffffff,
+		50: $dark-primary-text,
+		100: $dark-primary-text,
+		200: $dark-primary-text,
+		300: $dark-primary-text,
+		400: $light-primary-text,
+		500: $light-primary-text,
+		600: $light-primary-text,
+		700: $light-primary-text,
+		800: $light-primary-text,
+		900: $light-primary-text,
 	)
 ));
 
 $cogs-red: mat.define-palette((
-	50: #d33744,
-	100: #d33744,
+	50: #f12f3f,
+	100: #f12f3f,
 	200: #B3002D,
 	300: #B3002D,
 	400: #B3002D,
@@ -174,16 +174,41 @@ $cogs-red: mat.define-palette((
 	800: #66001A,
 	900: #66001A,
 	contrast: (
-		50: #000000,
-		100: #000000,
-		200: #ffffff,
-		300: #ffffff,
-		400: #ffffff,
-		500: #ffffff,
-		600: #ffffff,
-		700: #ffffff,
-		800: #ffffff,
-		900: #ffffff,
+		50: $dark-primary-text,
+		100: $dark-primary-text,
+		200: $light-primary-text,
+		300: $light-primary-text,
+		400: $light-primary-text,
+		500: $light-primary-text,
+		600: $light-primary-text,
+		700: $light-primary-text,
+		800: $light-primary-text,
+		900: $light-primary-text,
+	)
+));
+
+$cogs-bright-red: mat.define-palette((
+	50: #f12f3f,
+	100: #f12f3f,
+	200: #f12f3f,
+	300: #f12f3f,
+	400: #f12f3f,
+	500: #f12f3f,
+	600: #d33744,
+	700: #B3002D,
+	800: #810020,
+	900: #66001A,
+	contrast: (
+		50: $dark-primary-text,
+		100: $dark-primary-text,
+		200: $dark-primary-text,
+		300: $dark-primary-text,
+		400: $dark-primary-text,
+		500: $dark-primary-text,
+		600: $dark-primary-text,
+		700: $dark-primary-text,
+		800: $light-primary-text,
+		900: $light-primary-text,
 	)
 ));
 
@@ -191,8 +216,8 @@ $misc: mat.define-palette((
 	discord: #5865F2,
 	form: #7248b9,
 	contrast: (
-		discord: #ffffff,
-		form: #ffffff,
+		discord: $light-primary-text,
+		form: $light-primary-text,
 	)
 ));
 
