@@ -25,8 +25,6 @@ export class ProjectsComponent implements OnInit, AfterViewInit {
     this.projectManager.getProjects().subscribe((x) => {
       this.projects = x;
       this.updateSortedSections();
-
-      setTimeout(this.standardizeSectionCardGrids.bind(this), 10);
     });
   }
 
@@ -69,11 +67,20 @@ export class ProjectsComponent implements OnInit, AfterViewInit {
       if (grid !== determiningGrid)
         grid.style.gridTemplateColumns = `repeat(auto-fit, ${determiningGrid.children[0].clientWidth - 0.5}px)`;
     }
+
+    this.sectionsContainer.nativeElement.style.visibility = 'visible';
   }
 
   updateSortedSections() {
+    if (this.sectionsContainer)
+      this.sectionsContainer.nativeElement.style.visibility = 'hidden';
     this.sortedSections = this.getSortedSections();
-    this.standardizeSectionCardGrids();
+
+    // Runs a tick after sorted sections are updated in order to let the auto-fit css take over.
+    // We can probably make a clean solution if we write our own column auto-fit system from the
+    // ground up, but that's too complicated. So for now, we're relying on css auto-fit to handle 
+    // it all for us. 
+    setTimeout(this.standardizeSectionCardGrids.bind(this), 0);
   }
 
   getSortedSections(): SortedSection[] {
