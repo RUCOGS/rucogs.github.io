@@ -9,6 +9,7 @@ export class CardGridComponent implements OnInit {
   
   @Input('column-width') columnWidth: string = "250px";
   @Input() columns: string = "auto-fit";
+  @Input('auto-fit-columns') autofitColumns: boolean = true
 
   @HostBinding('style.grid-template-columns')
   gridTemplateColumns: string = '';
@@ -16,7 +17,7 @@ export class CardGridComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
-    this.gridTemplateColumns = `repeat( ${this.columns}, minmax(${this.columnWidth}, 1fr) )`
+    this.gridTemplateColumns = `repeat( ${this.columns}, ` + (this.autofitColumns ? `minmax(${this.columnWidth}, 1fr)` : this.columnWidth) + ` )`;
   }
 
 }
