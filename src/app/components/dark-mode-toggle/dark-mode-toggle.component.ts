@@ -11,7 +11,7 @@ import { ThemeManagerService } from '@app/services/theme-manager.service';
 export class DarkModeToggleComponent implements OnInit {
 
   constructor(private themeManager: ThemeManagerService) { 
-    this.isDark = this.themeManager.currentTheme == 'dark-theme'; 
+    this.isDark = this.themeManager.currentTheme == 'dark'; 
   }
 
   isDark: boolean = false;
@@ -21,6 +21,6 @@ export class DarkModeToggleComponent implements OnInit {
   
   onChange($event: MatSlideToggleChange) {
     this.isDark = $event.checked;
-    this.themeManager.selectTheme(this.isDark ? 'dark-theme' : 'default-theme');
+    this.themeManager.currentTheme = this.isDark ? 'dark' : 'light';
   }
 }

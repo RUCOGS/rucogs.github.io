@@ -7,6 +7,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { ButtonComponent } from './components/button/button.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { FormsModule } from '@angular/forms';
 
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatSliderModule } from '@angular/material/slider';
@@ -22,6 +23,8 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatListModule } from '@angular/material/list';
 import { MatDividerModule } from '@angular/material/divider';
+import { MatSelectModule } from '@angular/material/select';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 
 import { HomeComponent } from '@pages/home/home.component';
 import { CalendarComponent } from '@pages/calendar/calendar.component';
@@ -41,7 +44,6 @@ import { HamburgerMenuComponent } from './components/hamburger-menu/hamburger-me
 import { TextButtonComponent } from './components/text-button/text-button.component';
 import { BgContainerComponent } from './components/bg-container/bg-container.component';
 import { DarkModeToggleComponent } from './components/dark-mode-toggle/dark-mode-toggle.component';
-import { ThemeManagerComponent } from './components/theme-manager/theme-manager.component';
 import { ImageGalleryComponent } from './components/image-gallery/image-gallery.component';
 import { ImageGalleryItemComponent } from './components/image-gallery-item/image-gallery-item.component';
 import { ProjectItemComponent } from './components/project-item/project-item.component';
@@ -52,7 +54,9 @@ import { ResourceItemComponent } from './components/resource-item/resource-item.
 import { EventCardComponent } from './components/event-card/event-card.component';
 import { CogsLogoTextButtonComponent } from './components/cogs-logo-text-button/cogs-logo-text-button.component';
 import { HeaderSocialMediaButtonsComponent } from './components/header-social-media-buttons/header-social-media-buttons.component';
-import { FooterSocialMediaButtonsComponent } from './components/footer-social-media-buttons/footer-social-media-buttons.component'
+import { FooterSocialMediaButtonsComponent } from './components/footer-social-media-buttons/footer-social-media-buttons.component';
+import { FilterHeaderComponent } from './components/filter-header/filter-header.component';
+import { SubSectionComponent } from './components/sub-section/sub-section.component'
 
 const routes: Routes = [
   { path: 'home', component: HomeComponent },
@@ -86,7 +90,6 @@ const routes: Routes = [
     TextButtonComponent,
     BgContainerComponent,
     DarkModeToggleComponent,
-    ThemeManagerComponent,
     ImageGalleryComponent,
     ImageGalleryItemComponent,
     ProjectItemComponent,
@@ -98,8 +101,11 @@ const routes: Routes = [
     CogsLogoTextButtonComponent,
     HeaderSocialMediaButtonsComponent,
     FooterSocialMediaButtonsComponent,
+    FilterHeaderComponent,
+    SubSectionComponent,
   ],
   imports: [
+    FormsModule,
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
@@ -118,6 +124,8 @@ const routes: Routes = [
     MatExpansionModule,
     MatListModule,
     MatDividerModule,
+    MatSelectModule,
+    MatCheckboxModule,
     RouterModule.forRoot(routes),
   ],
   providers: [],

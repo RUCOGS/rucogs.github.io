@@ -28,8 +28,22 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.scss",
-              "./node_modules/flipdown/dist/flipdown.min.css"
+              {
+                "input": "src/styles.scss"
+              },
+              {
+                "input": "./node_modules/flipdown/dist/flipdown.min.css"
+              },
+              {
+                "inject": false,
+                "input": "src/styles/themes/dark.scss",
+                "bundleName": "dark"
+              },
+              {
+                "inject": false,
+                "input": "src/styles/themes/light.scss",
+                "bundleName": "light"
+              }
             ],
             "stylePreprocessorOptions": {
               "includePaths": [
@@ -103,8 +117,22 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.scss",
-              "./node_modules/flipdown/dist/flipdown.min.css"
+              {
+                "input": "src/styles.scss"
+              },
+              {
+                "input": "./node_modules/flipdown/dist/flipdown.min.css"
+              },
+              {
+                "inject": false,
+                "input": "src/styles/themes/dark.scss",
+                "bundleName": "dark"
+              },
+              {
+                "inject": false,
+                "input": "src/styles/themes/light.scss",
+                "bundleName": "light"
+              }
             ],
             "stylePreprocessorOptions": {
               "includePaths": [

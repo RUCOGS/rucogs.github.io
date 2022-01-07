@@ -1,0 +1,31 @@
+@use 'sass:map';
+@use '@angular/material' as mat;
+
+@mixin theme($theme) {
+  $color-config: mat.get-color-config($theme);
+
+	$primary: map.get($color-config, primary);
+	$background: map.get($color-config, background);
+	$foreground: map.get($color-config, foreground);
+	
+	// Fix calendar height being too short
+	.mat-calendar {
+		height: 23.2em !important;
+	}
+	
+	a:link {
+		color: mat.get-color-from-palette($primary, 100);
+	}
+
+	a:visited {
+		color: mat.get-color-from-palette($primary, 100);
+	}
+
+	a:hover {
+		color: mat.get-color-from-palette($primary, 50);
+	}
+
+	a:active {
+		color: mat.get-color-from-palette($primary, 100);
+	}
+}

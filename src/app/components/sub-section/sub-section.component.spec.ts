@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ThemeManagerComponent } from './theme-manager.component';
+import { SubSectionComponent } from './sub-section.component';
 
-describe('ThemeManagerComponent', () => {
-  let component: ThemeManagerComponent;
-  let fixture: ComponentFixture<ThemeManagerComponent>;
+describe('SubSectionComponent', () => {
+  let component: SubSectionComponent;
+  let fixture: ComponentFixture<SubSectionComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ ThemeManagerComponent ]
+      declarations: [ SubSectionComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ThemeManagerComponent);
+    fixture = TestBed.createComponent(SubSectionComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
