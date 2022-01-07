@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, HostListener, OnInit, ViewChild } from '@angular/core';
 import { FilterHeaderComponent } from '@app/components/filter-header/filter-header.component';
 import { ProjectManagerService } from '@app/services/project-manager.service';
 import { Project } from '@app/utils/project';
@@ -14,6 +14,7 @@ import { Project } from '@app/utils/project';
 export class ProjectsComponent implements OnInit, AfterViewInit {
 
   @ViewChild(FilterHeaderComponent) filterHeader: FilterHeaderComponent | undefined;
+  @ViewChild('sectionsContainer') sectionsContainer: ElementRef | undefined;
 
   projects: Project[] = [];
   sortedSections: SortedSection[] = [];
@@ -24,6 +25,8 @@ export class ProjectsComponent implements OnInit, AfterViewInit {
     this.projectManager.getProjects().subscribe((x) => {
       this.projects = x;
       this.updateSortedSections();
+
+      setTimeout(this.standardizeSectionCardGrids.bind(this), 10);
     });
   }
 
@@ -39,9 +42,38 @@ export class ProjectsComponent implements OnInit, AfterViewInit {
     this.filterHeader.sortingModeChange.subscribe(this.updateSortedSections.bind(this));
     this.filterHeader.sortAscendingChange.subscribe(this.updateSortedSections.bind(this));
   }
+  
+  @HostListener('window:resize', ['$event'])
+  onResize(event) {
+    this.standardizeSectionCardGrids();
+  }
+
+  standardizeSectionCardGrids() {
+    if (!this.sectionsContainer)
+      return;
+    
+    console.log(this.sectionsContainer.nativeElement.querySelectorAll("app-card-grid"));
+
+    for (let grid of this.sectionsContainer.nativeElement.querySelectorAll("app-card-grid")) {
+      grid.style.gridTemplateColumns = `repeat(auto-fit, 1fr)`;
+    }
+    
+    // determiningGrid is always the grid with the most elements (project-items) in it.
+    let determiningGrid: any = undefined;
+    for (let grid of this.sectionsContainer.nativeElement.querySelectorAll("app-card-grid")) {
+      if (determiningGrid === undefined || (grid.childElementCount >= determiningGrid.childElementCount))
+        determiningGrid = grid;
+    }
+    console.log("min width: " + determiningGrid);
+    for (let grid of this.sectionsContainer.nativeElement.querySelectorAll("app-card-grid")) {
+      if (grid !== determiningGrid)
+        grid.style.gridTemplateColumns = `repeat(auto-fit, ${determiningGrid.children[0].clientWidth - 0.5}px)`;
+    }
+  }
 
   updateSortedSections() {
     this.sortedSections = this.getSortedSections();
+    this.standardizeSectionCardGrids();
   }
 
   getSortedSections(): SortedSection[] {
