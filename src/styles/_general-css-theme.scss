@@ -8,19 +8,24 @@
 	$background: map.get($color-config, background);
 	$foreground: map.get($color-config, foreground);
 	
+	// Fix calendar height being too short
+	.mat-calendar {
+		height: 23.2em !important;
+	}
+	
 	a:link {
-		color: mat.get-color-from-palette($primary, 500);
-	}
-
-	a:visited {
-		color: mat.get-color-from-palette($primary, 500);
-	}
-
-	a:hover {
 		color: mat.get-color-from-palette($primary, 100);
 	}
 
+	a:visited {
+		color: mat.get-color-from-palette($primary, 100);
+	}
+
+	a:hover {
+		color: mat.get-color-from-palette($primary, 50);
+	}
+
 	a:active {
-		color: mat.get-color-from-palette($primary, 500);
+		color: mat.get-color-from-palette($primary, 100);
 	}
 }

@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Attribute, Optional } from '@angular/core';
+import { Component, OnInit, Input, Attribute, Optional, ElementRef } from '@angular/core';
 
 @Component({
   selector: 'app-section',
@@ -16,6 +16,7 @@ export class SectionComponent implements OnInit {
   shadow: boolean;
 
   constructor(
+    private elementRef: ElementRef,
     @Optional() @Attribute('last') last: any,
     @Optional() @Attribute('dog-ear') dogEar: any,
     @Optional() @Attribute('full-page') fullPage: any,
@@ -26,5 +27,11 @@ export class SectionComponent implements OnInit {
     this.shadow = shadow != undefined;
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    // Avoids race condition of last being added after construction (ie. when using ngIf, etc.).
+    this.last = this.elementRef.nativeElement.hasAttribute("last");
+    this.dogEar = this.elementRef.nativeElement.hasAttribute("dog-ear");
+    this.fullPage = this.elementRef.nativeElement.hasAttribute("full-page");
+    this.shadow = this.elementRef.nativeElement.hasAttribute("shadow");
+  }
 }

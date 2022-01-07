@@ -22,4 +22,8 @@ describe('FilterHeaderComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('should set sorting mode options to default value', () => {
+    expect(fixture.nativeElement.querySelector('mat-select-min-line').textContent).toContain(component.sortingMode);
+  });
 });

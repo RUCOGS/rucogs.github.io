@@ -36,3 +36,4 @@ $cogs-theme-dark-bright-color: (
 // Therefore we use cogs-bright-red to make it readable, and we have to manually
 // override the form-field's colors.
 @include mat.form-field-color($cogs-theme-dark-bright-color);
+@include mat.option-color($cogs-theme-dark-bright-color);
