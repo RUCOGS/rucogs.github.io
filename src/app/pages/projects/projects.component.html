@@ -7,6 +7,7 @@
     <mat-option value="completion">Completion</mat-option>
   </app-filter-header>
 
+  <div #sectionsContainer>
   <div *ngIf="sortedSections.length > 0">
     <div *ngIf=" 
       filterHeader !== undefined && 
@@ -34,5 +35,5 @@
   <div *ngIf="sortedSections.length === 0">
     <h1 class="app-projects no-results-text">No results found...</h1>
   </div>
-
+  </div>
 </app-bg-container>
