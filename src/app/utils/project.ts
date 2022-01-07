@@ -4,11 +4,12 @@ export class Project {
     public description: string = "",
     public url: string = "",
     public imageUrl: string = "",
-    public year: string = "",
+    public year: number = 0,
     public members: ProjectMember[] = [],
+    public completed: boolean = false,
   ) {
-    if (year == "")
-      this.year = "2021";
+    if (year == 0)
+      this.year = 2021;
     if (imageUrl == "")
       this.imageUrl = "assets/images/default-project-image.png";
   }
