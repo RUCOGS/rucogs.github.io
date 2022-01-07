@@ -1,27 +1,62 @@
-# Cogs
+# Angular Cogs Website
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 12.2.5.
+The current website being used by the Creation of Game Society. This site is built using [Angular](https://angular.io/) and uses [Angular Material](https://material.angular.io/) for UI theming and for some UI components.
 
-## Development server
+## Adding Images to Pictures Page
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+To add images to the pictures page of the website, add the picture into the `src/assets/pictures-page-images/` folder.
 
-## Code scaffolding
+Then you must run the `update_images.py` script from this repository's root folder.
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+> **NOTE** 
+> 
+> You must have [python](https://www.python.org/downloads/) installed on your computer to run this script.
+> 
+> Before running this script, make sure you have the required packages installed. You can install the required packages by running
+> 
+> `pip install -r requirements.txt`
+>
+> in this repository's root folder.
 
-## Build
+## Running Locally
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+To serve the site locally on your computer for testing purposes, run
 
-## Running unit tests
+```bash
+> ng serve
+```
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+## Building Site
 
-## Running end-to-end tests
+> **IMPORTANT**
+> 
+> You **DO NOT** need to build the site manually for it to show up on github pages. 
+> The building and deploying of the site to github pages is handled automatically by 
+> the github actions in this repository.
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+To build the website for production, run
 
-## Further help
+```bash
+> ng build
+```
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+## Running Unit Tests
+
+To open up a browser window that performs all unit tests, run
+
+```bash
+> ng test
+```
+
+To open up a browser window that performs the unit tests of a single component, run
+
+```bash
+> ng test --include='**/component-folder-name/*.spec.ts'
+```
+
+where `component-folder-name` is replaced with the folder of the component that you would like to test. 
+
+> **NOTE**
+> 
+> Note that `**/` means it will recursively search until it finds the folder whose name matches `component-folder-name`.
+> The `/*.spec.ts` means it will search for all files that end in `.spec.ts` in the `component-folder-name` folder.

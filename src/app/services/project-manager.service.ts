@@ -67,7 +67,8 @@ export class ProjectManagerService {
                 project.link, 
                 imageExistsResult ? project.image_url : "", 
                 project.finished_year, 
-                currentMembers
+                currentMembers,
+                true,
               ));
             }
 
@@ -78,8 +79,9 @@ export class ProjectManagerService {
                 project.description, 
                 project.link, 
                 imageExistsResult ? project.image_url : "", 
-                project.finished_year, 
-                []
+                project.year, 
+                [],
+                false
               ));
             }
 
