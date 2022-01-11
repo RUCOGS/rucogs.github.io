@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "cogs": {
+    "rucogs-website": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:application": {
@@ -91,18 +91,21 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "cogs:build:production"
+              "browserTarget": "rucogs-website:build:production"
             },
             "development": {
-              "browserTarget": "cogs:build:development"
+              "browserTarget": "rucogs-website:build:development"
             }
           },
-          "defaultConfiguration": "development"
+          "defaultConfiguration": "development",
+          "options": {
+            "port": 8081
+          }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "cogs:build"
+            "browserTarget": "rucogs-website:build"
           }
         },
         "test": {
@@ -151,5 +154,5 @@
       }
     }
   },
-  "defaultProject": "cogs"
+  "defaultProject": "rucogs-website"
 }
