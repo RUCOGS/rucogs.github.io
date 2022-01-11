@@ -37,6 +37,7 @@ export class LoginComponent implements OnInit {
     const popup = window.open(authUrl, 'myWindow', 'location=1,status=1,scrollbars=1,width=800,height=800');
     let listener = window.addEventListener('message', (message) => {
       if (message.origin === AUTH_URL_BASE) {
+        console.log('Recieved JWT: ' + message.data.accessToken);
         this.tokenStorage.saveToken(message.data.accessToken);
       }
     });
