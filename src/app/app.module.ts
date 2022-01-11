@@ -56,7 +56,9 @@ import { CogsLogoTextButtonComponent } from './components/cogs-logo-text-button/
 import { HeaderSocialMediaButtonsComponent } from './components/header-social-media-buttons/header-social-media-buttons.component';
 import { FooterSocialMediaButtonsComponent } from './components/footer-social-media-buttons/footer-social-media-buttons.component';
 import { FilterHeaderComponent } from './components/filter-header/filter-header.component';
-import { SubSectionComponent } from './components/sub-section/sub-section.component'
+import { SubSectionComponent } from './components/sub-section/sub-section.component';
+import { LoginComponent } from './pages/login/login.component'
+import { ReactiveFormsModule } from '@angular/forms';
 
 const routes: Routes = [
   { path: 'home', component: HomeComponent },
@@ -64,6 +66,7 @@ const routes: Routes = [
   { path: 'projects', component: ProjectsComponent },
   { path: 'pictures', component: PicturesComponent },
   { path: 'resources', component: ResourcesComponent },
+  { path: 'login', component: LoginComponent },
   { path: 'scarlet-game-jam', component: ScarletGameJamComponent },
   { path: '', redirectTo: '/home', pathMatch: 'full' }
 ]
@@ -103,6 +106,7 @@ const routes: Routes = [
     FooterSocialMediaButtonsComponent,
     FilterHeaderComponent,
     SubSectionComponent,
+    LoginComponent,
   ],
   imports: [
     FormsModule,
@@ -126,6 +130,7 @@ const routes: Routes = [
     MatDividerModule,
     MatSelectModule,
     MatCheckboxModule,
+    ReactiveFormsModule,
     RouterModule.forRoot(routes),
   ],
   providers: [],
