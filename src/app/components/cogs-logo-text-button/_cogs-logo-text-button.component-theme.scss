@@ -10,9 +10,13 @@
     color: mat.get-color-from-palette($primary, 500-contrast);
     
     &:hover {
-      color: darken(mat.get-color-from-palette($primary, 500-contrast), 25%);
+      color: darken(mat.get-color-from-palette($primary, 500-contrast), 20%);
       cursor: pointer;
-      transition: 0.2s;
+      transition: 0.1s;
+    }
+
+    &:active {
+      color: darken(mat.get-color-from-palette($primary, 500-contrast), 30%);
     }
   }
 
@@ -27,8 +31,14 @@
 
     &.hover {
       & * {
-        fill: darken(mat.get-color-from-palette($primary, 500-contrast), 25%);
-        transition: 0.2s;
+        fill: darken(mat.get-color-from-palette($primary, 500-contrast), 20%);
+        transition: 0.1s;
+      }
+    }
+
+    &.active {
+      & * {
+        fill: darken(mat.get-color-from-palette($primary, 500-contrast), 30%);
       }
     }
   }

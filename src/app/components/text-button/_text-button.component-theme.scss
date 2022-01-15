@@ -5,11 +5,16 @@
 @mixin styles($color) {
   &.app-text-button.button {
     color: $color;
-    cursor: pointer;
-  }
 
-  &.app-text-button.button:hover {
-    color: darken($color, 25%);
+    &:hover {
+      color: darken($color, 20%);
+      transition: 0.2s;
+      cursor: pointer;
+    }
+
+    &:active {
+      color: darken($color, 30%);
+    }
   }
 }
 
@@ -23,12 +28,6 @@
   $primary: map.get($config, primary);
   $accent: map.get($config, accent);
   $warn: map.get($config, warn);
-
-  .app-text-button.button {
-    &:hover {
-			transition: 0.2s;
-    }
-  }
 
   .primary {
     @include palette-styles($primary);
