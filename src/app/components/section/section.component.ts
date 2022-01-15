@@ -13,6 +13,7 @@ export class SectionComponent implements OnInit {
   last: boolean;
   dogEar: boolean;
   fullPage: boolean;
+  fullWidth: boolean;
   shadow: boolean;
 
   constructor(
@@ -20,10 +21,12 @@ export class SectionComponent implements OnInit {
     @Optional() @Attribute('last') last: any,
     @Optional() @Attribute('dog-ear') dogEar: any,
     @Optional() @Attribute('full-page') fullPage: any,
+    @Optional() @Attribute('full-width') fullWidth: any,
     @Optional() @Attribute('shadow') shadow: any) {
     this.last = last != undefined;
     this.dogEar = dogEar != undefined;
     this.fullPage = fullPage != undefined;
+    this.fullWidth = fullWidth != undefined
     this.shadow = shadow != undefined;
   }
 
@@ -32,6 +35,7 @@ export class SectionComponent implements OnInit {
     this.last = this.elementRef.nativeElement.hasAttribute("last");
     this.dogEar = this.elementRef.nativeElement.hasAttribute("dog-ear");
     this.fullPage = this.elementRef.nativeElement.hasAttribute("full-page");
+    this.fullWidth = this.elementRef.nativeElement.hasAttribute("full-width");
     this.shadow = this.elementRef.nativeElement.hasAttribute("shadow");
   }
 }

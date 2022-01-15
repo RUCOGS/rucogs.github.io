@@ -1,0 +1,20 @@
+.signup-container {
+  width: min(500px, 100%);
+  margin: auto;
+}
+
+.social-signup-container > * {
+  width: 100%;
+  margin-bottom: 1em;
+}
+
+.signup-form > * {
+  width: 100%;
+  margin-bottom: 1em;
+}
+
+input[type="password"] {
+  font-family: "Roboto";
+  font-style: normal;
+  font-weight: bold;
+}

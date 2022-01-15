@@ -1,21 +1,21 @@
 @use 'sass:map';
+@use 'sass:color';
 @use '@angular/material' as mat;
 
 @mixin color($config) {
-  $primary: map.get($config, primary);
-  $accent: map.get($config, accent);
+  $foreground: map.get($config, foreground);
+  $background: map.get($config, background);
 
-  .app-header-social-media-buttons.button {
-	  color: mat.get-color-from-palette($accent, 50);
-  }
-  
-  .app-header-social-media-buttons.button:hover {
-    color: darken(mat.get-color-from-palette($accent, 50), 25%);
+  .app-social-button.social-button {
+    border-color: mat.get-color-from-palette($foreground, divider) !important;
+    color: mat.get-color-from-palette($foreground, text);
   }
 }
 
 @mixin typography($config) {
-  
+  .app-social-button.social-button-name {
+    @include mat.typography-level($config, 'button');
+  }
 }
 
 @mixin theme($theme) {

@@ -15,7 +15,11 @@
 @use '../app/pages/scarlet-game-jam/_scarlet-game-jam.component-theme' as scarlet-game-jam-page;
 @use '../app/components/cogs-logo-text-button/_cogs-logo-text-button.component-theme' as cogs-logo-text-button;
 @use '../app/components/header-social-media-buttons/_header-social-media-buttons.component-theme' as header-social-media-buttons;
-@use '../app/pages/projects/_projects.component-theme' as projects-page;
+@use '../app/components/projects-display/_projects-display.component-theme' as projects-display;
+@use '../app/pages/user/_user.component-theme' as user-page;
+@use '../app/pages/login/_login.component-theme' as login-page;
+@use '../app/pages/signup/_signup.component-theme' as signup-page;
+@use '../app/components/social-button/_social-button.component-theme' as social-button;
 
 @mixin theme($theme) {
   @include card.theme($theme);
@@ -35,5 +39,9 @@
   @include scarlet-game-jam-page.theme($theme);
   @include cogs-logo-text-button.theme($theme);
   @include header-social-media-buttons.theme($theme);
-  @include projects-page.theme($theme);
+  @include projects-display.theme($theme);
+  @include user-page.theme($theme);
+  @include login-page.theme($theme);
+  @include signup-page.theme($theme);
+  @include social-button.theme($theme);
 }

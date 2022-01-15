@@ -1,11 +1,11 @@
 :host > div {
-    margin-bottom: 2em;
+	margin-bottom: 2em;
 }
 
 section {
-    display: flex;
-    align-content: center;
-    align-items: center;
-    height: 4em;
-    gap: 16px;
+	display: flex;
+	align-content: center;
+	align-items: center;
+	gap: 16px;
+	flex-wrap: wrap;
 }

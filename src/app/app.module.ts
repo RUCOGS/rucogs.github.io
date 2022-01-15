@@ -28,7 +28,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 
 import { HomeComponent } from '@pages/home/home.component';
 import { CalendarComponent } from '@pages/calendar/calendar.component';
-import { ProjectsComponent } from '@pages/projects/projects.component';
+import { ProjectsComponent } from '@app/pages/projects/projects.component';
 import { PicturesComponent } from '@pages/pictures/pictures.component';
 import { ResourcesComponent } from '@pages/resources/resources.component';
 import { ScarletGameJamComponent } from '@pages/scarlet-game-jam/scarlet-game-jam.component';
@@ -59,6 +59,12 @@ import { FilterHeaderComponent } from './components/filter-header/filter-header.
 import { SubSectionComponent } from './components/sub-section/sub-section.component';
 import { LoginComponent } from './pages/login/login.component'
 import { ReactiveFormsModule } from '@angular/forms';
+import { SignupComponent } from './pages/signup/signup.component';
+import { HttpClientModule } from '@angular/common/http';
+import { MatButtonModifierDirective } from './directives/mat-button-modifier.directive';
+import { UserComponent } from './pages/user/user.component';
+import { ProjectsDisplayComponent } from '@app/components/projects-display/projects-display.component';
+import { SocialButtonComponent } from './components/social-button/social-button.component';
 
 const routes: Routes = [
   { path: 'home', component: HomeComponent },
@@ -67,7 +73,9 @@ const routes: Routes = [
   { path: 'pictures', component: PicturesComponent },
   { path: 'resources', component: ResourcesComponent },
   { path: 'login', component: LoginComponent },
+  { path: 'signup', component: SignupComponent },
   { path: 'scarlet-game-jam', component: ScarletGameJamComponent },
+  { path: 'user/:username', component: UserComponent },
   { path: '', redirectTo: '/home', pathMatch: 'full' }
 ]
 
@@ -107,6 +115,11 @@ const routes: Routes = [
     FilterHeaderComponent,
     SubSectionComponent,
     LoginComponent,
+    SignupComponent,
+    MatButtonModifierDirective,
+    UserComponent,
+    ProjectsDisplayComponent,
+    SocialButtonComponent,
   ],
   imports: [
     FormsModule,
@@ -131,6 +144,7 @@ const routes: Routes = [
     MatSelectModule,
     MatCheckboxModule,
     ReactiveFormsModule,
+    HttpClientModule,
     RouterModule.forRoot(routes),
   ],
   providers: [],

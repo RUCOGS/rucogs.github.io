@@ -6,16 +6,16 @@ import { TokenStorageService } from '@app/services/token-storage.service';
 import { Observable } from 'rxjs';
 
 @Component({
-  selector: 'app-login',
-  templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css']
+  selector: 'app-signup',
+  templateUrl: './signup.component.html',
+  styleUrls: ['./signup.component.css']
 })
-export class LoginComponent implements OnInit {
+export class SignupComponent implements OnInit {
 
   form: FormGroup;
   hide: boolean = true;
   errorMessage: string = "";
-  isLoginFailed: boolean = false;
+  isSignupFailed: boolean = false;
 
   constructor(
     formBuilder: FormBuilder, 
@@ -24,6 +24,7 @@ export class LoginComponent implements OnInit {
     private router: Router) {
     this.form = formBuilder.group({
       username: [null, [Validators.required]],
+      email: [null, [Validators.required, Validators.email]],
       password: [null, [Validators.required]]
     });
   }
@@ -31,28 +32,29 @@ export class LoginComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  socialLogin(social: string) {
-    this.performLogin(this.authService.socialLogin(social));
+  socialSignup(social: string) {
+    this.performSignup(this.authService.socialLogin(social));
   }
 
-  private performLogin(observable: Observable<any>) {
+  private performSignup(observable: Observable<any>) {
     observable.subscribe({
       next: data => {
         this.tokenStorage.saveToken(data.accessToken);
         //this.tokenStorage.saveUser(data);
 
-        this.isLoginFailed = false;
+        this.isSignupFailed = false;
         this.router.navigateByUrl('/user/' + data.user.username);
       },
       error: err => {
         this.errorMessage = err.error.message;
-        this.isLoginFailed = true;
+        this.isSignupFailed = true;
       }
     });
   }
 
-  onLoginSubmit(): void {
+  onSignupSubmit(): void {
     const data = this.form.value;
-    this.performLogin(this.authService.login(data.username, data.password));
+    this.performSignup(this.authService.signup(data.username, data.email, data.password));
   }
+  
 }
