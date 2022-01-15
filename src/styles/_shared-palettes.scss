@@ -218,7 +218,9 @@ $misc: mat.define-palette((
 	contrast: (
 		discord: $light-primary-text,
 		form: $light-primary-text,
-	)
+	),
+	light: $light-primary-text,
+	dark: $dark-primary-text
 ));
 
 $cogs-typography: mat.define-typography-config(
@@ -232,7 +234,7 @@ $cogs-typography: mat.define-typography-config(
 	$body-1:      mat.define-typography-level(16px, 28px, 400),
 	$body-2:      mat.define-typography-level(16px, 28px, 400),
 	$caption:     mat.define-typography-level(16px, 24px, 400),
-	$button:      mat.define-typography-level(18px, 32px, 800),
+	$button:      mat.define-typography-level(18px, 32px, 700),
 );
 
 @include mat.core($cogs-typography);

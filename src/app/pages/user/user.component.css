@@ -1,0 +1,96 @@
+.profile-background-container {
+  display: block;
+  box-sizing: content-box;
+  height: 256px; 
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+.profile-background {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.edit-profile-background-tint {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-color: black;
+  opacity: 0.5;
+}
+
+.profile-picture-container {
+  --border-width: 4px;
+  --length: 128px;
+  width: calc(var(--length) + var(--border-width));
+  height: calc(var(--length) + var(--border-width));
+  position: absolute;
+  box-sizing: content-box;
+  top: calc(2 * var(--length));
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.profile-picture {
+  position: absolute;
+  border: solid var(--border-width);
+  border-radius: 50%;
+  width: calc(100% - 2 * var(--border-width));
+  height: calc(100% - 2 * var(--border-width));
+}
+
+.edit-profile-picture-tint {
+  position: absolute;
+  width: calc(100% - 2 * var(--border-width));
+  height: calc(100% - 2 * var(--border-width));
+  border-radius: 50%;
+  background-color: black;
+  opacity: 0.5;
+}
+
+.display-name {
+  margin: 0px;
+}
+
+.username-tag {
+  margin-bottom: 1em;
+}
+
+.main-bg {
+	position: relative;
+	box-sizing: border-box;
+	padding-top: var(--site-header-height);
+}
+
+.content-width-padding {
+	padding: var(--content-padding);
+  padding-top: 0px;
+}
+
+.socials-button-container {
+	box-sizing: border-box;
+	display: grid;
+	align-items: stretch;
+	margin-left: auto;
+	margin-right: auto;
+	gap: 8px;
+  grid-template-columns: repeat(auto-fit, minmax(256px, 1fr));
+}
+
+.content {
+	display: block;
+  margin-top: 0px;
+	margin: auto;
+  padding-top: 0px;
+	max-width: var(--content-width);
+}
+
+.core-content > * {
+  margin-top: 32px;
+}

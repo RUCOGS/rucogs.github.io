@@ -1,12 +1,22 @@
 <app-section full-page>
-  <div class="app-login login-container">
-    <form [formGroup]="form" (ngSubmit)="onLoginSubmit()" class="app-login login-form">
-      <h1 class="mb-32">Log in</h1>
+  <div class="app-signup signup-container">
+    <form [formGroup]="form" (ngSubmit)="onSignupSubmit()" class="app-signup signup-form">
+      <h1 class="mb-32">Sign up</h1>
       <mat-form-field appearance="fill">
         <mat-label>Username</mat-label>
         <input matInput formControlName="username">
         <mat-error *ngIf="form.get('username')?.hasError('required')">
           Username is required
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field appearance="fill">
+        <mat-label>Email</mat-label>
+        <input matInput formControlName="email">
+        <mat-error *ngIf="form.get('email')?.hasError('required')">
+          Email addresss is required
+        </mat-error>
+        <mat-error *ngIf="form.get('email')?.hasError('email')">
+          Email addresss is invalid
         </mat-error>
       </mat-form-field>
       <mat-form-field appearance="fill">
@@ -18,21 +28,21 @@
         <mat-error *ngIf="form.get('password')?.hasError('required')">
           Password is required
         </mat-error>
-        <mat-error *ngIf="isLoginFailed">
-          Login failed: {{errorMessage}}
+        <mat-error *ngIf="isSignupFailed">
+          Signup failed: {{ errorMessage }}
         </mat-error>
       </mat-form-field>
-      <button mat-flat-button type="submit" color="primary" tall-button>Log in</button>
+      <button mat-flat-button type="submit" color="primary" tall-button>Sign up</button>
     </form>
 
-    <div class="app-login social-login-container">
-      <button (click)="socialLogin('google')" mat-flat-button type="submit" color="primary" tall-button>
+    <div class="app-signup social-signup-container">
+      <button (click)="socialSignup('google')" href="http://localhost:8080/auth/google" target="_blank" mat-flat-button type="submit" color="primary" tall-button>
         <span class="icon" data-height="24px" class="app-button iconify icon" data-icon="akar-icons:google-fill"></span>
-        Login with Google
+        Sign up with Google
       </button>
-      <button (click)="socialLogin('discord')" mat-flat-button type="submit" color="#5865F2" text-color="#ffffff" tall-button>
+      <button (click)="socialSignup('discord')" mat-flat-button type="submit" color="#5865F2" text-color="#ffffff" tall-button>
         <span class="icon" data-height="24px" class="app-button iconify icon" data-icon="akar-icons:discord-fill"></span>
-        Login with Discord
+        Sign up with Discord
       </button>
     </div>
   </div>

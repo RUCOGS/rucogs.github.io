@@ -30,6 +30,10 @@
 	min-height: 100vh;
 }
 
+.main-bg.full-width {
+	display: block;
+}
+
 div.last {
 	height: 0px;
 }

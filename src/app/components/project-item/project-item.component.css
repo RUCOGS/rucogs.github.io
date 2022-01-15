@@ -1,7 +1,6 @@
 :host {
 	display: flex;
 	height: calc(100%);
-  max-width: 650px !important;
 }
 
 .card {

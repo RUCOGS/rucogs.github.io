@@ -1,0 +1,147 @@
+<div class="app-user main-bg">
+  <div *ngIf="isEditing; then editingPage; else displayPage"></div>
+  <ng-template #editingPage>
+    <form [formGroup]="form">
+      <div class="app-user profile-background-container">
+        <img [src]="selectedProfileBackgroundSrc" class="app-user profile-background">
+        <div class="app-user edit-profile-background-tint"></div>
+        <input
+        style="display: none"
+        type="file" accept="image/png, image/jpeg" 
+        (change)="onProfileBackgroundChanged($event)"
+        #profileBackgroundInput>
+        <button mat-icon-button class="app-user edit-profile-background-button" (click)="profileBackgroundInput.click()" [disabled]="processing">
+          <mat-icon>edit</mat-icon>
+        </button>
+      </div>
+      <div class="app-user content-width-padding">
+        <div class="app-user content">
+          <div class="app-user profile-picture-container">
+            <img [src]="selectedProfilePictureSrc" class="app-user profile-picture">
+            <div class="app-user edit-profile-picture-tint"></div>
+            <input
+            style="display: none"
+            type="file" accept="image/png, image/jpeg" 
+            (change)="onProfilePictureChanged($event)"
+            #profilePictureInput>
+            <button mat-icon-button class="app-user edit-profile-picture-button" (click)="profilePictureInput.click()" [disabled]="processing">
+              <mat-icon>edit</mat-icon>
+            </button>
+          </div>
+          <div style="
+            position: relative;
+            display: flex; 
+            flex-direction: row; 
+            align-items: center;
+            margin-top: 5em; 
+            flex-wrap: wrap; 
+            gap: 2em;">
+            <div style="width: 200px;">
+              <h1 class="app-user display-name" style="font-size: 16px;">
+                <mat-form-field appearance="outline">
+                  <mat-label>Display Name</mat-label>
+                  <input matInput formControlName="displayName">
+                  <mat-error *ngIf="form.get('displayName')?.hasError('required')">
+                    Display name is required
+                  </mat-error>
+                </mat-form-field>
+              </h1>
+            </div>
+            <div style="
+              position: absolute;
+              right: 0; 
+              display: flex;
+              flex-direction: row;
+              gap: 20px;
+              justify-content: center;
+            ">
+              <button mat-stroked-button color="basic" pill (click)="saveProfile()" [disabled]="processing">Save Profile
+              </button>
+            </div>
+          </div>
+          <div class="app-user core-content">
+            <div class="app-user about-container" style="margin-top: 0;">
+              <mat-form-field appearance="outline" style="width: 100%; line-height: 28px;">
+                <mat-label>About</mat-label>
+                <textarea matInput
+                          cdkTextareaAutosize
+                          cdkAutosizeMinRows="1"
+                          cdkAutosizeMaxRows="5"
+                          formControlName="description"></textarea>
+              </mat-form-field>
+            </div>
+            <div class="app-user socials-container">
+              <h2>Socials</h2>
+              <div class="app-user socials-button-container">
+                <app-social-button icon="akar-icons:twitter-fill" link="https://www.twitter.com/Atlinxnet" username="Atlinxnet"></app-social-button>
+                <app-social-button icon="akar-icons:youtube-fill" link="https://www.youtube.com/channel/UCYauTY8qGxRZOAHmMRfm-aw" username="Atlinx"></app-social-button>
+                <app-social-button icon="simple-icons:itchdotio" link="https://www.atlinx.itch.io" username="Atlinx"></app-social-button>
+              </div>
+            </div>
+            <h2>Projects</h2>
+            <app-card-grid column-width="300px">
+              <!-- When we are not filtering, we do not want to section off the projects. -->
+              <!-- It's guaranteed that all the projects will be put into a section as the only element in the sortedSections[] array. -->
+              <app-project-item *ngFor="let project of projects;" [project]="project"></app-project-item>
+            </app-card-grid>
+          </div>
+        </div>
+      </div>
+    </form>
+  </ng-template>
+  <ng-template #displayPage>
+    <div class="app-user profile-background-container">
+      <img [src]="profileBackgroundSrc" class="app-user profile-background">
+    </div>
+    <div class="app-user content-width-padding">
+      <div class="app-user content">
+        <div class="app-user profile-picture-container">
+          <img [src]="profilePictureSrc" class="app-user profile-picture">
+        </div>
+        <div style="
+          position: relative;
+          display: flex; 
+          flex-direction: row; 
+          align-items: center;
+          margin-top: 5em; 
+          flex-wrap: wrap; 
+          gap: 2em;">
+          <div style="width: 200px;">
+            <h1 class="app-user display-name">{{ displayName }}</h1>
+            <div class="app-user username-tag">@{{ username }}</div>
+          </div>
+          <div style="
+            position: absolute;
+            right: 0; 
+            display: flex;
+            flex-direction: row;
+            gap: 20px;
+            justify-content: center;
+          ">
+            <button mat-stroked-button color="basic" pill (click)="editProfile()">Edit Profile
+            </button>
+          </div>
+        </div>
+        <div class="app-user core-content">
+          <p class="app-user about-container" style="margin-top: 0; margin-bottom: 0;">
+            {{ description }}
+          </p>
+          <div class="app-user socials-container">
+            <div class="app-user socials-button-container">
+              <app-social-button icon="logos:soundcloud" link="https://www.twitter.com/Atlinxnet" username="Atlinxnet"></app-social-button>
+              <app-social-button icon="logos:spotify-icon" link="https://www.youtube.com/channel/UCYauTY8qGxRZOAHmMRfm-aw" username="Atlinx"></app-social-button>
+              <app-social-button icon="" link="https://www.atlinx.itch.io" username="Atlinx"></app-social-button>
+            </div>
+          </div>
+          <mat-divider></mat-divider>
+          <h2>Projects</h2>
+          <app-card-grid column-width="300px">
+            <!-- When we are not filtering, we do not want to section off the projects. -->
+            <!-- It's guaranteed that all the projects will be put into a section as the only element in the sortedSections[] array. -->
+            <app-project-item *ngFor="let project of projects;" [project]="project"></app-project-item>
+          </app-card-grid>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+</div>

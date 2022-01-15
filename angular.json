@@ -47,7 +47,10 @@
             ],
             "stylePreprocessorOptions": {
               "includePaths": [
-                "src/"
+                "src/",
+                "src/styles",
+                "src/components",
+                "src/pages"
               ]
             },
             "scripts": [
@@ -139,7 +142,10 @@
             ],
             "stylePreprocessorOptions": {
               "includePaths": [
-                "src/"
+                "src/",
+                "src/styles",
+                "src/components",
+                "src/pages"
               ]
             },
             "scripts": [

@@ -1,5 +1,6 @@
 @use 'sass:map';
 @use '@angular/material' as mat;
+@import 'variables';
 
 @mixin color($config) {
   $background: map.get($config, background);
@@ -8,7 +9,16 @@
   .app-project-item.card {
     background-color: mat.get-color-from-palette($background, card);
     color: mat.get-color-from-palette($foreground, text);
-    border-color: mat.get-color-from-palette($foreground, divider)
+    border-color: mat.get-color-from-palette($foreground, divider);
+  }
+
+  .app-project-item.card {
+    max-width: 300px !important;
+  }
+  @media screen and (max-width: $mobile-width) {
+    .app-project-item.card {
+      max-width: 500px !important;
+    }
   }
 }
 
