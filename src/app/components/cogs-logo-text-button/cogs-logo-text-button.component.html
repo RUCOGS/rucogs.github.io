@@ -1,5 +1,5 @@
-<button (click)="onClick()" class="app-cogs-logo-text-button button" (mouseenter)="hover = true" (mouseleave)="hover = false">
-  <svg height="42" class="app-cogs-logo-text-button icon" [ngClass]="{hover: hover}" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 512 512" enable-background="new 0 0 512 512" xml:space="preserve">
+<button (click)="onClick()" class="app-cogs-logo-text-button button" (mouseenter)="hover = true" (mouseleave)="hover = false" (mousedown)="active = true" (mouseup)="active = false">
+  <svg height="42" class="app-cogs-logo-text-button icon" [ngClass]="{hover: hover, active: active}" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 512 512" enable-background="new 0 0 512 512" xml:space="preserve">
     <path fill="#FFFFFF" d="M487.032,293.276c1.942-12.141,2.968-24.59,2.968-37.277s-1.025-25.135-2.968-37.275l-69.876-15.356
       c-2.721-8.337-6.063-16.392-9.986-24.104l38.542-60.254c-14.653-20.256-32.466-38.069-52.722-52.722l-60.254,38.542
       c-7.713-3.923-15.768-7.266-24.105-9.986l-15.355-69.876c-12.141-1.943-24.588-2.968-37.275-2.968s-25.135,1.024-37.275,2.968
