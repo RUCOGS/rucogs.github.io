@@ -25,7 +25,7 @@ jobs:
          ng build
          cp dist/index.html dist/404.html
     - name: Deploy
-      uses: JamesIves/github-pages-deploy-action@releases/v2
+      uses: JamesIves/github-pages-deploy-action@v4.2.5
       env:
         ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
         BASE_BRANCH: main
