@@ -1,14 +1,20 @@
 <app-full-page-header color="primary">
-  <h1 class="mat-display-4 app-scarlet-game-jam text mb-4">Scarlet Game Jam</h1>
-  <h1 class="mat-display-1 app-scarlet-game-jam text mb-0">2021</h1>
-  <div id="sgj-countdown" class="app-scarlet-game-jam flipdown"></div>
-  <div style="max-width: 300px;" class="vbox-16">
-    <app-button iconifyIcon="ant-design:form-outlined" target="_blank" color="form" link="https://forms.gle/Pfgt7xiryoMdt1f26">Late Sign Up</app-button>
-    <app-button iconifyIcon="akar-icons:discord-fill" target="_blank" color="discord" link="https://discord.gg/PjZrqyu">Discord</app-button>
+  <div class="app-scarlet-game-jam split-section">
+    <div>
+      <h1 class="mat-display-4 app-scarlet-game-jam text mb-4">Scarlet Game Jam</h1>
+      <h1 class="mat-display-1 app-scarlet-game-jam text mb-0">2021</h1>
+      <div id="sgj-countdown" class="app-scarlet-game-jam flipdown"></div>
+      <div style="max-width: 300px;" class="vbox-16">
+        <!-- <app-button iconifyIcon="ant-design:form-outlined" target="_blank" color="form" link="https://forms.gle/Pfgt7xiryoMdt1f26">Sign Up</app-button> -->
+        <app-button iconifyIcon="akar-icons:discord-fill" target="_blank" color="discord" link="https://discord.gg/PjZrqyu">Discord</app-button>
+      </div>
+    </div>
+    <div class="app-scarlet-game-jam logo-container" [ngClass]="breakpointManager.currentBreakpoint">
+      <img src="assets/images/sgj-logo-s2022.png" class="app-scarlet-game-jam logo-painted" [ngClass]="breakpointManager.currentBreakpoint">
+    </div>
   </div>
-  <img src="assets/images/sgj-logo-painted.png" class="app-scarlet-game-jam logo-painted" [hidden]="breakpointManager.currentBreakpoint != 'desktop'">
 </app-full-page-header>
-<app-section title="Collaborations" color="blank">
+<!-- <app-section title="Collaborations" color="blank">
   <app-card-grid class="mt-32" column-width="250px">
     <app-card outlined hover="fill" color="primary">
       <h1>RUEsports</h1>
@@ -17,22 +23,25 @@
       </p>
     </app-card>
   </app-card-grid>
-</app-section>
-<app-section title="Itinerary" color="primary" dog-ear full-page>
-  <app-card-grid columns="1">
-    <app-event-card title="Jam Meetup and Discussion" date="November 14th" time="4:00pm - 8:00pm" type="In-Person" event-page="https://rutgers.campuslabs.com/engage/event/7566450">
+</app-section> -->
+<app-section title="Itinerary" color="accent-300">
+  <p class="mb-0">
+    🚧 Coming soon 🚧
+  </p>
+  <!-- <app-card-grid columns="1">
+    <app-event-card title="Jam Meetup and Discussion" date="{{startDate}}" time="4:00pm - 8:00pm" type="In-Person" event-page="https://rutgers.campuslabs.com/engage/event/7566450">
       First in-person meetup of Scarlet Game Jam. This is the time to meet other people participating in the jam and form groups. The meetup marks the official start of Scarlet Game Jam and will be the reveal of the big theme of the game jam.
     </app-event-card>
-    <app-event-card title="Game Showcase & Final Remarks" date="November 20th" time="12:00am - 10:00pm" type="In-Person" event-page="https://rutgers.campuslabs.com/engage/event/7566451">
+    <app-event-card title="Game Showcase & Final Remarks" date="{{endDate}}" time="12:00am - 10:00pm" type="In-Person" event-page="https://rutgers.campuslabs.com/engage/event/7566451">
       The main event of Scarlet Game Jam, this is where you will race to finish up your project, showcase your final work, and see everyone else's projects as well. This is the main event of Scarlet Game Jam and it will be a lot of fun. 
       <br><br> 
       Food will be served.
     </app-event-card>
-  </app-card-grid>
+  </app-card-grid> -->
 </app-section>
 <app-section title="Merch" color="blank" dog-ear>
   <p style="max-width: 400px; text-align: justify; margin-bottom: 24px;">Help support the COGs club by buying merchandise! We will use the money raised to make our future events bigger and better. 😄</p>
-  <app-button link="https://scarlet-game-jam.allcolorsllc.com/" target="_blank" color="primary" style="width: 100%;">👕 The Merch Shop</app-button>
+  <app-button link="" target="_blank" color="primary" style="width: 100%;">🚧 Coming Soon 🚧</app-button>
 </app-section>
 <app-section title="FAQ" color="primary" dog-ear last full-page>
   <app-card-grid columns="1">
@@ -44,7 +53,7 @@
     <app-card>
       <h2>Where does Scarlet Game Jam take place?</h2>
       <p>Scarlet Game Jam takes place over a week(ish), but we're not going to keep you in place for that long. We understand you're busy college students (we are too!) so the large majority of Scarlet Game Jam actually takes place wherever you want it to. This means you can work in the comfort of your home (dorm, apartment, ...), the library, the dining hall, a table in the Yard, literally anywhere. We do this so that you can work around your schedule and, if working with other people, find the perfect time to meet for your group without having to worry about our availability or the availability of a single room.</p>
-      <p class="mb-0">There are portions of Scarlet Game Jam in person, though, those being: <a href="https://calendar.google.com/calendar/render?action=TEMPLATE&dates=20211110T000000Z%2F20211110T020000Z&details=Meetup%20before%20Scarlet%20Game%20Jam%20to%20meet%20those%20participating%2C%20talk%20about%20your%20ideas%2C%20and%20get%20hyped%21&location=The%20CAVE%20-%20Hill%20250&text=Scarlet%20Game%20Jam%20Meetup%20and%20Discussion" title="Save Event in my Calendar" >November 14th</a>, where you can brainstorm with other people, form a group if you want, and just hang out in general; And <a href="https://calendar.google.com/calendar/render?action=TEMPLATE&dates=20211120%2F20211121&details=Show%20off%20the%20awesome%20game%20you%20created%20and%20see%20other%20peoples%27%20as%20well%21&location=The%20CAVE%20-%20Hill%20250&text=Scarlet%20Game%20Jam%20Showcase%20and%20End" title="Save Event in my Calendar" >November 20th</a>, the end, where you get to show off your game, see what other people have made, and reminisce over the long week you just had (and hopefully how fun it was!).</p>
+      <p class="mb-0">There are portions of Scarlet Game Jam in person, though, those being: <a href="{{startDateCalendarEventLink}}" title="Save Event in my Calendar" >{{startDate}}</a>, where you can brainstorm with other people, form a group if you want, and just hang out in general; And <a href="{{endDateCalendarEventLink}}" title="Save Event in my Calendar" >{{endDate}}</a>, the end, where you get to show off your game, see what other people have made, and reminisce over the long week you just had (and hopefully how fun it was!).</p>
     </app-card>
     <app-card>
       <h2>Who can come?</h2>

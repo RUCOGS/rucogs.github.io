@@ -5,10 +5,33 @@
 	width: 100%;
 }
 
+.logo-container {
+	margin-left: 2em;
+	flex-grow: 1;
+}
+
+.logo-container.mobile {
+	margin-left: 0;
+}
+
+.split-section {
+	display: flex;
+	height: 100%;
+}
+
 .logo-painted {
-	position: absolute;
-	top: 30%;
-	right: 15%;
-	max-height: 20vw;
-  filter: drop-shadow(0 0 1rem black);
+	max-width: 30vw;
+	max-height: 30vw;
+	filter: drop-shadow(0 0 1rem black);
+}
+
+.logo-painted.desktop {
+	float: right;
+}
+
+@media screen and (max-width: 1400px) {
+
+	.logo-painted {
+		display: none;
+	}
 }
