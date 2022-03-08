@@ -18,7 +18,7 @@ export class SiteHeaderComponent implements OnInit {
     new PageLink("Projects", "projects"),
     new PageLink("Pictures", "pictures"),
     new PageLink("Resources", "resources"),
-    //new PageLink("Scarlet Game Jam", "scarlet-game-jam"),
+    new PageLink("SGJ", "scarlet-game-jam"),
   ];
 
   constructor(public breakpointManager: BreakpointManagerService) { }
