@@ -6,7 +6,7 @@
       <div id="sgj-countdown" class="app-scarlet-game-jam flipdown"></div>
       <div style="max-width: 300px;" class="vbox-16">
         <!-- <app-button iconifyIcon="ant-design:form-outlined" target="_blank" color="form" link="https://forms.gle/Pfgt7xiryoMdt1f26">Sign Up</app-button> -->
-        <app-button iconifyIcon="akar-icons:discord-fill" target="_blank" color="discord" link="https://discord.gg/PjZrqyu">Discord</app-button>
+        <app-button iconifyIcon="akar-icons:discord-fill" target="_blank" color="discord" [link]="settings.General.discordLink">Discord</app-button>
       </div>
     </div>
     <div class="app-scarlet-game-jam logo-container" [ngClass]="breakpointManager.currentBreakpoint">
