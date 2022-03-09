@@ -2,6 +2,7 @@ import { Component, HostListener, OnInit } from '@angular/core';
 import { BreakpointManagerService } from '@app/services/breakpoint-manager.service';
 import { Breakpoints } from '@app/utils/breakpoints';
 import { PageLink } from '@app/utils/pagelink';
+import { SettingsService } from '_settings';
 
 @Component({
   selector: 'app-site-header',
@@ -12,16 +13,8 @@ export class SiteHeaderComponent implements OnInit {
 
   scrolled: boolean = false;
   breakpointState: string = "desktop";
-  pageLinks: PageLink[] = [
-    new PageLink("Home", "home"),
-    new PageLink("Calendar", "calendar"),
-    new PageLink("Projects", "projects"),
-    new PageLink("Pictures", "pictures"),
-    new PageLink("Resources", "resources"),
-    new PageLink("SGJ", "scarlet-game-jam"),
-  ];
 
-  constructor(public breakpointManager: BreakpointManagerService) { }
+  constructor(public breakpointManager: BreakpointManagerService, public settings: SettingsService) { }
 
   ngOnInit(): void {
   }
