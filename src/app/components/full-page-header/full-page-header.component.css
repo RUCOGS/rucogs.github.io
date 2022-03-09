@@ -17,3 +17,10 @@
 	margin-right: auto;
 	width: var(--content-width);
 }
+
+.scroll-icon {
+	position: absolute;
+	left: calc(50% - 32px);
+	bottom: 10%;
+	color: white;
+}
