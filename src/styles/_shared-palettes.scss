@@ -162,6 +162,31 @@ $cogs-grey: mat.define-palette((
 	)
 ));
 
+$cogs-grey-reverse: mat.define-palette((
+	900: #9F9A99,
+	800: #726D6D,
+	700: #5c5858,
+	600: #5c5858,
+	500: #524e4e,
+	400: #524e4e,
+	300: #423e3e,
+	200: #423e3e,
+	100: #3A3737,
+	50: #3A3737,
+	contrast: (
+		900: $dark-primary-text,
+		800: $dark-primary-text,
+		700: $dark-primary-text,
+		600: $dark-primary-text,
+		500: $light-primary-text,
+		400: $light-primary-text,
+		300: $light-primary-text,
+		200: $light-primary-text,
+		100: $light-primary-text,
+		50: $light-primary-text,
+	)
+));
+
 $cogs-red: mat.define-palette((
 	50: #f83242,
 	100: #da2f3e,
