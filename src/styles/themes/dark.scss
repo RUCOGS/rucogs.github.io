@@ -8,6 +8,7 @@ $cogs-theme-dark: create-complete-theme((
 	color: (
 		primary: $cogs-red, 
 		accent: $cogs-grey,
+		foreground-accent: $cogs-grey-reverse,
 		warn: mat.define-palette(mat.$red-palette),
 		misc: $misc,
 		is-dark: true, 
