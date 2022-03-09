@@ -1,9 +1,9 @@
 .bg {
 	margin-top: var(--site-header-height);
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
+  	display: -webkit-box;
+  	display: -webkit-flex;
+  	display: -ms-flexbox;
+  	display: flex;
 	box-sizing: border-box;
 	min-height: calc(100vh - var(--site-header-height)); /* Accounting for header */
 	padding: var(--content-padding);
