@@ -2,19 +2,22 @@
 
 The current website being used by the Creation of Game Society. This site is built using [Angular](https://angular.io/) and uses [Angular Material](https://material.angular.io/) for UI theming and for some UI components.
 
-## Development
+## Setting Up Local Development
 
-You must have Angular installed to work on this repository.
+1. Clone this repository onto your machine.
 
-To install Angular, make sure you have [npm](https://nodejs.org/en/download/) installed and then run 
+2. Before you start development, you must have Node.js installed. "Node.js" is a runtime environment, and downloading it should also give you the "npm" package manager. You can download the latest version of Node.js with npm from [here](https://nodejs.org/en/download/).
+
+3. Install all the relevant dependecies, by running
+  ```bash
+  > npm i
+  ```
+
+4. `(Optional)` Install Angular globally on your machine, which lets you access `ng` commands from anywhere.
 
 ```bash
 > npm install -g @angular/cli
 ```
-
-This will install angular globally on your computer so you can access the `ng` commands from anywhere.
-
-See [Angular's setup tutorial](https://angular.io/guide/setup-local) for more information.
 
 ## Running Site Locally
 
