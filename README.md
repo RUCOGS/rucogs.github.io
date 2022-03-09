@@ -8,7 +8,7 @@ The current website being used by the Creation of Game Society. This site is bui
 
 2. Before you start development, you must have Node.js installed. "Node.js" is a runtime environment, and downloading it should also give you the "npm" package manager. You can download the latest version of Node.js with npm from [here](https://nodejs.org/en/download/).
 
-3. Install all the relevant dependecies, by running
+3. Install all the relevant dependecies by running the following inside the folder containing the repository.
   ```bash
   > npm i
   ```
