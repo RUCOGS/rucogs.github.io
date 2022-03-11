@@ -254,10 +254,11 @@ $cogs-typography: mat.define-typography-config(
 	$display-1:   mat.define-typography-level(36px, 36px, 900),
 	$headline:    mat.define-typography-level(32px, 32px, 800),
 	$title:       mat.define-typography-level(24px, 24px, 800),
-	$body-1:      mat.define-typography-level(16px, 28px, 400),
-	$body-2:      mat.define-typography-level(16px, 28px, 400),
-	$caption:     mat.define-typography-level(16px, 24px, 400),
+	$body-1:      mat.define-typography-level(16px, 28px, 600),
+	$body-2:      mat.define-typography-level(16px, 28px, 600),
+	$caption:     mat.define-typography-level(16px, 24px, 500),
 	$button:      mat.define-typography-level(18px, 32px, 800),
+	$input:		  mat.define-typography-level(16px, 1em, 600)
 );
 
 @include mat.core($cogs-typography);

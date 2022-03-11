@@ -5,7 +5,7 @@
   <app-card-grid>
     <app-card>
       <h2>Who are we?</h2>
-      <p class="mb-0">We are Creation of Games Society, a club at Rutgers University that is dedicated to researching, learning, understanding, and teaching the techniques and theories used in video game development.</p>
+      <p class="mb-0">We are Creation of Games Society, a club at Rutgers University that is dedicated to researching, learning, understanding, and teaching video game development.</p>
     </app-card>
     <app-card>
       <h2>How do I join?</h2>
@@ -21,32 +21,27 @@
     </app-card>
   </app-card-grid>
 </app-section>
-<app-section title="FAQ" color="primary" textColor="white" dog-ear last full-page>
-  <app-card-grid columns="1">
-    <app-card>
-      <h2>What's happening in the fall 2021 semester?</h2>
+<app-section title="FAQ" color="primary" textColor="white" dog-ear last>
+  <mat-accordion>
+    <app-question-panel title="What's happening in the Spring 2022 semester?">
       <p class="mb-0">We will be planning to meet in person at our regular time. Please join Discord for more upcoming information, and also to hang out and talk about game development!</p>
-    </app-card>
-    <app-card>
-      <h2>When and where does COGS meet?</h2>
+    </app-question-panel>
+    <app-question-panel title="When and where does COGS meet?">
       <p class="mb-0">
         Tuesdays 7pm - 9pm on Discord and in the CAVE on the second floor of the Hill Bldg Annex in Room 252.<br>
         Sundays 4pm - 8pm on Cook Douglass Lecture Hall in Room 103.
       </p>
-    </app-card>
-    <app-card>
-      <h2>What are the goals of the club?</h2>
+    </app-question-panel>
+    <app-question-panel title="What are the goals of the club?">
       <p>At COGS we like to enjoy, develop, and be inspired by both games and game development. We provide the resources for both leader-led projects, where a club leader with experience will guide the development of a game, and for other members' individual projects.</p>
-    </app-card>
-    <app-card>
-      <h2>What if I can't code?</h2>
+    </app-question-panel>
+    <app-question-panel title="What if I can't code?">
       <p>COGS is the perfect place for people who want to explore ALL aspects of game development. This means we accept all artists, music composers, programmers, etc with open arms! If you have an idea for a game, or just want to learn how to make them, COGS will help you find a place to apply what you're good at.</p>
-    </app-card>
-    <app-card>
-      <h2>How does COGS help me?</h2>
+    </app-question-panel>
+    <app-question-panel title="How does COGS help me?">
       <p class="mb-0">Since what we do as a whole involves working, discussing, and creating projects in a team-based environment, your experience at COGS will be a good point of reference for your resume, and contribute to your portfolio of projects. Also, COGS is the perfect place to find friends who love games just as much as you do!</p>
-    </app-card>
-  </app-card-grid>
+    </app-question-panel>
+  </mat-accordion>
 </app-section>
 <!-- 
   <mat-card>

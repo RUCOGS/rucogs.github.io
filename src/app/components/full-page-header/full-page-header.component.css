@@ -20,7 +20,7 @@
 
 .scroll-icon {
 	position: absolute;
-	left: calc(50% - 32px);
+	left: calc(50% - 21px);
 	bottom: 10%;
 	filter: drop-shadow(0 0 1rem black);
 }

@@ -21,7 +21,7 @@
       <p class="mb-0">
         In an all new collaboration with <b>RUEsports</b>, games made in the Scarlet Game Jam can be showcased at the RUEsports Fireside Open event.
       </p>
-    </app-card>
+    </div>
   </app-card-grid>
 </app-section> -->
 <app-section title="Itinerary" color="foreground-accent-300">
@@ -43,29 +43,27 @@
   <p style="max-width: 400px; text-align: justify; margin-bottom: 24px;">Help support the COGs club by buying merchandise! We will use the money raised to make our future events bigger and better. 😄</p>
   <app-button link="" target="_blank" color="primary" style="width: 100%;">🚧 Coming Soon 🚧</app-button>
 </app-section>
-<app-section title="FAQ" color="primary" dog-ear last full-page>
-  <app-card-grid columns="1">
-    <app-card>
-      <h2>What is Scarlet Game Jam?</h2>
+<app-section title="FAQ" color="primary" dog-ear last>
+  <mat-accordion>
+    <app-question-panel title="What is Scarlet Game Jam?">
       <p>Scarlet Game Jam is an annual game jam hosted by COGS for all Rutgers students and staff! Similar to any other game jam, participants will be given one week(ish) to design and code a game to show off at the end of the jam. At the beginning of each Scarlet Game Jam we will also be unveiling the (optional) theme to inspire or challenge our participants which changes with every scarlet game jam, so each year is a new experience!</p>
       <p class="mb-0">Participants can join our game jam solo or in a group, its up to you! No experience is required either, so feel free to join regardless of your game design experience. Have no experience and no friends to join with? No worries, at the beginning of every game jam we offer a team assembly time where you can get to know other jammers and team up (or not) to make some amazing games by the end of the week.</p>
-    </app-card>
-    <app-card>
-      <h2>Where does Scarlet Game Jam take place?</h2>
+    </app-question-panel>
+    <app-question-panel title="Where does Scarlet Game Jam take place?">
       <p>Scarlet Game Jam takes place over a week(ish), but we're not going to keep you in place for that long. We understand you're busy college students (we are too!) so the large majority of Scarlet Game Jam actually takes place wherever you want it to. This means you can work in the comfort of your home (dorm, apartment, ...), the library, the dining hall, a table in the Yard, literally anywhere. We do this so that you can work around your schedule and, if working with other people, find the perfect time to meet for your group without having to worry about our availability or the availability of a single room.</p>
       <p class="mb-0">There are portions of Scarlet Game Jam in person, though, those being: <a href="{{startDateCalendarEventLink}}" title="Save Event in my Calendar" >{{startDate}}</a>, where you can brainstorm with other people, form a group if you want, and just hang out in general; And <a href="{{endDateCalendarEventLink}}" title="Save Event in my Calendar" >{{endDate}}</a>, the end, where you get to show off your game, see what other people have made, and reminisce over the long week you just had (and hopefully how fun it was!).</p>
-    </app-card>
-    <app-card>
-      <h2>Who can come?</h2>
+    </app-question-panel>
+    <app-question-panel title="Who can come?">
       <p class="mb-0">Scarlet Game Jam is open to ALL Rutgers students, faculty, and staff. Because of this, Scarlet Game Jam is a great networking/social event where you can meet fellow Rutgers people and form friendships, partnerships, or whatever. Nothing says you have to stop working on your game after the game jam either. If you like your project and you've worked with some likeminded people, we encourage you to finish that game, polish it up, and then release it online for everyone to play (of course make sure to send us the steam link and maybe a key or two 😉). </p>
-    </app-card>
-    <app-card>
-      <h2>What if I can't code?</h2>
+    </app-question-panel>
+    <app-question-panel title="Can non-Rutgers students come?">
+      <p class="mb-0">Yes! Though they must bring proof of vaccination or an official negative COVID-19 test within 72 hours to all in-person events held during SGJ.</p>
+    </app-question-panel>
+    <app-question-panel title="What if I can't code?">
       <p class="mb-0">COGS is the perfect place for people who want to explore ALL aspects of game development. This means we accept all artists, music composers, programmers, etc with open arms! If you have an idea for a game, or just want to learn how to make them, COGS will help you find a place to apply what you're good at.</p>
-    </app-card>
-    <app-card>
-      <h2>What can we do with our games?</h2>
-      <p class="mb-0">Feel free to turn your game jam games into a full release if you think the game has potential. Also, games created during the Scarlet Game Jam can be showcased on our booth in the Fireside Open event hosted by RUEsports. </p>
-    </app-card>
-  </app-card-grid>
+    </app-question-panel>
+    <app-question-panel title="What can we do with our games?">
+      <p class="mb-0">Your team owns 100% of the game you make during jam. Feel free to turn your game jam games into a full release if you think the game has potential. </p>
+    </app-question-panel>
+  </mat-accordion>
 </app-section>
