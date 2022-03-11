@@ -56,7 +56,8 @@ import { CogsLogoTextButtonComponent } from './components/cogs-logo-text-button/
 import { HeaderSocialMediaButtonsComponent } from './components/header-social-media-buttons/header-social-media-buttons.component';
 import { FooterSocialMediaButtonsComponent } from './components/footer-social-media-buttons/footer-social-media-buttons.component';
 import { FilterHeaderComponent } from './components/filter-header/filter-header.component';
-import { SubSectionComponent } from './components/sub-section/sub-section.component'
+import { SubSectionComponent } from './components/sub-section/sub-section.component';
+import { QuestionPanelComponent } from './components/question-panel/question-panel.component'
 
 const routes: Routes = [
   { path: 'home', component: HomeComponent },
@@ -103,6 +104,7 @@ const routes: Routes = [
     FooterSocialMediaButtonsComponent,
     FilterHeaderComponent,
     SubSectionComponent,
+    QuestionPanelComponent,
   ],
   imports: [
     FormsModule,
