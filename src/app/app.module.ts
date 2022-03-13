@@ -57,7 +57,8 @@ import { HeaderSocialMediaButtonsComponent } from './components/header-social-me
 import { FooterSocialMediaButtonsComponent } from './components/footer-social-media-buttons/footer-social-media-buttons.component';
 import { FilterHeaderComponent } from './components/filter-header/filter-header.component';
 import { SubSectionComponent } from './components/sub-section/sub-section.component';
-import { QuestionPanelComponent } from './components/question-panel/question-panel.component'
+import { QuestionPanelComponent } from './components/question-panel/question-panel.component';
+import { ColumnLayoutComponent } from './components/column-layout/column-layout.component'
 
 const routes: Routes = [
   { path: 'home', component: HomeComponent },
@@ -105,6 +106,7 @@ const routes: Routes = [
     FilterHeaderComponent,
     SubSectionComponent,
     QuestionPanelComponent,
+    ColumnLayoutComponent,
   ],
   imports: [
     FormsModule,
