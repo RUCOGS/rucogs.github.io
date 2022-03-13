@@ -1,7 +1,7 @@
 :host {
 	display: grid;
 	grid-template-columns: repeat(2, 1fr);
-	gap: 16px;
+	gap: 32px;
 }
 
 @media only screen and (max-width: 1080px) {
