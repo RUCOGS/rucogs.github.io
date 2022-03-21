@@ -24,8 +24,8 @@ export class ScarletGameJamComponent implements OnInit {
   startDateTime: string = "4pm - 6pm";
   endDateTime: string = "11am - 11pm";
 
-  startDateEventPage: string = ""//"https://rutgers.campuslabs.com/engage/event/7566450";
-  endDateEventPage: string = ""//"https://rutgers.campuslabs.com/engage/event/7566451";
+  startDateEventPage: string = "";//"https://rutgers.campuslabs.com/engage/event/7566450";
+  endDateEventPage: string = "";//"https://rutgers.campuslabs.com/engage/event/7566451";
 
   constructor(public breakpointManager: BreakpointManagerService, public settings: SettingsService) { }
 
