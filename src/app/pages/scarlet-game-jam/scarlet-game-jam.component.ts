@@ -19,9 +19,10 @@ export class ScarletGameJamComponent implements OnInit {
   endDateCalendarEventLink: string = "https://calendar.google.com/calendar/render?action=TEMPLATE&dates=20211120%2F20211121&details=Show%20off%20the%20awesome%20game%20you%20created%20and%20see%20other%20peoples%27%20as%20well%21&location=The%20CAVE%20-%20Hill%20250&text=Scarlet%20Game%20Jam%20Showcase%20and%20End";
 
   merchLink: string = "http://scarlet-game-jam.allcolorsllc.com/";
+  signupLink: string = "https://forms.gle/jwcnZoYr3cAM4XHMA";
 
-  startDateTime: string = "TBD";
-  endDateTime: string = "TBD";
+  startDateTime: string = "4pm - 6pm";
+  endDateTime: string = "11am - 11pm";
 
   startDateEventPage: string = ""//"https://rutgers.campuslabs.com/engage/event/7566450";
   endDateEventPage: string = ""//"https://rutgers.campuslabs.com/engage/event/7566451";
