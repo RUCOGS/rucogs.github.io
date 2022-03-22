@@ -21,7 +21,7 @@ export class ScarletGameJamComponent implements OnInit {
   merchLink: string = "http://scarlet-game-jam.allcolorsllc.com/";
   signupLink: string = "https://forms.gle/jwcnZoYr3cAM4XHMA";
 
-  startDateTime: string = "4pm - 6pm";
+  startDateTime: string = "2pm - 6pm";
   endDateTime: string = "11am - 11pm";
 
   startDateEventPage: string = "https://rutgers.campuslabs.com/engage/event/8000723";
