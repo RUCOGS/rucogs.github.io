@@ -1,8 +1,10 @@
 :host {
-	overflow: visible;
+	display: block;
+	overflow: hidden;
 }
 
 .main-bg {
+	height: 100%;
 	position: relative;
   	display: -webkit-box;
   	display: -webkit-flex;
@@ -16,6 +18,8 @@
 	padding: var(--content-padding);
 	padding-top: var(--dog-ear-padding);
 	padding-bottom: var(--dog-ear-padding);
+	background-size: cover;
+	background-position: center;
 }
 
 .shadow {

@@ -1,0 +1,13 @@
+@keyframes expand {
+	from {
+    	height: 0px;
+	}
+	to {
+    	height: 400px;
+	}
+}
+
+:host {
+	animation: 0.5s cubic-bezier(0,.5,.37,.97) 0.5s 1 expand forwards;
+	height: 0;
+}
