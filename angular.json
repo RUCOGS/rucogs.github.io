@@ -32,7 +32,7 @@
                 "input": "src/styles.scss"
               },
               {
-                "input": "./node_modules/flipdown/dist/flipdown.min.css"
+                "input": "src/assets/js/custom-flipdown/flipdown.css"
               },
               {
                 "inject": false,
@@ -51,7 +51,7 @@
               ]
             },
             "scripts": [
-              "./node_modules/flipdown/dist/flipdown.min.js"
+              "src/assets/js/custom-flipdown/flipdown.js"
             ]
           },
           "configurations": {
