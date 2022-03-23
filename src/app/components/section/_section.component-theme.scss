@@ -3,7 +3,9 @@
 
 @mixin styles($background, $color) {
   &.app-section.bg {
-    background-color: $background;
+	  --background-color: #{$background};
+	  --transparent-background-color: #{rgba($background, 0.7)};
+    background-color: var(--background-color);
     color: $color;
   }
 }

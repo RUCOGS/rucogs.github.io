@@ -9,6 +9,9 @@ export class SectionComponent implements OnInit {
 
   @Input() title: string = "";
   @Input() color: string = "blank";
+  @Input() bgImage: string = "";
+  @Input() bgRepeatMode: string = "";
+  @Input() bgPosition: string = "";
 
   last: boolean;
   dogEar: boolean;
@@ -33,5 +36,14 @@ export class SectionComponent implements OnInit {
     this.dogEar = this.elementRef.nativeElement.hasAttribute("dog-ear");
     this.fullPage = this.elementRef.nativeElement.hasAttribute("full-page");
     this.shadow = this.elementRef.nativeElement.hasAttribute("shadow");
+  }
+
+//transparent-background-color
+  getBgStyle(): Object {
+    return { 
+      'background-image': 'linear-gradient(var(--background-color), #00000000, var(--background-color)), url(' + this.bgImage + ')',
+      ...(this.bgRepeatMode !== "" && {'background-repeat': this.bgRepeatMode, 'background-size': 'auto' }),
+      ...(this.bgPosition !== "" && {'background-position': this.bgPosition})
+    }
   }
 }
