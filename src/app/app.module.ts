@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { RouterModule, Routes } from '@angular/router';
 import { LayoutModule } from '@angular/cdk/layout';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -59,6 +60,16 @@ import { SubSectionComponent } from './components/sub-section/sub-section.compon
 import { QuestionPanelComponent } from './components/question-panel/question-panel.component';
 import { ColumnLayoutComponent } from './components/column-layout/column-layout.component';
 import { EventHeaderComponent } from './components/event-header/event-header.component';
+
+const routes: Routes = [
+  { path: 'home', component: HomeComponent },
+  { path: 'calendar', component: CalendarComponent },
+  { path: 'projects', component: ProjectsComponent },
+  { path: 'pictures', component: PicturesComponent },
+  { path: 'resources', component: ResourcesComponent },
+  { path: 'scarlet-game-jam', component: ScarletGameJamComponent },
+  { path: '', redirectTo: '/home', pathMatch: 'full' }
+]
 
 @NgModule({
   declarations: [
@@ -120,7 +131,8 @@ import { EventHeaderComponent } from './components/event-header/event-header.com
     MatListModule,
     MatDividerModule,
     MatSelectModule,
-    MatCheckboxModule
+    MatCheckboxModule,
+    RouterModule.forRoot(routes),
   ],
   providers: [],
   bootstrap: [AppComponent]
