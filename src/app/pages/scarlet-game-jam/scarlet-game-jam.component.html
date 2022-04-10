@@ -3,10 +3,20 @@
     <div>
       <h1 class="mat-display-4 app-scarlet-game-jam text mb-4">Scarlet Game Jam</h1>
       <h1 class="mat-display-1 app-scarlet-game-jam text mb-0">2021</h1>
-      <div id="sgj-countdown" class="app-scarlet-game-jam flipdown"></div>
+      <div [ngStyle]="{
+        'height': eventActive ? '20px' : 'auto'
+        }" id="sgj-countdown" class="app-scarlet-game-jam flipdown"></div>
       <div style="max-width: 300px;" class="vbox-16">
-        <app-button iconifyIcon="ant-design:form-outlined" target="_blank" color="form" link="{{signupLink}}" [hidden]="signupLink == ''">Sign Up</app-button>
+        <app-button iconifyIcon="ant-design:form-outlined" target="_blank" color="form" link="{{signupLink}}" [hidden]="signupLink == ''">
+          <div *ngIf="eventActive; else lateSignUp">
+            Late Sign Up
+          </div>
+          <ng-template #lateSignUp>
+            Sign Up
+          </ng-template>
+        </app-button>
         <app-button iconifyIcon="akar-icons:discord-fill" target="_blank" color="discord" [link]="settings.General.discordLink">Discord</app-button>
+        <app-button *ngIf="eventActive" iconifyIcon="cib:itch-io" target="_blank" color="blank" [link]="itchioLink">Itchio Page</app-button>
       </div>
     </div>
     <div class="app-scarlet-game-jam logo-container" [ngClass]="breakpointManager.currentBreakpoint">
