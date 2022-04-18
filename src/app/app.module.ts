@@ -62,6 +62,7 @@ import { EventHeaderComponent } from './components/event-header/event-header.com
 
 import { MarkdownModule } from 'ngx-markdown';
 import { HttpClientModule } from '@angular/common/http';
+import { BlogComponent } from './pages/blog/blog.component';
 
 @NgModule({
   declarations: [
@@ -101,6 +102,7 @@ import { HttpClientModule } from '@angular/common/http';
     QuestionPanelComponent,
     ColumnLayoutComponent,
     EventHeaderComponent,
+    BlogComponent,
   ],
   imports: [
     FormsModule,
