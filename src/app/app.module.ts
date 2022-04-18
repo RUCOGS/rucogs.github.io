@@ -60,6 +60,9 @@ import { QuestionPanelComponent } from './components/question-panel/question-pan
 import { ColumnLayoutComponent } from './components/column-layout/column-layout.component';
 import { EventHeaderComponent } from './components/event-header/event-header.component';
 
+import { MarkdownModule } from 'ngx-markdown';
+import { HttpClientModule } from '@angular/common/http';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -120,7 +123,9 @@ import { EventHeaderComponent } from './components/event-header/event-header.com
     MatListModule,
     MatDividerModule,
     MatSelectModule,
-    MatCheckboxModule
+    MatCheckboxModule,
+    HttpClientModule,
+    MarkdownModule.forRoot()
   ],
   providers: [],
   bootstrap: [AppComponent]

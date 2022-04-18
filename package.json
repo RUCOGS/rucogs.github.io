@@ -24,7 +24,9 @@
     "@fontsource/urbanist": "^4.5.1",
     "install": "^0.13.0",
     "ngx-cookie-service": "^13.0.0",
+    "ngx-markdown": "^13.1.0",
     "npm": "^8.0.0",
+    "prismjs": "^1.28.0",
     "rxjs": "~6.6.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.11.4"
