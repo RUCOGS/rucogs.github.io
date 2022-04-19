@@ -64,6 +64,7 @@ import { MarkdownModule } from 'ngx-markdown';
 import { MarkdownNavModule } from './modules/markdown-nav/markdown-nav.module';
 import { HttpClientModule } from '@angular/common/http';
 import { ArticlesComponent } from './pages/articles/articles.component';
+import { BlogComponent } from './pages/blog/blog.component';
 
 @NgModule({
   declarations: [
@@ -104,6 +105,7 @@ import { ArticlesComponent } from './pages/articles/articles.component';
     ColumnLayoutComponent,
     EventHeaderComponent,
     ArticlesComponent,
+    BlogComponent,
   ],
   imports: [
     FormsModule,
