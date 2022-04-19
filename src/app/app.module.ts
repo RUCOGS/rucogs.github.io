@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, SecurityContext } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { LayoutModule } from '@angular/cdk/layout';
 
@@ -61,8 +61,9 @@ import { ColumnLayoutComponent } from './components/column-layout/column-layout.
 import { EventHeaderComponent } from './components/event-header/event-header.component';
 
 import { MarkdownModule } from 'ngx-markdown';
+import { MarkdownNavModule } from './modules/markdown-nav/markdown-nav.module';
 import { HttpClientModule } from '@angular/common/http';
-import { BlogComponent } from './pages/blog/blog.component';
+import { ArticlesComponent } from './pages/articles/articles.component';
 
 @NgModule({
   declarations: [
@@ -102,7 +103,7 @@ import { BlogComponent } from './pages/blog/blog.component';
     QuestionPanelComponent,
     ColumnLayoutComponent,
     EventHeaderComponent,
-    BlogComponent,
+    ArticlesComponent,
   ],
   imports: [
     FormsModule,
@@ -127,7 +128,10 @@ import { BlogComponent } from './pages/blog/blog.component';
     MatSelectModule,
     MatCheckboxModule,
     HttpClientModule,
-    MarkdownModule.forRoot()
+    MarkdownNavModule,
+    MarkdownModule.forRoot({
+      sanitize: SecurityContext.NONE
+    })
   ],
   providers: [],
   bootstrap: [AppComponent]

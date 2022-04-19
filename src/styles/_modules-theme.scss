@@ -1,0 +1,5 @@
+@use '../app/modules/markdown-nav/markdown-nav' as ngx-markdown-nav;
+
+@mixin theme($theme) {
+  @include ngx-markdown-nav.theme($theme);
+}
