@@ -3,6 +3,7 @@
   
   <app-filter-header searchBar></app-filter-header>
 
-  <app-paginator [lastPage]="10"></app-paginator>
+  <app-paginator #paginatorTop [lastPage]="lastPage"></app-paginator>
 
+  <app-paginator #paginatorBottom [lastPage]="lastPage"></app-paginator>
 </app-bg-container>
