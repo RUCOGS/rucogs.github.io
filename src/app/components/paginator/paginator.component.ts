@@ -1,19 +1,31 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, Input, OnInit, Output, ViewChild, EventEmitter } from '@angular/core';
+import { MatButtonToggle } from '@angular/material/button-toggle';
+import { MatInput } from '@angular/material/input';
 
 @Component({
   selector: 'app-paginator',
   templateUrl: './paginator.component.html',
   styleUrls: ['./paginator.component.css']
 })
-export class PaginatorComponent implements OnInit {
+export class PaginatorComponent implements AfterViewInit {
 
   private _currentPage: number = 1;
-  private _ngInitialized: boolean = false;
+
+  @Output() currentPageChange = new EventEmitter<number>();
+
+  @ViewChild('currentPageToggle') currentPageToggle : MatButtonToggle | undefined;
 
   @Input() set currentPage(value: number) {
     this._currentPage = value;
-    if (this._ngInitialized)
-      this.updatePagesAheadBehind();
+    if (this._currentPage > this.lastPage)
+      this._currentPage = this.lastPage;
+    this.updatePagesAheadBehind();
+    this.currentPageChange.emit(this.currentPage);
+  }
+
+  setCurrentPageEventless(value: number) {
+    this._currentPage = value;
+    this.updatePagesAheadBehind();
   }
   
   get currentPage() {
@@ -27,14 +39,17 @@ export class PaginatorComponent implements OnInit {
 
   toggleGroupValue: string = "";
 
-  constructor() { }
+  constructor(private changeDetector: ChangeDetectorRef) { }
 
-  ngOnInit(): void {
-    this._ngInitialized = true;
+  ngAfterViewInit(): void {
     this.updatePagesAheadBehind();
+    this.currentPageChange.emit(this.currentPage);
   }
 
   updatePagesAheadBehind() {
+    if (!this.currentPageToggle)
+      return;
+
     const PAGE_WINDOW_RADIUS = 2;
 
     this.pagesAhead = [];
@@ -64,23 +79,25 @@ export class PaginatorComponent implements OnInit {
       }
     }
 
+    this.currentPageToggle.checked = true;
     this.pagesBehind.reverse();
+
+    this.changeDetector.detectChanges();
   }
 
-  onToggleGroupValueChanged(value: string) {
+  onClick(value: string | number) {
     if (value == "first") {
       this.currentPage = 1;
     } else if (value == "last") {
       this.currentPage = this.lastPage;
-    } else if (value == "previous") {
+    } else if (value == "previous" && this.currentPage > 1) {
       this.currentPage--;
-    } else if (value == "next") {
+    } else if (value == "next" && this.currentPage < this.lastPage) {
       this.currentPage++;
-    } else {
-      this.currentPage = +value;
+    } else if (typeof value == 'number'){
+      this.currentPage = value;
     }
-    console.log("next " + this.currentPage);
 
-    this.toggleGroupValue = "currentPage";
+    this.updatePagesAheadBehind();
   }
 }
