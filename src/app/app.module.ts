@@ -24,6 +24,7 @@ import { MatListModule } from '@angular/material/list';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatSelectModule } from '@angular/material/select';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
 
 import { HomeComponent } from '@pages/home/home.component';
 import { CalendarComponent } from '@pages/calendar/calendar.component';
@@ -65,6 +66,7 @@ import { MarkdownNavModule } from './modules/markdown-nav/markdown-nav.module';
 import { HttpClientModule } from '@angular/common/http';
 import { ArticlesComponent } from './pages/articles/articles.component';
 import { BlogComponent } from './pages/blog/blog.component';
+import { PaginatorComponent } from './components/paginator/paginator.component';
 
 @NgModule({
   declarations: [
@@ -106,6 +108,7 @@ import { BlogComponent } from './pages/blog/blog.component';
     EventHeaderComponent,
     ArticlesComponent,
     BlogComponent,
+    PaginatorComponent,
   ],
   imports: [
     FormsModule,
@@ -131,6 +134,7 @@ import { BlogComponent } from './pages/blog/blog.component';
     MatCheckboxModule,
     HttpClientModule,
     MarkdownNavModule,
+    MatButtonToggleModule,
     MarkdownModule.forRoot({
       sanitize: SecurityContext.NONE
     })
