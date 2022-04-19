@@ -13,9 +13,6 @@ export class ArticlesComponent implements OnInit {
   headings: Element[] | undefined;
 
   bgImage: string = "assets/images/wide-club-interlaced.png";
-  color: string = "primary";
-  bgRepeatMode: string = "";
-  bgPosition: string = "";
 
   constructor(
     private activatedRoute: ActivatedRoute, 
@@ -52,9 +49,7 @@ export class ArticlesComponent implements OnInit {
 
   getBgStyle(): Object {
     return { 
-      'background-image': 'linear-gradient(to bottom, var(--background-color), #00000000), url(' + this.bgImage + ')',
-      ...(this.bgRepeatMode !== "" && {'background-repeat': this.bgRepeatMode, 'background-size': 'auto' }),
-      ...(this.bgPosition !== "" && {'background-position': this.bgPosition})
+      'background-image': 'linear-gradient(to bottom, var(--background-color), #00000000), url(' + this.bgImage + ')'
     }
   }
 }

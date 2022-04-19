@@ -23,6 +23,7 @@ export class SettingsService {
       new PageLink("Pictures", "pictures"),
       new PageLink("Resources", "resources"),
       new PageLink("SGJ", "scarlet-game-jam"),
+      new PageLink("Blog", "blog")
     ];
 
     // Social media links
