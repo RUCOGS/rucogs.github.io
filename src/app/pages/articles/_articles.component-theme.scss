@@ -1,0 +1,55 @@
+@use 'sass:map';
+@use '@angular/material' as mat;
+
+@mixin styles($color) {
+  &.app-articles.bg {
+	--background-color: #{$color};
+    background-color: var(--background-color);
+  }
+}
+
+@mixin palette-styles($palette) {
+  @include styles(mat.get-color-from-palette($palette, 500))
+}
+
+@mixin color($config) {
+  $primary: map.get($config, primary);
+  $accent: map.get($config, accent);
+  $warn: map.get($config, warn);
+  $background: map.get($config, background);
+  $foreground: map.get($config, foreground);
+
+  .blank {
+	  @include styles(
+      mat.get-color-from-palette($background, background) 
+    ); 
+  }
+  
+  .primary {
+	  @include palette-styles($primary);
+  }
+
+  .accent {
+	  @include palette-styles($accent);
+  }
+
+  .warn {
+	  @include palette-styles($warn);
+  }
+}
+
+@mixin typography($config) {
+
+}
+
+@mixin theme($theme) {
+  $color-config: mat.get-color-config($theme);
+  @if $color-config != null {
+    @include color($color-config);
+  }
+
+  $typography-config: mat.get-typography-config($theme);
+  @if $typography-config != null {
+    @include typography($typography-config);
+  }
+}

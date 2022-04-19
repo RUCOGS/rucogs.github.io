@@ -1,0 +1,11 @@
+<div class="app-articles bg {{color}}" [style]="getBgStyle()"></div>
+<div class="app-articles content-container">
+  <app-scrollspy-nav-layout [headings]="headings">
+    <markdown
+      katex
+      lineNumbers
+      src="assets/articles/{{article}}.md"
+      (load)="onLoad()">
+    </markdown>
+  </app-scrollspy-nav-layout>
+</div>

@@ -21,4 +21,4 @@ public static void Main(String[] args)
 
 Test image
 
-![Image](assets/images/banner.png)
+![Image](assets/images/banner.png "Club banner")

@@ -4,6 +4,7 @@
 	--dog-ear: 64px;
 	--dog-ear-padding: 64px;
 	--content-width: 80%;
+	--markdown-content-width: 1080px;
 }
 
 // TODO: Depreciate this with some universal breakpoint system that jives with Angular's BreakpointObserver
@@ -13,6 +14,7 @@ $mobile-width: 1080px;
 @media screen and (max-width: $mobile-width) {
 	:root {
 		--content-width: 100%;
+		--markdown-content-width: 100%;
 		--content-padding: 32px;
 		--dog-ear-padding: 42px;
 		--dog-ear: 32px;
