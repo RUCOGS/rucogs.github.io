@@ -1,5 +1,6 @@
 import { Component, ElementRef, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { BlogPageArticlesDir } from '@app/utils/blog-page-articles';
 import { MarkdownService } from 'ngx-markdown';
 
 @Component({
@@ -11,6 +12,7 @@ export class ArticlesComponent implements OnInit {
 
   article: string = "";
   headings: Element[] | undefined;
+  articlesDir: string = BlogPageArticlesDir;
 
   bgImage: string = "assets/images/wide-club-interlaced.png";
 

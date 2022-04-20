@@ -4,6 +4,10 @@
   <app-filter-header searchBar></app-filter-header>
 
   <app-paginator #paginatorTop [lastPage]="lastPage"></app-paginator>
-
+  
+  <div class="articles-container">
+    <app-article-item *ngFor="let article of activeArticles" [article]="article"></app-article-item>
+  </div>
+  
   <app-paginator #paginatorBottom [lastPage]="lastPage"></app-paginator>
 </app-bg-container>

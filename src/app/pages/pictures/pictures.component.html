@@ -2,7 +2,7 @@
 <app-bg-container color="blank">
   <app-image-gallery class="app-pictures image-gallery">
     <div *ngFor="let imageInfo of images">
-      <app-image-gallery-item src="assets/pictures-page-images/{{imageInfo.filePath}}" preview-src="assets/pictures-page-images/previews/{{imageInfo.filePath}}"></app-image-gallery-item>
+      <app-image-gallery-item [src]="imagesDir + imageInfo.filePath" [preview-src]="previewsDir + imageInfo.filePath"></app-image-gallery-item>
     </div>
   </app-image-gallery>
 </app-bg-container>

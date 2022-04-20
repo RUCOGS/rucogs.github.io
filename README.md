@@ -67,6 +67,31 @@ To add images to the pictures page of the website, add the picture into the `src
 
 Then you must run the `update_images.py` script from this repository's root folder.
 
+```bash
+> py update_images.py
+```
+
+> **NOTE** 
+> 
+> You must have [python](https://www.python.org/downloads/) installed on your computer to run this script.
+> 
+> Before running this script, make sure you have the required packages installed. You can install the required packages by running
+> 
+> `pip install -r requirements.txt`
+>
+> in this repository's root folder.
+> The `/*.spec.ts` means it will search for all files that end in `.spec.ts` in the `component-folder-name` folder.
+
+## Adding Articles to the Blog Page
+
+To add articles to the blog page of the website, add the article into the `src/assets/articles/` folder.
+
+Then you must run the `py update_articles.py` script from this repository's root folder.
+
+```bash
+> py update_articles.py
+```
+
 > **NOTE** 
 > 
 > You must have [python](https://www.python.org/downloads/) installed on your computer to run this script.

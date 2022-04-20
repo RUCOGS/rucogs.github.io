@@ -19,6 +19,8 @@ export class PaginatorComponent implements AfterViewInit {
     this._currentPage = value;
     if (this._currentPage > this.lastPage)
       this._currentPage = this.lastPage;
+    if (this._currentPage < 1)
+      this._currentPage = 1;
     this.updatePagesAheadBehind();
     this.currentPageChange.emit(this.currentPage);
   }
