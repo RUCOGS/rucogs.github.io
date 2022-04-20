@@ -31,7 +31,7 @@
   height: calc(var(--length) + var(--border-width));
   position: absolute;
   box-sizing: content-box;
-  top: calc(2 * var(--length));
+  top: calc(1.5 * var(--length));
   display: flex;
   justify-content: center;
   align-items: center;
@@ -92,4 +92,8 @@
 
 .core-content > * {
   margin-top: 32px;
+}
+
+.edit-profile-button, .save-profile-button {
+  padding: 4px 24px 4px 24px;
 }
