@@ -14,4 +14,8 @@ export class User {
     public socialLinks: SocialLink[] = [],
     public projects: Project[] = []
   ) {}
+
+  get fullname() {
+    return this.firstName + " " + this.lastName;
+  }
 }

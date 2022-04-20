@@ -3,13 +3,13 @@ import { User } from './user';
 // TODO: Replace projectmember with User class
 export class Project {
   constructor(
-    public title: string,
-    public description: string,
-    public url: string,
-    public imageUrl: string,
-    public creationDate: Date,
-    public members: User[],
-    public completed: boolean,
+    public title: string = "",
+    public description: string = "",
+    public url: string = "",
+    public imageUrl: string = "",
+    public creationDate: Date = new Date(),
+    public members: User[] = [],
+    public completed: boolean = false,
   ) {
     if (imageUrl == "")
       this.imageUrl = "assets/images/default-project-image.png";

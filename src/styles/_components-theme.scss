@@ -21,7 +21,6 @@
 @use '../app/pages/signup/_signup.component-theme' as signup-page;
 @use '../app/components/social-button/_social-button.component-theme' as social-button;
 @use '../app/components/article-item/article-item.component-theme' as article-item;
-@use '../app/pages/projects/_projects.component-theme' as projects-page;
 @use '../app/pages/articles/articles.component-theme' as articles-page;
 @use '../app/pages/blog/blog.component-theme' as blog-page;
 
@@ -48,7 +47,6 @@
   @include login-page.theme($theme);
   @include signup-page.theme($theme);
   @include social-button.theme($theme);
-  @include projects-page.theme($theme);
   @include articles-page.theme($theme);
   @include article-item.theme($theme);
   @include blog-page.theme($theme);

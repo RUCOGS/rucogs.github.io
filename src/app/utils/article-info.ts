@@ -1,5 +1,3 @@
-import { ProjectMember } from "./project";
-
 export class ArticleInfo {
   constructor(
     public filePath: string,
