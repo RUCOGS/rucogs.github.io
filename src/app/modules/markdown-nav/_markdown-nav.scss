@@ -1,0 +1,5 @@
+@use './scrollspy-nav/scrollspy-nav.component-theme.scss' as scrollspy-nav;
+
+@mixin theme($theme) {
+	@include scrollspy-nav.theme($theme);
+}

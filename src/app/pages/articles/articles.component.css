@@ -1,0 +1,45 @@
+markdown::ng-deep img {
+	max-width: 100%;
+}
+
+.content-container {
+	margin-left: auto;
+	margin-right: auto;
+	padding: var(--content-padding);
+	max-width: var(--markdown-content-width);
+}
+
+.bg {
+	position: relative;
+  	display: -webkit-box;
+  	display: -webkit-flex;
+  	display: -ms-flexbox;
+  	display: flex;
+	box-sizing: border-box;
+	min-height: calc(50vh - var(--site-header-height)); /* Accounting for header */
+	padding: var(--content-padding);
+	background-size: cover;
+	background-position: center;
+}
+
+.subtitle-nested-container {
+	display: flex;
+	flex-direction: row;
+	font-weight: 800;
+	opacity: 0.6;
+}
+
+.date {
+	margin-left: 1em;
+}
+
+.title {
+	margin-bottom: 0.25em;
+}
+
+.subtitle-container {
+	display: flex;
+	flex-direction: column;
+	gap: 0.25em;
+	margin-bottom: 3em;
+}

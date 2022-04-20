@@ -28,12 +28,11 @@
               "src/assets"
             ],
             "styles": [
-              {
-                "input": "src/styles.scss"
-              },
-              {
-                "input": "src/assets/js/custom-flipdown/flipdown.css"
-              },
+              "node_modules/katex/dist/katex.min.css",
+              "src/styles.scss",
+              "src/assets/js/custom-flipdown/flipdown.css",
+              "node_modules/prismjs/themes/prism-okaidia.css",
+              "node_modules/prismjs/plugins/line-numbers/prism-line-numbers.css",
               {
                 "inject": false,
                 "input": "src/styles/themes/dark.scss",
@@ -51,7 +50,13 @@
               ]
             },
             "scripts": [
-              "src/assets/js/custom-flipdown/flipdown.js"
+              "src/assets/js/custom-flipdown/flipdown.js",
+              "node_modules/marked/marked.min.js",
+              "node_modules/prismjs/prism.js",
+              "node_modules/prismjs/components/prism-csharp.min.js",
+              "node_modules/prismjs/plugins/line-numbers/prism-line-numbers.js",
+              "node_modules/emoji-toolkit/lib/js/joypixels.min.js",
+              "node_modules/katex/dist/katex.min.js"
             ]
           },
           "configurations": {
@@ -117,12 +122,11 @@
               "src/assets"
             ],
             "styles": [
-              {
-                "input": "src/styles.scss"
-              },
-              {
-                "input": "./node_modules/flipdown/dist/flipdown.min.css"
-              },
+              "node_modules/katex/dist/katex.min.css",
+              "src/styles.scss",
+              "src/assets/js/custom-flipdown/flipdown.css",
+              "node_modules/prismjs/themes/prism-okaidia.css",
+              "node_modules/prismjs/plugins/line-numbers/prism-line-numbers.css",
               {
                 "inject": false,
                 "input": "src/styles/themes/dark.scss",
@@ -140,7 +144,13 @@
               ]
             },
             "scripts": [
-              "./node_modules/flipdown/dist/flipdown.min.js"
+              "src/assets/js/custom-flipdown/flipdown.js",
+              "node_modules/marked/marked.min.js",
+              "node_modules/prismjs/prism.js",
+              "node_modules/prismjs/components/prism-csharp.min.js",
+              "node_modules/prismjs/plugins/line-numbers/prism-line-numbers.js",
+              "node_modules/emoji-toolkit/lib/js/joypixels.min.js",
+              "node_modules/katex/dist/katex.min.js"
             ]
           }
         },
