@@ -1,6 +1,5 @@
-import { NgModule } from '@angular/core';
+import { NgModule, SecurityContext } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { RouterModule, Routes } from '@angular/router';
 import { LayoutModule } from '@angular/cdk/layout';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -25,6 +24,7 @@ import { MatListModule } from '@angular/material/list';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatSelectModule } from '@angular/material/select';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
 
 import { HomeComponent } from '@pages/home/home.component';
 import { CalendarComponent } from '@pages/calendar/calendar.component';
@@ -57,27 +57,26 @@ import { HeaderSocialMediaButtonsComponent } from './components/header-social-me
 import { FooterSocialMediaButtonsComponent } from './components/footer-social-media-buttons/footer-social-media-buttons.component';
 import { FilterHeaderComponent } from './components/filter-header/filter-header.component';
 import { SubSectionComponent } from './components/sub-section/sub-section.component';
+
 import { LoginComponent } from './pages/login/login.component'
 import { ReactiveFormsModule } from '@angular/forms';
 import { SignupComponent } from './pages/signup/signup.component';
-import { HttpClientModule } from '@angular/common/http';
 import { MatButtonModifierDirective } from './directives/mat-button-modifier.directive';
 import { UserComponent } from './pages/user/user.component';
 import { ProjectsDisplayComponent } from '@app/components/projects-display/projects-display.component';
 import { SocialButtonComponent } from './components/social-button/social-button.component';
 
-const routes: Routes = [
-  { path: 'home', component: HomeComponent },
-  { path: 'calendar', component: CalendarComponent },
-  { path: 'projects', component: ProjectsComponent },
-  { path: 'pictures', component: PicturesComponent },
-  { path: 'resources', component: ResourcesComponent },
-  { path: 'login', component: LoginComponent },
-  { path: 'signup', component: SignupComponent },
-  { path: 'scarlet-game-jam', component: ScarletGameJamComponent },
-  { path: 'user/:username', component: UserComponent },
-  { path: '', redirectTo: '/home', pathMatch: 'full' }
-]
+import { QuestionPanelComponent } from './components/question-panel/question-panel.component';
+import { ColumnLayoutComponent } from './components/column-layout/column-layout.component';
+import { EventHeaderComponent } from './components/event-header/event-header.component';
+
+import { MarkdownModule, MarkedOptions, MarkedRenderer } from 'ngx-markdown';
+import { MarkdownNavModule } from './modules/markdown-nav/markdown-nav.module';
+import { HttpClientModule } from '@angular/common/http';
+import { ArticlesComponent } from './pages/articles/articles.component';
+import { BlogComponent } from './pages/blog/blog.component';
+import { PaginatorComponent } from './components/paginator/paginator.component';
+import { ArticleItemComponent } from './components/article-item/article-item.component';
 
 @NgModule({
   declarations: [
@@ -120,6 +119,13 @@ const routes: Routes = [
     UserComponent,
     ProjectsDisplayComponent,
     SocialButtonComponent,
+    QuestionPanelComponent,
+    ColumnLayoutComponent,
+    EventHeaderComponent,
+    ArticlesComponent,
+    BlogComponent,
+    PaginatorComponent,
+    ArticleItemComponent,
   ],
   imports: [
     FormsModule,
@@ -145,7 +151,12 @@ const routes: Routes = [
     MatCheckboxModule,
     ReactiveFormsModule,
     HttpClientModule,
-    RouterModule.forRoot(routes),
+    HttpClientModule,
+    MarkdownNavModule,
+    MatButtonToggleModule,
+    MarkdownModule.forRoot({
+      sanitize: SecurityContext.NONE
+    })
   ],
   providers: [],
   bootstrap: [AppComponent]

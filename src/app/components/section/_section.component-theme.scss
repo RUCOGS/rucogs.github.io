@@ -3,7 +3,9 @@
 
 @mixin styles($background, $color) {
   &.app-section.bg {
-    background-color: $background;
+	  --background-color: #{$background};
+	  --transparent-background-color: #{rgba($background, 0.7)};
+    background-color: var(--background-color);
     color: $color;
   }
 }
@@ -25,7 +27,8 @@
   $warn: map.get($config, warn);
   $background: map.get($config, background);
   $foreground: map.get($config, foreground);
-	
+  $foreground-accent: map.get($config, foreground-accent);
+
   .blank {
     @include styles(
       mat.get-color-from-palette($background, background),
@@ -44,6 +47,10 @@
       @include level-palette-styles($accent, $level);
     }
 
+    .foreground-accent-#{$level} {
+      @include level-palette-styles($foreground-accent, $level);
+    }
+
     .warn-#{$level} {
       @include level-palette-styles($warn, $level);
     }
@@ -56,6 +63,10 @@
 	.accent {
     @include palette-styles($accent)
 	}
+
+  .foreground-accent {
+    @include palette-styles($foreground-accent);
+  }
 
 	.warn {
     @include palette-styles($warn)

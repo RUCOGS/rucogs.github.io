@@ -3,7 +3,6 @@
 }
 
 .bg {
-	margin-top: var(--site-header-height);
 	padding: var(--content-padding);
 }
 

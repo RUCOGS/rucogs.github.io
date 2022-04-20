@@ -1,0 +1,35 @@
+.footer {
+  margin: 32px 0 8px;
+
+  &-text {
+    display: block;
+    font-size: 13px;
+    padding-top: 4px;
+  }
+}
+
+.icon-large {
+  position: relative;
+  top: -5px;
+}
+
+.icon {
+  position: relative;
+  top: -2px;
+}
+
+.sticky {
+  position: sticky;
+  top: 80px;
+}
+
+.scrollup-button {
+  margin:14px;
+
+  &--fixed {
+    position: fixed;
+    bottom: 32px;
+    right: 32px;
+    z-index: 10;
+  }
+}

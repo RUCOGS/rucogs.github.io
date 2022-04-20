@@ -1,19 +1,21 @@
 :root {
-	--site-header-height: 72px;
+	--site-header-height: 64px;
 	--content-padding: 64px;
 	--dog-ear: 64px;
 	--dog-ear-padding: 64px;
-	--content-width: 80%;
+	--content-width: min(80%, 1480px);
+	--markdown-content-width: 1080px;
 }
 
 // TODO: Depreciate this with some universal breakpoint system that jives with Angular's BreakpointObserver
-$mobile-width: 1080px;
+$mobile-width: 1180px;
 
 /* Mobile values */
 @media screen and (max-width: $mobile-width) {
 	:root {
-		--content-width: auto;
-		--content-padding: 16px;
+		--content-width: 100%;
+		--markdown-content-width: 100%;
+		--content-padding: 32px;
 		--dog-ear-padding: 42px;
 		--dog-ear: 32px;
 	}
