@@ -74,12 +74,12 @@ def parse_existing_article_infos(text: str) -> List[ArticleInfo]:
 	article_infos = []
 
 	for matched_article_info in matched_article_infos:
-		tags = []
-		for matched_tag in re.findall(PARSE_STRING_ARRAY_REGEX, matched_article_info[5]):
-			tags.append(matched_tag)
 		authors = []
-		for matched_author in re.findall(PARSE_STRING_ARRAY_REGEX, matched_article_info[6]):
-			tags.append(matched_author)
+		for matched_author in re.findall(PARSE_STRING_ARRAY_REGEX, matched_article_info[5]):
+			authors.append(matched_author)
+		tags = []
+		for matched_tag in re.findall(PARSE_STRING_ARRAY_REGEX, matched_article_info[6]):
+			tags.append(matched_tag)
 		article_infos.append(ArticleInfo(
 			file_path=matched_article_info[0], 
 			title=matched_article_info[1], 
@@ -127,7 +127,7 @@ def get_article_paths_in_dir(path: str):
 		if entry.is_dir(follow_symlinks=False):
 			yield from get_article_paths_in_dir(entry.path)  # see below for Python 2.x
 		elif is_article(entry):
-			yield entry.path
+			yield entry.path.replace("\\", "/")
 
 
 
@@ -145,19 +145,40 @@ original_typescript_file_text = typescript_file.read()
 existing_article_infos_dict = parse_existing_article_infos_into_dict(original_typescript_file_text)
 
 article_infos = []
-current_images = set()
 
 for path in tqdm(article_paths, desc="Processing articles"):
 	
-	# Use existing ArticleInfo if it exists
-	# Note that images that are removed but still have ArticleInfo's will not be included,
-	# thus this automatically removes them.
-	relative_path = path.replace(ARTICLES_DIR, "")
-	if relative_path in existing_article_infos_dict:
-		article_infos.append(existing_article_infos_dict[relative_path])
-	else:
-		article_infos.append(ArticleInfo(file_path=relative_path))
-	current_images.add(get_file_name(path))
+	PARSE_ARTICLE_METADATA_REGEX = r"(?:(?:[\s\S]*?)<!--(?:[\s\S]*?)Title:(?:[\s]*)([\s\S]*?)\n(?:[\s\S]*?)Description:(?:[\s]*)([\s\S]*?)\n(?:[\s\S]*?)Date:(?:[\s]*)([\s\S]*?)\n(?:[\s\S]*?)Image:(?:[\s]*)([\s\S]*?)\n(?:[\s\S]*?)Authors:(?:[\s]*)([\s\S]*?)\n(?:[\s\S]*?)Tags:(?:[\s]*)([\s\S]*?)\n)";
+
+	"""
+Meta data format:
+
+<!-- METADATA ---
+	Title: 			The Big Markdown File
+	Description:	SOme description
+	Date:			March 29, 2022
+	Image:			assets/images /oof.png
+	Authors: 		Bob, Joe
+	Tags:			hello, asdf
+---------------->
+	"""
+	file = open(path, 'r')
+	file_text = file.read();
+	matched_article_infos = re.findall(PARSE_ARTICLE_METADATA_REGEX, file_text)[0]
+	
+	# Use get_base_name to remove extension
+	# We are assuming all articles are stored in markdown format
+	relative_path = get_base_name(path.replace(ARTICLES_DIR, ""))
+	
+	article_infos.append(ArticleInfo(
+		file_path=relative_path, 
+		title=matched_article_infos[0],
+		description=matched_article_infos[1],
+		date=matched_article_infos[2],
+		imagePath=matched_article_infos[3],
+		authors=matched_article_infos[4].split(", "),
+		tags=matched_article_infos[5].split(", ")
+	))
 
 ARTICLE_INFO_INSERTION_POINT_REGEX = r"([\s\S]*?export const BlogPageArticles = \[)(?:[\s\S]*)(\][\s\S]*)"
 

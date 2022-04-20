@@ -198,7 +198,6 @@ export class ProjectsComponent implements OnInit, AfterViewInit {
       let projectsWithRankings: ProjectWithRanking[] = [];
       for (let project of section.projects) {
         const projectSearchRanking = this.getProjectText(project).indexOf(searchText);
-        console.log("Project text: " + this.getProjectText(project) + " searching for: " + searchText + " index: " + projectSearchRanking);
         if (projectSearchRanking >= 0)
           projectsWithRankings.push(new ProjectWithRanking(project, projectSearchRanking));
       }

@@ -1,3 +1,12 @@
+<!--
+	Title: 			The Big Markdown File
+	Description:	SOme description
+	Date:			January 13, 2022
+	Image:			assets/images/sgj-logo-f2021.png
+	Authors: 		Bob, Joe
+	Tags:			hello, asdf
+-->
+
 # This is a test markdown file
 
 This is some text. Here's some more text.

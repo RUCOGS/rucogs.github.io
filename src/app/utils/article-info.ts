@@ -15,4 +15,10 @@ export class ArticleInfo {
   toString(): string {
     return `[${this.title}, ${this.description}, ${this.authors}, ${this.date}]`;
   }
+
+  getAuthorsString(): string {
+    if (this.authors.length === 0)
+      return "";
+    return "By: " + this.authors.join(", ");
+  }
 }

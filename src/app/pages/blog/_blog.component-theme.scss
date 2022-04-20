@@ -5,7 +5,7 @@
 @mixin color($config) {
   $foreground: map.get($config, background);
 
-  .app-projects.no-results-text {
+  .app-blog.no-results-text {
 	  color: mat.get-color-from-palette($foreground, disabled-button)
   }
 }

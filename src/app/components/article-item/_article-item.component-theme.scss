@@ -55,7 +55,7 @@
     background-color: $bg-color;
     border-color: $outline-color;
   
-    transition: transform .2s ease-in-out;
+    transition: transform .1s ease-out;
 
     &:hover {
       transform: scale(1.025);

@@ -18,6 +18,7 @@
 @use '../app/components/article-item/article-item.component-theme' as article-item;
 @use '../app/pages/projects/_projects.component-theme' as projects-page;
 @use '../app/pages/articles/articles.component-theme' as articles-page;
+@use '../app/pages/blog/blog.component-theme' as blog-page;
 
 @mixin theme($theme) {
   @include card.theme($theme);
@@ -40,4 +41,5 @@
   @include projects-page.theme($theme);
   @include articles-page.theme($theme);
   @include article-item.theme($theme);
+  @include blog-page.theme($theme);
 }

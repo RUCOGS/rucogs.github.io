@@ -1,3 +1,12 @@
+<!--
+	Title: 			The Big Markdown File
+	Description:	SOme description
+	Date:			July 29, 2022
+	Image:			assets/images/banner.png
+	Authors: 		Bob, Joe
+	Tags:			hello, asdf
+-->
+
 # This is a test markdown file
 
 This is some text. Here's some more text.

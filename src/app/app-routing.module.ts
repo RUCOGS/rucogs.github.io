@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
+import { Route, RouterModule, Routes, UrlMatchResult, UrlSegment, UrlSegmentGroup } from '@angular/router';
 import { CalendarComponent } from './pages/calendar/calendar.component';
 import { HomeComponent } from './pages/home/home.component';
 import { PicturesComponent } from './pages/pictures/pictures.component';
@@ -16,9 +16,22 @@ const routes: Routes = [
   { path: 'pictures', component: PicturesComponent },
   { path: 'resources', component: ResourcesComponent },
   { path: 'scarlet-game-jam', component: ScarletGameJamComponent },
-  { path: 'blog/:article', component: ArticlesComponent },
   { path: 'blog', component: BlogComponent },
-  { path: '', redirectTo: '/home', pathMatch: 'full' }
+  { 
+    matcher: (url: UrlSegment[]) => {
+      if (url.length > 1 && url[0].path === "blog") {
+        return {
+          consumed: url,
+          posParams: {
+            article: new UrlSegment(url.slice(1).join("/"), {})
+          }
+        };
+      }
+      return null;
+    }, component: ArticlesComponent 
+  },
+  { path: '', redirectTo: '/home', pathMatch: 'full' },
+  { path: '**', redirectTo: '/home', pathMatch: 'full' }
 ]
 
 @NgModule({
