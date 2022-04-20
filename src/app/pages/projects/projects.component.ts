@@ -185,6 +185,7 @@ export class ProjectsComponent implements OnInit, AfterViewInit {
     if (this.filterHeader === undefined)
       return;
     
+    searchText = searchText.toLowerCase();
     // We update the sorted sections
     this.updateSortedSections();
 

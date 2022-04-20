@@ -75,6 +75,8 @@ export class BlogComponent implements AfterViewInit {
     if (this.filterHeader === undefined)
       return;
 
+    searchText = searchText.toLowerCase();
+
     if (searchText === "") {
       this.filteredArticles = [...this.articles];
       this.filteredArticles.sort((a: ArticleInfo, b: ArticleInfo) => {
