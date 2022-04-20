@@ -20,7 +20,11 @@ export class ArticlesComponent implements OnInit {
     private activatedRoute: ActivatedRoute, 
     private markdownService: MarkdownService, 
     private elementRef: ElementRef<HTMLElement>
-  ) { }
+  ) { 
+    this.markdownService.renderer.link = (href: string, title: string, text: string) => {
+      return `<a href='${href}'` + (title ? `title='${title}'` : '') + `target='_blank'>${text}</a>`
+    }
+  }
 
   ngOnInit(): void {
     var articleParam = this.activatedRoute.snapshot.paramMap.get('article');
@@ -32,7 +36,6 @@ export class ArticlesComponent implements OnInit {
   }
 
   onLoad(): void {
-    this.stripContent();
     this.setHeadings();
   }
 
@@ -42,13 +45,6 @@ export class ArticlesComponent implements OnInit {
       .querySelectorAll('h2')
       .forEach(x => headings.push(x));
     this.headings = headings;
-  }
-
-  private stripContent(): void {
-    this.elementRef.nativeElement
-      .querySelector('markdown')!
-      .querySelectorAll('markdown > p:nth-child(-n + 2), #ngx-markdown, #table-of-contents + ul, #table-of-contents')
-      .forEach(x => x.remove());
   }
 
   getBgStyle(): Object {
