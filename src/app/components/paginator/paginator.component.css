@@ -1,9 +1,10 @@
-.container {
+:host {
 	align-items: flex-start;
 	display: flex;
 	flex-direction: row;
 	gap: 1em;
 	align-items: center;
+	justify-content: center;
 }
 
 .page-button {

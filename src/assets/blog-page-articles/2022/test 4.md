@@ -1,3 +1,12 @@
+<!--
+	Title: 			The Big Markdown File
+	Description:	SOme description
+	Date:			April 19, 2022
+	Image:			assets/images/wide-club.png
+	Authors: 		Bob, Joe
+	Tags:			hello, asdf
+-->
+
 # This is a test markdown file
 
 This is some text. Here's some more text.

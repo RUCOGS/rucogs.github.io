@@ -36,22 +36,11 @@ export class BlogComponent implements AfterViewInit {
     this.paginatorTop.currentPageChange.subscribe(this.onCurrentPageChange.bind(this));
     this.paginatorBottom.currentPageChange.subscribe(this.onCurrentPageChange.bind(this));
 
-    this.lastPage = Math.ceil(this.articles.length / this.articlesPerPage);
-
-    console.log("length " + this.articles.length + " articlesPerPage" + this.articlesPerPage + " last page: " + this.lastPage)
-    this.filteredArticles = this.articles;
-    this.filteredArticles.sort((a: ArticleInfo, b: ArticleInfo) => {
-      const dateA = new Date(a.date);
-      const dateB = new Date(b.date);
-      if (dateA < dateB)
-        return 1;
-      else if (dateA > dateB)
-        return -1;
-      else
-        return 0;
-    });
+    this.filteredArticles = [...this.articles];
 
     // Manually invoke to update the page
+    this.updateLastPage();
+    this.onNewSearchRequest("");
     this.onCurrentPageChange(1);
     this.changeDetector.detectChanges();
   }
@@ -74,14 +63,57 @@ export class BlogComponent implements AfterViewInit {
     for (let i = 0; i < this.articlesPerPage; i++) {
       // Actual pages are stored in an array,
       // which is zero indexed.
-      const pageIndex = this.currentPage - 1 + i;
+      const pageIndex = (this.currentPage - 1) * this.articlesPerPage + i;
       if (pageIndex >= this.filteredArticles.length)
         break;
       this.activeArticles.push(this.filteredArticles[pageIndex]);
     }
   }
 
-  onNewSearchRequest() {
-    
+  onNewSearchRequest(searchText: string) {
+    if (this.filterHeader === undefined)
+      return;
+
+    if (searchText === "") {
+      this.filteredArticles = [...this.articles];
+      this.filteredArticles.sort((a: ArticleInfo, b: ArticleInfo) => {
+        const dateA = new Date(a.date);
+        const dateB = new Date(b.date);
+        if (dateA < dateB)
+          return 1;
+        else if (dateA > dateB)
+          return -1;
+        else
+          return 0;
+      });
+    } else {
+      this.filteredArticles = [];
+      let articlesWithRankings: ArticleWithRanking[] = [];
+      for (let article of this.articles) {
+        const searchRanking = this.getArticleText(article).indexOf(searchText);
+        if (searchRanking >= 0)
+          articlesWithRankings.push(new ArticleWithRanking(article, searchRanking));
+      }
+      articlesWithRankings.sort((a: ArticleWithRanking, b: ArticleWithRanking) => {
+        return b.ranking - a.ranking;
+      });
+      this.filteredArticles = articlesWithRankings.map(x => x.article);
+    }
+
+    this.updateLastPage();
+    this.onCurrentPageChange(1);
   }
+
+  updateLastPage() {
+    this.lastPage = Math.ceil(this.filteredArticles.length / this.articlesPerPage);
+  }
+
+  // Text representation of an article
+  getArticleText(article: ArticleInfo): string {
+    return (article.title + " " + article.description + " " + article.date + " " + article.authors.join(" ") + " " + article.tags.join(" ")).toLowerCase();
+  }
+}
+
+class ArticleWithRanking {
+  constructor(public article: ArticleInfo, public ranking: number) {}
 }

@@ -34,7 +34,15 @@ export class PaginatorComponent implements AfterViewInit {
     return this._currentPage;
   }
 
-  @Input() lastPage: number = 1;
+  private _lastPage: number = 1;
+  @Input() set lastPage(value: number) {
+    this._lastPage = value;
+    this.updatePagesAheadBehind();
+  }
+
+  get lastPage() {
+    return this._lastPage;
+  }
 
   pagesAhead: number[] = [];
   pagesBehind: number[] = [];

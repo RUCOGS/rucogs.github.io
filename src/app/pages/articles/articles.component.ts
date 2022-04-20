@@ -1,6 +1,7 @@
-import { Component, ElementRef, OnInit } from '@angular/core';
+import { Component, ElementRef, Input, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { BlogPageArticlesDir } from '@app/utils/blog-page-articles';
+import { ArticleInfo } from '@app/utils/article-info';
+import { BlogPageArticles, BlogPageArticlesDir } from '@app/utils/blog-page-articles';
 import { MarkdownService } from 'ngx-markdown';
 
 @Component({
@@ -10,7 +11,8 @@ import { MarkdownService } from 'ngx-markdown';
 })
 export class ArticlesComponent implements OnInit {
 
-  article: string = "";
+  @Input() article: ArticleInfo | undefined;
+  articles: ArticleInfo[] = BlogPageArticles;
   headings: Element[] | undefined;
   articlesDir: string = BlogPageArticlesDir;
 
@@ -25,7 +27,9 @@ export class ArticlesComponent implements OnInit {
   ngOnInit(): void {
     var articleParam = this.activatedRoute.snapshot.paramMap.get('article');
     if (articleParam) {
-      this.article = articleParam;
+      // TODO: Change in future to not store .md in url in the first place
+      const articleFilePath = decodeURIComponent(articleParam);
+      this.article = this.articles.find(x => x.filePath == articleFilePath);
     }
   }
 
@@ -37,7 +41,7 @@ export class ArticlesComponent implements OnInit {
   private setHeadings(): void {
     const headings: Element[] = [];
     this.elementRef.nativeElement
-      .querySelectorAll('h1')
+      .querySelectorAll('h2')
       .forEach(x => headings.push(x));
     this.headings = headings;
   }

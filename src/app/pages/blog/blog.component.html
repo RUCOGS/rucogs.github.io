@@ -3,11 +3,14 @@
   
   <app-filter-header searchBar></app-filter-header>
 
-  <app-paginator #paginatorTop [lastPage]="lastPage"></app-paginator>
+  <app-paginator #paginatorTop class="app-blog paginator" [lastPage]="lastPage"></app-paginator>
   
-  <div class="articles-container">
+  <div class="app-blog articles-container">
+    <div *ngIf="activeArticles.length === 0">
+      <h1 class="app-blog no-results-text">No results found...</h1>
+    </div>
     <app-article-item *ngFor="let article of activeArticles" [article]="article"></app-article-item>
   </div>
-  
-  <app-paginator #paginatorBottom [lastPage]="lastPage"></app-paginator>
+
+  <app-paginator #paginatorBottom class="app-blog paginator" [lastPage]="lastPage"></app-paginator>
 </app-bg-container>
