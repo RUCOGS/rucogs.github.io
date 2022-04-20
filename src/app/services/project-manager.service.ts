@@ -1,6 +1,7 @@
 import { ConnectedOverlayPositionChange } from '@angular/cdk/overlay';
 import { Injectable } from '@angular/core';
-import { ProjectMember, Project } from '@app/utils/project';
+import { Project } from '@app/utils/project';
+import { User } from '@app/utils/user';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -49,41 +50,8 @@ export class ProjectManagerService {
           if (xhr.status == 200) {
             var responseObj = JSON.parse(xhr.responseText);
             var arr: Project[] = [];
-            var members = responseObj.members_info.reduce(function(map, member: ProjectMember) {
-              map[member.member_id] = member;
-              return map;
-            }, {});
-
-            for (let project of responseObj.projects_finished) {
-              var currentMembers: ProjectMember[] = [];
-              for (let memberRef of responseObj.project_finished_members) {
-                if (memberRef.project_id === project.project_id)
-                  currentMembers.push(members[memberRef.member_id]);
-              }
-              var imageExistsResult = await imageExists(project.image_url)
-              arr.push(new Project(
-                project.name, 
-                project.description, 
-                project.link, 
-                imageExistsResult ? project.image_url : "", 
-                project.finished_year, 
-                currentMembers,
-                true,
-              ));
-            }
-
-            for (let project of responseObj.projects) {
-              var imageExistsResult = await imageExists(project.image_url)
-              arr.push(new Project(
-                project.title, 
-                project.description, 
-                project.link, 
-                imageExistsResult ? project.image_url : "", 
-                project.year, 
-                [],
-                false
-              ));
-            }
+            
+            // TODO: Parse project using new system
 
             observer.next(arr);
             observer.complete();

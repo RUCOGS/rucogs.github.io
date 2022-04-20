@@ -8,6 +8,9 @@ import { ResourcesComponent } from './pages/resources/resources.component';
 import { ScarletGameJamComponent } from './pages/scarlet-game-jam/scarlet-game-jam.component';
 import { ArticlesComponent } from './pages/articles/articles.component';
 import { BlogComponent } from './pages/blog/blog.component';
+import { LoginComponent } from './pages/login/login.component';
+import { SignupComponent } from './pages/signup/signup.component';
+import { UserComponent } from './pages/user/user.component';
 
 const routes: Routes = [
   { path: 'home', component: HomeComponent },
@@ -30,6 +33,9 @@ const routes: Routes = [
       return null;
     }, component: ArticlesComponent 
   },
+  { path: 'login', component: LoginComponent },
+  { path: 'signup', component: SignupComponent },
+  { path: 'user', component: UserComponent },
   { path: '', redirectTo: '/home', pathMatch: 'full' },
   { path: '**', redirectTo: '/home', pathMatch: 'full' }
 ]

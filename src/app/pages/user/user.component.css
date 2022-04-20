@@ -65,7 +65,6 @@
 .main-bg {
 	position: relative;
 	box-sizing: border-box;
-	padding-top: var(--site-header-height);
 }
 
 .content-width-padding {
