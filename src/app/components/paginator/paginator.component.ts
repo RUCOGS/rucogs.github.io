@@ -1,4 +1,4 @@
-import { AfterViewInit, ChangeDetectorRef, Component, Input, OnInit, Output, ViewChild, EventEmitter } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, Input, OnInit, Output, ViewChild, EventEmitter, Optional, ElementRef, Attribute, HostBinding } from '@angular/core';
 import { MatButtonToggle } from '@angular/material/button-toggle';
 import { MatInput } from '@angular/material/input';
 
@@ -12,8 +12,8 @@ export class PaginatorComponent implements AfterViewInit {
   private _currentPage: number = 1;
 
   @Output() currentPageChange = new EventEmitter<number>();
-
   @ViewChild('currentPageToggle') currentPageToggle : MatButtonToggle | undefined;
+  @Input() pageNumberInput: boolean = false;
 
   @Input() set currentPage(value: number) {
     this._currentPage = value;
@@ -49,7 +49,12 @@ export class PaginatorComponent implements AfterViewInit {
 
   toggleGroupValue: string = "";
 
-  constructor(private changeDetector: ChangeDetectorRef) { }
+  constructor(private changeDetector: ChangeDetectorRef,
+    @Optional() @Attribute("pageNumberInput") pageNumberInput: any
+  ) {
+    if (!this.pageNumberInput)
+      this.pageNumberInput = pageNumberInput != undefined;
+  }
 
   ngAfterViewInit(): void {
     this.updatePagesAheadBehind();
