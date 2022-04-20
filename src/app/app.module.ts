@@ -67,6 +67,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { ArticlesComponent } from './pages/articles/articles.component';
 import { BlogComponent } from './pages/blog/blog.component';
 import { PaginatorComponent } from './components/paginator/paginator.component';
+import { ArticleItemComponent } from './components/article-item/article-item.component';
 
 @NgModule({
   declarations: [
@@ -109,6 +110,7 @@ import { PaginatorComponent } from './components/paginator/paginator.component';
     ArticlesComponent,
     BlogComponent,
     PaginatorComponent,
+    ArticleItemComponent,
   ],
   imports: [
     FormsModule,

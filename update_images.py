@@ -3,6 +3,7 @@
 # The packages needed for running this file are stored under "requirements.txt"
 # Run 'pip install -r requirements.txt' from this repository's folder to install the dependendecies.
 
+import shutil
 from PIL import Image, ImageFilter
 from typing import List, Dict
 from tqdm import tqdm
@@ -11,7 +12,7 @@ import os
 import re
 
 IMAGE_FILE_EXTENSIONS = [ "png", "jpg", "jpeg", "gif" ]
-PICTURES_PAGE_IMAGES_DIR = "src/assets/pictures-page-images"
+PICTURES_PAGE_IMAGES_DIR = "src/assets/pictures-page-images/"
 PICTURES_PAGE_IMAGES_TYPESCRIPT_FILE = "src/app/utils/picture-page-images.ts"
 
 class ImageInfo:
@@ -94,6 +95,42 @@ def sqaure_crop(image: Image) -> Image:
 	# Crop the center of the image
 	return image.crop((left, top, right, bottom))
 
+def get_image_paths_in_dir(path: str):
+	"""Recursively finds all articles"""
+	if get_file_name(path) == "previews":
+		return
+	for entry in os.scandir(path):
+		if entry.is_dir(follow_symlinks=False):
+			yield from get_image_paths_in_dir(entry.path)  # see below for Python 2.x
+		elif is_image(entry):
+			yield entry.path
+
+
+def check_previews_dir_helper(path: str):
+	for entry in os.scandir(path):
+		if entry.is_dir(follow_symlinks=False):
+			main_dir_path = entry.path.replace(PICTURES_PAGE_IMAGES_DIR + "previews/", PICTURES_PAGE_IMAGES_DIR)
+			if not os.path.isdir(main_dir_path):
+				shutil.rmtree(entry.path)
+				# Skip because we've deleted this directory as it does not exist in main
+				continue
+			check_previews_dir_helper(entry.path)
+
+def check_main_dir_helper(path: str):
+	for entry in os.scandir(path):
+		if entry.is_dir(follow_symlinks=False):
+			if get_file_name(entry.path) == "previews":
+				continue
+			previews_dir_path = entry.path.replace(PICTURES_PAGE_IMAGES_DIR, PICTURES_PAGE_IMAGES_DIR + "previews/")
+			if not os.path.isdir(previews_dir_path):
+				os.mkdir(previews_dir_path)
+			check_main_dir_helper(entry.path)  # see below for Python 2.x
+
+def update_preview_dir_structure():
+	# Add missing directories
+	check_main_dir_helper(PICTURES_PAGE_IMAGES_DIR)
+	# Delete nonexistant directories
+	check_previews_dir_helper(PICTURES_PAGE_IMAGES_DIR + "previews/")
 
 
 
@@ -102,9 +139,7 @@ def sqaure_crop(image: Image) -> Image:
 print("Begin updating picture page images...")
 start_time = time.perf_counter()
 
-image_paths = [entry.path for entry \
-	in os.scandir(PICTURES_PAGE_IMAGES_DIR) \
-	if is_image(entry)]
+image_paths = list(get_image_paths_in_dir(PICTURES_PAGE_IMAGES_DIR))
 
 image_paths.sort()
 
@@ -114,6 +149,8 @@ existing_image_infos_dict = parse_existing_image_infos_into_dict(original_typesc
 
 image_infos = []
 current_images = set()
+
+update_preview_dir_structure()
 
 for path in tqdm(image_paths, desc="Processing images"):
 	image = None
@@ -129,7 +166,7 @@ for path in tqdm(image_paths, desc="Processing images"):
 	
 	
 	# Generate preview if it does not exist
-	preview_path = PICTURES_PAGE_IMAGES_DIR + "/previews/" + get_file_name(path) + ".png"
+	preview_path = get_base_name(path).replace(PICTURES_PAGE_IMAGES_DIR, PICTURES_PAGE_IMAGES_DIR + "previews/") + ".png"
 	if not os.path.isfile(preview_path):
 		if image is None:
 			image = Image.open(path)
@@ -140,21 +177,26 @@ for path in tqdm(image_paths, desc="Processing images"):
 	# Use existing ImageInfo if it exists
 	# Note that images that are removed but still have ImageInfo's will not be included,
 	# thus this automatically removes them.
-	relative_path = get_file_name(path) + ".png"
+	relative_path = get_base_name(path.replace(PICTURES_PAGE_IMAGES_DIR, "")).replace("\\", "/") + ".png"
 	if relative_path in existing_image_infos_dict:
 		image_infos.append(existing_image_infos_dict[relative_path])
 	else:
 		image_infos.append(ImageInfo(file_path=relative_path))
-	current_images.add(get_file_name(path))
+	current_images.add(relative_path)
 
 # Delete all previews for images that no longer exist
-preview_file_entries = [entry for entry in os.scandir(PICTURES_PAGE_IMAGES_DIR + "/previews")]
+preview_file_entries = [entry for entry in os.scandir(PICTURES_PAGE_IMAGES_DIR + "previews/")]
 for entry in tqdm(preview_file_entries, desc="Delete redundant previews"):
 	time.sleep(0.001)
-	if not get_file_name(entry.path) in current_images:
+	if entry.is_dir(follow_symlinks=False):
+		for entry in os.scandir(entry.path):
+			preview_file_entries.append(entry)
+		continue
+	relative_path = entry.path.replace(PICTURES_PAGE_IMAGES_DIR + "previews/", "").replace("\\", "/")
+	if not relative_path in current_images:
 		os.remove(entry.path)
 
-IMAGE_INFO_INSERTION_POINT_REGEX = r"([\s\S]*?export const PicturePageImages = \[)(?:[\s\S]*)(\][\s\S]*)"
+IMAGE_INFO_INSERTION_POINT_REGEX = r"([\s\S]*?export const PicturesPageImages = \[)(?:[\s\S]*)(\][\s\S]*)"
 
 insertion_point_matches = re.findall(IMAGE_INFO_INSERTION_POINT_REGEX, original_typescript_file_text)
 # Text before the insertion point.
@@ -173,6 +215,7 @@ generated_typescript_text += second_half
 
 typescript_file.seek(0)
 typescript_file.write(generated_typescript_text)
+typescript_file.truncate()
 typescript_file.close()
 
 time_taken = time.perf_counter() - start_time

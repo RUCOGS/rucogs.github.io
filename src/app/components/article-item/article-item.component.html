@@ -1,0 +1,11 @@
+<a class="app-article-item card blank" (click)="onClick()">
+  <div class="app-article-item article-image" [hidden]="article.imagePath == ''" style="background-image: url('{{this.article.imagePath}}')"></div>
+  <div class="app-article-item card-content">
+    <h1>{{article.title}}</h1>
+    <div class="app-article-item subtitle-container">
+      <div class="app-article-item authors">{{getAuthorsString()}}</div>
+      <div>{{article.date}}</div>
+    </div>
+    <p>{{article.description}}</p>
+  </div>
+</a>
