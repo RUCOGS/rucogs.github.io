@@ -1,0 +1,14 @@
+<div fxLayout="row" fxLayoutGap="40px">
+  <div fxFlex="1 1 calc(100% - 220px)">
+    <ng-content></ng-content>
+    <button class="scrollup-button--fixed" mat-fab color="primary" fxHide.gt-sm (click)="onScrollUp()" *ngIf="showScrollUpButton" [@zoomAnimation]>
+      <span class="icon-large" data-height="32px" class="app-button iconify icon" data-icon="bxs:chevron-up"></span>
+    </button>
+  </div>
+  <div class="sticky" fxLayout="column" fxFlex="1 0 180px" fxFlexAlign="flex-start" fxHide.lt-md>
+    <app-scrollspy-nav [headings]="headings"></app-scrollspy-nav>
+    <button class="scrollup-button" mat-mini-fab color="primary" (click)="onScrollUp()" *ngIf="showScrollUpButton" [@zoomAnimation]>
+      <span class="icon" data-height="24px" class="app-button iconify icon" data-icon="bxs:chevron-up"></span>
+    </button>
+  </div>
+</div>

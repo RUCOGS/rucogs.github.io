@@ -1,16 +1,21 @@
 <app-card>
-  <h2 class="mb-8">{{title}}</h2>
-  <div class="mb-16" style="width: 100%; display: flex; flex: row;">
-    <app-tag-container style="text-align: left; flex: 1;">
-      <app-tag color="primary">{{date}}</app-tag>
-      <app-tag color="warn">{{time}}</app-tag>
-    <app-tag color="accent">{{type}}</app-tag>
-    </app-tag-container>
-  </div>
-  <p class="mb-16">
-    <ng-content></ng-content>
-  </p>
-  <div style="max-width: 300px;">
-    <app-button *ngIf="eventPage != ''" [link]="eventPage" target="_blank" color="primary">📃 Event Page</app-button>
-  </div>
+  <app-column-layout>
+    <div>
+      <h2 class="mb-8">{{title}}</h2>
+      <div class="mb-16" style="width: 100%; display: flex; flex: row;">
+        <app-tag-container style="text-align: left; flex: 1;">
+          <app-tag color="primary">{{date}}</app-tag>
+          <app-tag color="warn">{{time}}</app-tag>
+        <app-tag color="accent">{{type}}</app-tag>
+        </app-tag-container>
+      </div>
+      <p class="mb-0">
+        <ng-content></ng-content>
+      </p>
+      <div class="mt-16" style="max-width: 300px;" *ngIf="eventPage != ''">
+        <app-button [link]="eventPage" target="_blank" color="primary">📃 Event Page</app-button>
+      </div>
+    </div>
+    <ng-content select="[rightHalf]"></ng-content>
+  </app-column-layout>
 </app-card>

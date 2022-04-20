@@ -6,7 +6,7 @@
   $foreground: map.get($config, background);
 
   .app-projects.no-results-text {
-	color: mat.get-color-from-palette($foreground, disabled-button)
+	  color: mat.get-color-from-palette($foreground, disabled-button)
   }
 }
 

@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { PicturePageImages, ImageInfo} from '@utils/picture-page-images'
+import { PicturesPageImages, PicturesPageImagePreviewsDir, PicturesPageImagesDir } from '@app/utils/pictures-page-images'
+import { ImageInfo } from "@app/utils/image-info";
 
 @Component({
   selector: 'app-pictures',
@@ -11,7 +12,9 @@ import { PicturePageImages, ImageInfo} from '@utils/picture-page-images'
 })
 export class PicturesComponent implements OnInit {
 
-  images: ImageInfo[] = PicturePageImages;
+  images: ImageInfo[] = PicturesPageImages;
+  imagesDir: string = PicturesPageImagesDir;
+  previewsDir: string = PicturesPageImagePreviewsDir;
 
   constructor() { 
   

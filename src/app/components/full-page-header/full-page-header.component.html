@@ -2,4 +2,13 @@
   <div class="app-full-page-header content">
     <ng-content></ng-content>
   </div>
+  <button class="app-full-page-header scroll-button" mat-icon-button onclick="
+    window.scrollBy({ 
+      top: window.innerHeight / 2,
+      left: 0, 
+      behavior: 'smooth' 
+    });
+  ">
+    <span class="app-full-page-header scroll-icon iconify {{color}}" data-height="42px" data-icon="bi:arrow-down-circle-fill"></span>
+  </button>
 </div>

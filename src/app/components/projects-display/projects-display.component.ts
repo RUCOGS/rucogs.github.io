@@ -94,10 +94,10 @@ export class ProjectsDisplayComponent implements AfterViewInit, OnChanges {
       case "year": {
         newSortedSections = this.getSortedSectionsFromProjects<number>(this.projects, 
           (a: Project) => {
-            return a.year;
+            return a.creationDate.getFullYear();
           },
           (a: Project) => {
-            return a.year.toString();
+            return a.creationDate.getFullYear().toString();
           },
           (a: number, b: number) => {
             return b - a;
@@ -183,6 +183,7 @@ export class ProjectsDisplayComponent implements AfterViewInit, OnChanges {
     if (this.filterHeader === undefined)
       return;
     
+    searchText = searchText.toLowerCase();
     // We update the sorted sections
     this.updateSortedSections();
 

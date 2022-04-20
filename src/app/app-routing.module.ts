@@ -1,10 +1,44 @@
 import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
+import { Route, RouterModule, Routes, UrlMatchResult, UrlSegment, UrlSegmentGroup } from '@angular/router';
+import { CalendarComponent } from './pages/calendar/calendar.component';
+import { HomeComponent } from './pages/home/home.component';
+import { PicturesComponent } from './pages/pictures/pictures.component';
+import { ProjectsComponent } from './pages/projects/projects.component';
+import { ResourcesComponent } from './pages/resources/resources.component';
+import { ScarletGameJamComponent } from './pages/scarlet-game-jam/scarlet-game-jam.component';
+import { ArticlesComponent } from './pages/articles/articles.component';
+import { BlogComponent } from './pages/blog/blog.component';
 
-const routes: Routes = [];
+const routes: Routes = [
+  { path: 'home', component: HomeComponent },
+  { path: 'calendar', component: CalendarComponent },
+  { path: 'projects', component: ProjectsComponent },
+  { path: 'pictures', component: PicturesComponent },
+  { path: 'resources', component: ResourcesComponent },
+  { path: 'scarlet-game-jam', component: ScarletGameJamComponent },
+  { path: 'blog', component: BlogComponent },
+  { 
+    matcher: (url: UrlSegment[]) => {
+      if (url.length > 1 && url[0].path === "blog") {
+        return {
+          consumed: url,
+          posParams: {
+            article: new UrlSegment(url.slice(1).join("/"), {})
+          }
+        };
+      }
+      return null;
+    }, component: ArticlesComponent 
+  },
+  { path: '', redirectTo: '/home', pathMatch: 'full' },
+  { path: '**', redirectTo: '/home', pathMatch: 'full' }
+]
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(routes, { 
+    scrollPositionRestoration: 'enabled',
+    anchorScrolling: 'enabled' 
+  })],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }

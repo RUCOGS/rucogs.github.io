@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { SettingsService } from '_settings';
 
 @Component({
   selector: 'app-footer-social-media-buttons',
@@ -7,7 +8,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class FooterSocialMediaButtonsComponent implements OnInit {
 
-  constructor() { }
+  constructor(public settings: SettingsService) { }
 
   ngOnInit(): void {
   }
