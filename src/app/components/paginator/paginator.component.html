@@ -15,7 +15,7 @@
     <span class="icon" data-height="24px" class="iconify icon" data-icon="fluent:arrow-export-ltr-16-filled"></span>
   </mat-button-toggle>
 </mat-button-toggle-group>
-<mat-form-field class="page-number-input" appearance="fill">
+<mat-form-field *ngIf="pageNumberInput" class="page-number-input" appearance="fill">
   <mat-label>Page Number</mat-label>
   <input matInput type="number" value="0" min="1" [max]="lastPage" [(ngModel)]="currentPage">
 </mat-form-field>

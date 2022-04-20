@@ -1,6 +1,7 @@
 import { AfterViewInit, ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { FilterHeaderComponent } from '@app/components/filter-header/filter-header.component';
 import { PaginatorComponent } from '@app/components/paginator/paginator.component';
+import { BreakpointManagerService } from '@app/services/breakpoint-manager.service';
 import { ArticleInfo } from '@app/utils/article-info';
 import { BlogPageArticles } from '@app/utils/blog-page-articles';
 
@@ -22,7 +23,7 @@ export class BlogComponent implements AfterViewInit {
   lastPage: number = 10;
   articlesPerPage: number = 5;
 
-  constructor(private changeDetector: ChangeDetectorRef) {}
+  constructor(private changeDetector: ChangeDetectorRef, public breakpointManager: BreakpointManagerService) {}
 
   ngAfterViewInit(): void {
     if (!this.filterHeader || !this.paginatorBottom || !this.paginatorTop)
@@ -111,6 +112,10 @@ export class BlogComponent implements AfterViewInit {
   // Text representation of an article
   getArticleText(article: ArticleInfo): string {
     return (article.title + " " + article.description + " " + article.date + " " + article.authors.join(" ") + " " + article.tags.join(" ")).toLowerCase();
+  }
+
+  onDesktop(): boolean {
+    return this.breakpointManager.currentBreakpoint == 'desktop';
   }
 }
 

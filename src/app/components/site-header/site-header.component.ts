@@ -12,7 +12,6 @@ import { SettingsService } from '_settings';
 export class SiteHeaderComponent implements OnInit {
 
   scrolled: boolean = false;
-  breakpointState: string = "desktop";
 
   constructor(public breakpointManager: BreakpointManagerService, public settings: SettingsService) { }
 

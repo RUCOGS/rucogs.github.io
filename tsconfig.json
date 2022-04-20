@@ -7,6 +7,7 @@
 	  "paths": {
       "@app/*": ["app/*"],
 	    "@components/*": ["app/components/*"],
+      "@modules/*": ["app/modules/*"],
 	    "@pages/*": ["app/pages/*"],
 	    "@services/*": ["app/services/*"],
 	    "@utils/*": ["app/utils/*"],

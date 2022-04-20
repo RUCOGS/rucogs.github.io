@@ -16,8 +16,6 @@ export class ArticlesComponent implements OnInit {
   headings: Element[] | undefined;
   articlesDir: string = BlogPageArticlesDir;
 
-  bgImage: string = "assets/images/wide-club-interlaced.png";
-
   constructor(
     private activatedRoute: ActivatedRoute, 
     private markdownService: MarkdownService, 
@@ -55,7 +53,7 @@ export class ArticlesComponent implements OnInit {
 
   getBgStyle(): Object {
     return { 
-      'background-image': 'linear-gradient(to bottom, var(--background-color), #00000000), url(' + this.bgImage + ')'
+      'background-image': 'linear-gradient(to bottom, var(--background-color), #00000000), url(' + this.article?.imagePath + ')'
     }
   }
 }

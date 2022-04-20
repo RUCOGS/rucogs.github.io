@@ -61,7 +61,7 @@ import { QuestionPanelComponent } from './components/question-panel/question-pan
 import { ColumnLayoutComponent } from './components/column-layout/column-layout.component';
 import { EventHeaderComponent } from './components/event-header/event-header.component';
 
-import { MarkdownModule } from 'ngx-markdown';
+import { MarkdownModule, MarkedOptions, MarkedRenderer } from 'ngx-markdown';
 import { MarkdownNavModule } from './modules/markdown-nav/markdown-nav.module';
 import { HttpClientModule } from '@angular/common/http';
 import { ArticlesComponent } from './pages/articles/articles.component';
