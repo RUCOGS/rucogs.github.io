@@ -1,0 +1,16 @@
+<app-page-header title="Blog"></app-page-header>
+<app-bg-container color="blank">
+  
+  <app-filter-header searchBar></app-filter-header>
+
+  <app-paginator #paginatorTop class="app-blog paginator" [lastPage]="lastPage" [pageNumberInput]="breakpointManager.currentBreakpoint === 'desktop'"></app-paginator>
+  
+  <div class="app-blog articles-container">
+    <div *ngIf="activeArticles.length === 0">
+      <h1 class="app-blog no-results-text">No results found...</h1>
+    </div>
+    <app-article-item *ngFor="let article of activeArticles" [article]="article"></app-article-item>
+  </div>
+
+  <app-paginator #paginatorBottom class="app-blog paginator" [lastPage]="lastPage" [pageNumberInput]="breakpointManager.currentBreakpoint === 'desktop'"></app-paginator>
+</app-bg-container>

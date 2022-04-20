@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ContentChildren, Input, OnInit, Output, QueryList, EventEmitter } from '@angular/core';
+import { AfterViewInit, Component, ContentChildren, Input, OnInit, Output, QueryList, EventEmitter, Optional, Attribute } from '@angular/core';
 import { MatOption } from '@angular/material/core';
 
 @Component({
@@ -16,11 +16,23 @@ export class FilterHeaderComponent implements OnInit, AfterViewInit {
   @Input() sortingMode: string = "";
   @Input() searchText: string = "";
   @Input() sortAscending: boolean = true;
+
+  searchBar: boolean = false;
+  filterOptions: boolean = false;
+  ascendingToggle: boolean = false;
   
   sortingModes: SortingMode[] = [];
   afterViewInitialized: boolean = false;
 
-  constructor() {}
+  constructor(
+    @Optional() @Attribute('searchBar') searchBar: any,
+    @Optional() @Attribute('filterOptions') filterOptions: any,
+    @Optional() @Attribute('ascendingToggle') ascendingToggle: any
+  ) {
+    this.searchBar = searchBar != undefined;
+    this.filterOptions = filterOptions != undefined;
+    this.ascendingToggle = ascendingToggle != undefined;
+  }
 
   ngOnInit(): void {
   }

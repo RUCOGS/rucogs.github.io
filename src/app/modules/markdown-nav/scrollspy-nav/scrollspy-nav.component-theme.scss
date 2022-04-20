@@ -1,0 +1,24 @@
+@use 'sass:map';
+@use 'sass:color';
+@use '@angular/material' as mat;
+
+@mixin theme($theme) {
+  $primary: map.get($theme, primary);
+  $foreground: map.get($theme, foreground);
+
+  ul.scrollspy-nav {
+
+    li {
+      border-left: 2px solid mat.get-color-from-palette($primary, 500);
+      box-shadow: inset 1px 0 0 mat.get-color-from-palette($primary, 500);
+
+      &:not(.active) {
+        box-shadow: inset 1px 0 0 mat.get-color-from-palette($foreground, text);
+
+        a:not(:hover) {
+          color: mat.get-color-from-palette($foreground, text);
+        }
+      }
+    }
+  }
+}

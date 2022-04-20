@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, SecurityContext } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { LayoutModule } from '@angular/cdk/layout';
 
@@ -24,6 +24,7 @@ import { MatListModule } from '@angular/material/list';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatSelectModule } from '@angular/material/select';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
 
 import { HomeComponent } from '@pages/home/home.component';
 import { CalendarComponent } from '@pages/calendar/calendar.component';
@@ -59,6 +60,14 @@ import { SubSectionComponent } from './components/sub-section/sub-section.compon
 import { QuestionPanelComponent } from './components/question-panel/question-panel.component';
 import { ColumnLayoutComponent } from './components/column-layout/column-layout.component';
 import { EventHeaderComponent } from './components/event-header/event-header.component';
+
+import { MarkdownModule, MarkedOptions, MarkedRenderer } from 'ngx-markdown';
+import { MarkdownNavModule } from './modules/markdown-nav/markdown-nav.module';
+import { HttpClientModule } from '@angular/common/http';
+import { ArticlesComponent } from './pages/articles/articles.component';
+import { BlogComponent } from './pages/blog/blog.component';
+import { PaginatorComponent } from './components/paginator/paginator.component';
+import { ArticleItemComponent } from './components/article-item/article-item.component';
 
 @NgModule({
   declarations: [
@@ -98,6 +107,10 @@ import { EventHeaderComponent } from './components/event-header/event-header.com
     QuestionPanelComponent,
     ColumnLayoutComponent,
     EventHeaderComponent,
+    ArticlesComponent,
+    BlogComponent,
+    PaginatorComponent,
+    ArticleItemComponent,
   ],
   imports: [
     FormsModule,
@@ -120,7 +133,13 @@ import { EventHeaderComponent } from './components/event-header/event-header.com
     MatListModule,
     MatDividerModule,
     MatSelectModule,
-    MatCheckboxModule
+    MatCheckboxModule,
+    HttpClientModule,
+    MarkdownNavModule,
+    MatButtonToggleModule,
+    MarkdownModule.forRoot({
+      sanitize: SecurityContext.NONE
+    })
   ],
   providers: [],
   bootstrap: [AppComponent]

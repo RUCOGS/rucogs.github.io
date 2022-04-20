@@ -1,278 +1,271 @@
-export class ImageInfo {
-  public filePath: string;
-  public description: string;
-  public tags: string[];
+import { ImageInfo } from "./image-info";
 
-  public constructor(filePath: string, description: string = "", tags: string[] = []) {
-    this.filePath = filePath;
-    this.description = description;
-    this.tags = tags;
-  }
-}
+export const PicturesPageImagesDir = "assets/pictures-page-images/";
+export const PicturesPageImagePreviewsDir = "assets/pictures-page-images/previews/";
 
-export const PicturePageImages = [
+export const PicturesPageImages = [
   new ImageInfo(
-    /* File path   */ "10.png",
+    /* File path   */ "2021/fall/10.png",
     /* Description */ "",
     /* Tags        */ [],
   ),
   new ImageInfo(
-    /* File path   */ "11.png",
+    /* File path   */ "2021/fall/11.png",
     /* Description */ "",
     /* Tags        */ [],
   ),
   new ImageInfo(
-    /* File path   */ "12.png",
+    /* File path   */ "2021/fall/12.png",
     /* Description */ "",
     /* Tags        */ [],
   ),
   new ImageInfo(
-    /* File path   */ "13.png",
+    /* File path   */ "2021/fall/13.png",
     /* Description */ "",
     /* Tags        */ [],
   ),
   new ImageInfo(
-    /* File path   */ "14.png",
+    /* File path   */ "2021/fall/14.png",
     /* Description */ "",
     /* Tags        */ [],
   ),
   new ImageInfo(
-    /* File path   */ "15.png",
+    /* File path   */ "2021/fall/15.png",
     /* Description */ "",
     /* Tags        */ [],
   ),
   new ImageInfo(
-    /* File path   */ "16.png",
+    /* File path   */ "2021/fall/16.png",
     /* Description */ "",
     /* Tags        */ [],
   ),
   new ImageInfo(
-    /* File path   */ "17.png",
+    /* File path   */ "2021/fall/17.png",
     /* Description */ "",
     /* Tags        */ [],
   ),
   new ImageInfo(
-    /* File path   */ "18.png",
+    /* File path   */ "2021/fall/18.png",
     /* Description */ "",
     /* Tags        */ [],
   ),
   new ImageInfo(
-    /* File path   */ "19.png",
+    /* File path   */ "2021/fall/19.png",
     /* Description */ "",
     /* Tags        */ [],
   ),
   new ImageInfo(
-    /* File path   */ "20.png",
+    /* File path   */ "2021/fall/20.png",
     /* Description */ "",
     /* Tags        */ [],
   ),
   new ImageInfo(
-    /* File path   */ "21.png",
+    /* File path   */ "2021/fall/21.png",
     /* Description */ "",
     /* Tags        */ [],
   ),
   new ImageInfo(
-    /* File path   */ "22.png",
+    /* File path   */ "2021/fall/22.png",
     /* Description */ "",
     /* Tags        */ [],
   ),
   new ImageInfo(
-    /* File path   */ "23.png",
+    /* File path   */ "2021/fall/23.png",
     /* Description */ "",
     /* Tags        */ [],
   ),
   new ImageInfo(
-    /* File path   */ "24.png",
+    /* File path   */ "2021/fall/24.png",
     /* Description */ "",
     /* Tags        */ [],
   ),
   new ImageInfo(
-    /* File path   */ "25.png",
+    /* File path   */ "2021/fall/25.png",
     /* Description */ "",
     /* Tags        */ [],
   ),
   new ImageInfo(
-    /* File path   */ "26.png",
+    /* File path   */ "2021/fall/26.png",
     /* Description */ "",
     /* Tags        */ [],
   ),
   new ImageInfo(
-    /* File path   */ "27.png",
+    /* File path   */ "2021/fall/27.png",
     /* Description */ "",
     /* Tags        */ [],
   ),
   new ImageInfo(
-    /* File path   */ "28.png",
+    /* File path   */ "2021/fall/28.png",
     /* Description */ "",
     /* Tags        */ [],
   ),
   new ImageInfo(
-    /* File path   */ "29.png",
+    /* File path   */ "2021/fall/29.png",
     /* Description */ "",
     /* Tags        */ [],
   ),
   new ImageInfo(
-    /* File path   */ "3.png",
+    /* File path   */ "2021/fall/3.png",
     /* Description */ "",
     /* Tags        */ [],
   ),
   new ImageInfo(
-    /* File path   */ "30.png",
+    /* File path   */ "2021/fall/30.png",
     /* Description */ "",
     /* Tags        */ [],
   ),
   new ImageInfo(
-    /* File path   */ "31.png",
+    /* File path   */ "2021/fall/31.png",
     /* Description */ "",
     /* Tags        */ [],
   ),
   new ImageInfo(
-    /* File path   */ "32.png",
+    /* File path   */ "2021/fall/32.png",
     /* Description */ "",
     /* Tags        */ [],
   ),
   new ImageInfo(
-    /* File path   */ "33.png",
+    /* File path   */ "2021/fall/33.png",
     /* Description */ "",
     /* Tags        */ [],
   ),
   new ImageInfo(
-    /* File path   */ "34.png",
+    /* File path   */ "2021/fall/34.png",
     /* Description */ "",
     /* Tags        */ [],
   ),
   new ImageInfo(
-    /* File path   */ "35.png",
+    /* File path   */ "2021/fall/35.png",
     /* Description */ "",
     /* Tags        */ [],
   ),
   new ImageInfo(
-    /* File path   */ "36.png",
+    /* File path   */ "2021/fall/36.png",
     /* Description */ "",
     /* Tags        */ [],
   ),
   new ImageInfo(
-    /* File path   */ "37.png",
+    /* File path   */ "2021/fall/37.png",
     /* Description */ "",
     /* Tags        */ [],
   ),
   new ImageInfo(
-    /* File path   */ "38.png",
+    /* File path   */ "2021/fall/38.png",
     /* Description */ "",
     /* Tags        */ [],
   ),
   new ImageInfo(
-    /* File path   */ "39.png",
+    /* File path   */ "2021/fall/39.png",
     /* Description */ "",
     /* Tags        */ [],
   ),
   new ImageInfo(
-    /* File path   */ "4.png",
+    /* File path   */ "2021/fall/4.png",
     /* Description */ "",
     /* Tags        */ [],
   ),
   new ImageInfo(
-    /* File path   */ "40.png",
+    /* File path   */ "2021/fall/40.png",
     /* Description */ "",
     /* Tags        */ [],
   ),
   new ImageInfo(
-    /* File path   */ "41.png",
+    /* File path   */ "2021/fall/41.png",
     /* Description */ "",
     /* Tags        */ [],
   ),
   new ImageInfo(
-    /* File path   */ "42.png",
+    /* File path   */ "2021/fall/42.png",
     /* Description */ "",
     /* Tags        */ [],
   ),
   new ImageInfo(
-    /* File path   */ "43.png",
+    /* File path   */ "2021/fall/43.png",
     /* Description */ "",
     /* Tags        */ [],
   ),
   new ImageInfo(
-    /* File path   */ "44.png",
+    /* File path   */ "2021/fall/44.png",
     /* Description */ "",
     /* Tags        */ [],
   ),
   new ImageInfo(
-    /* File path   */ "45.png",
+    /* File path   */ "2021/fall/45.png",
     /* Description */ "",
     /* Tags        */ [],
   ),
   new ImageInfo(
-    /* File path   */ "46.png",
+    /* File path   */ "2021/fall/46.png",
     /* Description */ "",
     /* Tags        */ [],
   ),
   new ImageInfo(
-    /* File path   */ "47.png",
+    /* File path   */ "2021/fall/47.png",
     /* Description */ "",
     /* Tags        */ [],
   ),
   new ImageInfo(
-    /* File path   */ "48.png",
+    /* File path   */ "2021/fall/48.png",
     /* Description */ "",
     /* Tags        */ [],
   ),
   new ImageInfo(
-    /* File path   */ "49.png",
+    /* File path   */ "2021/fall/49.png",
     /* Description */ "",
     /* Tags        */ [],
   ),
   new ImageInfo(
-    /* File path   */ "5.png",
+    /* File path   */ "2021/fall/5.png",
     /* Description */ "",
     /* Tags        */ [],
   ),
   new ImageInfo(
-    /* File path   */ "50.png",
+    /* File path   */ "2021/fall/50.png",
     /* Description */ "",
     /* Tags        */ [],
   ),
   new ImageInfo(
-    /* File path   */ "51.png",
+    /* File path   */ "2021/fall/51.png",
     /* Description */ "",
     /* Tags        */ [],
   ),
   new ImageInfo(
-    /* File path   */ "52.png",
+    /* File path   */ "2021/fall/52.png",
     /* Description */ "",
     /* Tags        */ [],
   ),
   new ImageInfo(
-    /* File path   */ "53.png",
+    /* File path   */ "2021/fall/53.png",
     /* Description */ "",
     /* Tags        */ [],
   ),
   new ImageInfo(
-    /* File path   */ "6.png",
+    /* File path   */ "2021/fall/6.png",
     /* Description */ "",
     /* Tags        */ [],
   ),
   new ImageInfo(
-    /* File path   */ "7.png",
+    /* File path   */ "2021/fall/7.png",
     /* Description */ "",
     /* Tags        */ [],
   ),
   new ImageInfo(
-    /* File path   */ "8.png",
+    /* File path   */ "2021/fall/8.png",
     /* Description */ "",
     /* Tags        */ [],
   ),
   new ImageInfo(
-    /* File path   */ "9.png",
+    /* File path   */ "2021/fall/9.png",
     /* Description */ "",
     /* Tags        */ [],
   ),
   new ImageInfo(
-    /* File path   */ "first-meeting-1.png",
+    /* File path   */ "2021/fall/first-meeting-1.png",
     /* Description */ "",
     /* Tags        */ [],
   ),
   new ImageInfo(
-    /* File path   */ "sgj-2021-the-perished.png",
+    /* File path   */ "2021/fall/sgj-2021-the-perished.png",
     /* Description */ "",
     /* Tags        */ [],
   ),
