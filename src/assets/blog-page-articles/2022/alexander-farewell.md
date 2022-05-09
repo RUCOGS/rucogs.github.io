@@ -19,6 +19,6 @@ E-Board Members I would like to mention and thank - Luke Letourneau, Sarah Apple
 Thank you.
 Signing off for the last time as president ~
 
-- Alexander Xie
+\- Alexander Xie
 
-[Full Address + Goodies](https://discord.com/channels/431322211479977984/431334821533581332/973271393477201941)
+[Full Address + Goodies](https://docs.google.com/document/d/12l3mInnMMaNo8qT7ECLDOx-AeL2NKEs8Uuzeciwevvw/edit?usp=sharing)
