@@ -39,9 +39,6 @@ export class SignupComponent implements OnInit {
   private performSignup(observable: Observable<any>) {
     observable.subscribe({
       next: data => {
-        this.tokenStorage.saveToken(data.accessToken);
-        //this.tokenStorage.saveUser(data);
-
         this.isSignupFailed = false;
         this.router.navigateByUrl('/user/' + data.user.username);
       },

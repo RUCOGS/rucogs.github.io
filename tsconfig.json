@@ -1,18 +1,33 @@
-/* To learn more about this file see: https://angular.io/config/tsconfig. */
 {
   "compileOnSave": false,
   "compilerOptions": {
     "allowJs": true,
     "baseUrl": "src",
-	  "paths": {
-      "@app/*": ["app/*"],
-	    "@components/*": ["app/components/*"],
-      "@modules/*": ["app/modules/*"],
-	    "@pages/*": ["app/pages/*"],
-	    "@services/*": ["app/services/*"],
-	    "@utils/*": ["app/utils/*"],
-	    "@assets/*": ["assets/*"],
-	    "@directives/*": ["app/directives/*"],
+    "paths": {
+      "@app/*": [
+        "app/*"
+      ],
+      "@components/*": [
+        "app/components/*"
+      ],
+      "@modules/*": [
+        "app/modules/*"
+      ],
+      "@pages/*": [
+        "app/pages/*"
+      ],
+      "@services/*": [
+        "app/services/*"
+      ],
+      "@utils/*": [
+        "app/utils/*"
+      ],
+      "@assets/*": [
+        "assets/*"
+      ],
+      "@directives/*": [
+        "app/directives/*"
+      ]
     },
     "outDir": "./dist/out-tsc",
     "forceConsistentCasingInFileNames": true,
@@ -31,8 +46,10 @@
     "lib": [
       "es2018",
       "dom",
-      "dom.iterable"
-    ]
+      "dom.iterable",
+      "esnext.asynciterable"
+    ],
+    "allowSyntheticDefaultImports": true
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,
