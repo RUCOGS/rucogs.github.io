@@ -217,7 +217,7 @@ export class ProjectsDisplayComponent implements AfterViewInit, OnChanges {
   // Text representation of a project.
   // We will use this text for searching.
   getProjectText(project: Project): string {
-    return (project.title + " " + project.description + " " + project.members.map((member) => member.fullname).join(" ")).toLowerCase();
+    return (project.title + " " + project.description + " " + project.members.map((member) => member.displayName).join(" ")).toLowerCase();
   }
 }
 

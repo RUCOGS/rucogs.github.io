@@ -19,7 +19,6 @@ export class LoginComponent implements OnInit {
 
   constructor(
     formBuilder: FormBuilder, 
-    private tokenStorage: TokenStorageService, 
     private authService: AuthService, 
     private router: Router) {
     this.form = formBuilder.group({
@@ -38,8 +37,7 @@ export class LoginComponent implements OnInit {
   private performLogin(observable: Observable<any>) {
     observable.subscribe({
       next: data => {
-        this.tokenStorage.saveToken(data.accessToken);
-        //this.tokenStorage.saveUser(data);
+        console.log(JSON.stringify(data.user));
 
         this.isLoginFailed = false;
         this.router.navigateByUrl('/user/' + data.user.username);

@@ -5,6 +5,8 @@ import { Project } from '@app/utils/project';
 import { FileUtils } from '@app/utils/file-utils';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { User } from '@app/utils/user'
+import { Apollo, gql } from 'apollo-angular';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-user',
@@ -47,8 +49,9 @@ export class UserComponent implements OnInit, OnDestroy {
   profileBackgroundSrc: string = "https://www.w3schools.com/css/paris.jpg";
   
   private activatedRouteSub: any;
+  private querySubscription: Subscription | undefined;
   
-  constructor(private activatedRoute: ActivatedRoute, private http: HttpClient, formBuilder: FormBuilder) {
+  constructor(private activatedRoute: ActivatedRoute, private http: HttpClient, formBuilder: FormBuilder, private apollo: Apollo) {
     this.form = formBuilder.group({
       displayName: [null, [Validators.required]],
       description: [null, []]
@@ -62,11 +65,36 @@ export class UserComponent implements OnInit, OnDestroy {
       this.username = params.get('username') as string;
       this.displayName = this.username;
       // TODO: fetch real display name;
+
+      this.querySubscription = this.apollo.watchQuery<{
+        // Result type
+          avatarLink: string, 
+          bannerLink: string
+        }>({
+        query: gql`
+          query($filter: UserFilterInput) {
+            users(filter: $filter) {
+              avatarLink
+              bannerLink
+            }
+          }
+        `,
+        variables: {
+          filter: {
+            username: { eq: this.username }
+          }
+        },
+      })
+      .valueChanges.subscribe(({data}) => {
+        this.profilePictureSrc = data.avatarLink;
+        this.profileBackgroundSrc = data.bannerLink;
+      });
     });
   }
   
   ngOnDestroy() {
     this.activatedRouteSub.unsubscribe();
+    this.querySubscription?.unsubscribe();
   }
 
   editProfile() {
