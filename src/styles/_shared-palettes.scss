@@ -238,19 +238,6 @@ $cogs-bright-red: mat.define-palette((
 ));
 
 $misc: mat.define-palette((
-	// Dummy values, because angular complains if they are missing..
-	// Happens on Angular Material v13.3.3, and didn't appear in v12
-	50: white,
-	100: white,
-	200: white,
-	300: white,
-	400: white,
-	500: white,
-	600: white,
-	700: white,
-	800: white,
-	900: white,
-
 	discord: #5865F2,
 	form: #7248b9,
 	contrast: (

@@ -1,5 +1,6 @@
 
 import { Injectable } from '@angular/core';
+import { FileUtils } from '@app/utils/file-utils';
 import { PageLink } from "@utils/pagelink";
 
 // Settings for the entire site.
@@ -33,6 +34,12 @@ export class SettingsService {
     public twitterLink: string = "https://twitter.com/RutgersCOGS";
     public discordLink: string = "https://discord.gg/aQUgesr";
     public mailingListLink: string = "http://eepurl.com/cgDAk5";
+  }
+  public Backend = new class {
+    public backendApiLink: string = "http://localhost:8080";
+
+    public selfHostedPrefix = "cdn://";
+    public cdnRelativePath: string = "/cdn";
   }
   
   // Scarlet Game Jam

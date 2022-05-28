@@ -5,13 +5,9 @@ import { TokenStorageService } from './token-storage.service';
 import { map } from 'rxjs/operators';
 import { User } from '@app/utils/user';
 import { Router } from '@angular/router';
+import { SettingsService } from '_settings';
 
-const AUTH_BASE_URL = "http://localhost:8080"
-const AUTH_API_URL = AUTH_BASE_URL + "/auth/";
-const OAUTH_API_URL = AUTH_BASE_URL + "/auth/thirdparty/";
-
-const AUTH_TOKEN_KEY = 'auth-token';
-const REFRESH_TOKEN_KEY = 'refresh-token';
+const AUTH_PAYLOAD_KEY = 'auth-payload';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -20,93 +16,97 @@ const httpOptions = {
 export interface AuthPayload {
   user: User,
   accessToken: string,
-  refreshToken: string,
 }
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  private tokenSubject: BehaviorSubject<string>;
-  public token$: Observable<string>;
+  private payloadSubject: BehaviorSubject<AuthPayload>;
+  public payload$: Observable<AuthPayload>;
+
+  private get authLink() {
+    return this.settings.Backend.backendApiLink + "/auth/";
+  }
+
+  private get oAuthLink() {
+    return this.settings.Backend.backendApiLink + "/auth/thirdparty/";
+  }
 
   constructor(
     private router: Router,
-    private http: HttpClient
+    private http: HttpClient,
+    private settings: SettingsService,
   ) {
-    let token = localStorage.getItem(AUTH_TOKEN_KEY);
-    this.token$ = new Observable();
-    if (!token) {
-      token = "";
-    }
-    this.tokenSubject = new BehaviorSubject<string>(token);
-    this.token$ = this.tokenSubject.asObservable();
+    let token = JSON.parse(localStorage.getItem(AUTH_PAYLOAD_KEY) ?? "{}") as AuthPayload;
+    this.payload$ = new Observable();
+    this.payloadSubject = new BehaviorSubject<AuthPayload>(token);
+    this.payload$ = this.payloadSubject.asObservable();
   }
 
   public logout() {
-    localStorage.removeItem(AUTH_TOKEN_KEY);
-    localStorage.removeItem(REFRESH_TOKEN_KEY);
+    localStorage.removeItem(AUTH_PAYLOAD_KEY);
 
     this.router.navigateByUrl('/login');
   }
 
-  public setToken(token: string, refreshToken: string): void {
-    localStorage.removeItem(AUTH_TOKEN_KEY);
-    localStorage.removeItem(REFRESH_TOKEN_KEY);
+  public setPayload(payload: AuthPayload): void {
+    localStorage.removeItem(AUTH_PAYLOAD_KEY);
 
-    localStorage.setItem(AUTH_TOKEN_KEY, token);
-    localStorage.setItem(REFRESH_TOKEN_KEY, refreshToken);
+    localStorage.setItem(AUTH_PAYLOAD_KEY, JSON.stringify(payload));
 
-    this.tokenSubject.next(token);
+    this.payloadSubject.next(payload);
   }
   
+  public getPayload(): AuthPayload {
+    return JSON.parse(localStorage.getItem(AUTH_PAYLOAD_KEY) ?? "{}") as AuthPayload;
+  }
+
   public getToken(): string {
-    return localStorage.getItem(AUTH_TOKEN_KEY) ?? "";
+    return this.getPayload().accessToken ?? "";
   }
 
   public socialLogin(social): Observable<AuthPayload> {
-    let authUrl: string = OAUTH_API_URL + social;
+    let authUrl: string = this.oAuthLink + social;
     const observable = new Observable<AuthPayload>((observer) => {
       const popup = window.open(authUrl, 'myWindow', 'location=1,status=1,scrollbars=1,width=800,height=800');
       let listener = window.addEventListener('message', (message) => {
-        if (message.origin === AUTH_BASE_URL) {
+        if (message.origin === this.settings.Backend.backendApiLink) {
           observer.next(message.data);
         }
       });
     });
-    const that = this;
     observable.subscribe({
-      next(data: AuthPayload) {
-        that.setToken(data.accessToken, data.refreshToken);
+      next: (data: AuthPayload) => {
+        console.log("got payload");
+        this.setPayload(data);
       }
     })
     return observable;
   }
   
   public login(username: string, password: string): Observable<AuthPayload> {
-    const observable = this.http.post<AuthPayload>(AUTH_API_URL + 'signin', {
+    const observable = this.http.post<AuthPayload>(this.authLink + 'signin', {
       username,
       password
     }, httpOptions);
-    const that = this;
     observable.subscribe({ 
-      next(data: AuthPayload) {
-        that.setToken(data.accessToken, data.refreshToken);
+      next: (data: AuthPayload) => {
+        this.setPayload(data);
       } 
     });
     return observable;
   }
 
   public signup(username: string, email: string, password: string): Observable<AuthPayload> {
-    const observable = this.http.post<AuthPayload>(AUTH_API_URL + 'signup', {
+    const observable = this.http.post<AuthPayload>(this.authLink + 'signup', {
       username,
       email,
       password
     }, httpOptions);
-    const that = this;
     observable.subscribe({ 
-      next(data: AuthPayload) {
-        that.setToken(data.accessToken, data.refreshToken);
+      next: (data: AuthPayload) => {
+        this.setPayload(data);
       } 
     });
     return observable;

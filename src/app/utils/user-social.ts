@@ -1,4 +1,4 @@
-export class SocialLink {
+export class UserSocial {
   constructor(
     public platform: string,
     public username: string,
@@ -6,12 +6,16 @@ export class SocialLink {
   ) {}
 }
 
-export const PLATFORMS = {
+export const SOCIAL_PLATFORMS: { 
+  [key: string]: { 
+    icon: string 
+  }; 
+} = {
   youtube: {
     icon: "logos:youtube-icon"
   },
   twitter: {
-    icon: "logos:twitter-icon"
+    icon: "akar-icons:twitter-fill"
   },
   itchio: {
     icon: "simple-icons:itchdotio"
