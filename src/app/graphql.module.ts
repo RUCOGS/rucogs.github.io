@@ -5,8 +5,9 @@ import {HttpLink} from 'apollo-angular/http';
 import { AuthService } from '@app/services/auth.service';
 import { onError } from '@apollo/client/link/error';
 import { TokenStorageService } from '@app/services/token-storage.service';
+import { SettingsService } from '_settings';
 
-export function createApollo(httpLink: HttpLink, authService: AuthService) {
+export function createApollo(httpLink: HttpLink, authService: AuthService, settings: SettingsService) {
 
   const authLink = new ApolloLink((operation, forward) => {
     operation.setContext({
@@ -28,7 +29,7 @@ export function createApollo(httpLink: HttpLink, authService: AuthService) {
   });
 
   return {
-    link: errorLink.concat(authLink.concat(httpLink.create({ uri: 'http://localhost:8080/api/graphql' }))),
+    link: errorLink.concat(authLink.concat(httpLink.create({ uri: settings.Backend.backendApiLink + '/api/graphql' }))),
     cache: new InMemoryCache(),
   };
 }
@@ -39,7 +40,7 @@ export function createApollo(httpLink: HttpLink, authService: AuthService) {
     {
       provide: APOLLO_OPTIONS,
       useFactory: createApollo,
-      deps: [HttpLink, AuthService],
+      deps: [HttpLink, AuthService, SettingsService],
     },
   ],
 })

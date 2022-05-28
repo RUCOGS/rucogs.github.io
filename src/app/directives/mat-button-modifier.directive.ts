@@ -25,7 +25,6 @@ export class MatButtonModifierDirective implements OnInit {
 
     const themeColors = ['', 'basic','primary', 'accent', 'warn', ]
     if (!themeColors.includes(this.color)) {
-      console.log('setting color to: ' + this.color);
       this.el.nativeElement.style.backgroundColor = this.color;
       if (this.textColor)
         this.el.nativeElement.style.color = this.textColor;

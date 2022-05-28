@@ -1,14 +1,15 @@
 <div class="app-user main-bg">
   <div *ngIf="isEditing; then editingPage; else displayPage"></div>
   <ng-template #editingPage>
-    <form [formGroup]="form">
+    <form [formGroup]="form" enctype="multipart/form-data">
       <div class="app-user profile-background-container">
-        <img [src]="selectedProfileBackgroundSrc" class="app-user profile-background">
+        <img [src]="selectedBannerSrc" class="app-user profile-background">
         <div class="app-user edit-profile-background-tint"></div>
         <input
+        name="banner"
         style="display: none"
-        type="file" accept="image/png, image/jpeg" 
-        (change)="onProfileBackgroundChanged($event)"
+        type="file" accept="image/png, image/jpeg, image/gif" 
+        (change)="onBannerChanged($event)"
         #profileBackgroundInput>
         <button mat-icon-button class="app-user edit-profile-background-button" (click)="profileBackgroundInput.click()" [disabled]="processing">
           <mat-icon>edit</mat-icon>
@@ -17,12 +18,13 @@
       <div class="app-user content-width-padding">
         <div class="app-user content">
           <div class="app-user profile-picture-container">
-            <img [src]="selectedProfilePictureSrc" class="app-user profile-picture">
+            <img [src]="selectedAvatarSrc" class="app-user profile-picture">
             <div class="app-user edit-profile-picture-tint"></div>
             <input
+            name="avatar"
             style="display: none"
-            type="file" accept="image/png, image/jpeg" 
-            (change)="onProfilePictureChanged($event)"
+            type="file" accept="image/png, image/jpeg, image/gif" 
+            (change)="onAvatarChanged($event)"
             #profilePictureInput>
             <button mat-icon-button class="app-user edit-profile-picture-button" (click)="profilePictureInput.click()" [disabled]="processing">
               <mat-icon>edit</mat-icon>
@@ -55,6 +57,8 @@
               gap: 20px;
               justify-content: center;
             ">
+              <button class="save-profile-button" mat-stroked-button color="basic" pill (click)="exitEditProfile()" [disabled]="processing">Exit
+              </button>
               <button class="save-profile-button" mat-stroked-button color="basic" pill (click)="saveProfile()" [disabled]="processing">Save Profile
               </button>
             </div>
@@ -67,7 +71,7 @@
                           cdkTextareaAutosize
                           cdkAutosizeMinRows="1"
                           cdkAutosizeMaxRows="5"
-                          formControlName="description"></textarea>
+                          formControlName="bio"></textarea>
               </mat-form-field>
             </div>
             <div class="app-user socials-container">
@@ -85,18 +89,18 @@
               <app-project-item *ngFor="let project of projects;" [project]="project"></app-project-item>
             </app-card-grid>
           </div>
-        </div>
       </div>
+        </div>
     </form>
   </ng-template>
   <ng-template #displayPage>
-    <div class="app-user profile-background-container">
-      <img [src]="profileBackgroundSrc" class="app-user profile-background">
+    <div class="app-user profile-background-container" [ngStyle]="getBannerContainerStyle()">
+      <img [src]="bannerSrc" class="app-user profile-background" [hidden]="this.bannerColor">
     </div>
     <div class="app-user content-width-padding">
       <div class="app-user content">
         <div class="app-user profile-picture-container">
-          <img [src]="profilePictureSrc" class="app-user profile-picture">
+          <img [src]="avatarSrc" class="app-user profile-picture">
         </div>
         <div style="
           position: relative;
@@ -118,19 +122,19 @@
             gap: 20px;
             justify-content: center;
           ">
-            <button class="app-user edit-profile-button" mat-stroked-button color="basic" pill (click)="editProfile()">Edit Profile
+            <button class="app-user edit-profile-button" mat-stroked-button color="basic" pill (click)="editProfile()" [hidden]="!canEditProfile()">Edit Profile
             </button>
           </div>
         </div>
         <div class="app-user core-content">
           <p class="app-user about-container" style="margin-top: 0; margin-bottom: 0;">
-            {{ description }}
+            {{ bio }}
           </p>
           <div class="app-user socials-container">
             <div class="app-user socials-button-container">
-              <app-social-button icon="logos:soundcloud" link="https://www.twitter.com/Atlinxnet" username="Atlinxnet"></app-social-button>
-              <app-social-button icon="logos:spotify-icon" link="https://www.youtube.com/channel/UCYauTY8qGxRZOAHmMRfm-aw" username="Atlinx"></app-social-button>
-              <app-social-button icon="cib:itch-io" link="https://www.atlinx.itch.io" username="Atlinx"></app-social-button>
+              <div *ngFor="let userSocial of userSocials">
+                <app-social-button [userSocial]="userSocial"></app-social-button>
+              </div>
             </div>
           </div>
           <mat-divider></mat-divider>

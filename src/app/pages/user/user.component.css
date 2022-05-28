@@ -41,6 +41,7 @@
   position: absolute;
   border: solid var(--border-width);
   border-radius: 50%;
+  object-fit: cover;
   width: calc(100% - 2 * var(--border-width));
   height: calc(100% - 2 * var(--border-width));
 }

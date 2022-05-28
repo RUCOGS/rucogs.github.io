@@ -1,5 +1,5 @@
-import { HttpClient } from '@angular/common/http';
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { HttpClient, JsonpClientBackend } from '@angular/common/http';
+import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Project } from '@app/utils/project';
 import { FileUtils } from '@app/utils/file-utils';
@@ -7,6 +7,15 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { User } from '@app/utils/user'
 import { Apollo, gql } from 'apollo-angular';
 import { Subscription } from 'rxjs';
+import ColorThief from 'colorthief';
+import { Color } from '@app/utils/color';
+import { UserSocial } from '@app/utils/user-social';
+import { SettingsService } from '_settings';
+import { AuthService } from '@app/services/auth.service';
+import { CdnService } from '@app/services/cdn.service';
+
+export const AVATAR_FILE_SIZE_LIMIT_MB = 5;
+export const BANNER_FILE_SIZE_LIMIT_MB = 10;
 
 @Component({
   selector: 'app-user',
@@ -16,9 +25,11 @@ import { Subscription } from 'rxjs';
 export class UserComponent implements OnInit, OnDestroy {
   username: string = "";
   displayName: string = "";
-  description: string = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+  bio: string = "";
+  userId: string = "";
   
-  projects: Project[] = []
+  userSocials: UserSocial[] = [];
+  projects: Project[] = [];
 
   isEditing: boolean = false;
   processingQueue: boolean[] = [];
@@ -41,41 +52,68 @@ export class UserComponent implements OnInit, OnDestroy {
 
   // The selected picture sources will become data URLs when
   // a new image is uploaded from the user's computer.
-  selectedProfilePictureSrc: string = "";
-  selectedProfileBackgroundSrc: string = "";
+  selectedAvatarSrc: string = "";
+  selectedBannerSrc: string = "";
   selectedDisplayName: string = "";
 
-  profilePictureSrc: string = "https://www.w3schools.com/css/paris.jpg";
-  profileBackgroundSrc: string = "https://www.w3schools.com/css/paris.jpg";
-  
+  selectedAvatarFile: File | undefined;
+  selectedBannerFile: File | undefined;
+
+  avatarSrc: string = "https://c.tenor.com/Tu0MCmJ4TJUAAAAC/load-loading.gif";
+  bannerSrc: string = "https://c.tenor.com/Tu0MCmJ4TJUAAAAC/load-loading.gif";
+  bannerColor: Color | undefined;
+
   private activatedRouteSub: any;
-  private querySubscription: Subscription | undefined;
-  
-  constructor(private activatedRoute: ActivatedRoute, private http: HttpClient, formBuilder: FormBuilder, private apollo: Apollo) {
+  private userQuerySubscription: Subscription | undefined;
+  private userMutationSubscription: Subscription | undefined;
+
+  constructor(
+    private activatedRoute: ActivatedRoute, 
+    private http: HttpClient, 
+    private formBuilder: FormBuilder, 
+    private apollo: Apollo,
+    private settings: SettingsService,
+    private authService: AuthService,
+    private cdnService: CdnService,
+  ) {
     this.form = formBuilder.group({
       displayName: [null, [Validators.required]],
-      description: [null, []]
+      bio: [null, []]
     })
   }
   
-  // TODO Implement projects fetching.
-
   ngOnInit() {
     this.activatedRouteSub = this.activatedRoute.paramMap.subscribe(params => {
       this.username = params.get('username') as string;
-      this.displayName = this.username;
-      // TODO: fetch real display name;
-
-      this.querySubscription = this.apollo.watchQuery<{
-        // Result type
-          avatarLink: string, 
-          bannerLink: string
+      
+      this.userQuerySubscription = this.apollo.watchQuery<{
+          users: {
+            // Result type
+            avatarLink: string, 
+            bannerLink: string, 
+            displayName: string,
+            bio: string,
+            id: string,
+            socials: {
+              username: string,
+              platform: string,
+              link: string,
+            }[],
+          }[]
         }>({
         query: gql`
           query($filter: UserFilterInput) {
             users(filter: $filter) {
               avatarLink
               bannerLink
+              displayName
+              bio
+              id
+              socials {
+                username
+                platform
+                link
+              }
             }
           }
         `,
@@ -86,26 +124,69 @@ export class UserComponent implements OnInit, OnDestroy {
         },
       })
       .valueChanges.subscribe(({data}) => {
-        this.profilePictureSrc = data.avatarLink;
-        this.profileBackgroundSrc = data.bannerLink;
+        const myUser = data.users[0];
+        this.avatarSrc = this.cdnService.getFileLink(myUser.avatarLink);
+        this.bannerSrc = this.cdnService.getFileLink(myUser.bannerLink);
+        this.displayName = myUser.displayName;
+        this.bio = myUser.bio;
+        this.userId = myUser.id;
+        
+        this.userSocials = myUser.socials.map(x => new UserSocial(x.platform, x.username, x.link));
+
+        this.updateBannerColor();
       });
     });
   }
   
+  updateBannerColor() {
+    // We only default to color when there isn't a banner.
+    if (this.bannerSrc != "")
+      return;
+    
+    const img = document.querySelector<HTMLImageElement>('img.app-user.profile-picture')
+    if (img) {
+      img.setAttribute('crossOrigin', '');
+      const colorThief = new ColorThief();
+      if (img.complete) {
+        // colorThief.getColor(img);
+        const [r, g, b] = colorThief.getColor(img);
+        this.bannerColor = new Color(r, g, b);
+      } else {
+        img.addEventListener('load', () => {
+          // colorThief.getColor(img);
+          const [r, g, b] = colorThief.getColor(img);
+          this.bannerColor = new Color(r, g, b);
+        });
+      }
+    }
+  }
+
   ngOnDestroy() {
     this.activatedRouteSub.unsubscribe();
-    this.querySubscription?.unsubscribe();
+    this.userQuerySubscription?.unsubscribe();
+  }
+
+  canEditProfile() {
+    return this.authService.getPayload().user.id === this.userId;
   }
 
   editProfile() {
     this.isEditing = true;
 
-    this.selectedProfilePictureSrc = this.profilePictureSrc;
-    this.selectedProfileBackgroundSrc = this.profileBackgroundSrc;
+    this.selectedAvatarSrc = this.avatarSrc;
+    this.selectedBannerSrc = this.bannerSrc;
     this.selectedDisplayName = this.displayName;
 
+    this.selectedAvatarFile = undefined;
+    this.selectedBannerFile = undefined;
+
     this.form.get('displayName')?.setValue(this.displayName);
-    this.form.get('description')?.setValue(this.description);
+    this.form.get('bio')?.setValue(this.bio);
+  }
+
+  // Don't save, revert changes
+  exitEditProfile() {
+    this.isEditing = false;
   }
 
   saveProfile() {
@@ -113,37 +194,75 @@ export class UserComponent implements OnInit, OnDestroy {
     // TODO: handle sending new profile data to server
     
     // Upload profile picture
-    const changeDataObj: any = {};
+    const profileUploadFormData = new FormData();
 
-    if (this.selectedProfilePictureSrc != this.profileBackgroundSrc) {
-      changeDataObj.profilePicture = this.selectedProfilePictureSrc;
+    // Display name changed
+    if (this.form.get("displayName")?.value !== this.displayName) {
+      profileUploadFormData.set("displayName", this.form.get("displayName")?.value);
+    }
+    
+    // Bio changed
+    if (this.form.get("bio")?.value !== this.bio) {
+      profileUploadFormData.set("bio", this.form.get("bio")?.value);
+    }
+
+    if (this.selectedAvatarFile) {
+      profileUploadFormData.append("avatar", this.selectedAvatarFile);
     }
 
     // Upload background picture
-    if (this.selectedProfileBackgroundSrc != this.profileBackgroundSrc) {
-      changeDataObj.profileBackground = this.selectedProfilePictureSrc;
+    if (this.selectedBannerFile) {
+      profileUploadFormData.append("banner", this.selectedBannerFile);
+    }
+
+    for (const entry of profileUploadFormData.entries()) {
+      console.log(entry);
     }
 
     // If change data is not empty, meaning there were changes...
-    if (Object.keys(changeDataObj).length > 0) {
+    if (profileUploadFormData.entries().next().value) {
       this.addProcess();
-      this.http.post("http://localhost:8081/update/user/", changeDataObj).subscribe({
+      this.http.post(
+        this.settings.Backend.backendApiLink + "/upload/user/", 
+        profileUploadFormData,
+        {
+          headers: {
+            "Authorization": "Bearer " + this.authService.getToken(),
+            "Operation-Metadata": JSON.stringify({
+              userId: this.userId,
+            }),
+          }
+        }
+      ).subscribe({
         error: (error) => {
+          console.log("Hit error");
           console.log(error);
+          this.removeProcess();
+        },
+        next: (value: any) => {
+          console.log("value: " + JSON.stringify(value));
+          
+          if (value.data.avatarLink)
+            this.avatarSrc = this.cdnService.getFileLink(value.data.avatarLink);
+          if (value.data.bannerLink)
+            this.bannerSrc = this.cdnService.getFileLink(value.data.bannerLink);
+          if (value.data.displayName)
+            this.displayName = value.data.displayName;
+          if (value.data.bio)
+            this.bio = value.data.bio;
+
+          this.updateBannerColor();
+          this.removeProcess();
         },
         complete: () => {
+          console.log("uploading payload complete");
           this.removeProcess();
         }
       });
     }
   }
 
-  onProfilePictureChanged(event: any) {
-    console.log('picture changed');
-    if (this.processing) {
-      return;
-    }
-
+  onAvatarChanged(event: any) {
     const file: File = event.target.files[0];
     
     if (file) {
@@ -151,11 +270,13 @@ export class UserComponent implements OnInit, OnDestroy {
       FileUtils.ReadAsBase64(file)
         .then(result => {
           // Limit file size to less than 2 MB
-          if (FileUtils.ByteToMB(FileUtils.Base64ToByteSize(result)) < 2) {
-            this.selectedProfilePictureSrc = result;
+          const filesize = FileUtils.ByteToMB(FileUtils.Base64ToByteSize(result));
+          if (filesize < AVATAR_FILE_SIZE_LIMIT_MB) {
+            this.selectedAvatarFile = file;
+            this.selectedAvatarSrc = result;
           } else {
             // TODO: Make popup for errors
-            console.log("File size is too big!");
+            console.log(`File size is too big! ${filesize}MB > 2MB`);
           }
         })
         .catch(err => {
@@ -167,23 +288,21 @@ export class UserComponent implements OnInit, OnDestroy {
     }
   }
 
-  onProfileBackgroundChanged(event: any) {
-    if (this.processing) {
-      return;
-    }
-    
+  onBannerChanged(event: any) {
     const file: File = event.target.files[0];
     
     if (file) {
       this.addProcess();
       FileUtils.ReadAsBase64(file)
         .then(result => {
-          // Limit file size to less than 2 MB
-          if (FileUtils.ByteToMB(FileUtils.Base64ToByteSize(result)) < 2) {
-            this.selectedProfileBackgroundSrc = result;
+          // Limit file size
+          const filesize = FileUtils.ByteToMB(FileUtils.Base64ToByteSize(result));
+          if (filesize < BANNER_FILE_SIZE_LIMIT_MB) {
+            this.selectedBannerFile = file;
+            this.selectedBannerSrc = result;
           } else {
             // TODO: Make popup for errors
-            console.log("File size is too big!");
+            console.log(`File size is too big! ${filesize}MB > 2MB`);
           }
         })
         .catch(err => {
@@ -192,6 +311,13 @@ export class UserComponent implements OnInit, OnDestroy {
         .finally(() => {
           this.removeProcess();
         });
+    }
+  }
+
+  // We use the container to show a single colored banner
+  getBannerContainerStyle(): Object {
+    return { 
+      ...(this.bannerColor && {'background-color': this.bannerColor.hexString() })
     }
   }
 }
