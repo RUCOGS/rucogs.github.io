@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { BehaviorSubject, fromEvent, Observable } from 'rxjs';
-import { TokenStorageService } from './token-storage.service';
-import { map } from 'rxjs/operators';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { User } from '@app/utils/user';
 import { Router } from '@angular/router';
-import { SettingsService } from '_settings';
+import { SettingsService } from '@src/_settings';
+import { gql } from 'apollo-angular';
+import { OperationSecurityDomain, SecurityContext, SecurityDomain, SecurityPolicies } from '@src/shared/security.types';
 
 const AUTH_PAYLOAD_KEY = 'auth-payload';
 
@@ -22,13 +22,15 @@ export interface AuthPayload {
   providedIn: 'root'
 })
 export class AuthService {
-  private payloadSubject: BehaviorSubject<AuthPayload>;
   public payload$: Observable<AuthPayload>;
+  public get authenticated() {
+    return this.getPayload() !== null;
+  }
 
+  private payloadSubject: BehaviorSubject<AuthPayload>;
   private get authLink() {
     return this.settings.Backend.backendApiLink + "/auth/";
   }
-
   private get oAuthLink() {
     return this.settings.Backend.backendApiLink + "/auth/thirdparty/";
   }
@@ -36,7 +38,7 @@ export class AuthService {
   constructor(
     private router: Router,
     private http: HttpClient,
-    private settings: SettingsService,
+    private settings: SettingsService
   ) {
     let token = JSON.parse(localStorage.getItem(AUTH_PAYLOAD_KEY) ?? "{}") as AuthPayload;
     this.payload$ = new Observable();
@@ -58,12 +60,13 @@ export class AuthService {
     this.payloadSubject.next(payload);
   }
   
-  public getPayload(): AuthPayload {
-    return JSON.parse(localStorage.getItem(AUTH_PAYLOAD_KEY) ?? "{}") as AuthPayload;
+  public getPayload(): AuthPayload | null {
+    const storedPayload = localStorage.getItem(AUTH_PAYLOAD_KEY);
+    return storedPayload ? JSON.parse(storedPayload) as AuthPayload : null;
   }
 
   public getToken(): string {
-    return this.getPayload().accessToken ?? "";
+    return this.getPayload()?.accessToken ?? "";
   }
 
   public socialLogin(social): Observable<AuthPayload> {

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { SettingsService } from '_settings';
+import { SettingsService } from '@src/_settings';
 
 @Component({
   selector: 'app-header-social-media-buttons',

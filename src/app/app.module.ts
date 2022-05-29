@@ -77,7 +77,7 @@ import { ArticlesComponent } from './pages/articles/articles.component';
 import { BlogComponent } from './pages/blog/blog.component';
 import { PaginatorComponent } from './components/paginator/paginator.component';
 import { ArticleItemComponent } from './components/article-item/article-item.component';
-import { GraphQLModule } from './graphql.module';
+import { GraphQLModule } from './modules/graphql/graphql.module';
 
 @NgModule({
   declarations: [
