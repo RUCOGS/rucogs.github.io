@@ -1,20 +1,25 @@
 import {NgModule} from '@angular/core';
-import {Apollo, ApolloModule, APOLLO_OPTIONS } from 'apollo-angular';
-import {ApolloClientOptions, ApolloLink, InMemoryCache } from '@apollo/client/core';
+import {ApolloModule, APOLLO_OPTIONS } from 'apollo-angular';
+import {ApolloLink, InMemoryCache } from '@apollo/client/core';
 import {HttpLink} from 'apollo-angular/http';
 import { AuthService } from '@app/services/auth.service';
 import { onError } from '@apollo/client/link/error';
-import { TokenStorageService } from '@app/services/token-storage.service';
-import { SettingsService } from '_settings';
+import { SettingsService } from '@src/_settings';
+
+export interface ApolloContext {
+  authenticate?: boolean
+}
 
 export function createApollo(httpLink: HttpLink, authService: AuthService, settings: SettingsService) {
-
   const authLink = new ApolloLink((operation, forward) => {
-    operation.setContext({
-      headers: {
-        Authorization: 'Bearer ' + authService.getToken()
-      }
-    });
+    const context = operation.getContext() as ApolloContext;
+    if (context.authenticate && authService.authenticated) {
+      operation.setContext({
+        headers: {
+          Authorization: 'Bearer ' + authService.getToken()
+        }
+      });
+    }
     return forward(operation);
   });
 

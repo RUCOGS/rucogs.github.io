@@ -2,7 +2,7 @@ import { Component, HostListener, OnInit } from '@angular/core';
 import { BreakpointManagerService } from '@app/services/breakpoint-manager.service';
 import { Breakpoints } from '@app/utils/breakpoints';
 import { PageLink } from '@app/utils/pagelink';
-import { SettingsService } from '_settings';
+import { SettingsService } from '@src/_settings';
 
 @Component({
   selector: 'app-site-header',

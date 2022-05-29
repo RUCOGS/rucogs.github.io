@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { BreakpointManagerService } from '@app/services/breakpoint-manager.service';
-import { SettingsService } from '_settings';
+import { SettingsService } from '@src/_settings';
 declare var FlipDown: any;
 
 @Component({

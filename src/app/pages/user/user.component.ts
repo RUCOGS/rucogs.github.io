@@ -1,18 +1,21 @@
-import { HttpClient, JsonpClientBackend } from '@angular/common/http';
-import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Project } from '@app/utils/project';
 import { FileUtils } from '@app/utils/file-utils';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { User } from '@app/utils/user'
-import { Apollo, gql } from 'apollo-angular';
+import { gql } from 'apollo-angular';
 import { Subscription } from 'rxjs';
 import ColorThief from 'colorthief';
 import { Color } from '@app/utils/color';
 import { UserSocial } from '@app/utils/user-social';
-import { SettingsService } from '_settings';
+import { SettingsService } from '@src/_settings';
 import { AuthService } from '@app/services/auth.service';
 import { CdnService } from '@app/services/cdn.service';
+import { OperationSecurityDomain } from '@src/shared/security.types';
+import { Permission } from '@src/generated/model.types';
+import { SecurityService } from '@src/app/services/security.service';
+import { ApolloContext } from '@src/app/modules/graphql/graphql.module';
+import { BackendService } from '@src/app/services/backend.service';
 
 export const AVATAR_FILE_SIZE_LIMIT_MB = 5;
 export const BANNER_FILE_SIZE_LIMIT_MB = 10;
@@ -31,6 +34,7 @@ export class UserComponent implements OnInit, OnDestroy {
   userSocials: UserSocial[] = [];
   projects: Project[] = [];
 
+  hasEditPerms: boolean = false;
   isEditing: boolean = false;
   processingQueue: boolean[] = [];
   // 'processing' is set to true whenever we are processing an uplaod
@@ -67,13 +71,15 @@ export class UserComponent implements OnInit, OnDestroy {
   private userQuerySubscription: Subscription | undefined;
   private userMutationSubscription: Subscription | undefined;
 
+  private opDomain: OperationSecurityDomain | undefined;
+
   constructor(
     private activatedRoute: ActivatedRoute, 
-    private http: HttpClient, 
     private formBuilder: FormBuilder, 
-    private apollo: Apollo,
+    private backend: BackendService,
     private settings: SettingsService,
     private authService: AuthService,
+    private securityService: SecurityService,
     private cdnService: CdnService,
   ) {
     this.form = formBuilder.group({
@@ -85,56 +91,68 @@ export class UserComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.activatedRouteSub = this.activatedRoute.paramMap.subscribe(params => {
       this.username = params.get('username') as string;
-      
-      this.userQuerySubscription = this.apollo.watchQuery<{
-          users: {
-            // Result type
-            avatarLink: string, 
-            bannerLink: string, 
-            displayName: string,
-            bio: string,
-            id: string,
-            socials: {
-              username: string,
-              platform: string,
-              link: string,
-            }[],
-          }[]
-        }>({
-        query: gql`
-          query($filter: UserFilterInput) {
-            users(filter: $filter) {
-              avatarLink
-              bannerLink
-              displayName
-              bio
-              id
-              socials {
-                username
-                platform
-                link
-              }
+
+      this.fetchData();
+    });
+  }
+
+  private fetchData() {
+    this.userQuerySubscription = this.backend.watchQuery<{
+      users: {
+        // Result type
+        avatarLink: string, 
+        bannerLink: string, 
+        displayName: string,
+        bio: string,
+        id: string,
+        socials: {
+          username: string,
+          platform: string,
+          link: string,
+        }[],
+      }[]
+    }>({
+      query: gql`
+        query($filter: UserFilterInput) {
+          users(filter: $filter) {
+            avatarLink
+            bannerLink
+            displayName
+            bio
+            id
+            socials {
+              username
+              platform
+              link
             }
           }
-        `,
-        variables: {
-          filter: {
-            username: { eq: this.username }
-          }
-        },
-      })
-      .valueChanges.subscribe(({data}) => {
-        const myUser = data.users[0];
-        this.avatarSrc = this.cdnService.getFileLink(myUser.avatarLink);
-        this.bannerSrc = this.cdnService.getFileLink(myUser.bannerLink);
-        this.displayName = myUser.displayName;
-        this.bio = myUser.bio;
-        this.userId = myUser.id;
-        
-        this.userSocials = myUser.socials.map(x => new UserSocial(x.platform, x.username, x.link));
+        }
+      `,
+      variables: {
+        filter: {
+          username: { eq: this.username }
+        }
+      },
+      context: <ApolloContext>{
+        authenticate: true,
+      }
+    })
+    .valueChanges.subscribe(({data}) => {
+      const myUser = data.users[0];
+      this.avatarSrc = this.cdnService.getFileLink(myUser.avatarLink);
+      this.bannerSrc = this.cdnService.getFileLink(myUser.bannerLink);
+      this.displayName = myUser.displayName;
+      this.bio = myUser.bio;
+      this.userId = myUser.id;
+      
+      this.opDomain = <OperationSecurityDomain>{
+        userId: [ this.userId ]
+      };
+      this.hasEditPerms = this.securityService.isPermissionValidForOpDomain(Permission.UpdateProfile, this.opDomain);
 
-        this.updateBannerColor();
-      });
+      this.userSocials = myUser.socials.map(x => new UserSocial(x.platform, x.username, x.link));
+
+      this.updateBannerColor();
     });
   }
   
@@ -167,7 +185,7 @@ export class UserComponent implements OnInit, OnDestroy {
   }
 
   canEditProfile() {
-    return this.authService.getPayload().user.id === this.userId;
+    return this.authService.getPayload()?.user.id === this.userId && this.hasEditPerms;
   }
 
   editProfile() {
@@ -222,43 +240,37 @@ export class UserComponent implements OnInit, OnDestroy {
     // If change data is not empty, meaning there were changes...
     if (profileUploadFormData.entries().next().value) {
       this.addProcess();
-      this.http.post(
-        this.settings.Backend.backendApiLink + "/upload/user/", 
-        profileUploadFormData,
-        {
-          headers: {
-            "Authorization": "Bearer " + this.authService.getToken(),
-            "Operation-Metadata": JSON.stringify({
-              userId: this.userId,
-            }),
-          }
-        }
-      ).subscribe({
-        error: (error) => {
-          console.log("Hit error");
-          console.log(error);
-          this.removeProcess();
-        },
-        next: (value: any) => {
-          console.log("value: " + JSON.stringify(value));
-          
-          if (value.data.avatarLink)
-            this.avatarSrc = this.cdnService.getFileLink(value.data.avatarLink);
-          if (value.data.bannerLink)
-            this.bannerSrc = this.cdnService.getFileLink(value.data.bannerLink);
-          if (value.data.displayName)
-            this.displayName = value.data.displayName;
-          if (value.data.bio)
-            this.bio = value.data.bio;
+      this.backend
+        .withAuth()
+        .withOpDomain(this.opDomain)
+        .post(
+          "/upload/user/", 
+          profileUploadFormData
+        ).subscribe({
+          error: (error) => {
+            console.log("Hit error");
+            console.log(error);
+            this.removeProcess();
+          },
+          next: (value: any) => {
+            console.log("value: " + JSON.stringify(value));
+            
+            if (value.data.avatarLink)
+              this.avatarSrc = this.cdnService.getFileLink(value.data.avatarLink);
+            if (value.data.bannerLink)
+              this.bannerSrc = this.cdnService.getFileLink(value.data.bannerLink);
+            if (value.data.displayName)
+              this.displayName = value.data.displayName;
+            if (value.data.bio)
+              this.bio = value.data.bio;
 
-          this.updateBannerColor();
-          this.removeProcess();
-        },
-        complete: () => {
-          console.log("uploading payload complete");
-          this.removeProcess();
-        }
-      });
+            this.updateBannerColor();
+          },
+          complete: () => {
+            console.log("uploading payload complete");
+            this.removeProcess();
+          }
+        });
     }
   }
 

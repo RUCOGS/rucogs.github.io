@@ -2,31 +2,34 @@
   "compileOnSave": false,
   "compilerOptions": {
     "allowJs": true,
-    "baseUrl": "src",
+    "baseUrl": ".",
     "paths": {
+      "@src/*": [
+        "src/*"
+      ],
       "@app/*": [
-        "app/*"
+        "src/app/*"
       ],
       "@components/*": [
-        "app/components/*"
+        "src/app/components/*"
       ],
       "@modules/*": [
-        "app/modules/*"
+        "src/app/modules/*"
       ],
       "@pages/*": [
-        "app/pages/*"
+        "src/app/pages/*"
       ],
       "@services/*": [
-        "app/services/*"
+        "src/app/services/*"
       ],
       "@utils/*": [
-        "app/utils/*"
+        "src/app/utils/*"
       ],
       "@assets/*": [
-        "assets/*"
+        "src/assets/*"
       ],
       "@directives/*": [
-        "app/directives/*"
+        "src/app/directives/*"
       ]
     },
     "outDir": "./dist/out-tsc",
