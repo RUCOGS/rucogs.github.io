@@ -75,11 +75,16 @@
               </mat-form-field>
             </div>
             <div class="app-user socials-container">
-              <h2>Socials</h2>
+              <div style="display: flex;">
+                <h2 style="margin-bottom: 0; flex-grow: 1;">Socials</h2>
+                <button type="button" mat-icon-button class="app-user add-socials-button" (click)="onAddSocial()">
+                  <mat-icon>add_circle</mat-icon>
+                </button>
+              </div>
               <div class="app-user socials-button-container">
-                <app-social-button icon="akar-icons:twitter-fill" link="https://www.twitter.com/Atlinxnet" username="Atlinxnet"></app-social-button>
-                <app-social-button icon="akar-icons:youtube-fill" link="https://www.youtube.com/channel/UCYauTY8qGxRZOAHmMRfm-aw" username="Atlinx"></app-social-button>
-                <app-social-button icon="simple-icons:itchdotio" link="https://www.atlinx.itch.io" username="Atlinx"></app-social-button>
+                <div *ngFor="let userSocialEdit of userSocialEdits; let i = index">
+                  <app-editable-social-button [userSocialEdit]="userSocialEdit" (delete)="onDeleteSocial(i)" (edit)="onEditSocial()"></app-editable-social-button>
+                </div>
               </div>
             </div>
             <h2>Projects</h2>
@@ -130,21 +135,26 @@
           <p class="app-user about-container" style="margin-top: 0; margin-bottom: 0;">
             {{ bio }}
           </p>
+          <div *ngIf="nonExistent">
+            <h1>This account doesn't exist</h1>
+            <p class="app-user no-results-text">Try searching for another</p>
+          </div>
           <div class="app-user socials-container">
             <div class="app-user socials-button-container">
               <div *ngFor="let userSocial of userSocials">
-                <!-- <app-social-button [userSocial]="userSocial"></app-social-button> -->
-                <app-editable-social-button [userSocial]="userSocial"></app-editable-social-button>
+                <app-social-button [userSocial]="userSocial"></app-social-button>
               </div>
             </div>
           </div>
-          <mat-divider></mat-divider>
-          <h2>Projects</h2>
-          <app-card-grid column-width="300px">
-            <!-- When we are not filtering, we do not want to section off the projects. -->
-            <!-- It's guaranteed that all the projects will be put into a section as the only element in the sortedSections[] array. -->
-            <app-project-item *ngFor="let project of projects;" [project]="project"></app-project-item>
-          </app-card-grid>
+          <div *ngIf="projects.length > 0">
+            <mat-divider></mat-divider>
+            <h2>Projects</h2>
+            <app-card-grid column-width="300px">
+              <!-- When we are not filtering, we do not want to section off the projects. -->
+              <!-- It's guaranteed that all the projects will be put into a section as the only element in the sortedSections[] array. -->
+              <app-project-item *ngFor="let project of projects;" [project]="project"></app-project-item>
+            </app-card-grid>
+          </div>
         </div>
       </div>
     </div>

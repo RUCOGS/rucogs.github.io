@@ -80,6 +80,7 @@ import { ArticleItemComponent } from './components/article-item/article-item.com
 import { GraphQLModule } from './modules/graphql/graphql.module';
 import { EditableSocialButtonComponent } from './components/editable-social-button/editable-social-button.component';
 import { IconModule } from '@visurel/iconify-angular';
+import { UsersComponent } from './pages/users/users.component';
 
 @NgModule({
   declarations: [
@@ -130,6 +131,7 @@ import { IconModule } from '@visurel/iconify-angular';
     PaginatorComponent,
     ArticleItemComponent,
     EditableSocialButtonComponent,
+    UsersComponent,
   ],
   imports: [
     FormsModule,

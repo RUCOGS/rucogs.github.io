@@ -16,6 +16,9 @@ import { Permission } from '@src/generated/model.types';
 import { SecurityService } from '@src/app/services/security.service';
 import { ApolloContext } from '@src/app/modules/graphql/graphql.module';
 import { BackendService } from '@src/app/services/backend.service';
+import { validate } from 'graphql';
+import { deepClone } from '@src/app/utils/utils';
+import { UserSocialEdit } from '@src/app/components/editable-social-button/editable-social-button.component';
 
 export const AVATAR_FILE_SIZE_LIMIT_MB = 5;
 export const BANNER_FILE_SIZE_LIMIT_MB = 10;
@@ -37,6 +40,8 @@ export class UserComponent implements OnInit, OnDestroy {
   hasEditPerms: boolean = false;
   isEditing: boolean = false;
   processingQueue: boolean[] = [];
+
+  nonExistent: boolean = false;
   // 'processing' is set to true whenever we are processing an uplaod
   // or doing anything else asynchronously. This lets us disable uplaod controls
   // when we are still processing an image. 
@@ -62,6 +67,9 @@ export class UserComponent implements OnInit, OnDestroy {
 
   selectedAvatarFile: File | undefined;
   selectedBannerFile: File | undefined;
+  
+  socialsEdited: boolean = false;
+  userSocialEdits: UserSocialEdit[] = [];
 
   avatarSrc: string = "https://c.tenor.com/Tu0MCmJ4TJUAAAAC/load-loading.gif";
   bannerSrc: string = "https://c.tenor.com/Tu0MCmJ4TJUAAAAC/load-loading.gif";
@@ -139,6 +147,11 @@ export class UserComponent implements OnInit, OnDestroy {
       }
     })
     .valueChanges.subscribe(({data}) => {
+      if (data.users.length == 0) {
+        this.nonExistent = true;
+        return;
+      }
+      
       const myUser = data.users[0];
       this.avatarSrc = this.cdnService.getFileLink(myUser.avatarLink);
       this.bannerSrc = this.cdnService.getFileLink(myUser.bannerLink);
@@ -151,7 +164,7 @@ export class UserComponent implements OnInit, OnDestroy {
       };
       this.hasEditPerms = this.securityService.isPermissionValidForOpDomain(Permission.UpdateProfile, this.opDomain);
 
-      this.userSocials = myUser.socials.map(x => new UserSocial(x.platform, x.username, x.link));
+      this.userSocials = myUser.socials;
 
       this.updateBannerColor();
       
@@ -201,6 +214,9 @@ export class UserComponent implements OnInit, OnDestroy {
     this.selectedAvatarFile = undefined;
     this.selectedBannerFile = undefined;
 
+    this.socialsEdited = false;
+    this.userSocialEdits = this.userSocials.map(x => new UserSocialEdit(deepClone(x)));
+
     this.form.get('displayName')?.setValue(this.displayName);
     this.form.get('bio')?.setValue(this.bio);
   }
@@ -210,12 +226,43 @@ export class UserComponent implements OnInit, OnDestroy {
     this.isEditing = false;
   }
 
+  onEditSocial() {
+    this.socialsEdited = true;
+  }
+
+  onAddSocial() {
+    this.userSocialEdits.push(new UserSocialEdit());
+  }
+
+  onDeleteSocial(index: number) {
+    this.userSocialEdits.splice(index, 1);
+  }
+
+  validate() {
+    let valid = true;
+    for (const userSocialEdit of this.userSocialEdits) {
+      if (!userSocialEdit.validate())
+        valid = false;
+    }
+
+    return valid;
+  }
+
   saveProfile() {
+    if (!this.validate())
+      return;
+    
     this.isEditing = false;
     // TODO: handle sending new profile data to server
     
     // Upload profile picture
     const profileUploadFormData = new FormData();
+
+    // Socials changed 
+    if (this.socialsEdited) {
+      // Store JSON array of the new socials
+      profileUploadFormData.set("socials", JSON.stringify(this.userSocialEdits.map(x => x.userSocial)));
+    }
 
     // Display name changed
     if (this.form.get("displayName")?.value !== this.displayName) {
@@ -242,14 +289,26 @@ export class UserComponent implements OnInit, OnDestroy {
       this.backend
         .withAuth()
         .withOpDomain(this.opDomain)
-        .post(
+        .post<{
+          data: {
+            avatarLink?: string,
+            bannerLink?: string,
+            socials?: {
+              username: string,
+              platform: string,
+              link: string
+            }[],
+            bio?: string,
+            displayName?: string,
+          }
+        }>(
           "/upload/user/", 
           profileUploadFormData
         ).subscribe({
           error: (error) => {
             this.removeProcess();
           },
-          next: (value: any) => {
+          next: (value) => {
             if (value.data.avatarLink)
               this.avatarSrc = this.cdnService.getFileLink(value.data.avatarLink);
             if (value.data.bannerLink)
@@ -258,6 +317,9 @@ export class UserComponent implements OnInit, OnDestroy {
               this.displayName = value.data.displayName;
             if (value.data.bio)
               this.bio = value.data.bio;
+            if (value.data.socials) {
+              this.userSocials = value.data.socials;
+            }
 
             this.updateBannerColor();
           },

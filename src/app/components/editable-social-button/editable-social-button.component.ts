@@ -1,6 +1,17 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { SOCIAL_PLATFORMS, UserSocial as UserSocial } from '@app/utils/user-social';
+
+export class UserSocialEdit {
+  constructor(
+    public userSocial: UserSocial = {} as UserSocial,
+    public editableSocialButton?: EditableSocialButtonComponent,
+  ) {}
+
+  public validate() {
+    return this.editableSocialButton?.validate();
+  }
+}
 
 @Component({
   selector: 'app-editable-social-button',
@@ -8,35 +19,57 @@ import { SOCIAL_PLATFORMS, UserSocial as UserSocial } from '@app/utils/user-soci
   styleUrls: ['./editable-social-button.component.css']
 })
 export class EditableSocialButtonComponent implements OnInit {
-  @Input() userSocial: UserSocial | undefined;
+  @Output() delete = new EventEmitter();
+  @Output() edit = new EventEmitter();
 
-  @Input() icon: string = "";
-  @Input() username: string = "";
-  @Input() link: string = "";
+  @Input() userSocialEdit: UserSocialEdit = new UserSocialEdit();
 
   form: FormGroup;
-  platform = new FormControl();
-
-
+  get platform() {
+    return this.form.get('platform');
+  }
+  
   constructor(private formBuilder: FormBuilder) { 
     this.form = formBuilder.group({
       platform: [null, [Validators.required]],
       username: [null, [Validators.required]],
-      url: [null, [Validators.required]],
-    })
+      link: [null, [Validators.required]],
+    });
   }
 
   ngOnInit(): void {
-    if (this.userSocial) {
-      const platform = SOCIAL_PLATFORMS[this.userSocial.platform];
-      this.icon = platform.icon;
-      this.link = this.userSocial.link;
-      this.username = this.userSocial.username;
-    }
+    this.userSocialEdit.editableSocialButton = this;
+    this.form.get('platform')?.setValue(this.userSocialEdit.userSocial.platform);
+    this.form.get('username')?.setValue(this.userSocialEdit.userSocial.username);
+    this.form.get('link')?.setValue(this.userSocialEdit.userSocial.link);
+    this.form.get('platform')?.valueChanges.subscribe({
+      next: (value: string) => {
+        this.userSocialEdit.userSocial.platform = value;
+        this.edit.emit();
+      }
+    });
+    this.form.get('username')?.valueChanges.subscribe({
+      next: (value: string) => {
+        this.userSocialEdit.userSocial.username = value;
+        this.edit.emit();
+      }
+    });
+    this.form.get('link')?.valueChanges.subscribe({
+      next: (value: string) => {
+        this.userSocialEdit.userSocial.link = value;
+        this.edit.emit();
+      }
+    });
   }
 
-  onClick() {
-    window.open(this.link, '_blank');
+  validate() {
+    this.form.updateValueAndValidity();
+    return this.form.valid;
+  }
+
+  onDelete() {
+    this.edit.emit();
+    this.delete.emit();
   }
 
   getSocialPlatforms() {
