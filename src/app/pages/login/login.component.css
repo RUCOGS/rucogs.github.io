@@ -18,3 +18,9 @@ input[type="password"] {
   font-style: normal;
   font-weight: bold;
 }
+
+.icon {
+  position: relative;
+  top: 4px;
+  margin-right: 0.2em;
+}

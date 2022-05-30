@@ -2,6 +2,35 @@
 import { Injectable } from '@angular/core';
 import { FileUtils } from '@app/utils/file-utils';
 import { PageLink } from "@utils/pagelink";
+import discord from '@iconify/icons-simple-icons/discord'
+import twitter from '@iconify/icons-simple-icons/twitter'
+import github from '@iconify/icons-simple-icons/github'
+import soundCloud from '@iconify/icons-simple-icons/soundcloud'
+import appStore from '@iconify/icons-simple-icons/appstore'
+import googlePlay from '@iconify/icons-simple-icons/googleplay'
+import itchdotio from '@iconify/icons-simple-icons/itchdotio'
+import pixiv from '@iconify/icons-simple-icons/pixiv'
+import twitch from '@iconify/icons-simple-icons/twitch'
+import instagram from '@iconify/icons-simple-icons/instagram'
+import youtube from '@iconify/icons-simple-icons/youtube'
+import steam from '@iconify/icons-simple-icons/steam'
+import spotify from '@iconify/icons-simple-icons/spotify'
+import unity from '@iconify/icons-simple-icons/unity'
+import unrealEngine from '@iconify/icons-simple-icons/unrealengine'
+import blender from '@iconify/icons-simple-icons/blender'
+import html5 from '@iconify/icons-simple-icons/html5'
+import link from '@iconify/icons-bx/link'
+import mail from '@iconify/icons-ant-design/mail-filled'
+import arrowExportRight from '@iconify/icons-fluent/arrow-export-ltr-16-filled'
+import arrowRight from '@iconify/icons-fluent/arrow-right-16-filled'
+import arrowExportLeft from '@iconify/icons-fluent/arrow-export-rtl-16-filled'
+import arrowLeft from '@iconify/icons-fluent/arrow-left-16-filled'
+import chevronUp from '@iconify/icons-bx/chevron-up';
+import arrrowDownCircleFill from '@iconify/icons-bi/arrow-down-circle-fill';
+import article from '@iconify/icons-ic/outline-article';
+import video from '@iconify/icons-dashicons/format-video';
+import tutorial from '@iconify/icons-ic/outline-integration-instructions'
+import google from '@iconify/icons-simple-icons/google';
 
 // Settings for the entire site.
 // Edit these if you need to make minor tweaks
@@ -34,6 +63,38 @@ export class SettingsService {
     public twitterLink: string = "https://twitter.com/RutgersCOGS";
     public discordLink: string = "https://discord.gg/aQUgesr";
     public mailingListLink: string = "http://eepurl.com/cgDAk5";
+
+    public icons = {
+      discord,
+      twitter,
+      github,
+      soundCloud,
+      appStore,
+      googlePlay,
+      itchdotio,
+      pixiv,
+      twitch,
+      instagram,
+      youtube,
+      steam,
+      spotify,
+      unity,
+      unrealEngine,
+      blender,
+      html5,
+      link,
+      mail,
+      arrowExportRight,
+      arrowRight,
+      arrowExportLeft,
+      arrowLeft,
+      chevronUp,
+      arrrowDownCircleFill,
+      article,
+      video,
+      tutorial,
+      google
+    }
   }
   public Backend = new class {
     public backendApiLink: string = "http://localhost:8080";

@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { SettingsService } from '@src/_settings';
+import { IconService } from '@visurel/iconify-angular';
 
 @Component({
   selector: 'app-root',
@@ -8,5 +10,11 @@ import { Component } from '@angular/core';
 export class AppComponent {
   title = 'cogs';
   
-  constructor() {}
+  constructor(
+    private iconService: IconService,
+    private settings: SettingsService
+  ) {
+    console.log("registered all icons")
+    iconService.registerAll(settings.General.icons);
+  }
 }
