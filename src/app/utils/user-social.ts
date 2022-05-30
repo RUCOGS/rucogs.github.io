@@ -1,9 +1,7 @@
-export class UserSocial {
-  constructor(
-    public platform: string,
-    public username: string,
-    public link: string,
-  ) {}
+export type UserSocial = {
+  platform: string,
+  username: string,
+  link: string,
 }
 
 export const SOCIAL_PLATFORMS: { 

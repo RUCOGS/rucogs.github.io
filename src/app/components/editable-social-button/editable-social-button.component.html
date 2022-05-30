@@ -1,13 +1,31 @@
 <div class="app-editable-social-button editable-social-button">
-  <form [formGroup]="form" style="flex-grow: 1;">
-    <mat-form-field appearance="outline" style="width: 100%;">
+  <form [formGroup]="form" style="flex-grow: 1; display: flex; flex-direction: column;">
+    <div style="
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      margin-bottom: 1em;
+    ">
+      <h2 style="
+        flex-grow: 1;
+        margin-bottom: 0;
+      ">Social</h2>
+      <div style="
+        display: flex;
+      ">
+        <button type="button" mat-icon-button class="app-editable-social-button edit-profile-background-button" (click)="onDelete()">
+          <mat-icon>delete</mat-icon>
+        </button>
+      </div>
+    </div>
+    <mat-form-field appearance="outline">
       <mat-label>Platform</mat-label>
-      <mat-select [formControl]="platform">
-        <mat-select-trigger *ngIf="platform.value">
-          <ic-icon [icon]="getSocialPlatformData(platform.value).icon"></ic-icon>{{ getSocialPlatformData(platform.value).name }}
+      <mat-select formControlName="platform" style="min-height: 27px;">
+        <mat-select-trigger *ngIf="platform && platform.value" style="display:flex; align-items: center;">
+          <ic-icon [icon]="getSocialPlatformData(platform.value).icon" size="24px" style="margin-right:0.5em"></ic-icon>{{ getSocialPlatformData(platform.value).name }}
         </mat-select-trigger>
-        <mat-option *ngFor="let platform of getSocialPlatforms() | keyvalue" [value]="platform.key">
-          <ic-icon [icon]="platform.value.icon"></ic-icon>
+        <mat-option *ngFor="let platform of getSocialPlatforms() | keyvalue" [value]="platform.key" style="display:flex; align-items: center;">
+          <ic-icon [icon]="platform.value.icon" size="16px"></ic-icon>
           {{platform.value.name}}
         </mat-option>
       </mat-select>
@@ -15,18 +33,18 @@
         Username is required
       </mat-error>
     </mat-form-field>
-    <mat-form-field appearance="outline" style="width: 100%;">
+    <mat-form-field appearance="outline">
       <mat-label>Username</mat-label>
       <input matInput formControlName="username">
       <mat-error *ngIf="form.get('username')?.hasError('required')">
         Username is required
       </mat-error>
     </mat-form-field>
-    <mat-form-field appearance="outline" style="width: 100%; padding-top: 4px;">
-      <mat-label>URL</mat-label>
-      <input matInput formControlName="url">
-      <mat-error *ngIf="form.get('url')?.hasError('required')">
-        Url is required
+    <mat-form-field appearance="outline" style="padding-top: 4px;">
+      <mat-label>Link</mat-label>
+      <input matInput formControlName="link">
+      <mat-error *ngIf="form.get('link')?.hasError('required')">
+        Link is required
       </mat-error>
     </mat-form-field>
   </form>

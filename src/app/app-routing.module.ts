@@ -11,6 +11,7 @@ import { BlogComponent } from './pages/blog/blog.component';
 import { LoginComponent } from './pages/login/login.component';
 import { SignupComponent } from './pages/signup/signup.component';
 import { UserComponent } from './pages/user/user.component';
+import { UsersComponent } from './pages/users/users.component';
 
 const routes: Routes = [
   { path: 'home', component: HomeComponent },
@@ -35,7 +36,8 @@ const routes: Routes = [
   },
   { path: 'login', component: LoginComponent },
   { path: 'signup', component: SignupComponent },
-  { path: 'user/:username', component: UserComponent },
+  { path: 'users/:username', component: UserComponent },
+  { path: 'users', component: UsersComponent },
   { path: '', redirectTo: '/home', pathMatch: 'full' },
   { path: '**', redirectTo: '/home', pathMatch: 'full' }
 ]

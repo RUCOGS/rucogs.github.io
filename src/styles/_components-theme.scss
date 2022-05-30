@@ -24,6 +24,7 @@
 @use '../app/pages/articles/articles.component-theme' as articles-page;
 @use '../app/pages/blog/blog.component-theme' as blog-page;
 @use '../app/components/editable-social-button/editable-social-button.component-theme' as editable-social-button;
+@use '../app/pages/users/users.component-theme' as users-page; 
 
 @mixin theme($theme) {
   @include card.theme($theme);
@@ -45,6 +46,7 @@
   @include header-social-media-buttons.theme($theme);
   @include projects-display.theme($theme);
   @include user-page.theme($theme);
+  @include users-page.theme($theme);
   @include login-page.theme($theme);
   @include signup-page.theme($theme);
   @include social-button.theme($theme);
