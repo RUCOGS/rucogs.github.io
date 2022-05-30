@@ -37,10 +37,11 @@ export class UserComponent implements OnInit, OnDestroy {
   userSocials: UserSocial[] = [];
   projects: Project[] = [];
 
-  hasEditPerms: boolean = false;
   isEditing: boolean = false;
   processingQueue: boolean[] = [];
 
+  hasEditPerms: boolean = false;
+  hasManageRolesPerms: boolean = false;
   nonExistent: boolean = false;
   // 'processing' is set to true whenever we are processing an uplaod
   // or doing anything else asynchronously. This lets us disable uplaod controls
@@ -163,6 +164,7 @@ export class UserComponent implements OnInit, OnDestroy {
         userId: [ this.userId ]
       };
       this.hasEditPerms = this.securityService.isPermissionValidForOpDomain(Permission.UpdateProfile, this.opDomain);
+      this.hasManageRolesPerms = this.securityService.isPermissionValidForOpDomain(Permission.ManageUserRoles, this.opDomain);
 
       this.userSocials = myUser.socials;
 
@@ -198,10 +200,6 @@ export class UserComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.activatedRouteSub.unsubscribe();
     this.userQuerySubscription?.unsubscribe();
-  }
-
-  canEditProfile() {
-    return this.hasEditPerms && this.authService.getPayload()?.user.id === this.userId;
   }
 
   editProfile() {

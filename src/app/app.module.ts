@@ -81,6 +81,7 @@ import { GraphQLModule } from './modules/graphql/graphql.module';
 import { EditableSocialButtonComponent } from './components/editable-social-button/editable-social-button.component';
 import { IconModule } from '@visurel/iconify-angular';
 import { UsersComponent } from './pages/users/users.component';
+import { RolesEditorModule } from '@modules/roles-editor/roles-editor.module'; 
 
 @NgModule({
   declarations: [
@@ -161,6 +162,7 @@ import { UsersComponent } from './pages/users/users.component';
     MarkdownNavModule,
     MatButtonToggleModule,
     IconModule,
+    RolesEditorModule,
     MarkdownModule.forRoot({
       sanitize: SecurityContext.NONE
     }),

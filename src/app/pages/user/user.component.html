@@ -87,12 +87,9 @@
                 </div>
               </div>
             </div>
-            <h2>Projects</h2>
-            <app-card-grid column-width="300px">
-              <!-- When we are not filtering, we do not want to section off the projects. -->
-              <!-- It's guaranteed that all the projects will be put into a section as the only element in the sortedSections[] array. -->
-              <app-project-item *ngFor="let project of projects;" [project]="project"></app-project-item>
-            </app-card-grid>
+            <div *ngIf="hasManageRolesPerms">
+              <h2>Roles</h2>
+            </div>
           </div>
       </div>
         </div>
@@ -127,7 +124,7 @@
             gap: 20px;
             justify-content: center;
           ">
-            <button class="app-user edit-profile-button" mat-stroked-button color="basic" pill (click)="editProfile()" *ngIf="canEditProfile()">Edit Profile
+            <button class="app-user edit-profile-button" mat-stroked-button color="basic" pill (click)="editProfile()" *ngIf="hasEditPerms">Edit Profile
             </button>
           </div>
         </div>
