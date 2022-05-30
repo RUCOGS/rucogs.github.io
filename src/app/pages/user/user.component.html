@@ -122,7 +122,7 @@
             gap: 20px;
             justify-content: center;
           ">
-            <button class="app-user edit-profile-button" mat-stroked-button color="basic" pill (click)="editProfile()" [hidden]="!canEditProfile()">Edit Profile
+            <button class="app-user edit-profile-button" mat-stroked-button color="basic" pill (click)="editProfile()" *ngIf="canEditProfile()">Edit Profile
             </button>
           </div>
         </div>

@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Project } from '@app/utils/project';
 import { FileUtils } from '@app/utils/file-utils';
@@ -81,6 +81,7 @@ export class UserComponent implements OnInit, OnDestroy {
     private authService: AuthService,
     private securityService: SecurityService,
     private cdnService: CdnService,
+    private changeDetector: ChangeDetectorRef,
   ) {
     this.form = formBuilder.group({
       displayName: [null, [Validators.required]],
@@ -153,6 +154,8 @@ export class UserComponent implements OnInit, OnDestroy {
       this.userSocials = myUser.socials.map(x => new UserSocial(x.platform, x.username, x.link));
 
       this.updateBannerColor();
+      
+      this.changeDetector.detectChanges();
     });
   }
   
@@ -185,7 +188,7 @@ export class UserComponent implements OnInit, OnDestroy {
   }
 
   canEditProfile() {
-    return this.authService.getPayload()?.user.id === this.userId && this.hasEditPerms;
+    return this.hasEditPerms && this.authService.getPayload()?.user.id === this.userId;
   }
 
   editProfile() {
@@ -233,10 +236,6 @@ export class UserComponent implements OnInit, OnDestroy {
       profileUploadFormData.append("banner", this.selectedBannerFile);
     }
 
-    for (const entry of profileUploadFormData.entries()) {
-      console.log(entry);
-    }
-
     // If change data is not empty, meaning there were changes...
     if (profileUploadFormData.entries().next().value) {
       this.addProcess();
@@ -248,13 +247,9 @@ export class UserComponent implements OnInit, OnDestroy {
           profileUploadFormData
         ).subscribe({
           error: (error) => {
-            console.log("Hit error");
-            console.log(error);
             this.removeProcess();
           },
           next: (value: any) => {
-            console.log("value: " + JSON.stringify(value));
-            
             if (value.data.avatarLink)
               this.avatarSrc = this.cdnService.getFileLink(value.data.avatarLink);
             if (value.data.bannerLink)
