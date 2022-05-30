@@ -22,7 +22,7 @@
       <mat-form-field appearance="fill">
         <mat-label>Password</mat-label>
         <input matInput [type]="hide ? 'password' : 'text'" formControlName="password">
-        <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+        <button type="button" mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
           <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
         </button>
         <mat-error *ngIf="form.get('password')?.hasError('required')">
@@ -32,7 +32,7 @@
           Signup failed: {{ errorMessage }}
         </mat-error>
       </mat-form-field>
-      <button mat-flat-button type="submit" color="primary" tall-button>Sign up</button>
+      <button mat-flat-button type="submit" color="primary" tall-button class="mt-16">Sign up</button>
     </form>
 
     <div class="app-signup social-signup-container">
