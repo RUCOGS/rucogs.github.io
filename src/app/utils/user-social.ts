@@ -8,46 +8,60 @@ export class UserSocial {
 
 export const SOCIAL_PLATFORMS: { 
   [key: string]: { 
+    name: string,
     icon: string 
   }; 
 } = {
   youtube: {
-    icon: "logos:youtube-icon"
+    name: "Youtube",
+    icon: "youtube"
   },
   twitter: {
-    icon: "akar-icons:twitter-fill"
+    name: "Twitter",
+    icon: "twitter"
   },
   itchio: {
-    icon: "simple-icons:itchdotio"
+    name: "Itch.io",
+    icon: "itchdotio"
   },
   pixiv: {
-    icon: "simple-icons:pixiv"
+    name: "Pixiv",
+    icon: "pixiv"
   },
   instagram: {
-    icon: "logos:instagram-icon"
+    name: "Instagram",
+    icon: "instagram"
   },
   website: {
-    icon: "bx:bx-link"
+    name: "Website",
+    icon: "link"
   },
   github: {
-    icon: "logos:github-icon"
+    name: "Github",
+    icon: "github"
   },
   steam: {
-    icon: "logos:steam"
+    name: "Steam",
+    icon: "steam"
   },
   googlePlay: {
-    icon: "logos:google-play-icon"
+    name: "Google Play",
+    icon: "googlePlay"
   },
   appleStore: {
-    icon: "logos:apple"
+    name: "Apple Store",
+    icon: "appStore"
   },
   soundCloud: {
-    icon: "logos:soundcloud"
+    name: "Sound Cloud",
+    icon: "soundCloud"
   },
   spotify: {
-    icon: "logos:spotify-icon"
+    name: "Spotify",
+    icon: "spotify"
   },
   twitch: {
-    icon: "logos:twitch"
+    name: "Twitch",
+    icon: "twitch"
   }
 };

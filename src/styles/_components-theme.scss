@@ -23,6 +23,7 @@
 @use '../app/components/article-item/article-item.component-theme' as article-item;
 @use '../app/pages/articles/articles.component-theme' as articles-page;
 @use '../app/pages/blog/blog.component-theme' as blog-page;
+@use '../app/components/editable-social-button/editable-social-button.component-theme' as editable-social-button;
 
 @mixin theme($theme) {
   @include card.theme($theme);
@@ -50,4 +51,5 @@
   @include articles-page.theme($theme);
   @include article-item.theme($theme);
   @include blog-page.theme($theme);
+  @include editable-social-button.theme($theme);
 }

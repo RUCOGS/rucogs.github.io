@@ -18,11 +18,11 @@ export class ResourceItemComponent implements OnInit {
   getIcon(): string {
     switch (this.type) {
       case "article":
-        return "ic:outline-article";
+        return "article";
       case "video":
-        return "dashicons:format-video";
+        return "video";
       case "tutorial":
-        return "ic:outline-integration-instructions";
+        return "tutorial";
       default:
         return "";
     }

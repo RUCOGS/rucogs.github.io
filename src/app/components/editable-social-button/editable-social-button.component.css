@@ -1,0 +1,16 @@
+.editable-social-button {
+  border: 2px solid;
+  border-radius: 8px;
+  display: flex;
+  gap: 12px;
+  align-content: center;
+  align-items: center;
+  padding: 12px;
+  padding-left: 20px;
+  flex-wrap: wrap;
+}
+
+.icon {
+  position: relative;
+  top: 3px
+}

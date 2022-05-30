@@ -78,6 +78,8 @@ import { BlogComponent } from './pages/blog/blog.component';
 import { PaginatorComponent } from './components/paginator/paginator.component';
 import { ArticleItemComponent } from './components/article-item/article-item.component';
 import { GraphQLModule } from './modules/graphql/graphql.module';
+import { EditableSocialButtonComponent } from './components/editable-social-button/editable-social-button.component';
+import { IconModule } from '@visurel/iconify-angular';
 
 @NgModule({
   declarations: [
@@ -127,6 +129,7 @@ import { GraphQLModule } from './modules/graphql/graphql.module';
     BlogComponent,
     PaginatorComponent,
     ArticleItemComponent,
+    EditableSocialButtonComponent,
   ],
   imports: [
     FormsModule,
@@ -155,6 +158,7 @@ import { GraphQLModule } from './modules/graphql/graphql.module';
     HttpClientModule,
     MarkdownNavModule,
     MatButtonToggleModule,
+    IconModule,
     MarkdownModule.forRoot({
       sanitize: SecurityContext.NONE
     }),

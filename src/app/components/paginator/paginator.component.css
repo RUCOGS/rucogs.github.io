@@ -8,11 +8,12 @@
 	justify-content: center;
 }
 
+.icon {
+	position: relative;
+	top: 6px;
+}
+
 .page-button {
 	min-width: 48px;
 	font-weight: 800;
-}
-
-::ng-deep .mat-form-field-wrapper{
-   margin-bottom: -1.25em;
 }

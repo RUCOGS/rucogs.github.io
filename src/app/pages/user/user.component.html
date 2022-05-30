@@ -133,7 +133,8 @@
           <div class="app-user socials-container">
             <div class="app-user socials-button-container">
               <div *ngFor="let userSocial of userSocials">
-                <app-social-button [userSocial]="userSocial"></app-social-button>
+                <!-- <app-social-button [userSocial]="userSocial"></app-social-button> -->
+                <app-editable-social-button [userSocial]="userSocial"></app-editable-social-button>
               </div>
             </div>
           </div>
