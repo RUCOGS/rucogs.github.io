@@ -47,8 +47,6 @@ export class ProjectsDisplayComponent implements AfterViewInit, OnChanges {
   standardizeSectionCardGrids() {
     if (!this.sectionsContainer)
       return;
-    
-    console.log(this.sectionsContainer.nativeElement.querySelectorAll("app-card-grid"));
 
     for (let grid of this.sectionsContainer.nativeElement.querySelectorAll("app-card-grid")) {
       grid.style.gridTemplateColumns = `repeat(auto-fit, 1fr)`;
@@ -60,7 +58,7 @@ export class ProjectsDisplayComponent implements AfterViewInit, OnChanges {
       if (determiningGrid === undefined || (grid.childElementCount >= determiningGrid.childElementCount))
         determiningGrid = grid;
     }
-    console.log("min width: " + determiningGrid);
+    
     for (let grid of this.sectionsContainer.nativeElement.querySelectorAll("app-card-grid")) {
       if (grid !== determiningGrid)
         grid.style.gridTemplateColumns = `repeat(auto-fit, ${determiningGrid.children[0].clientWidth - 0.5}px)`;

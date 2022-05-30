@@ -37,8 +37,6 @@ export class LoginComponent implements OnInit {
   private performLogin(observable: Observable<any>) {
     observable.subscribe({
       next: data => {
-        console.log(JSON.stringify(data.user));
-
         this.isLoginFailed = false;
         this.router.navigateByUrl('/user/' + data.user.username);
       },

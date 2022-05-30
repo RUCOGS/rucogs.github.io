@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { OperationSecurityDomain, SecurityDomain, SecurityPolicies, SecurityContext } from '@src/shared/security.types';
 import { Apollo, gql } from 'apollo-angular';
 import { Subscription } from 'rxjs';
+import { BackendService } from './backend.service';
 
 @Injectable({
   providedIn: 'root'
@@ -12,12 +13,12 @@ export class SecurityService {
 
   private querySubscription: Subscription | undefined;
   
-  constructor(private apollo: Apollo) { 
+  constructor(private backend: BackendService) { 
     this.fetchData();
   }
 
   private fetchData() {
-    this.querySubscription = this.apollo.watchQuery<{
+    this.querySubscription = this.backend.withAuth().watchQuery<{
       securityContext: SecurityContext
       securityPolicies: SecurityPolicies
     }>({
@@ -30,7 +31,7 @@ export class SecurityService {
     })
     .valueChanges.subscribe(({data}) => {
       this.securityContext = data.securityContext;
-      this.securityPolicies = data.securityPolicies
+      this.securityPolicies = data.securityPolicies;
     });
   }
 
