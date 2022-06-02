@@ -1,0 +1,32 @@
+.avatar-container {
+  --border-width: 4px;
+  width: calc(var(--length) + var(--border-width));
+  height: calc(var(--length) + var(--border-width));
+  position: relative;
+  box-sizing: content-box;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.avatar {
+  position: absolute;
+  border-radius: 50%;
+  border-style: solid;
+  border-width: var(--border-width);
+  width: calc(100% - 2 * var(--border-width));
+  height: calc(100% - 2 * var(--border-width));
+  object-fit: cover;
+}
+
+.large {
+  --length: 128px;
+}
+
+.medium {
+  --length: 64px;
+}
+
+.small {
+  --length: 42px
+}

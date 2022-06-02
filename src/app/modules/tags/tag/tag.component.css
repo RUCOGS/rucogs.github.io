@@ -1,0 +1,16 @@
+:host {
+	margin: 4px;
+	min-height: 32px;
+	width: fit-content;
+}
+
+.bg {
+	display: inline-flex;
+	align-items: center;
+	height: 100%;
+	width: fit-content;
+	border-radius: 16px;
+	padding-left: 12px;
+	padding-right: 12px;
+	padding-top: auto;
+}

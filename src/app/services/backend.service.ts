@@ -1,7 +1,7 @@
 import { HttpClient, HttpContext, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ApolloQueryResult, FetchResult, QueryOptions, SubscriptionOptions, WatchQueryOptions } from '@apollo/client/core';
-import { OperationSecurityDomain } from '@src/shared/security.types';
+import { OperationSecurityDomain } from '@src/shared/security';
 import { SettingsService } from '@src/_settings';
 import { Apollo, QueryRef } from 'apollo-angular';
 import { EmptyObject, ExtraSubscriptionOptions, MutationOptions, MutationResult } from 'apollo-angular/types';

@@ -1,9 +1,13 @@
-import { AfterViewInit, ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
-import { FilterHeaderComponent } from '@app/components/filter-header/filter-header.component';
-import { PaginatorComponent } from '@app/components/paginator/paginator.component';
+import { BreakpointObserver, BreakpointState } from '@angular/cdk/layout';
+import { AfterViewInit, Component, ElementRef, HostListener, OnInit, ViewChild } from '@angular/core';
 import { BreakpointManagerService } from '@app/services/breakpoint-manager.service';
-import { ArticleInfo } from '@app/utils/article-info';
-import { BlogPageArticles } from '@app/utils/blog-page-articles';
+import { FilterHeaderComponent } from '@src/app/components/filter-header/filter-header.component';
+import { ApolloContext } from '@src/app/modules/graphql/graphql.module';
+import { BackendService } from '@src/app/services/backend.service';
+import { ScrollService } from '@src/app/services/scroll.service';
+import { User } from '@src/generated/graphql-endpoint.types';
+import { gql } from 'apollo-angular';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-users',
@@ -11,116 +15,69 @@ import { BlogPageArticles } from '@app/utils/blog-page-articles';
   styleUrls: ['./users.component.css']
 })
 export class UsersComponent implements AfterViewInit {
-
+  
   @ViewChild(FilterHeaderComponent) filterHeader: FilterHeaderComponent | undefined;
-  @ViewChild("paginatorTop") paginatorTop: PaginatorComponent | undefined;
-  @ViewChild("paginatorBottom") paginatorBottom: PaginatorComponent | undefined;
+  @ViewChild('usersContainer') usersContainer: ElementRef | undefined;
+  users: Partial<User>[] = [];
 
-  currentPage: number = 1;
-  articles: ArticleInfo[] = BlogPageArticles;
-  filteredArticles: ArticleInfo[] = [];
-  activeArticles: ArticleInfo[] = [];
-  lastPage: number = 10;
-  articlesPerPage: number = 5;
+  private usersQuerySubscription: Subscription | undefined;
 
-  constructor(private changeDetector: ChangeDetectorRef, public breakpointManager: BreakpointManagerService) {}
+  constructor(
+    private scrollService: ScrollService,
+    private backend: BackendService,
+  ) { 
+    scrollService.scrolledToBottom.subscribe(() => {
+      
+    });
+    this.initUsers();
 
-  ngAfterViewInit(): void {
-    if (!this.filterHeader || !this.paginatorBottom || !this.paginatorTop)
-      return;
-    
-    // NOTE: This is really inefficient because we are regenerating the entire sortedSections array
-    //       whenever the user changes a filter option. We should consider only modifying parts of
-    //       of the sorted array that are needed (ie. only reversing the sortedSections if sortAscending 
-    //       changes).
-    this.filterHeader.newSearchRequest.subscribe(this.onNewSearchRequest.bind(this));
-    this.paginatorTop.currentPageChange.subscribe(this.onCurrentPageChange.bind(this));
-    this.paginatorBottom.currentPageChange.subscribe(this.onCurrentPageChange.bind(this));
-
-    this.filteredArticles = [...this.articles];
-
-    // Manually invoke to update the page
-    this.updateLastPage();
-    this.onNewSearchRequest("");
-    this.onCurrentPageChange(1);
-    this.changeDetector.detectChanges();
-  }
-
-  onCurrentPageChange(value: number) {
-    if (!this.paginatorBottom || !this.paginatorTop)
-      return;
-    
-    if (this.paginatorTop.currentPage != value)
-      this.paginatorTop.setCurrentPageEventless(value);
-    if (this.paginatorBottom.currentPage != value)
-      this.paginatorBottom.setCurrentPageEventless(value);
-    
-    this.currentPage = value;
-    this.updateUserEntries();
-  }
-
-  updateUserEntries() {
-    this.activeArticles = [];
-    for (let i = 0; i < this.articlesPerPage; i++) {
-      // Actual pages are stored in an array,
-      // which is zero indexed.
-      const pageIndex = (this.currentPage - 1) * this.articlesPerPage + i;
-      if (pageIndex >= this.filteredArticles.length)
-        break;
-      this.activeArticles.push(this.filteredArticles[pageIndex]);
-    }
-  }
-
-  onNewSearchRequest(searchText: string) {
-    if (this.filterHeader === undefined)
-      return;
-
-    searchText = searchText.toLowerCase();
-
-    if (searchText === "") {
-      this.filteredArticles = [...this.articles];
-      this.filteredArticles.sort((a: ArticleInfo, b: ArticleInfo) => {
-        const dateA = new Date(a.date);
-        const dateB = new Date(b.date);
-        if (dateA < dateB)
-          return 1;
-        else if (dateA > dateB)
-          return -1;
-        else
-          return 0;
-      });
-    } else {
-      this.filteredArticles = [];
-      let articlesWithRankings: ArticleWithRanking[] = [];
-      for (let article of this.articles) {
-        const searchRanking = this.getArticleText(article).indexOf(searchText);
-        if (searchRanking >= 0)
-          articlesWithRankings.push(new ArticleWithRanking(article, searchRanking));
+    this.usersQuerySubscription = this.backend.watchQuery<{
+      users: {
+        // Result type
+        avatarLink: string, 
+        displayName: string,
+        username: string,
+        bio: string,
+      }[]
+    }>({
+      query: gql`
+        query {
+          users {
+            avatarLink
+            displayName
+            username
+          }
+        }
+      `,
+      context: <ApolloContext>{
+        authenticate: true,
       }
-      articlesWithRankings.sort((a: ArticleWithRanking, b: ArticleWithRanking) => {
-        return b.ranking - a.ranking;
-      });
-      this.filteredArticles = articlesWithRankings.map(x => x.article);
-    }
-
-    this.updateLastPage();
-    this.onCurrentPageChange(1);
+    })
+    .valueChanges.subscribe(({data}) => {
+      this.users = data.users;
+    });
   }
 
-  updateLastPage() {
-    this.lastPage = Math.ceil(this.filteredArticles.length / this.articlesPerPage);
+  // TODO: Remove this in production
+  initUsers() {
+    const base = [
+      {
+        avatarLink: "https://pfps.gg/assets/pfps/6721-rimuru-tempest.png",
+        username: "Atlinx",
+        displayName: "At Lynx"
+      },
+      {
+        avatarLink: "https://pfps.gg/assets/pfps/5081-anime-girl-with-pink-hair.png",
+        username: "Linx38",
+        displayName: "Linx"
+      },
+      {
+        avatarLink: "https://pfps.gg/assets/pfps/9018-super-cute-anime-girl-with-brown-eyes.png",
+        username: "93tsyu",
+        displayName: "Tsu Yu"
+      }
+    ];
+    for (let i = 0; i < 50; i++)
+      this.users = this.users.concat(base);
   }
-
-  // Text representation of an article
-  getArticleText(article: ArticleInfo): string {
-    return (article.title + " " + article.description + " " + article.date + " " + article.authors.join(" ") + " " + article.tags.join(" ")).toLowerCase();
-  }
-
-  onDesktop(): boolean {
-    return this.breakpointManager.currentBreakpoint == 'desktop';
-  }
-}
-
-class ArticleWithRanking {
-  constructor(public article: ArticleInfo, public ranking: number) {}
 }

@@ -1,0 +1,26 @@
+<mat-form-field appearance="outline" style="width: 100%;">
+  <mat-label *ngIf="label">{{label}}</mat-label>
+  <mat-chip-list #roleChipList aria-label="Role selection">
+    <mat-chip
+      *ngFor="let role of roles"
+      (removed)="onRemoveRole(role)">
+      {{getRoleData(role).name}}
+      <button matChipRemove>
+        <mat-icon>cancel</mat-icon>
+      </button>
+    </mat-chip>
+    <input
+      placeholder="New role..."
+      #roleInput
+      [formControl]="roleControl"
+      [matAutocomplete]="auto"
+      [matChipInputFor]="roleChipList"
+      [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+      (matChipInputTokenEnd)="onAddRoleChip($event)">
+  </mat-chip-list>
+  <mat-autocomplete #auto="matAutocomplete" (optionSelected)="onRoleAutoSelected($event)">
+    <mat-option *ngFor="let role of filteredRoles | async" [value]="role">
+      {{getRoleData(role).name}}
+    </mat-option>
+  </mat-autocomplete>
+</mat-form-field>

@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { RoleEditItemComponent } from './role-edit-item.component';
+import { AvatarGroupComponent } from './avatar-group.component';
 
-describe('RoleEditItemComponent', () => {
-  let component: RoleEditItemComponent;
-  let fixture: ComponentFixture<RoleEditItemComponent>;
+describe('AvatarGroupComponent', () => {
+  let component: AvatarGroupComponent;
+  let fixture: ComponentFixture<AvatarGroupComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ RoleEditItemComponent ]
+      declarations: [ AvatarGroupComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(RoleEditItemComponent);
+    fixture = TestBed.createComponent(AvatarGroupComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
