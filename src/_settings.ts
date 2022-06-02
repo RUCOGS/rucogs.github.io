@@ -49,9 +49,10 @@ export class SettingsService {
     //  Format: new PageLink("Link Name", "url_relative_to_the_site");
     public pageLinks: PageLink[] = [
       new PageLink("Home", "home"),
-      new PageLink("Calendar", "calendar"),
+      new PageLink("Users", "users"),
       new PageLink("Projects", "projects"),
       new PageLink("Pictures", "pictures"),
+      new PageLink("Calendar", "calendar"),
       new PageLink("Resources", "resources"),
       // new PageLink("SGJ", "scarlet-game-jam"),
       new PageLink("Blog", "blog"),

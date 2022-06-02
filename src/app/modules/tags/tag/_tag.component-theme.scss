@@ -3,9 +3,9 @@
 
 @mixin styles($color, $contrast) {
 	&.app-tag.bg {
-    background-color: $color;
+		background-color: $color;
 		color: $contrast,
-  }
+	}
 }
 
 @mixin palette-styles($palette) {
@@ -19,12 +19,12 @@
 	$primary: map.get($config, primary);
 	$accent: map.get($config, accent);
 	$warn: map.get($config, warn);
-  $background: map.get($config, background);
-  $foreground: map.get($config, foreground);
+	$background: map.get($config, background);
+	$foreground: map.get($config, foreground);
 
 	.blank {
 		@include styles(
-			mat.get-color-from-palette($background, card), 
+			mat.get-color-from-palette($background, unselected-chip), 
 			mat.get-color-from-palette($foreground, text)
 		);
 	}
@@ -46,7 +46,7 @@
   .app-tag.bg {
     font-family: mat.font-family($config);
 		font-size: 14px;
-		font-weight: 800;
+		font-weight: 600;
   }
 }
 

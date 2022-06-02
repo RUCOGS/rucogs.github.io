@@ -89,10 +89,11 @@
             </div>
             <div *ngIf="hasManageRolesPerms">
               <h2>Roles</h2>
+              <app-role-codes-editor [roles]="selectedRoles" [allRoles]="acceptedRoles" (rolesEdited)="onEditRoles()"></app-role-codes-editor>
             </div>
           </div>
-      </div>
         </div>
+      </div>
     </form>
   </ng-template>
   <ng-template #displayPage>
@@ -142,6 +143,10 @@
                 <app-social-button [userSocial]="userSocial"></app-social-button>
               </div>
             </div>
+          </div>
+          <div>
+            <h2>Roles</h2>
+            <app-roles-display [roles]="roles"></app-roles-display>
           </div>
           <div *ngIf="projects.length > 0">
             <mat-divider></mat-divider>

@@ -3,14 +3,17 @@
 @use '@angular/material' as mat;
 
 @mixin color($config) {
-  $foreground: map.get($config, background);
+  $misc: map.get($config, misc);
+  $foreground: map.get($config, foreground);
+  $background: map.get($config, background);
 
-  .app-users.no-results-text {
-	  color: mat.get-color-from-palette($foreground, disabled-button)
-  }
+  // .app-basic-profile.container {
+  //   color: mat.get-color-from-palette($foreground, text);
+  // }
 }
 
 @mixin typography($config) {
+
 }
 
 @mixin theme($theme) {
@@ -18,7 +21,7 @@
   @if $color-config != null {
     @include color($color-config);
   }
-  
+
   $typography-config: mat.get-typography-config($theme);
   @if $typography-config != null {
     @include typography($typography-config);

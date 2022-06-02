@@ -2,15 +2,11 @@
 <app-bg-container color="blank">
   
   <app-filter-header searchBar></app-filter-header>
-
-  <app-paginator #paginatorTop class="app-users paginator" [lastPage]="lastPage" [pageNumberInput]="breakpointManager.currentBreakpoint === 'desktop'"></app-paginator>
   
-  <div class="app-users users-container">
-    <div *ngIf="activeArticles.length === 0">
+  <div #usersContainer class="app-users users-container">
+    <div *ngIf="users.length === 0">
       <h1 class="app-users no-results-text">No results found...</h1>
     </div>
-    <app-article-item *ngFor="let article of activeArticles" [article]="article"></app-article-item>
+    <app-profile-grid [users]="users"></app-profile-grid>
   </div>
-
-  <app-paginator #paginatorBottom class="app-users paginator" [lastPage]="lastPage" [pageNumberInput]="breakpointManager.currentBreakpoint === 'desktop'"></app-paginator>
 </app-bg-container>

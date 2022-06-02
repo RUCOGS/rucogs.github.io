@@ -4,8 +4,6 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { User } from '@app/utils/user';
 import { Router } from '@angular/router';
 import { SettingsService } from '@src/_settings';
-import { gql } from 'apollo-angular';
-import { OperationSecurityDomain, SecurityContext, SecurityDomain, SecurityPolicies } from '@src/shared/security.types';
 
 const AUTH_PAYLOAD_KEY = 'auth-payload';
 

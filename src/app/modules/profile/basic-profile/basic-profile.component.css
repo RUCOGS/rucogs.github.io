@@ -1,0 +1,14 @@
+:host {
+	max-width: fit-content;
+}
+
+.container {
+	color: inherit;
+	text-decoration: inherit;
+	display: block;
+	transition: transform .1s ease-out;
+}
+
+.container:hover {
+	transform: scale(1.10);
+}

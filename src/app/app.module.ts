@@ -47,8 +47,6 @@ import { DarkModeToggleComponent } from './components/dark-mode-toggle/dark-mode
 import { ImageGalleryComponent } from './components/image-gallery/image-gallery.component';
 import { ImageGalleryItemComponent } from './components/image-gallery-item/image-gallery-item.component';
 import { ProjectItemComponent } from './components/project-item/project-item.component';
-import { TagComponent } from './components/tag/tag.component';
-import { TagContainerComponent } from './components/tag-container/tag-container.component';
 import { ResourcePanelComponent } from './components/resource-panel/resource-panel.component';
 import { ResourceItemComponent } from './components/resource-item/resource-item.component';
 import { EventCardComponent } from './components/event-card/event-card.component';
@@ -81,7 +79,10 @@ import { GraphQLModule } from './modules/graphql/graphql.module';
 import { EditableSocialButtonComponent } from './components/editable-social-button/editable-social-button.component';
 import { IconModule } from '@visurel/iconify-angular';
 import { UsersComponent } from './pages/users/users.component';
-import { RolesEditorModule } from '@modules/roles-editor/roles-editor.module'; 
+import { RolesModule } from '@src/app/modules/roles/roles.module'; 
+import { TagsModule } from '@src/app/modules/tags/tags.module';
+import { AvatarModule } from './modules/avatar/avatar.module';
+import { ProfileModule } from './modules/profile/profile.module';
 
 @NgModule({
   declarations: [
@@ -108,8 +109,6 @@ import { RolesEditorModule } from '@modules/roles-editor/roles-editor.module';
     ImageGalleryComponent,
     ImageGalleryItemComponent,
     ProjectItemComponent,
-    TagComponent,
-    TagContainerComponent,
     ResourcePanelComponent,
     ResourceItemComponent,
     EventCardComponent,
@@ -162,7 +161,10 @@ import { RolesEditorModule } from '@modules/roles-editor/roles-editor.module';
     MarkdownNavModule,
     MatButtonToggleModule,
     IconModule,
-    RolesEditorModule,
+    RolesModule,
+    TagsModule,
+    AvatarModule,
+    ProfileModule,
     MarkdownModule.forRoot({
       sanitize: SecurityContext.NONE
     }),

@@ -1,0 +1,5 @@
+@use './basic-profile/basic-profile.component-theme' as basic-profile;
+
+@mixin theme($theme) {
+	@include basic-profile.theme($theme);
+}

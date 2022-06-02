@@ -1,5 +1,11 @@
 @use '../app/modules/markdown-nav/markdown-nav' as ngx-markdown-nav;
+@use '../app/modules/tags/tags' as tags;
+@use '../app/modules/avatar/avatar' as avatar;
+@use '../app/modules/profile/profile' as profile;
 
 @mixin theme($theme) {
   @include ngx-markdown-nav.theme($theme);
+  @include tags.theme($theme);
+  @include avatar.theme($theme);
+  @include profile.theme($theme);
 }

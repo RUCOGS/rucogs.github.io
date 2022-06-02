@@ -10,7 +10,6 @@
 @use '../app/components/site-footer/_site-footer.component-theme' as site-footer;
 @use '../app/components/hamburger-menu/_hamburger-menu.component-theme' as hamburger-menu;
 @use '../app/components/project-item/_project-item.component-theme' as project-item;
-@use '../app/components/tag/_tag.component-theme' as tag;
 @use '../app/pages/home/_home.component-theme' as home-page;
 @use '../app/pages/scarlet-game-jam/_scarlet-game-jam.component-theme' as scarlet-game-jam-page;
 @use '../app/components/cogs-logo-text-button/_cogs-logo-text-button.component-theme' as cogs-logo-text-button;
@@ -39,7 +38,6 @@
   @include site-footer.theme($theme);
   @include hamburger-menu.theme($theme);
   @include project-item.theme($theme);
-  @include tag.theme($theme);
   @include home-page.theme($theme);
   @include scarlet-game-jam-page.theme($theme);
   @include cogs-logo-text-button.theme($theme);

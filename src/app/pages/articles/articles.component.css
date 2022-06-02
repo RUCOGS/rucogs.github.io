@@ -11,10 +11,10 @@ markdown::ng-deep img {
 
 .bg {
 	position: relative;
-  	display: -webkit-box;
-  	display: -webkit-flex;
-  	display: -ms-flexbox;
-  	display: flex;
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: -ms-flexbox;
+	display: flex;
 	box-sizing: border-box;
 	min-height: calc(50vh - var(--site-header-height)); /* Accounting for header */
 	padding: var(--content-padding);

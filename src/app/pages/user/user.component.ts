@@ -11,8 +11,8 @@ import { UserSocial } from '@app/utils/user-social';
 import { SettingsService } from '@src/_settings';
 import { AuthService } from '@app/services/auth.service';
 import { CdnService } from '@app/services/cdn.service';
-import { OperationSecurityDomain } from '@src/shared/security.types';
-import { Permission } from '@src/generated/model.types';
+import { getRolesBelow, getRolesBelowRoles, OperationSecurityDomain, RoleDataList, RoleType } from '@src/shared/security';
+import { Permission, RoleCode } from '@src/generated/graphql-endpoint.types';
 import { SecurityService } from '@src/app/services/security.service';
 import { ApolloContext } from '@src/app/modules/graphql/graphql.module';
 import { BackendService } from '@src/app/services/backend.service';
@@ -36,6 +36,8 @@ export class UserComponent implements OnInit, OnDestroy {
   
   userSocials: UserSocial[] = [];
   projects: Project[] = [];
+  roles: RoleCode[] = [];
+  acceptedRoles: RoleCode[] = [];
 
   isEditing: boolean = false;
   processingQueue: boolean[] = [];
@@ -69,8 +71,10 @@ export class UserComponent implements OnInit, OnDestroy {
   selectedAvatarFile: File | undefined;
   selectedBannerFile: File | undefined;
   
+  rolesEdited: boolean = false;
   socialsEdited: boolean = false;
   userSocialEdits: UserSocialEdit[] = [];
+  selectedRoles: RoleCode[] = [];
 
   avatarSrc: string = "https://c.tenor.com/Tu0MCmJ4TJUAAAAC/load-loading.gif";
   bannerSrc: string = "https://c.tenor.com/Tu0MCmJ4TJUAAAAC/load-loading.gif";
@@ -84,10 +88,8 @@ export class UserComponent implements OnInit, OnDestroy {
 
   constructor(
     private activatedRoute: ActivatedRoute, 
-    private formBuilder: FormBuilder, 
+    formBuilder: FormBuilder, 
     private backend: BackendService,
-    private settings: SettingsService,
-    private authService: AuthService,
     private securityService: SecurityService,
     private cdnService: CdnService,
     private changeDetector: ChangeDetectorRef,
@@ -115,6 +117,9 @@ export class UserComponent implements OnInit, OnDestroy {
         displayName: string,
         bio: string,
         id: string,
+        roles: {
+          roleCode: string
+        }[],
         socials: {
           username: string,
           platform: string,
@@ -130,6 +135,9 @@ export class UserComponent implements OnInit, OnDestroy {
             displayName
             bio
             id
+            roles {
+              roleCode
+            }
             socials {
               username
               platform
@@ -163,10 +171,14 @@ export class UserComponent implements OnInit, OnDestroy {
       this.opDomain = <OperationSecurityDomain>{
         userId: [ this.userId ]
       };
-      this.hasEditPerms = this.securityService.isPermissionValidForOpDomain(Permission.UpdateProfile, this.opDomain);
-      this.hasManageRolesPerms = this.securityService.isPermissionValidForOpDomain(Permission.ManageUserRoles, this.opDomain);
+      const permCalc = this.securityService.makePermCalc().withDomain(this.opDomain);
+      this.hasEditPerms = permCalc.hasPermission(Permission.UpdateProfile);
+      this.hasManageRolesPerms = permCalc.hasPermission(Permission.ManageUserRoles);
 
       this.userSocials = myUser.socials;
+      this.roles = myUser.roles.map(x => x.roleCode as RoleCode);
+      
+      this.acceptedRoles = getRolesBelowRoles(this.roles);
 
       this.updateBannerColor();
       
@@ -215,6 +227,9 @@ export class UserComponent implements OnInit, OnDestroy {
     this.socialsEdited = false;
     this.userSocialEdits = this.userSocials.map(x => new UserSocialEdit(deepClone(x)));
 
+    this.rolesEdited = false;
+    this.selectedRoles = this.roles;
+
     this.form.get('displayName')?.setValue(this.displayName);
     this.form.get('bio')?.setValue(this.bio);
   }
@@ -226,6 +241,10 @@ export class UserComponent implements OnInit, OnDestroy {
 
   onEditSocial() {
     this.socialsEdited = true;
+  }
+
+  onEditRoles() {
+    this.rolesEdited = true;
   }
 
   onAddSocial() {
@@ -255,6 +274,11 @@ export class UserComponent implements OnInit, OnDestroy {
     
     // Upload profile picture
     const profileUploadFormData = new FormData();
+
+    if (this.rolesEdited) {
+      console.log("roles edit");
+      profileUploadFormData.set("roles", JSON.stringify(this.roles));
+    }
 
     // Socials changed 
     if (this.socialsEdited) {
@@ -298,6 +322,7 @@ export class UserComponent implements OnInit, OnDestroy {
             }[],
             bio?: string,
             displayName?: string,
+            roleCodes?: RoleCode[],
           }
         }>(
           "/upload/user/", 
@@ -315,11 +340,13 @@ export class UserComponent implements OnInit, OnDestroy {
               this.displayName = value.data.displayName;
             if (value.data.bio)
               this.bio = value.data.bio;
-            if (value.data.socials) {
+            if (value.data.socials)
               this.userSocials = value.data.socials;
-            }
+            if (value.data.roleCodes)
+              this.roles = value.data.roleCodes
 
-            this.updateBannerColor();
+            if (value.data.avatarLink || value.data.bannerLink)
+              this.updateBannerColor();
           },
           complete: () => {
             console.log("uploading payload complete");
