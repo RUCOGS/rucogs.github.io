@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { SOCIAL_PLATFORMS } from '@src/app/utils/social-platforms';
+import { SOCIAL_PLATFORMS } from '@src/app/settings/_settings.module';
 import { UserSocial } from '@src/generated/graphql-endpoint.types';
 
 export class UserSocialEdit {

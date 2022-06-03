@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { SOCIAL_PLATFORMS } from '@src/app/utils/social-platforms';
+import { SOCIAL_PLATFORMS } from '@src/app/settings/_settings.module';
 import { UserSocial } from '@src/generated/graphql-endpoint.types';
 
 @Component({

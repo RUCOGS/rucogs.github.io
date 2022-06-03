@@ -3,6 +3,9 @@ import { CommonModule } from '@angular/common';
 import { ProjectItemComponent } from './project-item/project-item.component';
 import { ProjectsDisplayComponent } from './projects-display/projects-display.component';
 import { FilteringModule } from '../filtering/filtering.module';
+import { CardsModule } from '../cards/cards.module';
+import { AvatarModule } from '../avatar/avatar.module';
+import { TagsModule } from '../tags/tags.module';
 
 
 
@@ -14,6 +17,9 @@ import { FilteringModule } from '../filtering/filtering.module';
   imports: [
     CommonModule,
     FilteringModule,
+    CardsModule,
+    AvatarModule,
+    TagsModule
   ],
   exports: [
     ProjectItemComponent,

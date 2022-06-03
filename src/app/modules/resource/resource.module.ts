@@ -4,6 +4,7 @@ import { ResourceItemComponent } from './resource-item/resource-item.component';
 import { ResourcePanelComponent } from './resource-panel/resource-panel.component';
 import { IconModule } from '@visurel/iconify-angular';
 import { MatExpansionModule } from '@angular/material/expansion';
+import { MatListModule } from '@angular/material/list';
 
 
 
@@ -15,7 +16,8 @@ import { MatExpansionModule } from '@angular/material/expansion';
   imports: [
     CommonModule,
     IconModule,
-    MatExpansionModule
+    MatExpansionModule,
+    MatListModule,
   ],
   exports: [
     ResourceItemComponent,

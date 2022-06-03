@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { BreakpointManagerService } from '@app/services/breakpoint-manager.service';
-import { ArticleInfo } from '@app/utils/article-info';
+import { ArticleInfo } from '@app/classes/_classes.module';
 
 @Component({
   selector: 'app-article-item',

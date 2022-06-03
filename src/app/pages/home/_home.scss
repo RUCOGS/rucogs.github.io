@@ -1,5 +1,0 @@
-@use './home/home.component-theme' as home;
-
-@mixin theme($theme) {
-	@include home.theme($theme);
-}

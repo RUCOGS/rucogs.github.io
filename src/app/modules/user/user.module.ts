@@ -13,6 +13,7 @@ import { IconModule } from '@visurel/iconify-angular';
 import { MatIconModule } from '@angular/material/icon';
 import { MatOptionModule } from '@angular/material/core';
 import { MatSelectModule } from '@angular/material/select';
+import { MatInputModule } from '@angular/material/input';
 
 
 
@@ -33,7 +34,7 @@ import { MatSelectModule } from '@angular/material/select';
     IconModule,
     MatIconModule,
     MatOptionModule,
-    MatSelectModule,
+    MatSelectModule
   ],
   exports: [
     BasicProfileComponent,

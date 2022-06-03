@@ -1,26 +1,15 @@
 import { NgModule } from '@angular/core';
-import { Route, RouterModule, Routes, UrlMatchResult, UrlSegment, UrlSegmentGroup } from '@angular/router';
-import { CalendarComponent } from '@app/pages/calendar/calendar.module';
-import { HomeComponent } from './pages/home/home.component';
-import { PicturesComponent } from './pages/pictures/pictures.component';
-import { ProjectsComponent } from './pages/projects/projects.component';
-import { ResourcesComponent } from './pages/resources/resources.component';
-import { ScarletGameJamComponent } from './pages/scarlet-game-jam/scarlet-game-jam.component';
-import { ArticlesComponent } from './pages/articles/articles/articles.component';
-import { BlogComponent } from './pages/blog/blog.component';
-import { LoginComponent } from './pages/login/login.component';
-import { SignupComponent } from './pages/signup/signup.component';
-import { UserComponent } from './pages/user/user.component';
-import { UsersComponent } from './pages/users/users.component';
+import { RouterModule, Routes, UrlSegment } from '@angular/router';
+import { BlogPageComponent, CalendarPageComponent, HomePageComponent, LoginPageComponent, PicturesPageComponent, ProjectsPageComponent, ResourcesPageComponent, ScarletGameJamPageComponent, SignupPageComponent, UserPageComponent, UsersPageComponent } from '@app/pages/pages.module';
 
 const routes: Routes = [
-  { path: 'home', component: HomeComponent },
-  { path: 'calendar', component: CalendarComponent },
-  { path: 'projects', component: ProjectsComponent },
-  { path: 'pictures', component: PicturesComponent },
-  { path: 'resources', component: ResourcesComponent },
-  { path: 'scarlet-game-jam', component: ScarletGameJamComponent },
-  { path: 'blog', component: BlogComponent },
+  { path: 'home', component: HomePageComponent },
+  { path: 'calendar', component: CalendarPageComponent },
+  { path: 'projects', component: ProjectsPageComponent },
+  { path: 'pictures', component: PicturesPageComponent },
+  { path: 'resources', component: ResourcesPageComponent },
+  { path: 'scarlet-game-jam', component: ScarletGameJamPageComponent },
+  { path: 'blog', component: BlogPageComponent },
   { 
     matcher: (url: UrlSegment[]) => {
       if (url.length > 1 && url[0].path === "blog") {
@@ -32,12 +21,12 @@ const routes: Routes = [
         };
       }
       return null;
-    }, component: ArticlesComponent 
+    }, component: PicturesPageComponent 
   },
-  { path: 'login', component: LoginComponent },
-  { path: 'signup', component: SignupComponent },
-  { path: 'users/:username', component: UserComponent },
-  { path: 'users', component: UsersComponent },
+  { path: 'login', component: LoginPageComponent },
+  { path: 'signup', component: SignupPageComponent },
+  { path: 'users/:username', component: UserPageComponent },
+  { path: 'users', component: UsersPageComponent },
   { path: '', redirectTo: '/home', pathMatch: 'full' },
   { path: '**', redirectTo: '/home', pathMatch: 'full' }
 ]
