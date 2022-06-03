@@ -1,48 +1,43 @@
 import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Project, ProjectFilterInput, UserFilterInput } from '@src/generated/graphql-endpoint.types';
+import { Project } from '@src/generated/graphql-endpoint.types';
 import { FileUtils } from '@app/utils/file-utils';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { gql } from 'apollo-angular';
 import { Subscription } from 'rxjs';
 import ColorThief from 'colorthief';
 import { Color } from '@app/classes/_classes.module';
-import { UserSocial } from '@src/generated/graphql-endpoint.types';
 import { CdnService } from '@app/services/cdn.service';
 import { getRolesBelowRoles, OperationSecurityDomain } from '@src/shared/security';
 import { Permission, RoleCode } from '@src/generated/graphql-endpoint.types';
 import { SecurityService } from '@src/app/services/security.service';
 import { ApolloContext } from '@src/app/modules/graphql/graphql.module';
 import { BackendService } from '@src/app/services/backend.service';
-import { deepClone } from '@src/app/utils/utils';
-import { UserSocialEdit } from '@src/app/modules/user/editable-social-button/editable-social-button.component';
 
-export const AVATAR_FILE_SIZE_LIMIT_MB = 5;
+export const CARD_IMAGE_FILE_SIZE_LIMIT_MB = 10;
 export const BANNER_FILE_SIZE_LIMIT_MB = 10;
 
 @Component({
-  selector: 'app-user-page',
-  templateUrl: './user-page.component.html',
-  styleUrls: ['./user-page.component.css']
+  selector: 'app-project-page',
+  templateUrl: './project-page.component.html',
+  styleUrls: ['./project-page.component.css']
 })
-export class UserPageComponent implements OnInit, OnDestroy {
-  username: string = "";
+export class ProjectPageComponent implements OnInit, OnDestroy {
+  projectname: string = "";
   displayName: string = "";
   bio: string = "";
-  userId: string = "";
-  
-  userSocials: Partial<UserSocial>[] = [];
+  projectId: string = "";
+
+  projects: Partial<Project>[] = [];
   roles: RoleCode[] = [];
   acceptedRoles: RoleCode[] = [];
 
-  hasProjects: boolean = false;
   isEditing: boolean = false;
   processingQueue: boolean[] = [];
 
   hasEditPerms: boolean = false;
-  hasManageRolesPerms: boolean = false;
+  hasManageProjectPerms: boolean = false;
   nonExistent: boolean = false;
-
   // 'processing' is set to true whenever we are processing an uplaod
   // or doing anything else asynchronously. This lets us disable uplaod controls
   // when we are still processing an image. 
@@ -61,7 +56,7 @@ export class UserPageComponent implements OnInit, OnDestroy {
   form: FormGroup;
 
   // The selected picture sources will become data URLs when
-  // a new image is uploaded from the user's computer.
+  // a new image is uploaded from the project's computer.
   selectedAvatarSrc: string = "";
   selectedBannerSrc: string = "";
   selectedDisplayName: string = "";
@@ -71,7 +66,7 @@ export class UserPageComponent implements OnInit, OnDestroy {
   
   rolesEdited: boolean = false;
   socialsEdited: boolean = false;
-  userSocialEdits: UserSocialEdit[] = [];
+  projectSocialEdits: ProjectSocialEdit[] = [];
   selectedRoles: RoleCode[] = [];
 
   avatarSrc: string = "https://c.tenor.com/Tu0MCmJ4TJUAAAAC/load-loading.gif";
@@ -79,8 +74,8 @@ export class UserPageComponent implements OnInit, OnDestroy {
   bannerColor: Color | undefined;
 
   private activatedRouteSub: any;
-  private userQuerySubscription: Subscription | undefined;
-  private userMutationSubscription: Subscription | undefined;
+  private projectQuerySubscription: Subscription | undefined;
+  private projectMutationSubscription: Subscription | undefined;
 
   private opDomain: OperationSecurityDomain | undefined;
 
@@ -100,20 +95,15 @@ export class UserPageComponent implements OnInit, OnDestroy {
   
   ngOnInit() {
     this.activatedRouteSub = this.activatedRoute.paramMap.subscribe(params => {
-      this.username = params.get('username') as string;
+      this.projectname = params.get('projectname') as string;
 
       this.fetchData();
     });
   }
-  
-  ngOnDestroy() {
-    this.activatedRouteSub.unsubscribe();
-    this.userQuerySubscription?.unsubscribe();
-  }
 
   private fetchData() {
-    this.userQuerySubscription = this.backend.watchQuery<{
-      users: {
+    this.projectQuerySubscription = this.backend.watchQuery<{
+      projects: {
         // Result type
         avatarLink: string, 
         bannerLink: string, 
@@ -124,18 +114,15 @@ export class UserPageComponent implements OnInit, OnDestroy {
           roleCode: string
         }[],
         socials: {
-          username: string,
+          projectname: string,
           platform: string,
           link: string,
         }[],
-        projectMembers: {
-          id: string
-        }[]
       }[]
     }>({
       query: gql`
-        query($filter: UserFilterInput) {
-          users(filter: $filter) {
+        query($filter: ProjectFilterInput) {
+          projects(filter: $filter) {
             avatarLink
             bannerLink
             displayName
@@ -145,19 +132,16 @@ export class UserPageComponent implements OnInit, OnDestroy {
               roleCode
             }
             socials {
-              username
+              projectname
               platform
               link
-            }
-            projectMembers {
-              id
             }
           }
         }
       `,
       variables: {
         filter: {
-          username: { eq: this.username }
+          projectname: { eq: this.projectname }
         }
       },
       context: <ApolloContext>{
@@ -165,33 +149,30 @@ export class UserPageComponent implements OnInit, OnDestroy {
       }
     })
     .valueChanges.subscribe(({data}) => {
-      if (data.users.length == 0) {
+      if (data.projects.length == 0) {
         this.nonExistent = true;
         return;
       }
       
-      const myUser = data.users[0];
-      this.avatarSrc = this.cdnService.getFileLink(myUser.avatarLink);
-      this.bannerSrc = this.cdnService.getFileLink(myUser.bannerLink);
-      this.displayName = myUser.displayName;
-      this.bio = myUser.bio;
-      this.userId = myUser.id;
+      const myProject = data.projects[0];
+      this.avatarSrc = this.cdnService.getFileLink(myProject.avatarLink);
+      this.bannerSrc = this.cdnService.getFileLink(myProject.bannerLink);
+      this.displayName = myProject.displayName;
+      this.bio = myProject.bio;
+      this.projectId = myProject.id;
       
       this.opDomain = <OperationSecurityDomain>{
-        userId: [ this.userId ]
+        projectId: [ this.projectId ]
       };
       const permCalc = this.securityService.makePermCalc().withDomain(this.opDomain);
       this.hasEditPerms = permCalc.hasPermission(Permission.UpdateProfile);
-      this.hasManageRolesPerms = permCalc.hasPermission(Permission.ManageUserRoles);
+      this.hasManageProjectPerms = permCalc.hasPermission(Permission.UpdateProject);
 
-      this.userSocials = myUser.socials;
-      this.roles = myUser.roles.map(x => x.roleCode as RoleCode);
+      this.roles = myProject.roles.map(x => x.roleCode as RoleCode);
       
       this.acceptedRoles = getRolesBelowRoles(this.roles);
 
       this.updateBannerColor();
-
-      this.hasProjects = myUser.projectMembers.length > 0;
       
       this.changeDetector.detectChanges();
     });
@@ -202,7 +183,7 @@ export class UserPageComponent implements OnInit, OnDestroy {
     if (this.bannerSrc != "")
       return;
     
-    const img = document.querySelector<HTMLImageElement>('img.app-user.profile-picture')
+    const img = document.querySelector<HTMLImageElement>('img.app-project.profile-picture')
     if (img) {
       img.setAttribute('crossOrigin', '');
       const colorThief = new ColorThief();
@@ -220,92 +201,9 @@ export class UserPageComponent implements OnInit, OnDestroy {
     }
   }
 
-  async projectsQuery(filter: any, skip: number, limit: number): Promise<Partial<Project>[]> {
-    // TODO LATER: Once Typetta gets support for filtering
-    //             based on value in foreign keys.
-    const userOwnedProjectsResult = await this.backend.query<{
-      users: {
-        projectMembers: {
-          project: {
-            id: string
-          }
-        }[]
-      }[]
-    }>({
-      query: gql`
-        query($filter: UserFilterInput) {
-          users(filter: $filter) {
-            projectMembers {
-              project {
-                id
-              }
-            }
-          }
-        }
-      `,
-      variables: {
-        filter: <UserFilterInput>{
-          id: { eq: this.userId }
-        }
-      }
-    }).toPromise();
-
-    if (userOwnedProjectsResult.error)
-      return [];
-
-    const result = await this.backend.query<{
-      projects: {
-        // Result type
-        id: string,
-        cardImageLink: string,
-        completedAt: Date,
-        createdAt: Date,
-        updatedAt: Date,
-        name: string,
-        description: string,
-        downloadLinks: string[],
-        members: {
-          user: {
-            avatarLink: string
-          }
-        }[]
-      }[]
-    }>({
-      query: gql`
-        query($filter: ProjectFilterInput, $skip: Int, $limit: Int) {
-          projects(filter: $filter, skip: $skip, limit: $limit) {
-            id
-            cardImageLink
-            completedAt
-            createdAt
-            updatedAt
-            name
-            description
-            downloadLinks
-            members {
-              user {
-                avatarLink
-              }
-            }
-          }
-        }
-      `,
-    variables: {
-      skip,
-      limit,
-      filter: <ProjectFilterInput>{
-        ...filter,
-        id: { in: userOwnedProjectsResult.data.users[0].projectMembers.map(x => x.project.id) },
-      }
-    }
-    }).toPromise();
-
-    console.log("sdf");
-    console.log(result.data);
-    
-    if (result.error)
-      return [];
-    return <Partial<Project>[]>result.data.projects;
+  ngOnDestroy() {
+    this.activatedRouteSub.unsubscribe();
+    this.projectQuerySubscription?.unsubscribe();
   }
 
   editProfile() {
@@ -317,9 +215,6 @@ export class UserPageComponent implements OnInit, OnDestroy {
 
     this.selectedAvatarFile = undefined;
     this.selectedBannerFile = undefined;
-
-    this.socialsEdited = false;
-    this.userSocialEdits = this.userSocials.map(x => new UserSocialEdit(deepClone(x)));
 
     this.rolesEdited = false;
     this.selectedRoles = this.roles;
@@ -333,26 +228,22 @@ export class UserPageComponent implements OnInit, OnDestroy {
     this.isEditing = false;
   }
 
-  onEditSocial() {
-    this.socialsEdited = true;
-  }
-
   onEditRoles() {
     this.rolesEdited = true;
   }
 
   onAddSocial() {
-    this.userSocialEdits.push(new UserSocialEdit());
+    this.projectSocialEdits.push(new ProjectSocialEdit());
   }
 
   onDeleteSocial(index: number) {
-    this.userSocialEdits.splice(index, 1);
+    this.projectSocialEdits.splice(index, 1);
   }
 
   validate() {
     let valid = true;
-    for (const userSocialEdit of this.userSocialEdits) {
-      if (!userSocialEdit.validate())
+    for (const projectSocialEdit of this.projectSocialEdits) {
+      if (!projectSocialEdit.validate())
         valid = false;
     }
 
@@ -372,12 +263,6 @@ export class UserPageComponent implements OnInit, OnDestroy {
     if (this.rolesEdited) {
       console.log("roles edit");
       profileUploadFormData.set("roles", JSON.stringify(this.roles));
-    }
-
-    // Socials changed 
-    if (this.socialsEdited) {
-      // Store JSON array of the new socials
-      profileUploadFormData.set("socials", JSON.stringify(this.userSocialEdits.map(x => x.userSocial)));
     }
 
     // Display name changed
@@ -410,7 +295,7 @@ export class UserPageComponent implements OnInit, OnDestroy {
             avatarLink?: string,
             bannerLink?: string,
             socials?: {
-              username: string,
+              projectname: string,
               platform: string,
               link: string
             }[],
@@ -419,7 +304,7 @@ export class UserPageComponent implements OnInit, OnDestroy {
             roleCodes?: RoleCode[],
           }
         }>(
-          "/upload/user/", 
+          "/upload/project/", 
           profileUploadFormData
         ).subscribe({
           error: (error) => {
@@ -435,7 +320,7 @@ export class UserPageComponent implements OnInit, OnDestroy {
             if (value.data.bio)
               this.bio = value.data.bio;
             if (value.data.socials)
-              this.userSocials = value.data.socials;
+              this.projectSocials = value.data.socials;
             if (value.data.roleCodes)
               this.roles = value.data.roleCodes
 
@@ -459,7 +344,7 @@ export class UserPageComponent implements OnInit, OnDestroy {
         .then(result => {
           // Limit file size to less than 2 MB
           const filesize = FileUtils.ByteToMB(FileUtils.Base64ToByteSize(result));
-          if (filesize < AVATAR_FILE_SIZE_LIMIT_MB) {
+          if (filesize < CARD_IMAGE_FILE_SIZE_LIMIT_MB) {
             this.selectedAvatarFile = file;
             this.selectedAvatarSrc = result;
           } else {

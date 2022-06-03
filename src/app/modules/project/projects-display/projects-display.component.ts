@@ -18,6 +18,7 @@ export class ProjectsDisplayComponent implements AfterViewInit {
 
   @ViewChild(FilterHeaderComponent) filterHeader: FilterHeaderComponent | undefined
   @Input() projects: Partial<Project>[] = [];
+  @Input() projectsQuery: (filter: any, skip: number, limit: number) => Promise<Partial<Project>[]> = this.defaultQuery.bind(this);
   
   currentPage: number = 0;
   projectsPerPage: number = 40;
@@ -33,6 +34,17 @@ export class ProjectsDisplayComponent implements AfterViewInit {
     private backend: BackendService,
   ) { 
     scrollService.scrolledToBottom.subscribe(this.onScrollToBottom.bind(this));
+  }
+
+  ngAfterViewInit(): void {
+    if (!this.filterHeader)
+      return;
+    
+    // NOTE: This is really inefficient because we are regenerating the entire sortedSections array
+    //       whenever the project changes a filter option. We should consider only modifying parts of
+    //       of the sorted array that are needed (ie. only reversing the sortedSections if sortAscending 
+    //       changes).
+    this.filterHeader.newSearchRequest.subscribe(this.onNewSearchRequest.bind(this));
     this.queryUntilFillPage();
   }
 
@@ -69,6 +81,11 @@ export class ProjectsDisplayComponent implements AfterViewInit {
   async queryProjects(filter: ProjectFilterInput | undefined = undefined) {
     if (filter !== undefined)
       this.filter = filter;
+    const results = await this.projectsQuery(this.filter, this.currentPage, this.projectsPerPage);
+    return results;
+  }
+
+  async defaultQuery(filter: any, skip: number, limit: number) {
     const results = await this.backend.query<{
       projects: {
         // Result type
@@ -109,15 +126,14 @@ export class ProjectsDisplayComponent implements AfterViewInit {
       variables: {
         // Pagination
         // TODO EVENTUALLY: Use cursor pagination once Typetta suppoorts that
-        skip: this.currentPage * this.projectsPerPage,
-        limit: this.projectsPerPage,
-        filter: this.filter
+        skip,
+        limit,
+        filter
       },
       context: <ApolloContext>{
         authenticate: true,
       }
     }).toPromise();
-    console.log(results);
     if (results.error)
       return [];
     return <Partial<Project>[]>results.data.projects;
@@ -126,17 +142,6 @@ export class ProjectsDisplayComponent implements AfterViewInit {
   resetPages() {
     this.projects = [];
     this.currentPage = 0;
-  }
-
-  ngAfterViewInit(): void {
-    if (!this.filterHeader)
-      return;
-    
-    // NOTE: This is really inefficient because we are regenerating the entire sortedSections array
-    //       whenever the project changes a filter option. We should consider only modifying parts of
-    //       of the sorted array that are needed (ie. only reversing the sortedSections if sortAscending 
-    //       changes).
-    this.filterHeader.newSearchRequest.subscribe(this.onNewSearchRequest.bind(this));
   }
 
   async onNewSearchRequest(searchText: string) {

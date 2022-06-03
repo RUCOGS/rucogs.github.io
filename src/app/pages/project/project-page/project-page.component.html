@@ -148,10 +148,14 @@
             <h2>Roles</h2>
             <app-roles-display [roles]="roles"></app-roles-display>
           </div>
-          <div *ngIf="hasProjects">
-            <mat-divider style="margin-bottom: 32px;"></mat-divider>
+          <div *ngIf="projects.length > 0">
+            <mat-divider></mat-divider>
             <h2>Projects</h2>
-            <app-projects-display [projectsQuery]="projectsQuery.bind(this)"></app-projects-display>
+            <app-card-grid column-width="300px">
+              <!-- When we are not filtering, we do not want to section off the projects. -->
+              <!-- It's guaranteed that all the projects will be put into a section as the only element in the sortedSections[] array. -->
+              <app-project-item *ngFor="let project of projects;" [project]="project"></app-project-item>
+            </app-card-grid>
           </div>
         </div>
       </div>

@@ -1,6 +1,6 @@
 import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Project, ProjectFilterInput, UserFilterInput } from '@src/generated/graphql-endpoint.types';
+import { Project } from '@src/generated/graphql-endpoint.types';
 import { FileUtils } from '@app/utils/file-utils';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { gql } from 'apollo-angular';
@@ -32,17 +32,16 @@ export class UserPageComponent implements OnInit, OnDestroy {
   userId: string = "";
   
   userSocials: Partial<UserSocial>[] = [];
+  projects: Partial<Project>[] = [];
   roles: RoleCode[] = [];
   acceptedRoles: RoleCode[] = [];
 
-  hasProjects: boolean = false;
   isEditing: boolean = false;
   processingQueue: boolean[] = [];
 
   hasEditPerms: boolean = false;
   hasManageRolesPerms: boolean = false;
   nonExistent: boolean = false;
-
   // 'processing' is set to true whenever we are processing an uplaod
   // or doing anything else asynchronously. This lets us disable uplaod controls
   // when we are still processing an image. 
@@ -105,11 +104,6 @@ export class UserPageComponent implements OnInit, OnDestroy {
       this.fetchData();
     });
   }
-  
-  ngOnDestroy() {
-    this.activatedRouteSub.unsubscribe();
-    this.userQuerySubscription?.unsubscribe();
-  }
 
   private fetchData() {
     this.userQuerySubscription = this.backend.watchQuery<{
@@ -128,9 +122,6 @@ export class UserPageComponent implements OnInit, OnDestroy {
           platform: string,
           link: string,
         }[],
-        projectMembers: {
-          id: string
-        }[]
       }[]
     }>({
       query: gql`
@@ -148,9 +139,6 @@ export class UserPageComponent implements OnInit, OnDestroy {
               username
               platform
               link
-            }
-            projectMembers {
-              id
             }
           }
         }
@@ -190,8 +178,6 @@ export class UserPageComponent implements OnInit, OnDestroy {
       this.acceptedRoles = getRolesBelowRoles(this.roles);
 
       this.updateBannerColor();
-
-      this.hasProjects = myUser.projectMembers.length > 0;
       
       this.changeDetector.detectChanges();
     });
@@ -220,92 +206,9 @@ export class UserPageComponent implements OnInit, OnDestroy {
     }
   }
 
-  async projectsQuery(filter: any, skip: number, limit: number): Promise<Partial<Project>[]> {
-    // TODO LATER: Once Typetta gets support for filtering
-    //             based on value in foreign keys.
-    const userOwnedProjectsResult = await this.backend.query<{
-      users: {
-        projectMembers: {
-          project: {
-            id: string
-          }
-        }[]
-      }[]
-    }>({
-      query: gql`
-        query($filter: UserFilterInput) {
-          users(filter: $filter) {
-            projectMembers {
-              project {
-                id
-              }
-            }
-          }
-        }
-      `,
-      variables: {
-        filter: <UserFilterInput>{
-          id: { eq: this.userId }
-        }
-      }
-    }).toPromise();
-
-    if (userOwnedProjectsResult.error)
-      return [];
-
-    const result = await this.backend.query<{
-      projects: {
-        // Result type
-        id: string,
-        cardImageLink: string,
-        completedAt: Date,
-        createdAt: Date,
-        updatedAt: Date,
-        name: string,
-        description: string,
-        downloadLinks: string[],
-        members: {
-          user: {
-            avatarLink: string
-          }
-        }[]
-      }[]
-    }>({
-      query: gql`
-        query($filter: ProjectFilterInput, $skip: Int, $limit: Int) {
-          projects(filter: $filter, skip: $skip, limit: $limit) {
-            id
-            cardImageLink
-            completedAt
-            createdAt
-            updatedAt
-            name
-            description
-            downloadLinks
-            members {
-              user {
-                avatarLink
-              }
-            }
-          }
-        }
-      `,
-    variables: {
-      skip,
-      limit,
-      filter: <ProjectFilterInput>{
-        ...filter,
-        id: { in: userOwnedProjectsResult.data.users[0].projectMembers.map(x => x.project.id) },
-      }
-    }
-    }).toPromise();
-
-    console.log("sdf");
-    console.log(result.data);
-    
-    if (result.error)
-      return [];
-    return <Partial<Project>[]>result.data.projects;
+  ngOnDestroy() {
+    this.activatedRouteSub.unsubscribe();
+    this.userQuerySubscription?.unsubscribe();
   }
 
   editProfile() {
