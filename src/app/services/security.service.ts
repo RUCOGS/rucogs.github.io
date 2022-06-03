@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { OperationSecurityDomain, SecurityDomain, SecurityPolicy, SecurityContext, PermissionsCalculator, isSecurityDomainValidForOpDomain } from '@src/shared/security';
 import { Apollo, gql } from 'apollo-angular';
 import { Subscription } from 'rxjs';
+import { AuthService } from './auth.service';
 import { BackendService } from './backend.service';
 
 @Injectable({
@@ -13,7 +14,10 @@ export class SecurityService {
 
   private querySubscription: Subscription | undefined;
   
-  constructor(private backend: BackendService) { 
+  constructor(
+    private backend: BackendService,
+    private authService: AuthService,
+  ) { 
     this.fetchData();
   }
 
@@ -25,7 +29,7 @@ export class SecurityService {
       query: gql`
         query {
           securityContext
-          securityPolicies
+          securityPolicy
         }
       `
     })

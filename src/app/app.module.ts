@@ -83,6 +83,7 @@ import { RolesModule } from '@src/app/modules/roles/roles.module';
 import { TagsModule } from '@src/app/modules/tags/tags.module';
 import { AvatarModule } from './modules/avatar/avatar.module';
 import { ProfileModule } from './modules/profile/profile.module';
+import { UsersDisplayComponent } from './components/users-display/users-display.component';
 
 @NgModule({
   declarations: [
@@ -132,6 +133,7 @@ import { ProfileModule } from './modules/profile/profile.module';
     ArticleItemComponent,
     EditableSocialButtonComponent,
     UsersComponent,
+    UsersDisplayComponent,
   ],
   imports: [
     FormsModule,

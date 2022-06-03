@@ -1,10 +1,11 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { SOCIAL_PLATFORMS, UserSocial as UserSocial } from '@app/utils/user-social';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { SOCIAL_PLATFORMS } from '@src/app/utils/social-platforms';
+import { UserSocial } from '@src/generated/graphql-endpoint.types';
 
 export class UserSocialEdit {
   constructor(
-    public userSocial: UserSocial = {} as UserSocial,
+    public userSocial: Partial<UserSocial> = {},
     public editableSocialButton?: EditableSocialButtonComponent,
   ) {}
 

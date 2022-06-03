@@ -4,7 +4,10 @@
 import { PermissionDataDict } from "./permissions";
 import { BaseSecurityDomain, BaseSecurityDomainFieldSet, ExtendedSecurityDomain, isBaseSecurityDomain, isExtendedSecurityDomain, OperationSecurityDomain, PermissionCode, SecurityDomain } from "./types";
 
-export function isSecurityDomainValidForOpDomain(permissionCode: PermissionCode, domain: SecurityDomain, operationDomain: OperationSecurityDomain) {  
+export function isSecurityDomainValidForOpDomain(permissionCode: PermissionCode, domain: SecurityDomain, operationDomain: OperationSecurityDomain) {
+  if (!operationDomain || !domain)
+    return false;
+
   if (isBaseSecurityDomain(domain)) {
     const baseSecurityDomain = domain as BaseSecurityDomain;
     return isBaseDomainValidForOpDomain(baseSecurityDomain, operationDomain);

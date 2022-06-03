@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { SOCIAL_PLATFORMS, UserSocial as UserSocial } from '@app/utils/user-social';
+import { SOCIAL_PLATFORMS } from '@src/app/utils/social-platforms';
+import { UserSocial } from '@src/generated/graphql-endpoint.types';
 
 @Component({
   selector: 'app-social-button',
@@ -8,7 +9,7 @@ import { SOCIAL_PLATFORMS, UserSocial as UserSocial } from '@app/utils/user-soci
 })
 export class SocialButtonComponent implements OnInit {
 
-  @Input() userSocial: UserSocial | undefined;
+  @Input() userSocial: Partial<UserSocial> | undefined;
 
   @Input() icon: string = "";
   @Input() username: string = "";
@@ -17,7 +18,7 @@ export class SocialButtonComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
-    if (this.userSocial) {
+    if (this.userSocial && this.userSocial.link && this.userSocial.username && this.userSocial.platform) {
       const platform = SOCIAL_PLATFORMS[this.userSocial.platform];
       this.icon = platform.icon;
       this.link = this.userSocial.link;

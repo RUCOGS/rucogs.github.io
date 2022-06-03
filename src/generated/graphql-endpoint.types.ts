@@ -595,7 +595,7 @@ export type Query = {
   projectMembers: Array<ProjectMember>;
   projects: Array<Project>;
   securityContext?: Maybe<Scalars['Json']>;
-  securityPolicies?: Maybe<Scalars['Json']>;
+  securityPolicy?: Maybe<Scalars['Json']>;
   someTypes: Array<SomeType>;
   userLoginIdentitys: Array<UserLoginIdentity>;
   userRoles: Array<UserRole>;
@@ -1478,7 +1478,7 @@ export type QueryResolvers<ContextType = any, ParentType extends ResolversParent
   projectMembers?: Resolver<Array<ResolversTypes['ProjectMember']>, ParentType, ContextType, Partial<QueryProjectMembersArgs>>;
   projects?: Resolver<Array<ResolversTypes['Project']>, ParentType, ContextType, Partial<QueryProjectsArgs>>;
   securityContext?: Resolver<Maybe<ResolversTypes['Json']>, ParentType, ContextType, Partial<QuerySecurityContextArgs>>;
-  securityPolicies?: Resolver<Maybe<ResolversTypes['Json']>, ParentType, ContextType>;
+  securityPolicy?: Resolver<Maybe<ResolversTypes['Json']>, ParentType, ContextType>;
   someTypes?: Resolver<Array<ResolversTypes['SomeType']>, ParentType, ContextType, Partial<QuerySomeTypesArgs>>;
   userLoginIdentitys?: Resolver<Array<ResolversTypes['UserLoginIdentity']>, ParentType, ContextType, Partial<QueryUserLoginIdentitysArgs>>;
   userRoles?: Resolver<Array<ResolversTypes['UserRole']>, ParentType, ContextType, Partial<QueryUserRolesArgs>>;

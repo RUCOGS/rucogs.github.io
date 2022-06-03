@@ -1,12 +1,4 @@
 <app-page-header title="Users"></app-page-header>
-<app-bg-container color="blank">
-  
-  <app-filter-header searchBar></app-filter-header>
-  
-  <div #usersContainer class="app-users users-container">
-    <div *ngIf="users.length === 0">
-      <h1 class="app-users no-results-text">No results found...</h1>
-    </div>
-    <app-profile-grid [users]="users"></app-profile-grid>
-  </div>
-</app-bg-container>
+<app-section full-width>
+  <app-users-display></app-users-display>
+</app-section>

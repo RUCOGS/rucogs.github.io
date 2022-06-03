@@ -1,31 +1,28 @@
 import { AfterViewInit, Component, Input, ViewChild } from '@angular/core';
-import { FilterHeaderComponent } from '@app/components/filter-header/filter-header.component';
+import { FilterHeaderComponent } from '@src/app/components/filter-header/filter-header.component';
 import { ApolloContext } from '@src/app/modules/graphql/graphql.module';
 import { BackendService } from '@src/app/services/backend.service';
 import { ScrollService } from '@src/app/services/scroll.service';
-import { Project, ProjectFilterInput } from '@src/generated/graphql-endpoint.types';
+import { User, UserFilterInput } from '@src/generated/graphql-endpoint.types';
 import { gql } from 'apollo-angular';
 
 @Component({
-  selector: 'app-projects-display',
-  templateUrl: './projects-display.component.html',
-  styleUrls: ['./projects-display.component.css'],
-  host: {
-    class: 'page'
-  }
+  selector: 'app-users-display',
+  templateUrl: './users-display.component.html',
+  styleUrls: ['./users-display.component.css']
 })
-export class ProjectsDisplayComponent implements AfterViewInit {
+export class UsersDisplayComponent implements AfterViewInit {
 
   @ViewChild(FilterHeaderComponent) filterHeader: FilterHeaderComponent | undefined
-  @Input() projects: Partial<Project>[] = [];
+  @Input() users: Partial<User>[] = [];
   
 
   currentPage: number = 0;
-  projectsPerPage: number = 40;
-  filter: ProjectFilterInput = {};
+  usersPerPage: number = 40;
+  filter: UserFilterInput = {};
   fillingPage: boolean = false;
 
-  // TODO MAYBE: Find the exact amount of projects needed to fill
+  // TODO MAYBE: Find the exact amount of users needed to fill
   //             the viewer's page. This ofcourse is dependent on
   //             a lot of factors, such as the current breakpoint, etc.
 
@@ -37,7 +34,7 @@ export class ProjectsDisplayComponent implements AfterViewInit {
     this.queryUntilFillPage();
   }
 
-  async queryUntilFillPage(filter: ProjectFilterInput | undefined = undefined) {
+  async queryUntilFillPage(filter: UserFilterInput | undefined = undefined) {
     if (this.fillingPage)
       return;
     this.fillingPage = true;
@@ -46,7 +43,7 @@ export class ProjectsDisplayComponent implements AfterViewInit {
     const ogPos = this.scrollService.position;
     do {
       resultsLength = await this.addPage(filter);
-      // While we haven't filled up the page and there are more projects,
+      // While we haven't filled up the page and there are more users,
       // then we continue querying to fill up the page
       this.scrollService.updateScrollData();
     } while (this.scrollService.maxPosition - ogPos < 300 && resultsLength > 0);
@@ -57,42 +54,42 @@ export class ProjectsDisplayComponent implements AfterViewInit {
     await this.queryUntilFillPage();
   }
 
-  async addPage(filter: ProjectFilterInput | undefined = undefined) {
-    const result = await this.queryProjects(filter);
+  async addPage(filter: UserFilterInput | undefined = undefined) {
+    const result = await this.queryUsers(filter);
     if (result.length == 0)
       return 0;
     
-    this.projects = this.projects.concat(result);
+    this.users = this.users.concat(result);
     this.currentPage++;
     return result.length;
   }
 
-  async queryProjects(filter: ProjectFilterInput | undefined = undefined) {
+  async queryUsers(filter: UserFilterInput | undefined = undefined) {
     if (filter !== undefined)
       this.filter = filter;
     const results = await this.backend.query<{
-      projects: {
+      users: {
         // Result type
         avatarLink: string, 
         displayName: string,
-        projectname: string,
+        username: string,
         bio: string,
       }[]
     }>({
       query: gql`
-        query($filter: ProjectFilterInput, $limit: Int, $skip: Int) {
-          projects(filter: $filter, limit: $limit, skip: $skip) {
+        query($filter: UserFilterInput, $limit: Int, $skip: Int) {
+          users(filter: $filter, limit: $limit, skip: $skip) {
             avatarLink
             displayName
-            projectname
+            username
           }
         }
       `,
       variables: {
         // Pagination
         // TODO EVENTUALLY: Use cursor pagination once Typetta suppoorts that
-        skip: this.currentPage * this.projectsPerPage,
-        limit: this.projectsPerPage,
+        skip: this.currentPage * this.usersPerPage,
+        limit: this.usersPerPage,
         filter: this.filter
       },
       context: <ApolloContext>{
@@ -102,11 +99,11 @@ export class ProjectsDisplayComponent implements AfterViewInit {
     console.log(results);
     if (results.error)
       return [];
-    return <Partial<Project>[]>results.data.projects;
+    return results.data.users;
   }
 
   resetPages() {
-    this.projects = [];
+    this.users = [];
     this.currentPage = 0;
   }
 
@@ -115,7 +112,7 @@ export class ProjectsDisplayComponent implements AfterViewInit {
       return;
     
     // NOTE: This is really inefficient because we are regenerating the entire sortedSections array
-    //       whenever the project changes a filter option. We should consider only modifying parts of
+    //       whenever the user changes a filter option. We should consider only modifying parts of
     //       of the sorted array that are needed (ie. only reversing the sortedSections if sortAscending 
     //       changes).
     this.filterHeader.newSearchRequest.subscribe(this.onNewSearchRequest.bind(this));
@@ -135,10 +132,20 @@ export class ProjectsDisplayComponent implements AfterViewInit {
     }
 
     await this.queryUntilFillPage({
-      name: { 
-        startsWith: searchText, 
-        mode: 'INSENSITIVE' 
-      }
+      or_: [
+        {
+          username: { 
+            startsWith: searchText, 
+            mode: 'INSENSITIVE' 
+          }
+        },
+        {
+          displayName: {
+            startsWith: searchText,
+            mode: 'INSENSITIVE'
+          }
+        }
+      ],
     });
   }
 }

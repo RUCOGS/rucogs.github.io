@@ -15,6 +15,11 @@
 	  color: mat.get-color-from-palette($foreground, disabled-button)
   }
 
+  .app-user.profile-picture-container,
+  .app-user.profile-background-container {
+    background-color: mat.get-color-from-palette($background, background)
+  }
+
   .app-user.edit-profile-picture-button, 
   .app-user.edit-profile-background-button {
     border-color: mat.get-color-from-palette($misc, light) !important;
