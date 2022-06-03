@@ -14,7 +14,6 @@ export class AppComponent {
     private iconService: IconService,
     private settings: SettingsService
   ) {
-    console.log("registered all icons")
     iconService.registerAll(settings.General.icons);
   }
 }

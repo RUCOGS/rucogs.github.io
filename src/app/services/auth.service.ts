@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { User } from '@app/utils/user';
+import { User } from '@src/generated/graphql-endpoint.types';
 import { Router } from '@angular/router';
 import { SettingsService } from '@src/_settings';
 

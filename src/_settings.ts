@@ -26,7 +26,7 @@ import arrowRight from '@iconify/icons-fluent/arrow-right-16-filled'
 import arrowExportLeft from '@iconify/icons-fluent/arrow-export-rtl-16-filled'
 import arrowLeft from '@iconify/icons-fluent/arrow-left-16-filled'
 import chevronUp from '@iconify/icons-bx/chevron-up';
-import arrrowDownCircleFill from '@iconify/icons-bi/arrow-down-circle-fill';
+import arrowDownCircleFill from '@iconify/icons-bi/arrow-down-circle-fill';
 import article from '@iconify/icons-ic/outline-article';
 import video from '@iconify/icons-dashicons/format-video';
 import tutorial from '@iconify/icons-ic/outline-integration-instructions'
@@ -90,7 +90,7 @@ export class SettingsService {
       arrowExportLeft,
       arrowLeft,
       chevronUp,
-      arrrowDownCircleFill,
+      arrowDownCircleFill,
       article,
       video,
       tutorial,

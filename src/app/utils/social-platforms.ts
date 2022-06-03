@@ -1,8 +1,3 @@
-export type UserSocial = {
-  platform: string,
-  username: string,
-  link: string,
-}
 
 export const SOCIAL_PLATFORMS: { 
   [key: string]: { 

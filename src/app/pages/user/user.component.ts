@@ -1,13 +1,13 @@
 import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Project } from '@app/utils/project';
+import { Project } from '@src/generated/graphql-endpoint.types';
 import { FileUtils } from '@app/utils/file-utils';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { gql } from 'apollo-angular';
 import { Subscription } from 'rxjs';
 import ColorThief from 'colorthief';
 import { Color } from '@app/utils/color';
-import { UserSocial } from '@app/utils/user-social';
+import { UserSocial } from '@src/generated/graphql-endpoint.types';
 import { SettingsService } from '@src/_settings';
 import { AuthService } from '@app/services/auth.service';
 import { CdnService } from '@app/services/cdn.service';
@@ -34,8 +34,8 @@ export class UserComponent implements OnInit, OnDestroy {
   bio: string = "";
   userId: string = "";
   
-  userSocials: UserSocial[] = [];
-  projects: Project[] = [];
+  userSocials: Partial<UserSocial>[] = [];
+  projects: Partial<Project>[] = [];
   roles: RoleCode[] = [];
   acceptedRoles: RoleCode[] = [];
 

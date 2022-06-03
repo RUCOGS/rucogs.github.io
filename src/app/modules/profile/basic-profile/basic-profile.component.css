@@ -12,3 +12,11 @@
 .container:hover {
 	transform: scale(1.10);
 }
+
+.username {
+	word-wrap: break-word;
+}
+
+.display-name {
+	word-wrap: break-word;
+}

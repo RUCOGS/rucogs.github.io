@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Project } from '@app/utils/project';
+import { Project } from '@src/generated/graphql-endpoint.types';
 
 @Component({
   selector: 'app-project-item',
@@ -8,7 +8,7 @@ import { Project } from '@app/utils/project';
 })
 export class ProjectItemComponent implements OnInit {
 
-  @Input() project: Project = new Project();
+  @Input() project: Partial<Project> = {};
 
   constructor() { }
 

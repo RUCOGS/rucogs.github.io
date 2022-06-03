@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ProjectManagerService } from '@app/services/project-manager.service';
-import { Project } from '@app/utils/project';
+import { Project } from '@src/generated/graphql-endpoint.types';
 
 @Component({
   selector: 'app-projects',
@@ -9,13 +8,11 @@ import { Project } from '@app/utils/project';
 })
 export class ProjectsComponent implements OnInit {
 
-  projects: Project[] = []
+  projects: Partial<Project>[] = []
 
-  constructor(private projectManager: ProjectManagerService) { }
+  constructor() { }
 
   ngOnInit(): void {
-    this.projectManager.getProjects().subscribe((x) => {
-      this.projects = x;
-    });
+    // TODO NOW
   }
 }
