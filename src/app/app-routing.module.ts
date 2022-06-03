@@ -1,12 +1,12 @@
 import { NgModule } from '@angular/core';
 import { Route, RouterModule, Routes, UrlMatchResult, UrlSegment, UrlSegmentGroup } from '@angular/router';
-import { CalendarComponent } from './pages/calendar/calendar.component';
+import { CalendarComponent } from '@app/pages/calendar/calendar.module';
 import { HomeComponent } from './pages/home/home.component';
 import { PicturesComponent } from './pages/pictures/pictures.component';
 import { ProjectsComponent } from './pages/projects/projects.component';
 import { ResourcesComponent } from './pages/resources/resources.component';
 import { ScarletGameJamComponent } from './pages/scarlet-game-jam/scarlet-game-jam.component';
-import { ArticlesComponent } from './pages/articles/articles.component';
+import { ArticlesComponent } from './pages/articles/articles/articles.component';
 import { BlogComponent } from './pages/blog/blog.component';
 import { LoginComponent } from './pages/login/login.component';
 import { SignupComponent } from './pages/signup/signup.component';
