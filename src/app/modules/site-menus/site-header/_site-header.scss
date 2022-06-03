@@ -1,0 +1,11 @@
+@use './cogs-logo-text-button/cogs-logo-text-button.component-theme' as cogs-button;
+@use './hamburger-menu/hamburger-menu.component-theme' as hamburger-menu;
+@use './horizontal-menu/horizontal-menu.component-theme' as horz-menu;
+@use './dark-mode-toggle/dark-mode-toggle.component-theme' as dark-mode-toggle;
+
+@mixin theme($theme) {
+	@include cogs-button.theme($theme);
+	@include hamburger-menu.theme($theme);
+	@include horz-menu.theme($theme);
+	@include dark-mode-toggle.theme($theme);
+}

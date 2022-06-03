@@ -1,1 +1,5 @@
-<p>avatar-group works!</p>
+<div style="
+  display: flex;
+">
+  <app-avatar *ngFor="let avatarSrc of avatarSrcs" [avatarSrc]="avatarSrc" size="small"></app-avatar>
+</div>

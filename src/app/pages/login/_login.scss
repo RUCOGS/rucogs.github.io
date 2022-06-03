@@ -1,0 +1,5 @@
+@use './login/login.component-theme' as login;
+
+@mixin theme($theme) {
+	@include login.theme($theme);
+}
