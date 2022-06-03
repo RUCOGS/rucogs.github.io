@@ -328,7 +328,6 @@ export class ProjectPageComponent implements OnInit, OnDestroy {
               this.updateBannerColor();
           },
           complete: () => {
-            console.log("uploading payload complete");
             this.removeProcess();
           }
         });

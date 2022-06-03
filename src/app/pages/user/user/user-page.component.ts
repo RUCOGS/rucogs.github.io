@@ -299,9 +299,6 @@ export class UserPageComponent implements OnInit, OnDestroy {
       }
     }
     }).toPromise();
-
-    console.log("sdf");
-    console.log(result.data);
     
     if (result.error)
       return [];
@@ -370,7 +367,6 @@ export class UserPageComponent implements OnInit, OnDestroy {
     const profileUploadFormData = new FormData();
 
     if (this.rolesEdited) {
-      console.log("roles edit");
       profileUploadFormData.set("roles", JSON.stringify(this.roles));
     }
 
@@ -443,7 +439,6 @@ export class UserPageComponent implements OnInit, OnDestroy {
               this.updateBannerColor();
           },
           complete: () => {
-            console.log("uploading payload complete");
             this.removeProcess();
           }
         });
