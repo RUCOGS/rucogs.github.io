@@ -7,6 +7,7 @@ import { Component, Input, OnInit } from '@angular/core';
 })
 export class AvatarComponent implements OnInit {
 
+  @Input() color: string = "blank"
   @Input() size: string = "large";
   @Input() avatarSrc: string = "https://pfps.gg/assets/pfps/6721-rimuru-tempest.png";
 
@@ -17,7 +18,8 @@ export class AvatarComponent implements OnInit {
 
   getClass() {
     return {
-      [this.size]: true
+      [this.size]: true,
+      [this.color]: true,
     }
   }
 }

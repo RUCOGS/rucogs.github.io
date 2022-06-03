@@ -2,13 +2,33 @@
 @use 'sass:color';
 @use '@angular/material' as mat;
 
+@mixin colorVariant($color) {
+  &.app-avatar {
+    &.avatar-container {
+      background-color: $color;
+    }
+  }
+}
+
 @mixin color($config) {
+  $primary: map.get($config, primary);
+  $accent: map.get($config, accent);
+  $warn: map.get($config, warn);
   $misc: map.get($config, misc);
   $foreground: map.get($config, foreground);
   $background: map.get($config, background);
 
-  .app-avatar.avatar {
-		border-color: mat.get-color-from-palette($background, background);
+  .blank {
+    @include colorVariant(mat.get-color-from-palette($background, background));
+  }
+  .primary {
+    @include colorVariant(mat.get-color-from-palette($primary, 500));
+  }
+  .accent {
+    @include colorVariant(mat.get-color-from-palette($accent, 500));
+  }
+  .warn {
+    @include colorVariant(mat.get-color-from-palette($warn, 500));
   }
 }
 

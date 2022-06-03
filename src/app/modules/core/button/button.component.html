@@ -1,0 +1,7 @@
+<button (click)="onClick();" class="app-button button {{color}} {{outline}}"
+  type="button">
+  <ic-icon size="24px" class="app-button icon" [icon]="iconifyIcon" [hidden]="iconifyIcon == ''" [ngClass]="{'ml-10': iconifyIcon != ''}"></ic-icon>
+  <span class="app-button mat-button text">
+    <ng-content></ng-content>
+  </span>
+</button>

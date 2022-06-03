@@ -1,0 +1,15 @@
+@use './bg-container/bg-container.component-theme' as bg-container;
+@use './button/button.component-theme' as button;
+@use './full-page-header/full-page-header.component-theme' as full-page-header;
+@use './page-header/page-header.component-theme' as page-header;
+@use './section/section.component-theme' as section;
+@use './text-button/text-button.component-theme' as text-button;
+
+@mixin theme($theme) {
+	@include bg-container.theme($theme);
+	@include button.theme($theme);
+	@include full-page-header.theme($theme);
+	@include page-header.theme($theme);
+	@include section.theme($theme);
+	@include text-button.theme($theme);
+}

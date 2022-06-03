@@ -1,0 +1,30 @@
+.button {
+	border: none;
+	text-align: center;
+	text-decoration: none;
+	display: inline-block;
+	padding: 0px 20px;
+	height: 50px;
+  width: 100%;
+  border-radius: 50px;
+  display: flex;  
+  align-items: center;
+  justify-content: center;
+  outline: 0px;
+}
+
+.icon {
+  margin-right: auto;
+  position: relative;
+  top: 2px;
+}
+
+.text {
+  margin-right: auto;
+}
+
+.app-button.button.outlined {
+  background-color: transparent;
+  border: solid;
+  border-width: 2px;
+}

@@ -7,6 +7,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  border-radius: 50%;
 }
 
 .avatar {
@@ -17,6 +18,7 @@
   width: calc(100% - 2 * var(--border-width));
   height: calc(100% - 2 * var(--border-width));
   object-fit: cover;
+  border-color: transparent;
 }
 
 .large {

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-avatar-group',
@@ -6,6 +6,8 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./avatar-group.component.css']
 })
 export class AvatarGroupComponent implements OnInit {
+
+  @Input() avatarSrcs: string[] = [];
 
   constructor() { }
 

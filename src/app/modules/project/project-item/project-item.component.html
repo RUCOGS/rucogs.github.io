@@ -1,0 +1,15 @@
+<a class="app-project-item card" [href]="getProjectLink()">
+  <div class="app-project-item image-wrapper">
+    <img class="app-project-item image" [src]="getFileLink(project.cardImageLink)">
+  </div>
+  <div class="app-project-item card-content">
+    <h2>{{project.name ?? ""}}</h2>
+    <p class="mb-24 app-project-item description" style="flex: 1;">{{project.description }}</p>
+    <div style="display: flex; flex-direction: row;">
+      <app-tag-container style="flex-grow: 1;">
+        <app-tag color="primary">{{ getProjectYear() }}</app-tag>
+      </app-tag-container>
+      <app-avatar-group [avatarSrcs]="getAvatarLinks()"></app-avatar-group>
+    </div>
+  </div>
+</a>

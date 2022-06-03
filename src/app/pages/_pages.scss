@@ -1,0 +1,17 @@
+@use './articles/articles' as articles;
+@use './blog/blog' as blog;
+@use './home/home' as home;
+@use './login/login' as login;
+@use './scarlet-game-jam/scarlet-game-jam' as sgj;
+@use './signup/signup' as signup;
+@use './user/user' as user;
+
+@mixin theme($theme) {
+	@include articles.theme($theme);
+	@include blog.theme($theme);
+	@include home.theme($theme);
+	@include login.theme($theme);
+	@include sgj.theme($theme);
+	@include signup.theme($theme);
+	@include user.theme($theme);
+}

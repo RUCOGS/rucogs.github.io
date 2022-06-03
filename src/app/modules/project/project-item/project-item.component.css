@@ -1,0 +1,64 @@
+:host {
+	display: flex;
+	height: calc(100%);
+  width: 100%;
+}
+
+.card {
+	display: flex;
+	flex-direction: column;
+  position: relative;
+	flex: 1;
+  height: auto;
+  border-style: solid;
+  border-width: 2px;
+  border-radius: 8px;
+  box-sizing: border-box;
+  width: 500px;
+	transition: transform .1s ease-out;
+  text-decoration: inherit;
+  color: inherit;
+}
+
+.card:hover {
+	transform: scale(1.05);
+  z-index: 10;
+}
+
+.card-content {
+	display: flex;
+	flex-direction: column;
+  box-sizing: border-box;
+	flex: 1;
+	width: 100%;
+	height: auto;
+	padding: 28px;
+  padding-top: 20px;
+}
+  
+.image {	
+  width: 100%;
+  vertical-align: top;
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  object-fit: cover;
+  border-top-left-radius: 6px;
+  border-top-right-radius: 6px;
+}
+
+.image-wrapper {
+  height: 0px;
+  overflow: hidden;
+  padding-top: 100%;
+  box-sizing: border-box;
+  position: relative;
+}
+
+.description {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  max-height: 5em;
+}
+
