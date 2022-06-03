@@ -28,7 +28,6 @@ export class ScrollService {
     this.position = Math.round((document.documentElement.scrollTop || document.body.scrollTop) + document.documentElement.offsetHeight);
     this.maxPosition = document.documentElement.scrollHeight;
     this.minPosition = document.documentElement.offsetHeight;
-    console.log(`updated data: ${this.position} ${this.maxPosition} ${this.minPosition}`)
     if (emitEvent) {
       // pos/max will give you the distance between scroll bottom and and bottom of screen in percentage.
       if(this.position == this.maxPosition) {
