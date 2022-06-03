@@ -1,5 +1,0 @@
-@use './scarlet-game-jam/scarlet-game-jam.component-theme' as sgj;
-
-@mixin theme($theme) {
-	@include sgj.theme($theme);
-}

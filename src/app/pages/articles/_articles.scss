@@ -1,5 +1,0 @@
-@use './articles.module.ts' as articles;
-
-@mixin theme($theme) {
-	@include articles.theme($theme);
-}

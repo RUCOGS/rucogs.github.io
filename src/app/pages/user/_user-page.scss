@@ -1,0 +1,5 @@
+@use './user/user-page.component-theme' as user;
+
+@mixin theme($theme) {
+	@include user.theme($theme);
+}

@@ -1,7 +1,6 @@
 
 import { Injectable } from '@angular/core';
-import { FileUtils } from '@app/utils/file-utils';
-import { PageLink } from "@utils/pagelink";
+import { PageLink } from "@src/app/classes/pagelink";
 import discord from '@iconify/icons-simple-icons/discord'
 import twitter from '@iconify/icons-simple-icons/twitter'
 import github from '@iconify/icons-simple-icons/github'

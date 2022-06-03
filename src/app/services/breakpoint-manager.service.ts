@@ -1,6 +1,6 @@
 import { BreakpointObserver, BreakpointState } from '@angular/cdk/layout';
 import { Injectable } from '@angular/core';
-import { Breakpoints } from '@app/utils/breakpoints';
+import { Breakpoints } from '@app/settings/_settings.module';
 
 @Injectable({
   providedIn: 'root'

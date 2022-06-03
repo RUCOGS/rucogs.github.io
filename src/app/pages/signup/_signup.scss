@@ -1,5 +1,0 @@
-@use './signup/signup.component-theme' as signup;
-
-@mixin theme($theme) {
-	@include signup.theme($theme);
-}

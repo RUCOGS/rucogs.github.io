@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { PageLink } from '@app/utils/pagelink';
+import { PageLink } from '@src/app/classes/pagelink';
 
 @Component({
   selector: 'app-horizontal-menu',

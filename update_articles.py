@@ -11,7 +11,7 @@ import re
 
 ARTICLE_FILE_EXTENSIONS = [ "md" ]
 ARTICLES_DIR = "src/assets/blog-page-articles/"
-ARTICLES_TYPESCRIPT_FILE = "src/app/utils/blog-page-articles.ts"
+ARTICLES_TYPESCRIPT_FILE = "src/app/settings/blog-page-articles.ts"
 
 class ArticleInfo:
 	def __init__(self, 

@@ -1,5 +1,0 @@
-@use './user/user.component-theme' as user;
-
-@mixin theme($theme) {
-	@include user.theme($theme);
-}

@@ -4,7 +4,9 @@
 @use '../app/modules/user/user' as user;
 @use '../app/modules/project/project' as project;
 @use '../app/modules/cards/cards' as cards;
+@use '../app/modules/_core/core' as core;
 @use '../app/pages/pages' as pages;
+@use '../app/modules/site-menus/site-menus' as site-menus;
 
 @mixin theme($theme) {
   @include ngx-markdown-nav.theme($theme);
@@ -13,5 +15,7 @@
   @include user.theme($theme);
   @include project.theme($theme);
   @include cards.theme($theme);
+  @include core.theme($theme);
   @include pages.theme($theme);
+  @include site-menus.theme($theme);
 }
