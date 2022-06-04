@@ -1,4 +1,4 @@
-<a class="app-basic-profile container clickable" [href]="link">
+<a class="app-basic-profile container" [attr.href]="clickable ? link : null" [ngClass]="{ clickable: clickable }">
   <app-avatar [avatarSrc]="user.avatarLink ? cdnService.getFileLink(user.avatarLink) : ''"></app-avatar>
   <div style="margin-top: 8px">
     <h2 class="app-basic-profile display-name" style="margin-bottom: 4px">{{ user.displayName ?? '' }}</h2>

@@ -3,36 +3,3 @@
 <app-card-grid column-width="300px" style="width: 100%;">
   <app-project-item *ngFor="let project of projects" [project]="project"></app-project-item>
 </app-card-grid>
-<!-- <app-filter-header searchBar filterOptions ascendingToggle sortingMode="year">
-  <mat-option value="none">None</mat-option>
-  <mat-option value="year">Year</mat-option>
-  <mat-option value="completion">Completion</mat-option>
-</app-filter-header>
-
-<div #sectionsContainer>
-<div *ngIf="sortedSections.length > 0">
-  <div *ngIf=" 
-    filterHeader !== undefined && 
-    filterHeader.sortingMode === 'none'; 
-    then noSections 
-    else sections
-  "></div>
-  <ng-template #noSections>
-    <app-card-grid column-width="300px">
-      <app-project-item *ngFor="let project of sortedSections[0].projects;" [project]="project"></app-project-item>
-    </app-card-grid>
-  </ng-template>
-  <ng-template #sections>
-    <app-sub-section *ngFor="let section of sortedSections; let isLastSection = last;" [attr.last]="isLastSection ? '' : null">
-      <h1 title>{{section.name}}</h1>
-      <app-card-grid column-width="300px">
-        <app-project-item *ngFor="let project of section.projects" [project]="project"></app-project-item>
-      </app-card-grid>
-    </app-sub-section>
-  </ng-template>
-</div>
-
-<div *ngIf="sortedSections.length === 0">
-  <h1 class="app-projects no-results-text">No results found...</h1>
-</div>
-</div> -->

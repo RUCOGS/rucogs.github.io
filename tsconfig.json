@@ -47,6 +47,7 @@
     "target": "es2017",
     "module": "es2020",
     "lib": [
+      "ESNext.BigInt",
       "es2018",
       "dom",
       "dom.iterable",

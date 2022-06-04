@@ -1,21 +1,24 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Form, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '@app/services/auth.service';
 import { TokenStorageService } from '@app/services/token-storage.service';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
+import { first, takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-login-page',
   templateUrl: './login-page.component.html',
   styleUrls: ['./login-page.component.css']
 })
-export class LoginPageComponent implements OnInit {
+export class LoginPageComponent implements OnDestroy {
 
   form: FormGroup;
   hide: boolean = true;
   errorMessage: string = "";
   isLoginFailed: boolean = false;
+
+  private onDestroy$ = new Subject<void>();
 
   constructor(
     formBuilder: FormBuilder, 
@@ -27,7 +30,8 @@ export class LoginPageComponent implements OnInit {
     });
   }
 
-  ngOnInit(): void {
+  ngOnDestroy(): void {
+    this.onDestroy$.next();
   }
 
   socialLogin(social: string) {
@@ -35,7 +39,7 @@ export class LoginPageComponent implements OnInit {
   }
 
   private performLogin(observable: Observable<any>) {
-    observable.subscribe({
+    observable.pipe(first(), takeUntil(this.onDestroy$)).subscribe({
       next: data => {
         this.isLoginFailed = false;
         this.router.navigateByUrl('/user/' + data.user.username);

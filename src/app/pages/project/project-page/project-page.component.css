@@ -1,7 +1,12 @@
-.profile-background-container {
+:host {
+  --card-image-size: 300px;
+  --card-offset: 100px;
+}
+
+.banner-container {
   display: block;
   box-sizing: content-box;
-  height: 256px; 
+  height: calc(50vh); 
   width: 100%;
   display: flex;
   justify-content: center;
@@ -9,42 +14,19 @@
   position: relative;
 }
 
-.profile-background {
+.banner {
   position: absolute;
   width: 100%;
   height: 100%;
   object-fit: cover;
 }
 
-.edit-profile-background-tint {
+.edit-banner-tint {
   position: absolute;
   width: 100%;
   height: 100%;
   background-color: black;
   opacity: 0.5;
-}
-
-.profile-picture-container {
-  --border-width: 4px;
-  --length: 128px;
-  width: calc(var(--length) + var(--border-width));
-  height: calc(var(--length) + var(--border-width));
-  position: absolute;
-  box-sizing: content-box;
-  top: calc(1.5 * var(--length));
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border-radius: 50%;
-}
-
-.profile-picture {
-  position: absolute;
-  border: solid var(--border-width);
-  border-radius: 50%;
-  object-fit: cover;
-  width: calc(100% - 2 * var(--border-width));
-  height: calc(100% - 2 * var(--border-width));
 }
 
 .edit-profile-picture-tint {
@@ -54,14 +36,6 @@
   border-radius: 50%;
   background-color: black;
   opacity: 0.5;
-}
-
-.display-name {
-  margin: 0px;
-}
-
-.username-tag {
-  margin-bottom: 1em;
 }
 
 .main-bg {
@@ -96,6 +70,6 @@
   margin-top: 32px;
 }
 
-.edit-profile-button, .save-profile-button {
+.edit-button, .save-button {
   padding: 4px 24px 4px 24px;
 }

@@ -3,19 +3,10 @@
 @use '@angular/material' as mat;
 
 @mixin color($config) {
-  $misc: map.get($config, misc);
   $foreground: map.get($config, foreground);
-  $background: map.get($config, background);
-  
-  .app-project-page.banner-container,
-  .app-project-page.card-image-container {
-    background-color: mat.get-color-from-palette($background, background)
-  }
 
-  .app-project-page.edit-banner-button, 
-  .app-project-page.edit-card-image-button {
-    border-color: mat.get-color-from-palette($misc, light) !important;
-    color: mat.get-color-from-palette($misc, light) !important;
+  .app-avatar-group.limit-ellipsis {
+    color: mat.get-color-from-palette($foreground, disabled-button)
   }
 }
 

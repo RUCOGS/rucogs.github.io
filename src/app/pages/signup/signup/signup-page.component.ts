@@ -1,21 +1,24 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Form, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '@app/services/auth.service';
 import { TokenStorageService } from '@app/services/token-storage.service';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
+import { first, takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-signup-page',
   templateUrl: './signup-page.component.html',
   styleUrls: ['./signup-page.component.css']
 })
-export class SignupPageComponent implements OnInit {
+export class SignupPageComponent implements OnDestroy {
 
   form: FormGroup;
   hide: boolean = true;
   errorMessage: string = "";
   isSignupFailed: boolean = false;
+
+  private onDestroy$ = new Subject<void>();
 
   constructor(
     formBuilder: FormBuilder, 
@@ -29,7 +32,8 @@ export class SignupPageComponent implements OnInit {
     });
   }
 
-  ngOnInit(): void {
+  ngOnDestroy(): void {
+    this.onDestroy$.next();
   }
 
   socialSignup(social: string) {
@@ -37,8 +41,8 @@ export class SignupPageComponent implements OnInit {
   }
 
   private performSignup(observable: Observable<any>) {
-    observable.subscribe({
-      next: data => {
+    observable.pipe(first(), takeUntil(this.onDestroy$)).subscribe({
+      next: data => { 
         this.isSignupFailed = false;
         this.router.navigateByUrl('/user/' + data.user.username);
       },

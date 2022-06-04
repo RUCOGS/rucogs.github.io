@@ -1,17 +1,19 @@
-import { AfterViewInit, Component, Input, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, Input, OnDestroy, ViewChild } from '@angular/core';
 import { FilterHeaderComponent } from '@src/app/modules/filtering/filtering.module';
 import { ApolloContext } from '@src/app/modules/graphql/graphql.module';
 import { BackendService } from '@src/app/services/backend.service';
 import { ScrollService } from '@src/app/services/scroll.service';
 import { User, UserFilterInput } from '@src/generated/graphql-endpoint.types';
 import { gql } from 'apollo-angular';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-users-display',
   templateUrl: './users-display.component.html',
   styleUrls: ['./users-display.component.css']
 })
-export class UsersDisplayComponent implements AfterViewInit {
+export class UsersDisplayComponent implements AfterViewInit, OnDestroy {
 
   @ViewChild(FilterHeaderComponent) filterHeader: FilterHeaderComponent | undefined
   @Input() users: Partial<User>[] = [];
@@ -22,6 +24,8 @@ export class UsersDisplayComponent implements AfterViewInit {
   filter: UserFilterInput = {};
   fillingPage: boolean = false;
 
+  private onDestroy$ = new Subject<void>();
+
   // TODO MAYBE: Find the exact amount of users needed to fill
   //             the viewer's page. This ofcourse is dependent on
   //             a lot of factors, such as the current breakpoint, etc.
@@ -30,8 +34,23 @@ export class UsersDisplayComponent implements AfterViewInit {
     private scrollService: ScrollService,
     private backend: BackendService,
   ) { 
-    scrollService.scrolledToBottom.subscribe(this.onScrollToBottom.bind(this));
+    scrollService.scrolledToBottom$.pipe(takeUntil(this.onDestroy$)).subscribe(this.onScrollToBottom.bind(this));
     this.queryUntilFillPage();
+  }
+  
+  ngAfterViewInit(): void {
+    if (!this.filterHeader)
+      return;
+    
+    // NOTE: This is really inefficient because we are regenerating the entire sortedSections array
+    //       whenever the user changes a filter option. We should consider only modifying parts of
+    //       of the sorted array that are needed (ie. only reversing the sortedSections if sortAscending 
+    //       changes).
+    this.filterHeader.newSearchRequest$.pipe(takeUntil(this.onDestroy$)).subscribe(this.onNewSearchRequest.bind(this));
+  }
+
+  ngOnDestroy(): void {
+    this.onDestroy$.next();
   }
 
   async queryUntilFillPage(filter: UserFilterInput | undefined = undefined) {
@@ -105,17 +124,6 @@ export class UsersDisplayComponent implements AfterViewInit {
   resetPages() {
     this.users = [];
     this.currentPage = 0;
-  }
-
-  ngAfterViewInit(): void {
-    if (!this.filterHeader)
-      return;
-    
-    // NOTE: This is really inefficient because we are regenerating the entire sortedSections array
-    //       whenever the user changes a filter option. We should consider only modifying parts of
-    //       of the sorted array that are needed (ie. only reversing the sortedSections if sortAscending 
-    //       changes).
-    this.filterHeader.newSearchRequest.subscribe(this.onNewSearchRequest.bind(this));
   }
 
   async onNewSearchRequest(searchText: string) {

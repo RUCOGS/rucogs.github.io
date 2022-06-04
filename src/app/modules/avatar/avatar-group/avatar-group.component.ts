@@ -7,7 +7,19 @@ import { Component, Input, OnInit } from '@angular/core';
 })
 export class AvatarGroupComponent implements OnInit {
 
+  @Input() limit: number = -1;
   @Input() avatarSrcs: string[] = [];
+
+  get isLimiting(): boolean {
+    return this.limit > -1 && this.avatarSrcs.length > this.limit;
+  }
+
+  get limitedAvatarSrcs(): string[] {
+    if (this.limit > -1)  {
+      return this.avatarSrcs.slice(0, this.limit);
+    }
+    return this.avatarSrcs;
+  }
 
   constructor() { }
 

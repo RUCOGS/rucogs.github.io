@@ -1,10 +1,11 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes, UrlSegment } from '@angular/router';
-import { ArticlePageComponent, BlogPageComponent, CalendarPageComponent, HomePageComponent, LoginPageComponent, PicturesPageComponent, ProjectsPageComponent, ResourcesPageComponent, ScarletGameJamPageComponent, SignupPageComponent, UserPageComponent, UsersPageComponent } from '@app/pages/pages.module';
+import { ArticlePageComponent, BlogPageComponent, CalendarPageComponent, HomePageComponent, LoginPageComponent, PicturesPageComponent, ProjectsPageComponent, ResourcesPageComponent, ScarletGameJamPageComponent, SignupPageComponent, UserPageComponent, UsersPageComponent, ProjectPageComponent } from '@app/pages/pages.module';
 
 const routes: Routes = [
   { path: 'home', component: HomePageComponent },
   { path: 'calendar', component: CalendarPageComponent },
+  { path: 'projects/:projectId', component: ProjectPageComponent },
   { path: 'projects', component: ProjectsPageComponent },
   { path: 'pictures', component: PicturesPageComponent },
   { path: 'resources', component: ResourcesPageComponent },

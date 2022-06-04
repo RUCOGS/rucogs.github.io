@@ -8,7 +8,7 @@ import { MatOption } from '@angular/material/core';
 })
 export class FilterHeaderComponent implements OnInit, AfterViewInit {
   
-  @Output() newSearchRequest = new EventEmitter<string>();
+  @Output() newSearchRequest$ = new EventEmitter<string>();
   @Output() sortingModeChange = new EventEmitter<string>();
   @Output() sortAscendingChange = new EventEmitter<boolean>();
   @ContentChildren(MatOption) queryOptions: QueryList<MatOption> = new QueryList();
@@ -47,7 +47,7 @@ export class FilterHeaderComponent implements OnInit, AfterViewInit {
   }
 
   emitNewSearchRequest(value: string) {
-    this.newSearchRequest.emit(value)
+    this.newSearchRequest$.emit(value);
   }
 
   emitSortingModeChange(value: string) {

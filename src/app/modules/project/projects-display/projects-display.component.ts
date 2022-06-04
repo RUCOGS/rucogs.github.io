@@ -1,10 +1,12 @@
-import { AfterViewInit, Component, Input, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, Input, OnDestroy, ViewChild } from '@angular/core';
 import { FilterHeaderComponent } from '@src/app/modules/filtering/filter-header/filter-header.component';
 import { ApolloContext } from '@src/app/modules/graphql/graphql.module';
 import { BackendService } from '@src/app/services/backend.service';
 import { ScrollService } from '@src/app/services/scroll.service';
 import { Project, ProjectFilterInput } from '@src/generated/graphql-endpoint.types';
 import { gql } from 'apollo-angular';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-projects-display',
@@ -14,16 +16,19 @@ import { gql } from 'apollo-angular';
     class: 'page'
   }
 })
-export class ProjectsDisplayComponent implements AfterViewInit {
+export class ProjectsDisplayComponent implements AfterViewInit, OnDestroy {
 
   @ViewChild(FilterHeaderComponent) filterHeader: FilterHeaderComponent | undefined
   @Input() projects: Partial<Project>[] = [];
   @Input() projectsQuery: (filter: any, skip: number, limit: number) => Promise<Partial<Project>[]> = this.defaultQuery.bind(this);
   
   currentPage: number = 0;
-  projectsPerPage: number = 40;
+  projectsPerPage: number = 6;
   filter: ProjectFilterInput = {};
   fillingPage: boolean = false;
+
+  private onDestroy$: Subject<void> = new Subject<void>();
+
 
   // TODO MAYBE: Find the exact amount of projects needed to fill
   //             the viewer's page. This ofcourse is dependent on
@@ -33,7 +38,7 @@ export class ProjectsDisplayComponent implements AfterViewInit {
     private scrollService: ScrollService,
     private backend: BackendService,
   ) { 
-    scrollService.scrolledToBottom.subscribe(this.onScrollToBottom.bind(this));
+    scrollService.scrolledToBottom$.pipe(takeUntil(this.onDestroy$)).subscribe(this.onScrollToBottom.bind(this));
   }
 
   ngAfterViewInit(): void {
@@ -44,8 +49,12 @@ export class ProjectsDisplayComponent implements AfterViewInit {
     //       whenever the project changes a filter option. We should consider only modifying parts of
     //       of the sorted array that are needed (ie. only reversing the sortedSections if sortAscending 
     //       changes).
-    this.filterHeader.newSearchRequest.subscribe(this.onNewSearchRequest.bind(this));
+    this.filterHeader.newSearchRequest$.pipe(takeUntil(this.onDestroy$)).subscribe(this.onNewSearchRequest.bind(this));
     this.queryUntilFillPage();
+  }
+  
+  ngOnDestroy(): void {
+    this.onDestroy$.next();
   }
 
   async queryUntilFillPage(filter: ProjectFilterInput | undefined = undefined) {
@@ -95,7 +104,7 @@ export class ProjectsDisplayComponent implements AfterViewInit {
         createdAt: Date,
         updatedAt: Date,
         name: string,
-        description: string,
+        pitch: string,
         downloadLinks: string[],
         members: {
           user: {
@@ -113,7 +122,7 @@ export class ProjectsDisplayComponent implements AfterViewInit {
             createdAt
             updatedAt
             name
-            description
+            pitch
             downloadLinks
             members {
               user {

@@ -13,6 +13,7 @@ import { SignupPageModule } from './signup/signup-page.module';
 import { UserPageModule } from './user/user-page.module';
 import { UsersPageModule } from './users/users-page.module';
 import { ProjectsPageModule } from './projects/projects-page.module';
+import { ProjectPageModule } from './project/project-page.module';
 
 export * from './article/article-page.module';
 export * from './blog/blog-page.module';
@@ -26,6 +27,7 @@ export * from './signup/signup-page.module';
 export * from './user/user-page.module';
 export * from './users/users-page.module';
 export * from './projects/projects-page.module';
+export * from './project/project-page.module';
 
 
 
@@ -58,7 +60,8 @@ export * from './projects/projects-page.module';
     SignupPageModule,
     UserPageModule,
     UsersPageModule,
-    ProjectsPageModule
+    ProjectsPageModule,
+    ProjectPageModule
   ],
 })
 export class PagesModule { }

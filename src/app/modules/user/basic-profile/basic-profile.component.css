@@ -1,15 +1,15 @@
-:host {
-	max-width: fit-content;
-}
-
 .container {
+	max-width: 128px;
 	color: inherit;
 	text-decoration: inherit;
 	display: block;
+}
+
+.clickable {
 	transition: transform .1s ease-out;
 }
 
-.container:hover {
+.clickable:hover {
 	transform: scale(1.10);
 }
 

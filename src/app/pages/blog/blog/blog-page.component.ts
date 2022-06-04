@@ -4,6 +4,8 @@ import { ArticleInfo } from '@app/classes/_classes.module';
 import { BlogPageArticles } from '@app/settings/_settings.module';
 import { FilterHeaderComponent } from '@src/app/modules/filtering/filtering.module';
 import { PaginatorComponent } from '@src/app/modules/paginator/paginator.module';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-blog-page',
@@ -23,6 +25,8 @@ export class BlogPageComponent implements AfterViewInit {
   lastPage: number = 10;
   articlesPerPage: number = 5;
 
+  private onDestroy$ = new Subject<void>();
+
   constructor(private changeDetector: ChangeDetectorRef, public breakpointManager: BreakpointManagerService) {}
 
   ngAfterViewInit(): void {
@@ -33,9 +37,9 @@ export class BlogPageComponent implements AfterViewInit {
     //       whenever the user changes a filter option. We should consider only modifying parts of
     //       of the sorted array that are needed (ie. only reversing the sortedSections if sortAscending 
     //       changes).
-    this.filterHeader.newSearchRequest.subscribe(this.onNewSearchRequest.bind(this));
-    this.paginatorTop.currentPageChange.subscribe(this.onCurrentPageChange.bind(this));
-    this.paginatorBottom.currentPageChange.subscribe(this.onCurrentPageChange.bind(this));
+    this.filterHeader.newSearchRequest$.pipe(takeUntil(this.onDestroy$)).subscribe(this.onNewSearchRequest.bind(this));
+    this.paginatorTop.currentPageChange.pipe(takeUntil(this.onDestroy$)).subscribe(this.onCurrentPageChange.bind(this));
+    this.paginatorBottom.currentPageChange.pipe(takeUntil(this.onDestroy$)).subscribe(this.onCurrentPageChange.bind(this));
 
     this.filteredArticles = [...this.articles];
 

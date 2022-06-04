@@ -11,7 +11,7 @@ export class ScrollService {
   minPosition: number = 0;
 
   scrolledToTop = new EventEmitter();
-  scrolledToBottom = new EventEmitter();
+  scrolledToBottom$ = new EventEmitter();
   
   constructor(
     private router: Router
@@ -31,7 +31,7 @@ export class ScrollService {
     if (emitEvent) {
       // pos/max will give you the distance between scroll bottom and and bottom of screen in percentage.
       if(this.position == this.maxPosition) {
-        this.scrolledToBottom.emit();
+        this.scrolledToBottom$.emit();
       }
       if (this.position == this.minPosition) {
         this.scrolledToTop.emit();

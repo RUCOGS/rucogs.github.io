@@ -1,7 +1,9 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { SOCIAL_PLATFORMS } from '@src/app/settings/_settings.module';
 import { UserSocial } from '@src/generated/graphql-endpoint.types';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 export class UserSocialEdit {
   constructor(
@@ -19,7 +21,7 @@ export class UserSocialEdit {
   templateUrl: './editable-social-button.component.html',
   styleUrls: ['./editable-social-button.component.css']
 })
-export class EditableSocialButtonComponent implements OnInit {
+export class EditableSocialButtonComponent implements OnInit, OnDestroy {
   @Output() delete = new EventEmitter();
   @Output() edit = new EventEmitter();
 
@@ -29,6 +31,8 @@ export class EditableSocialButtonComponent implements OnInit {
   get platform() {
     return this.form.get('platform');
   }
+
+  private onDestroy$ = new Subject<void>();
   
   constructor(private formBuilder: FormBuilder) { 
     this.form = formBuilder.group({
@@ -43,24 +47,28 @@ export class EditableSocialButtonComponent implements OnInit {
     this.form.get('platform')?.setValue(this.userSocialEdit.userSocial.platform);
     this.form.get('username')?.setValue(this.userSocialEdit.userSocial.username);
     this.form.get('link')?.setValue(this.userSocialEdit.userSocial.link);
-    this.form.get('platform')?.valueChanges.subscribe({
+    this.form.get('platform')?.valueChanges.pipe(takeUntil(this.onDestroy$)).subscribe({
       next: (value: string) => {
         this.userSocialEdit.userSocial.platform = value;
         this.edit.emit();
       }
     });
-    this.form.get('username')?.valueChanges.subscribe({
+    this.form.get('username')?.valueChanges.pipe(takeUntil(this.onDestroy$)).subscribe({
       next: (value: string) => {
         this.userSocialEdit.userSocial.username = value;
         this.edit.emit();
       }
     });
-    this.form.get('link')?.valueChanges.subscribe({
+    this.form.get('link')?.valueChanges.pipe(takeUntil(this.onDestroy$)).subscribe({
       next: (value: string) => {
         this.userSocialEdit.userSocial.link = value;
         this.edit.emit();
       }
     });
+  }
+  
+  ngOnDestroy() {
+    this.onDestroy$.next();
   }
 
   validate() {
