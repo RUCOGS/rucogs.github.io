@@ -29,6 +29,10 @@ export class ProjectItemComponent implements OnInit {
     return new Date(this.project.createdAt).getFullYear()
   }
 
+  getProjectCompleted() {
+    return this.project.completedAt !== undefined;
+  }
+
   getProjectLink() {
     return `projects/${this.project.id}`;
   }

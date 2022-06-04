@@ -20,7 +20,9 @@ export class CdnService {
 
   // Fetchs the link to a file. If it's self hosted, the
   // self hosted URL is converted into an actual link.
-  getFileLink(filePath: string) {
+  getFileLink(filePath: string | undefined | null) {
+    if (!filePath)
+      return "";
     if (this.isSelfHostedFile(filePath)) {
       return this.getSelfHostedFileLink(filePath);
     }

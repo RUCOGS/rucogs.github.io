@@ -19,7 +19,7 @@ import { IconModule } from '@visurel/iconify-angular';
 import { TagsModule } from '../tags/tags.module';
 import { CardsModule } from '../cards/cards.module';
 import { ButtonStylesModule } from '../button-styles/button-styles.module';
-import { MatIconModule } from '@angular/material/icon';
+import { BreakableStylesDirective } from './breakable-styles/breakable-styles.directive';
 
 
 
@@ -35,7 +35,8 @@ import { MatIconModule } from '@angular/material/icon';
     QuestionPanelComponent,
     SectionComponent,
     SubSectionComponent,
-    TextButtonComponent
+    TextButtonComponent,
+    BreakableStylesDirective,
   ],
   imports: [
     CommonModule,
@@ -62,7 +63,8 @@ import { MatIconModule } from '@angular/material/icon';
     QuestionPanelComponent,
     SectionComponent,
     SubSectionComponent,
-    TextButtonComponent
+    TextButtonComponent,
+    BreakableStylesDirective
   ]
 })
 export class CoreModule { }

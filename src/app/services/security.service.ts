@@ -1,18 +1,19 @@
-import { Injectable } from '@angular/core';
+import { Injectable, OnDestroy } from '@angular/core';
 import { OperationSecurityDomain, SecurityDomain, SecurityPolicy, SecurityContext, PermissionsCalculator, isSecurityDomainValidForOpDomain } from '@src/shared/security';
 import { Apollo, gql } from 'apollo-angular';
-import { Subscription } from 'rxjs';
+import { Subject, Subscription } from 'rxjs';
+import { first, takeUntil } from 'rxjs/operators';
 import { AuthService } from './auth.service';
 import { BackendService } from './backend.service';
 
 @Injectable({
   providedIn: 'root'
 })
-export class SecurityService {
+export class SecurityService implements OnDestroy {
   public securityPolicy: SecurityPolicy | undefined;
   public securityContext: SecurityContext | undefined;
 
-  private querySubscription: Subscription | undefined;
+  private onDestroy$ = new Subject<void>();
   
   constructor(
     private backend: BackendService,
@@ -20,9 +21,13 @@ export class SecurityService {
   ) { 
     this.fetchData();
   }
+  
+  ngOnDestroy(): void {
+    this.onDestroy$.next();
+  }
 
   private fetchData() {
-    this.querySubscription = this.backend.withAuth().watchQuery<{
+    this.backend.withAuth().query<{
       securityContext: SecurityContext
       securityPolicy: SecurityPolicy
     }>({
@@ -33,7 +38,8 @@ export class SecurityService {
         }
       `
     })
-    .valueChanges.subscribe(({data}) => {
+    .pipe(first(), takeUntil(this.onDestroy$))
+    .subscribe(({data}) => {
       this.securityContext = data.securityContext;
       this.securityPolicy = data.securityPolicy;
     });

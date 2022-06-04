@@ -1,32 +1,32 @@
-<div class="app-user main-bg">
+<div class="app-project-page main-bg">
   <div *ngIf="isEditing; then editingPage; else displayPage"></div>
   <ng-template #editingPage>
-    <form [formGroup]="form" enctype="multipart/form-data">
-      <div class="app-user profile-background-container">
-        <img [src]="selectedBannerSrc" class="app-user profile-background">
-        <div class="app-user edit-profile-background-tint"></div>
+    <!-- <form [formGroup]="form" enctype="multipart/form-data">
+      <div class="app-project-page profile-background-container">
+        <img [src]="selectedBannerSrc" class="app-project-page profile-background">
+        <div class="app-project-page edit-profile-background-tint"></div>
         <input
         name="banner"
         style="display: none"
         type="file" accept="image/png, image/jpeg, image/gif" 
         (change)="onBannerChanged($event)"
         #profileBackgroundInput>
-        <button mat-icon-button class="app-user edit-profile-background-button" (click)="profileBackgroundInput.click()" [disabled]="processing">
+        <button mat-icon-button class="app-project-page edit-profile-background-button" (click)="profileBackgroundInput.click()" [disabled]="processing">
           <mat-icon>edit</mat-icon>
         </button>
       </div>
-      <div class="app-user content-width-padding">
-        <div class="app-user content">
-          <div class="app-user profile-picture-container">
-            <img [src]="selectedAvatarSrc" class="app-user profile-picture">
-            <div class="app-user edit-profile-picture-tint"></div>
+      <div class="app-project-page content-width-padding">
+        <div class="app-project-page content">
+          <div class="app-project-page profile-picture-container">
+            <img [src]="selectedAvatarSrc" class="app-project-page profile-picture">
+            <div class="app-project-page edit-profile-picture-tint"></div>
             <input
             name="avatar"
             style="display: none"
             type="file" accept="image/png, image/jpeg, image/gif" 
             (change)="onAvatarChanged($event)"
             #profilePictureInput>
-            <button mat-icon-button class="app-user edit-profile-picture-button" (click)="profilePictureInput.click()" [disabled]="processing">
+            <button mat-icon-button class="app-project-page edit-profile-picture-button" (click)="profilePictureInput.click()" [disabled]="processing">
               <mat-icon>edit</mat-icon>
             </button>
           </div>
@@ -39,7 +39,7 @@
             flex-wrap: wrap; 
             gap: 2em;">
             <div style="flex-grow: 1;">
-              <h1 class="app-user display-name" style="font-size: 16px;">
+              <h1 class="app-project-page display-name" style="font-size: 16px;">
                 <mat-form-field appearance="outline">
                   <mat-label>Display Name</mat-label>
                   <input matInput formControlName="displayName">
@@ -63,8 +63,8 @@
               </button>
             </div>
           </div>
-          <div class="app-user core-content">
-            <div class="app-user about-container" style="margin-top: 0;">
+          <div class="app-project-page core-content">
+            <div class="app-project-page about-container" style="margin-top: 0;">
               <mat-form-field appearance="outline" style="width: 100%; line-height: 28px;">
                 <mat-label>About</mat-label>
                 <textarea matInput
@@ -74,14 +74,14 @@
                           formControlName="bio"></textarea>
               </mat-form-field>
             </div>
-            <div class="app-user socials-container">
+            <div class="app-project-page socials-container">
               <div style="display: flex;">
                 <h2 style="margin-bottom: 0; flex-grow: 1;">Socials</h2>
-                <button type="button" mat-icon-button class="app-user add-socials-button" (click)="onAddSocial()">
+                <button type="button" mat-icon-button class="app-project-page add-socials-button" (click)="onAddSocial()">
                   <mat-icon>add_circle</mat-icon>
                 </button>
               </div>
-              <div class="app-user socials-button-container">
+              <div class="app-project-page socials-button-container">
                 <div *ngFor="let userSocialEdit of userSocialEdits; let i = index">
                   <app-editable-social-button [userSocialEdit]="userSocialEdit" (delete)="onDeleteSocial(i)" (edit)="onEditSocial()"></app-editable-social-button>
                 </div>
@@ -94,69 +94,100 @@
           </div>
         </div>
       </div>
-    </form>
+    </form> -->
   </ng-template>
   <ng-template #displayPage>
-    <div class="app-user profile-background-container" [ngStyle]="getBannerContainerStyle()">
-      <img [src]="bannerSrc" class="app-user profile-background" [hidden]="this.bannerColor">
+    <div class="app-project-page banner-container" [ngStyle]="getBannerContainerStyle()">
+      <img [src]="getFileLink(project.bannerLink ?? '')" class="app-project-page banner" [hidden]="this.bannerColor">
     </div>
-    <div class="app-user content-width-padding">
-      <div class="app-user content">
-        <div class="app-user profile-picture-container">
-          <img [src]="avatarSrc" class="app-user profile-picture">
-        </div>
-        <div style="
-          position: relative;
-          display: flex; 
-          flex-direction: row; 
-          align-items: center;
-          margin-top: 5em; 
-          flex-wrap: wrap; 
-          gap: 2em;">
-          <div style="flex-grow: 1;">
-            <h1 class="app-user display-name">{{ displayName }}</h1>
-            <div class="app-user username-tag">@{{ username }}</div>
-          </div>
+    <div class="app-project-page content-width-padding">
+      <div class="app-project-page content">
+        <div breakable-styles 
+          style="
+            position: relative;
+            display: flex; 
+            margin-top: 2em; 
+            flex-wrap: wrap; 
+            width: 100%;
+            gap: 2em;
+          "
+          prebreak-style="
+            flex-direction: row; 
+          "
+          break-style="
+            flex-direction: column;
+          "
+          break-on="width < 840"
+        >
+
           <div style="
-            position: absolute;
-            right: 0; 
-            display: flex;
-            flex-direction: row;
-            gap: 20px;
-            justify-content: center;
+            width: var(--card-image-size);
+            height: calc(var(--card-image-size) - var(--card-offset));
           ">
-            <button class="app-user edit-profile-button" mat-stroked-button color="basic" pill (click)="editProfile()" *ngIf="hasEditPerms">Edit Profile
-            </button>
-          </div>
-        </div>
-        <div class="app-user core-content">
-          <p class="app-user about-container" style="margin-top: 0; margin-bottom: 0;">
-            {{ bio }}
-          </p>
-          <div *ngIf="nonExistent">
-            <h1>This account doesn't exist</h1>
-            <p class="app-user no-results-text">Try searching for another</p>
-          </div>
-          <div class="app-user socials-container">
-            <div class="app-user socials-button-container">
-              <div *ngFor="let userSocial of userSocials">
-                <app-social-button [userSocial]="userSocial"></app-social-button>
-              </div>
+            <div class="app-project-page card-image-container" style="
+              outline: solid white 8px;
+              display: block;
+              position: relative;
+              bottom: var(--card-offset);
+              height: var(--card-image-size);
+              width: inherit;
+              border-radius: 16px;
+            ">
+              <img [src]="getFileLink(project.cardImageLink ?? '')" class="app-project-page card-image" style="
+                width: inherit;
+                height: 100%;
+                object-fit: cover;
+                border-radius: 16px;
+              ">
             </div>
           </div>
-          <div>
-            <h2>Roles</h2>
-            <app-roles-display [roles]="roles"></app-roles-display>
+          <div style="
+            flex: 1 1 0;
+            display: flex;
+            flex-direction: column;
+            max-width: 100%;
+          ">
+            <div style="
+              display: flex;
+              flex-direction: row;
+              flex-wrap: wrap;
+              justify-content: left;
+              align-items: center;
+              margin-bottom: 16px;
+              gap: 8px;
+            ">
+              <h1 class="app-project-page name" style="
+                margin-bottom: 0px;
+                flex: 1;
+              ">{{ project.name }}</h1>
+              <button class="app-project-page edit-profile-button" mat-stroked-button color="basic" pill (click)="edit()" style="
+                padding: 4px 24px 4px 24px;
+              ">Edit Project
+              </button>
+            </div>
+            <p class="app-project-page pitch" style="
+              margin-top: 0; 
+              margin-bottom: 0;
+              overflow: hidden;
+              word-wrap: break-word;
+            ">
+              {{ project.pitch }}
+            </p>
           </div>
-          <div *ngIf="projects.length > 0">
-            <mat-divider></mat-divider>
-            <h2>Projects</h2>
-            <app-card-grid column-width="300px">
-              <!-- When we are not filtering, we do not want to section off the projects. -->
-              <!-- It's guaranteed that all the projects will be put into a section as the only element in the sortedSections[] array. -->
-              <app-project-item *ngFor="let project of projects;" [project]="project"></app-project-item>
-            </app-card-grid>
+        </div>
+        <div class="app-project-page core-content">
+          <div class="margin-top: 16px">
+            <markdown katex lineNumbers *ngIf="isMarkdownReady">
+              {{ project.description }}
+            </markdown>
           </div>
+          <div *ngIf="nonExistent">
+            <h1>This account doesn't exist</h1>
+            <p class="app-project-page no-results-text">Try searching for another</p>
+          </div>
+          <mat-divider></mat-divider>
+          <h2>Members</h2>
+          <app-project-members-display [projectMembers]="getProjectMembers()"></app-project-members-display>
         </div>
       </div>
     </div>

@@ -1,9 +1,10 @@
-import { Injectable } from '@angular/core';
+import { Injectable, OnDestroy } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { User } from '@src/generated/graphql-endpoint.types';
 import { Router } from '@angular/router';
 import { SettingsService } from '@src/_settings';
+import { takeUntil } from 'rxjs/operators';
 
 const AUTH_PAYLOAD_KEY = 'auth-payload';
 
@@ -19,7 +20,7 @@ export interface AuthPayload {
 @Injectable({
   providedIn: 'root'
 })
-export class AuthService {
+export class AuthService implements OnDestroy {
   public payload$: Observable<AuthPayload>;
   public get authenticated() {
     return this.getPayload() !== null;
@@ -33,6 +34,8 @@ export class AuthService {
     return this.settings.Backend.backendApiLink + "/auth/thirdparty/";
   }
 
+  private onDestroy$ = new Subject<boolean>();
+
   constructor(
     private router: Router,
     private http: HttpClient,
@@ -42,6 +45,10 @@ export class AuthService {
     this.payload$ = new Observable();
     this.payloadSubject = new BehaviorSubject<AuthPayload>(token);
     this.payload$ = this.payloadSubject.asObservable();
+  }
+
+  ngOnDestroy(): void {
+    this.onDestroy$.next();
   }
 
   public logout() {
@@ -69,7 +76,7 @@ export class AuthService {
 
   public socialLogin(social): Observable<AuthPayload> {
     let authUrl: string = this.oAuthLink + social;
-    const observable = new Observable<AuthPayload>((observer) => {
+    const socialLogin$ = new Observable<AuthPayload>((observer) => {
       const popup = window.open(authUrl, 'myWindow', 'location=1,status=1,scrollbars=1,width=800,height=800');
       let listener = window.addEventListener('message', (message) => {
         if (message.origin === this.settings.Backend.backendApiLink) {
@@ -77,39 +84,39 @@ export class AuthService {
         }
       });
     });
-    observable.subscribe({
+    socialLogin$.pipe(takeUntil(this.onDestroy$)).subscribe({
       next: (data: AuthPayload) => {
         console.log("got payload");
         this.setPayload(data);
       }
-    })
-    return observable;
+    });
+    return socialLogin$;
   }
   
   public login(username: string, password: string): Observable<AuthPayload> {
-    const observable = this.http.post<AuthPayload>(this.authLink + 'signin', {
+    const login$ = this.http.post<AuthPayload>(this.authLink + 'signin', {
       username,
       password
     }, httpOptions);
-    observable.subscribe({ 
+    login$.pipe(takeUntil(this.onDestroy$)).subscribe({ 
       next: (data: AuthPayload) => {
         this.setPayload(data);
       } 
     });
-    return observable;
+    return login$;
   }
 
   public signup(username: string, email: string, password: string): Observable<AuthPayload> {
-    const observable = this.http.post<AuthPayload>(this.authLink + 'signup', {
+    const signup$ = this.http.post<AuthPayload>(this.authLink + 'signup', {
       username,
       email,
       password
     }, httpOptions);
-    observable.subscribe({ 
+    signup$.pipe(takeUntil(this.onDestroy$)).subscribe({ 
       next: (data: AuthPayload) => {
         this.setPayload(data);
       } 
     });
-    return observable;
+    return signup$;
   }
 }

@@ -4,7 +4,7 @@ import { Project, ProjectFilterInput, UserFilterInput } from '@src/generated/gra
 import { FileUtils } from '@app/utils/file-utils';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { gql } from 'apollo-angular';
-import { Subscription } from 'rxjs';
+import { Subject, Subscription } from 'rxjs';
 import ColorThief from 'colorthief';
 import { Color } from '@app/classes/_classes.module';
 import { UserSocial } from '@src/generated/graphql-endpoint.types';
@@ -16,6 +16,7 @@ import { ApolloContext } from '@src/app/modules/graphql/graphql.module';
 import { BackendService } from '@src/app/services/backend.service';
 import { deepClone } from '@src/app/utils/utils';
 import { UserSocialEdit } from '@src/app/modules/user/editable-social-button/editable-social-button.component';
+import { takeUntil } from 'rxjs/operators';
 
 export const AVATAR_FILE_SIZE_LIMIT_MB = 5;
 export const BANNER_FILE_SIZE_LIMIT_MB = 10;
@@ -78,11 +79,8 @@ export class UserPageComponent implements OnInit, OnDestroy {
   bannerSrc: string = "https://c.tenor.com/Tu0MCmJ4TJUAAAAC/load-loading.gif";
   bannerColor: Color | undefined;
 
-  private activatedRouteSub: any;
-  private userQuerySubscription: Subscription | undefined;
-  private userMutationSubscription: Subscription | undefined;
-
   private opDomain: OperationSecurityDomain | undefined;
+  private onDestroy$ = new Subject<void>();
 
   constructor(
     private activatedRoute: ActivatedRoute, 
@@ -99,7 +97,7 @@ export class UserPageComponent implements OnInit, OnDestroy {
   }
   
   ngOnInit() {
-    this.activatedRouteSub = this.activatedRoute.paramMap.subscribe(params => {
+    this.activatedRoute.paramMap.pipe(takeUntil(this.onDestroy$)).subscribe(params => {
       this.username = params.get('username') as string;
 
       this.fetchData();
@@ -107,12 +105,11 @@ export class UserPageComponent implements OnInit, OnDestroy {
   }
   
   ngOnDestroy() {
-    this.activatedRouteSub.unsubscribe();
-    this.userQuerySubscription?.unsubscribe();
+    this.onDestroy$.next();
   }
 
   private fetchData() {
-    this.userQuerySubscription = this.backend.watchQuery<{
+    this.backend.watchQuery<{
       users: {
         // Result type
         avatarLink: string, 
@@ -164,7 +161,7 @@ export class UserPageComponent implements OnInit, OnDestroy {
         authenticate: true,
       }
     })
-    .valueChanges.subscribe(({data}) => {
+    .valueChanges.pipe(takeUntil(this.onDestroy$)).subscribe(({data}) => {
       if (data.users.length == 0) {
         this.nonExistent = true;
         return;
@@ -417,7 +414,7 @@ export class UserPageComponent implements OnInit, OnDestroy {
         }>(
           "/upload/user/", 
           profileUploadFormData
-        ).subscribe({
+        ).pipe(takeUntil(this.onDestroy$)).subscribe({
           error: (error) => {
             this.removeProcess();
           },

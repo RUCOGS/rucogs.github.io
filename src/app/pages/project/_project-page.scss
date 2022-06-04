@@ -1,0 +1,5 @@
+@use './project/project-page.component-theme' as project;
+
+@mixin theme($theme) {
+	@include project.theme($theme);
+}
