@@ -21,6 +21,35 @@
   object-fit: cover;
 }
 
+.card-offset {
+  height: calc(var(--card-image-size) - var(--card-offset));
+}
+
+.card-image-container {
+  outline-style: solid;
+  outline-width: 8px;
+  display: block;
+  position: relative;
+  bottom: var(--card-offset);
+  height: var(--card-image-size);
+  width: var(--card-image-size);
+  border-radius: 16px;
+}
+
+.card-image {
+  width: inherit;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 16px;
+}
+
+.pitch {
+  margin-top: 0; 
+  margin-bottom: 0;
+  overflow: hidden;
+  word-wrap: break-word;
+}
+
 .edit-banner-tint {
   position: absolute;
   width: 100%;

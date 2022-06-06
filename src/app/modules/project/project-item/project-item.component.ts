@@ -34,7 +34,7 @@ export class ProjectItemComponent implements OnInit {
   }
 
   getProjectLink() {
-    return `projects/${this.project.id}`;
+    return `/projects/${this.project.id}`;
   }
 
   getAvatarLinks() {

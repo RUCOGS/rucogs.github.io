@@ -9,7 +9,11 @@
   
   .app-project-page.banner-container,
   .app-project-page.card-image-container {
-    background-color: mat.get-color-from-palette($background, background)
+    background-color: mat.get-color-from-palette($background, background);
+  }
+
+  .app-project-page.card-image-container {
+    outline-color: mat.get-color-from-palette($background, background);
   }
 
   .app-project-page.edit-banner-button, 
