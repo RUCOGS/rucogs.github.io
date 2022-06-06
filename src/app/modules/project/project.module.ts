@@ -6,6 +6,7 @@ import { FilteringModule } from '../filtering/filtering.module';
 import { CardsModule } from '../cards/cards.module';
 import { AvatarModule } from '../avatar/avatar.module';
 import { TagsModule } from '../tags/tags.module';
+import { RouterModule } from '@angular/router';
 
 
 
@@ -19,7 +20,8 @@ import { TagsModule } from '../tags/tags.module';
     FilteringModule,
     CardsModule,
     AvatarModule,
-    TagsModule
+    TagsModule,
+    RouterModule,
   ],
   exports: [
     ProjectItemComponent,

@@ -1,104 +1,84 @@
 <div class="app-project-page main-bg">
   <div *ngIf="isEditing; then editingPage; else displayPage"></div>
   <ng-template #editingPage>
-    <!-- <form [formGroup]="form" enctype="multipart/form-data">
-      <div class="app-project-page profile-background-container">
-        <img [src]="selectedBannerSrc" class="app-project-page profile-background">
-        <div class="app-project-page edit-profile-background-tint"></div>
-        <input
-        name="banner"
-        style="display: none"
-        type="file" accept="image/png, image/jpeg, image/gif" 
-        (change)="onBannerChanged($event)"
-        #profileBackgroundInput>
-        <button mat-icon-button class="app-project-page edit-profile-background-button" (click)="profileBackgroundInput.click()" [disabled]="processing">
-          <mat-icon>edit</mat-icon>
-        </button>
+    <form [formGroup]="form" enctype="multipart/form-data">
+      <div class="app-project-page banner-container">
+        <app-image-upload [imageSrc]="getFileLink(projectEdits.bannerLink)" [fileSizeLimitMB]="5"></app-image-upload>
       </div>
       <div class="app-project-page content-width-padding">
         <div class="app-project-page content">
-          <div class="app-project-page profile-picture-container">
-            <img [src]="selectedAvatarSrc" class="app-project-page profile-picture">
-            <div class="app-project-page edit-profile-picture-tint"></div>
-            <input
-            name="avatar"
-            style="display: none"
-            type="file" accept="image/png, image/jpeg, image/gif" 
-            (change)="onAvatarChanged($event)"
-            #profilePictureInput>
-            <button mat-icon-button class="app-project-page edit-profile-picture-button" (click)="profilePictureInput.click()" [disabled]="processing">
-              <mat-icon>edit</mat-icon>
-            </button>
-          </div>
-          <div style="
-            position: relative;
-            display: flex; 
-            flex-direction: row; 
-            align-items: center;
-            margin-top: 5em; 
-            flex-wrap: wrap; 
-            gap: 2em;">
-            <div style="flex-grow: 1;">
-              <h1 class="app-project-page display-name" style="font-size: 16px;">
-                <mat-form-field appearance="outline">
-                  <mat-label>Display Name</mat-label>
-                  <input matInput formControlName="displayName">
-                  <mat-error *ngIf="form.get('displayName')?.hasError('required')">
-                    Display name is required
-                  </mat-error>
-                </mat-form-field>
-              </h1>
+          <div breakable-styles 
+            style="
+              position: relative;
+              display: flex; 
+              margin-top: 2em; 
+              flex-wrap: wrap; 
+              width: 100%;
+              gap: 2em;
+            "
+            prebreak-style="
+              flex-direction: row; 
+            "
+            break-style="
+              flex-direction: column;
+            "
+            break-on="width < 840"
+          >
+            <div class="app-project-page card-offset">
+              <div class="app-project-page card-image-container">
+                <img [src]="getFileLink(project.cardImageLink)" class="app-project-page card-image">
+              </div>
             </div>
             <div style="
-              position: absolute;
-              right: 0; 
+              flex: 1 1 0;
               display: flex;
-              flex-direction: row;
-              gap: 20px;
-              justify-content: center;
+              flex-direction: column;
+              max-width: 100%;
             ">
-              <button class="save-profile-button" mat-stroked-button color="basic" pill (click)="exitEditProfile()" [disabled]="processing">Exit
-              </button>
-              <button class="save-profile-button" mat-stroked-button color="basic" pill (click)="saveProfile()" [disabled]="processing">Save Profile
-              </button>
+              <div style="
+                display: flex;
+                flex-direction: row;
+                flex-wrap: wrap;
+                justify-content: left;
+                align-items: center;
+                margin-bottom: 16px;
+                gap: 8px;
+              ">
+                <h1 class="app-project-page name" style="
+                  margin-bottom: 0px;
+                  flex: 1;
+                ">{{ project.name }}</h1>
+                <button class="app-project-page edit-profile-button" mat-stroked-button color="basic" pill (click)="edit()" style="
+                  padding: 4px 24px 4px 24px;
+                ">Edit Project
+                </button>
+              </div>
+              <p class="app-project-page pitch">
+                {{ project.pitch }}
+              </p>
             </div>
           </div>
           <div class="app-project-page core-content">
-            <div class="app-project-page about-container" style="margin-top: 0;">
-              <mat-form-field appearance="outline" style="width: 100%; line-height: 28px;">
-                <mat-label>About</mat-label>
-                <textarea matInput
-                          cdkTextareaAutosize
-                          cdkAutosizeMinRows="1"
-                          cdkAutosizeMaxRows="5"
-                          formControlName="bio"></textarea>
-              </mat-form-field>
+            <div class="margin-top: 16px">
+              <markdown katex lineNumbers *ngIf="isMarkdownReady">
+                {{ project.description }}
+              </markdown>
             </div>
-            <div class="app-project-page socials-container">
-              <div style="display: flex;">
-                <h2 style="margin-bottom: 0; flex-grow: 1;">Socials</h2>
-                <button type="button" mat-icon-button class="app-project-page add-socials-button" (click)="onAddSocial()">
-                  <mat-icon>add_circle</mat-icon>
-                </button>
-              </div>
-              <div class="app-project-page socials-button-container">
-                <div *ngFor="let userSocialEdit of userSocialEdits; let i = index">
-                  <app-editable-social-button [userSocialEdit]="userSocialEdit" (delete)="onDeleteSocial(i)" (edit)="onEditSocial()"></app-editable-social-button>
-                </div>
-              </div>
+            <div *ngIf="nonExistent">
+              <h1>This account doesn't exist</h1>
+              <p class="app-project-page no-results-text">Try searching for another</p>
             </div>
-            <div *ngIf="hasManageRolesPerms">
-              <h2>Roles</h2>
-              <app-role-codes-editor [roles]="selectedRoles" [allRoles]="acceptedRoles" (rolesEdited)="onEditRoles()"></app-role-codes-editor>
-            </div>
+            <mat-divider></mat-divider>
+            <h2>Members</h2>
+            <app-project-members-display [projectMembers]="getProjectMembers()"></app-project-members-display>
           </div>
         </div>
       </div>
-    </form> -->
+    </form>
   </ng-template>
   <ng-template #displayPage>
-    <div class="app-project-page banner-container" [ngStyle]="getBannerContainerStyle()">
-      <img [src]="getFileLink(project.bannerLink ?? '')" class="app-project-page banner" [hidden]="this.bannerColor">
+    <div class="app-project-page banner-container">
+      <img [src]="getFileLink(project.bannerLink ?? '')" class="app-project-page banner">
     </div>
     <div class="app-project-page content-width-padding">
       <div class="app-project-page content">
@@ -119,26 +99,9 @@
           "
           break-on="width < 840"
         >
-
-          <div style="
-            width: var(--card-image-size);
-            height: calc(var(--card-image-size) - var(--card-offset));
-          ">
-            <div class="app-project-page card-image-container" style="
-              outline: solid white 8px;
-              display: block;
-              position: relative;
-              bottom: var(--card-offset);
-              height: var(--card-image-size);
-              width: inherit;
-              border-radius: 16px;
-            ">
-              <img [src]="getFileLink(project.cardImageLink ?? '')" class="app-project-page card-image" style="
-                width: inherit;
-                height: 100%;
-                object-fit: cover;
-                border-radius: 16px;
-              ">
+          <div class="app-project-page card-offset">
+            <div class="app-project-page card-image-container">
+              <img [src]="getFileLink(project.cardImageLink ?? '')" class="app-project-page card-image">
             </div>
           </div>
           <div style="
@@ -165,12 +128,7 @@
               ">Edit Project
               </button>
             </div>
-            <p class="app-project-page pitch" style="
-              margin-top: 0; 
-              margin-bottom: 0;
-              overflow: hidden;
-              word-wrap: break-word;
-            ">
+            <p class="app-project-page pitch">
               {{ project.pitch }}
             </p>
           </div>

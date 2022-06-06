@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit, Output } from '@angular/core';
+import { FileUtils } from '@src/app/utils/_utils.module';
 
 @Component({
   selector: 'app-image-upload',
@@ -6,10 +7,41 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./image-upload.component.css']
 })
 export class ImageUploadComponent implements OnInit {
+  @Output() processing: boolean = false;
+
+  @Input() fileSizeLimitMB: number = 10;
+  @Input() imageSrc: string = "";
+  @Input() value?: File;
 
   constructor() { }
 
   ngOnInit(): void {
   }
 
+  
+  onImageFileChanged(event: any) {
+    const file: File = event.target.files[0];
+    
+    if (file) {
+      this.processing = true;
+      FileUtils.ReadAsBase64(file)
+        .then(result => {
+          // Limit file size
+          const filesize = FileUtils.ByteToMB(FileUtils.Base64ToByteSize(result));
+          if (filesize < this.fileSizeLimitMB) {
+            this.value = file;
+            this.imageSrc = result;
+          } else {
+            // TODO: Make popup for errors
+            console.log(`File size is too big! ${filesize}MB > ${this.fileSizeLimitMB}MB`);
+          }
+        })
+        .catch(err => {
+          console.log(err);
+        })
+        .finally(() => {
+          this.processing = false;
+        });
+    }
+  }
 }

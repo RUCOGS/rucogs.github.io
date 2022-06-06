@@ -5,7 +5,6 @@ import { FileUtils } from '@app/utils/file-utils';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { gql } from 'apollo-angular';
 import { Subject, Subscription } from 'rxjs';
-import ColorThief from 'colorthief';
 import { Color } from '@app/classes/_classes.module';
 import { CdnService } from '@app/services/cdn.service';
 import { getRolesBelowRoles, OperationSecurityDomain } from '@src/shared/security';
@@ -64,7 +63,6 @@ export class ProjectPageComponent implements OnInit, OnDestroy {
   projectMembersEdited: boolean = false;
   // projectMemberEdits: ProjectMemberEdit[] = [];
   
-  bannerColor: Color | undefined;
   isMarkdownReady = false;
 
   private opDomain: OperationSecurityDomain | undefined;
@@ -183,18 +181,15 @@ export class ProjectPageComponent implements OnInit, OnDestroy {
     return this.project.members as PartialDeep<ProjectMember>[];
   }
 
-  getFileLink(filePath: string) {
+  getFileLink(filePath: string | undefined | null) {
     return this.cdnService.getFileLink(filePath);
   }
 
-  // We use the container to show a single colored banner
-  getBannerContainerStyle(): Object {
-    return { 
-      ...(this.bannerColor && {'background-color': this.bannerColor.hexString() })
-    }
-  }
-
   edit() {
+    this.isEditing = true;
+    
+    this.projectEdits = JSON.parse(JSON.stringify(this.project));
 
+    this.changeDetector.detectChanges();
   }
 }

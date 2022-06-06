@@ -5,6 +5,7 @@
 @use './scarlet-game-jam/scarlet-game-jam-page' as sgj;
 @use './signup/signup-page' as signup;
 @use './user/user-page' as user;
+@use './project/project-page' as project;
 
 @mixin theme($theme) {
 	@include articles.theme($theme);
@@ -14,4 +15,5 @@
 	@include sgj.theme($theme);
 	@include signup.theme($theme);
 	@include user.theme($theme);
+	@include project.theme($theme);
 }

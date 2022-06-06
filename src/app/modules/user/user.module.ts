@@ -14,6 +14,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatOptionModule } from '@angular/material/core';
 import { MatSelectModule } from '@angular/material/select';
 import { MatInputModule } from '@angular/material/input';
+import { RouterModule } from '@angular/router';
+import { MatButtonModule } from '@angular/material/button';
 
 
 
@@ -34,7 +36,10 @@ import { MatInputModule } from '@angular/material/input';
     IconModule,
     MatIconModule,
     MatOptionModule,
-    MatSelectModule
+    MatSelectModule,
+    RouterModule,
+    MatInputModule,
+    MatButtonModule,
   ],
   exports: [
     BasicProfileComponent,

@@ -1,6 +1,9 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ImageUploadComponent } from './image-upload/image-upload.component';
+import { UtilsModule } from '@src/app/utils/_utils.module';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
 
 
 
@@ -9,7 +12,10 @@ import { ImageUploadComponent } from './image-upload/image-upload.component';
     ImageUploadComponent
   ],
   imports: [
-    CommonModule
+    CommonModule,
+    UtilsModule,
+    MatButtonModule,
+    MatIconModule,
   ],
   exports: [
     ImageUploadComponent

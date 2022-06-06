@@ -10,6 +10,7 @@ import { UserModule } from '@src/app/modules/user/user.module';
 import { MatIconModule } from '@angular/material/icon';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
 
 export { UserPageComponent };
 
@@ -29,6 +30,7 @@ export { UserPageComponent };
     MatIconModule,
     MatFormFieldModule,
     ReactiveFormsModule,
+    MatInputModule,
   ],
   exports: [
     UserPageComponent
