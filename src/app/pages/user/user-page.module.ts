@@ -12,6 +12,8 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { UIMessageModule } from '@src/app/modules/ui-message/ui-message.module';
+import { ImageUploadModule } from '@src/app/modules/image-upload/image-upload.module';
+import { SettingsModule } from '@src/app/settings/_settings.module';
 
 export { UserPageComponent };
 
@@ -33,6 +35,8 @@ export { UserPageComponent };
     ReactiveFormsModule,
     MatInputModule,
     UIMessageModule,
+    ImageUploadModule,
+    SettingsModule
   ],
   exports: [
     UserPageComponent

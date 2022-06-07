@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AvatarComponent } from './avatar/avatar.component';
 import { AvatarGroupComponent } from './avatar-group/avatar-group.component';
+import { SettingsModule } from '@src/app/settings/_settings.module';
 
 
 
@@ -15,7 +16,8 @@ import { AvatarGroupComponent } from './avatar-group/avatar-group.component';
   ],
   exports: [
     AvatarComponent,
-    AvatarGroupComponent
+    AvatarGroupComponent,
+    SettingsModule
   ]
 })
 export class AvatarModule { }
