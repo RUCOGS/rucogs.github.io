@@ -1,23 +1,38 @@
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CustomValidators } from '@src/app/classes/custom-validators';
-import { ProjectMember, RoleCode } from '@src/generated/graphql-endpoint.types';
+import { deepClone } from '@src/app/utils/utils';
+import { ProjectMember, ProjectMemberRole, RoleCode, User } from '@src/generated/graphql-endpoint.types';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { PartialDeep } from 'type-fest';
 
 export class ProjectMemberEdit {
+  acceptedRoles: RoleCode[] = [];
   roles: RoleCode[] = [];
 
   constructor(
-    public projectMember: Partial<ProjectMember> = {},
+    public projectMember: PartialDeep<ProjectMember> = {},
+    public disabled: boolean = true,
     public editor?: EditableProjectMemberProfileComponent,
   ) {
+    this.projectMember = deepClone(projectMember);
     if (projectMember.roles)
-      this.roles = projectMember.roles.map(x => x.roleCode);
+      this.roles = projectMember.roles.map(x => x!.roleCode!);
+    this.projectMember.roles = undefined;
   }
 
   public validate() {
     return this.editor?.validate();
+  }
+
+  public compositeValue() {
+    const composite = deepClone(this.projectMember);
+    composite.roles = this.roles
+      .map(x => <ProjectMemberRole>{
+        roleCode: x
+      });
+    return composite;
   }
 }
 
@@ -32,10 +47,17 @@ export class EditableProjectMemberProfileComponent implements OnInit, OnDestroy 
 
   @Input() projectMemberEdit: ProjectMemberEdit = new ProjectMemberEdit();
 
+  // TODO: Fetch this instead of keeping it as true
+  @Input() hasManageRolesPerms = true;
+
   form: FormGroup;
 
   get contributions() {
     return this.form.get('contributions');
+  }
+
+  get disabled() {
+    return this.projectMemberEdit.disabled;
   }
 
   private onDestroy$ = new Subject<void>();
@@ -44,14 +66,24 @@ export class EditableProjectMemberProfileComponent implements OnInit, OnDestroy 
     this.form = formBuilder.group({
       // TODO NOW: Finis this after makign user search bar
       contributions: [null, [Validators.required]],
-      user: [null, [CustomValidators.defined]]
+      user: [null, [Validators.required]]
     });
   }
 
   ngOnInit(): void {
     this.projectMemberEdit.editor = this;
+    if (this.projectMemberEdit.disabled) {
+      this.form.disable();
+    }
+    this.form.get('user')?.setValue(this.projectMemberEdit.projectMember.user);
     this.form.get('contributions')?.setValue(this.projectMemberEdit.projectMember.contributions);
     this.form.get('roles')?.setValue(this.projectMemberEdit.projectMember.roles);
+    this.form.get('user')?.valueChanges.pipe(takeUntil(this.onDestroy$)).subscribe({
+      next: (value: PartialDeep<User> | null) => {
+        this.projectMemberEdit.projectMember.user = value ?? undefined;
+        this.edit.emit();
+      }
+    });
     this.form.get('contributions')?.valueChanges.pipe(takeUntil(this.onDestroy$)).subscribe({
       next: (value: string) => {
         this.projectMemberEdit.projectMember.contributions = value;
@@ -71,12 +103,18 @@ export class EditableProjectMemberProfileComponent implements OnInit, OnDestroy 
   }
 
   validate() {
-    this.form.updateValueAndValidity();
+    this.form.updateValueAndValidity({
+      emitEvent: true
+    });
     return this.form.valid;
   }
 
   onDelete() {
     this.edit.emit();
     this.delete.emit();
+  }
+
+  onEditRoles() {
+    this.edit.emit();
   }
 }

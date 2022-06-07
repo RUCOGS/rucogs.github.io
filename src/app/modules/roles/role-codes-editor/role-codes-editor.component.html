@@ -1,9 +1,11 @@
 <mat-form-field appearance="outline" style="width: 100%;">
   <mat-label *ngIf="label">{{label}}</mat-label>
-  <mat-chip-list #roleChipList aria-label="Role selection">
+  <mat-chip-list #roleChipList aria-label="Role selection" [disabled]="disabled">
     <mat-chip
       *ngFor="let role of roles"
-      (removed)="onRemoveRole(role)">
+      (removed)="onRemoveRole(role)"
+      [disabled]="disabledRoles.includes(role)"
+    >
       {{getRoleData(role).name}}
       <button matChipRemove>
         <mat-icon>cancel</mat-icon>

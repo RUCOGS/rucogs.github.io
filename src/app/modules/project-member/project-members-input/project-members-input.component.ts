@@ -11,5 +11,4 @@ export class ProjectMembersInputComponent implements OnInit {
 
   ngOnInit(): void {
   }
-
 }

@@ -6,5 +6,7 @@
   <app-avatar *ngFor="let avatarSrc of limitedAvatarSrcs" [avatarSrc]="avatarSrc" size="small" style="
 	  margin-left: -1em;
   "></app-avatar>
-  <h1 *ngIf="isLimiting" style="margin: 0px;" class="app-avatar-group limit-ellipsis">...</h1>
+  <div *ngIf="isLimiting" style="margin: 0px;" class="app-avatar-group limit-ellipsis" style="
+    font-size: 42px;
+  ">...</div>
 </div>

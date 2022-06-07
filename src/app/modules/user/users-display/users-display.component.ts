@@ -3,7 +3,7 @@ import { FilterHeaderComponent } from '@src/app/modules/filtering/filtering.modu
 import { ApolloContext } from '@src/app/modules/graphql/graphql.module';
 import { BackendService } from '@src/app/services/backend.service';
 import { ScrollService } from '@src/app/services/scroll.service';
-import { User, UserFilterInput } from '@src/generated/graphql-endpoint.types';
+import { User, UserFilterInput, UserSortInput } from '@src/generated/graphql-endpoint.types';
 import { gql } from 'apollo-angular';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -96,8 +96,8 @@ export class UsersDisplayComponent implements AfterViewInit, OnDestroy {
       }[]
     }>({
       query: gql`
-        query($filter: UserFilterInput, $limit: Int, $skip: Int) {
-          users(filter: $filter, limit: $limit, skip: $skip) {
+        query($filter: UserFilterInput, $limit: Int, $skip: Int, $sorts: [UserSortInput!]) {
+          users(filter: $filter, limit: $limit, skip: $skip, sorts: $sorts) {
             avatarLink
             displayName
             username
@@ -109,7 +109,12 @@ export class UsersDisplayComponent implements AfterViewInit, OnDestroy {
         // TODO EVENTUALLY: Use cursor pagination once Typetta suppoorts that
         skip: this.currentPage * this.usersPerPage,
         limit: this.usersPerPage,
-        filter: this.filter
+        filter: this.filter,
+        sorts: [
+          <UserSortInput>{
+            username: 'asc'
+          }
+        ]
       },
       context: <ApolloContext>{
         authenticate: true,

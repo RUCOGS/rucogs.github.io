@@ -58,6 +58,6 @@
 .description {
   text-overflow: ellipsis;
   overflow: hidden;
-  max-height: 5em;
+  max-height: calc(1.5em * 3);
 }
 

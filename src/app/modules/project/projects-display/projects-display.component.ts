@@ -3,7 +3,7 @@ import { FilterHeaderComponent } from '@src/app/modules/filtering/filter-header/
 import { ApolloContext } from '@src/app/modules/graphql/graphql.module';
 import { BackendService } from '@src/app/services/backend.service';
 import { ScrollService } from '@src/app/services/scroll.service';
-import { Project, ProjectFilterInput } from '@src/generated/graphql-endpoint.types';
+import { Project, ProjectFilterInput, ProjectSortInput } from '@src/generated/graphql-endpoint.types';
 import { gql } from 'apollo-angular';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -114,8 +114,8 @@ export class ProjectsDisplayComponent implements AfterViewInit, OnDestroy {
       }[]
     }>({
       query: gql`
-        query($filter: ProjectFilterInput, $skip: Int, $limit: Int) {
-          projects(filter: $filter, skip: $skip, limit: $limit) {
+        query($filter: ProjectFilterInput, $skip: Int, $limit: Int, $sorts: [ProjectSortInput!]) {
+          projects(filter: $filter, skip: $skip, limit: $limit, sorts: $sorts) {
             id
             cardImageLink
             completedAt
@@ -137,7 +137,12 @@ export class ProjectsDisplayComponent implements AfterViewInit, OnDestroy {
         // TODO EVENTUALLY: Use cursor pagination once Typetta suppoorts that
         skip,
         limit,
-        filter
+        filter,
+        sorts: [
+          <ProjectSortInput>{
+            name: 'asc'
+          }
+        ]
       },
       context: <ApolloContext>{
         authenticate: true,

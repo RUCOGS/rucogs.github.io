@@ -10,6 +10,9 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ProjectMembersInputComponent } from './project-members-input/project-members-input.component';
+import { CardsModule } from '../cards/cards.module';
+import { MatIconModule } from '@angular/material/icon';
+import { UtilsModule } from '@src/app/utils/_utils.module';
 
 
 
@@ -28,7 +31,10 @@ import { ProjectMembersInputComponent } from './project-members-input/project-me
     MatInputModule,
     MatButtonModule,
     ReactiveFormsModule,
-    UserModule
+    UserModule,
+    CardsModule,
+    MatIconModule,
+    UtilsModule
   ],
   exports: [
     ProjectMemberProfileComponent,

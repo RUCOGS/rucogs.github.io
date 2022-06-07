@@ -1,7 +1,7 @@
 <mat-expansion-panel class="app-resource-panel expansion-panel">
   <mat-expansion-panel-header class="app-resource-panel header">
     <mat-panel-title class="app-resource-panel title mat-headline mb-0">
-      <ic-icon class="iconify mr-16" [icon]="iconifyIcon" size="52px"></ic-icon>
+      <ic-icon *ngIf="iconifyIcon" class="iconify mr-16" [icon]="iconifyIcon" size="52px"></ic-icon>
       {{title}}
     </mat-panel-title>
   </mat-expansion-panel-header>

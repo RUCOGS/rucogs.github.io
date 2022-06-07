@@ -30,6 +30,7 @@ import article from '@iconify/icons-ic/outline-article';
 import video from '@iconify/icons-dashicons/format-video';
 import tutorial from '@iconify/icons-ic/outline-integration-instructions'
 import google from '@iconify/icons-simple-icons/google';
+import form from '@iconify/icons-ant-design/form-outlined'
 
 // Settings for the entire site.
 // Edit these if you need to make minor tweaks
@@ -93,7 +94,8 @@ export class SettingsService {
       article,
       video,
       tutorial,
-      google
+      google,
+      form
     }
   }
   public Backend = new class {

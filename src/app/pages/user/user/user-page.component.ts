@@ -17,6 +17,7 @@ import { BackendService } from '@src/app/services/backend.service';
 import { deepClone } from '@src/app/utils/utils';
 import { UserSocialEdit } from '@src/app/modules/user/editable-social-button/editable-social-button.component';
 import { takeUntil } from 'rxjs/operators';
+import { UIMessageService } from '@src/app/modules/ui-message/ui-message.module';
 
 export const AVATAR_FILE_SIZE_LIMIT_MB = 5;
 export const BANNER_FILE_SIZE_LIMIT_MB = 10;
@@ -87,6 +88,7 @@ export class UserPageComponent implements OnInit, OnDestroy {
     formBuilder: FormBuilder, 
     private backend: BackendService,
     private securityService: SecurityService,
+    private uiMessageService: UIMessageService,
     private cdnService: CdnService,
     private changeDetector: ChangeDetectorRef,
   ) {
@@ -259,6 +261,7 @@ export class UserPageComponent implements OnInit, OnDestroy {
         createdAt: Date,
         updatedAt: Date,
         name: string,
+        pitch: string,
         description: string,
         downloadLinks: string[],
         members: {
@@ -277,6 +280,7 @@ export class UserPageComponent implements OnInit, OnDestroy {
             createdAt
             updatedAt
             name
+            pitch
             description
             downloadLinks
             members {
@@ -302,7 +306,84 @@ export class UserPageComponent implements OnInit, OnDestroy {
     return <Partial<Project>[]>result.data.projects;
   }
 
-  editProfile() {
+  onEditSocial() {
+    this.socialsEdited = true;
+  }
+
+  onEditRoles() {
+    this.rolesEdited = true;
+  }
+
+  onAddSocial() {
+    this.userSocialEdits.push(new UserSocialEdit());
+  }
+
+  onDeleteSocial(index: number) {
+    this.userSocialEdits.splice(index, 1);
+  }
+
+  onAvatarChanged(event: any) {
+    const file: File = event.target.files[0];
+    
+    if (file) {
+      this.addProcess();
+      FileUtils.ReadAsBase64(file)
+        .then(result => {
+          // Limit file size to less than 2 MB
+          const filesize = FileUtils.ByteToMB(FileUtils.Base64ToByteSize(result));
+          if (filesize < AVATAR_FILE_SIZE_LIMIT_MB) {
+            this.selectedAvatarFile = file;
+            this.selectedAvatarSrc = result;
+          } else {
+            // TODO: Make popup for errors
+            console.log(`File size is too big! ${filesize}MB > 2MB`);
+          }
+        })
+        .catch(err => {
+          console.log(err);
+        })
+        .finally(() => {
+          this.removeProcess();
+        });
+    }
+  }
+
+  onBannerChanged(event: any) {
+    const file: File = event.target.files[0];
+    
+    if (file) {
+      this.addProcess();
+      FileUtils.ReadAsBase64(file)
+        .then(result => {
+          // Limit file size
+          const filesize = FileUtils.ByteToMB(FileUtils.Base64ToByteSize(result));
+          if (filesize < BANNER_FILE_SIZE_LIMIT_MB) {
+            this.selectedBannerFile = file;
+            this.selectedBannerSrc = result;
+          } else {
+            // TODO: Make popup for errors
+            console.log(`File size is too big! ${filesize}MB > 2MB`);
+          }
+        })
+        .catch(err => {
+          console.log(err)
+        })
+        .finally(() => {
+          this.removeProcess();
+        });
+    }
+  }
+
+  // We use the container to show a single colored banner
+  getBannerContainerStyle(): Object {
+    return { 
+      ...(this.bannerColor && {'background-color': this.bannerColor.hexString() })
+    }
+  }
+
+  //#region // ----- FORM BASE ----- //
+
+  edit() {
     this.isEditing = true;
 
     this.selectedAvatarSrc = this.avatarSrc;
@@ -323,42 +404,28 @@ export class UserPageComponent implements OnInit, OnDestroy {
   }
 
   // Don't save, revert changes
-  exitEditProfile() {
+  exitEdit() {
     this.isEditing = false;
   }
 
-  onEditSocial() {
-    this.socialsEdited = true;
-  }
-
-  onEditRoles() {
-    this.rolesEdited = true;
-  }
-
-  onAddSocial() {
-    this.userSocialEdits.push(new UserSocialEdit());
-  }
-
-  onDeleteSocial(index: number) {
-    this.userSocialEdits.splice(index, 1);
-  }
-
   validate() {
-    let valid = true;
-    for (const userSocialEdit of this.userSocialEdits) {
-      if (!userSocialEdit.validate())
-        valid = false;
+    try {
+      for (const userSocialEdit of this.userSocialEdits) {
+        if (!userSocialEdit.validate())
+          throw new Error("A user social is incomplete!");
+      }
+      return true;
+    } catch(err: any) {
+      this.uiMessageService.error(err);
+      return false;
     }
-
-    return valid;
   }
 
-  saveProfile() {
+  save() {
     if (!this.validate())
       return;
     
     this.isEditing = false;
-    // TODO: handle sending new profile data to server
     
     // Upload profile picture
     const profileUploadFormData = new FormData();
@@ -442,62 +509,5 @@ export class UserPageComponent implements OnInit, OnDestroy {
     }
   }
 
-  onAvatarChanged(event: any) {
-    const file: File = event.target.files[0];
-    
-    if (file) {
-      this.addProcess();
-      FileUtils.ReadAsBase64(file)
-        .then(result => {
-          // Limit file size to less than 2 MB
-          const filesize = FileUtils.ByteToMB(FileUtils.Base64ToByteSize(result));
-          if (filesize < AVATAR_FILE_SIZE_LIMIT_MB) {
-            this.selectedAvatarFile = file;
-            this.selectedAvatarSrc = result;
-          } else {
-            // TODO: Make popup for errors
-            console.log(`File size is too big! ${filesize}MB > 2MB`);
-          }
-        })
-        .catch(err => {
-          console.log(err);
-        })
-        .finally(() => {
-          this.removeProcess();
-        });
-    }
-  }
-
-  onBannerChanged(event: any) {
-    const file: File = event.target.files[0];
-    
-    if (file) {
-      this.addProcess();
-      FileUtils.ReadAsBase64(file)
-        .then(result => {
-          // Limit file size
-          const filesize = FileUtils.ByteToMB(FileUtils.Base64ToByteSize(result));
-          if (filesize < BANNER_FILE_SIZE_LIMIT_MB) {
-            this.selectedBannerFile = file;
-            this.selectedBannerSrc = result;
-          } else {
-            // TODO: Make popup for errors
-            console.log(`File size is too big! ${filesize}MB > 2MB`);
-          }
-        })
-        .catch(err => {
-          console.log(err)
-        })
-        .finally(() => {
-          this.removeProcess();
-        });
-    }
-  }
-
-  // We use the container to show a single colored banner
-  getBannerContainerStyle(): Object {
-    return { 
-      ...(this.bannerColor && {'background-color': this.bannerColor.hexString() })
-    }
-  }
+//#endregion // -- FORM BASE ----- //
 }

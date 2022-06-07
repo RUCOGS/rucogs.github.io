@@ -11,6 +11,9 @@ import { MarkdownModule } from 'ngx-markdown';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { UtilsModule } from '@src/app/utils/_utils.module';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { UIMessageModule } from '@src/app/modules/ui-message/ui-message.module';
 
 export { ProjectPageComponent };
 
@@ -32,6 +35,8 @@ export { ProjectPageComponent };
     ReactiveFormsModule,
     MatFormFieldModule,
     MatInputModule,
+    UtilsModule,
+    UIMessageModule,
   ],
   exports: [
     ProjectPageComponent

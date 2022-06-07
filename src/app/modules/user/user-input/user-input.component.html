@@ -1,4 +1,4 @@
-<app-inline-profile *ngIf="value && !isEnteringNewUser" [user]="value"></app-inline-profile>
+<app-inline-profile *ngIf="value && !isEnteringNewUser" [user]="value" class="app-user-input" [ngClass]="{'disabled': disabled}"></app-inline-profile>
 <input type="text"
   placeholder="Enter username"
   matInput

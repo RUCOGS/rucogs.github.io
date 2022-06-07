@@ -1,6 +1,39 @@
-<form [formGroup]="form">
-  <mat-form-field appearance="outline" style="width: 300px">
-    <mat-label>User</mat-label>
-    <app-user-input formControlName="user"></app-user-input>
-  </mat-form-field>
-</form>
+<div class="app-editable-project-member-profile card" [ngClass]="{'disabled': disabled}">
+  <form [formGroup]="form">
+    <div style="
+      display: flex;
+      align-items: center;
+      margin-bottom: 1em;
+    ">
+      <h2 style="
+        flex: 1;
+        margin-bottom: 0;
+      ">Project Member</h2>
+      <button type="button" mat-icon-button (click)="onDelete()" [disabled]="disabled">
+        <mat-icon>delete</mat-icon>
+      </button>
+    </div>
+    <mat-form-field appearance="outline" style="width: 100%">
+      <mat-label>User</mat-label>
+      <app-user-input formControlName="user"></app-user-input>
+      <mat-error *ngIf="form.get('user')?.hasError('required')">
+        User is required
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field appearance="outline" style="width: 100%; line-height: 1.5em">
+      <mat-label>Contributions</mat-label>
+      <textarea 
+        matInput
+        cdkTextareaAutosize
+        cdkAutosizeMinRows="5"
+        formControlName="contributions">
+      </textarea>
+      <mat-error *ngIf="form.get('contributions')?.hasError('required')">
+        Contributions is required
+      </mat-error>
+    </mat-form-field>
+    <div *ngIf="hasManageRolesPerms">
+      <app-role-codes-editor [roles]="projectMemberEdit.roles" [allRoles]="projectMemberEdit.acceptedRoles" (rolesEdited)="onEditRoles()" [disabledRoles]="['PROJECT_MEMBER']" label="Roles" [disabled]="disabled"></app-role-codes-editor>
+    </div>
+  </form>
+</div>

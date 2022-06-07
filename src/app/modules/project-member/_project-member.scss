@@ -1,0 +1,5 @@
+@use './editable-project-member-profile/editable-project-member.component-theme' as editable-project-member;
+
+@mixin theme($theme) {
+	@include editable-project-member.theme($theme);
+}

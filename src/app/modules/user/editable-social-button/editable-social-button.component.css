@@ -1,13 +1,9 @@
-.editable-social-button {
+.card {
   border: 2px solid;
   border-radius: 8px;
-  display: flex;
-  gap: 12px;
   align-content: center;
   align-items: center;
   padding: 24px;
-  padding-top: 32px;
-  flex-wrap: wrap;
 }
 
 .icon {
