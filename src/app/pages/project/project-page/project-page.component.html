@@ -3,7 +3,7 @@
   <ng-template #editingPage>
     <form [formGroup]="form" enctype="multipart/form-data">
       <div class="app-project-page banner-container">
-        <app-image-upload #bannerUpload [imageSrc]="getFileLink(projectEdits.bannerLink)" [fileSizeLimitMB]="10" [disabled]="!hasEditPerms" [value]="selectedBannerFile"></app-image-upload>
+        <app-image-upload #bannerUpload [fileSizeLimitMB]="10" [disabled]="!hasEditPerms"></app-image-upload>
       </div>
       <div class="app-project-page content-width-padding">
         <div class="app-project-page content">
@@ -26,9 +26,9 @@
           >
             <div class="app-project-page card-offset">
               <div class="app-project-page card-image-container">
-                <app-image-upload #cardImageUpload [imageSrc]="getFileLink(project.cardImageLink)" [fileSizeLimitMB]="5" 
+                <app-image-upload #cardImageUpload  [fileSizeLimitMB]="5" 
                 class="app-project-page card-image"
-                [disabled]="!hasEditPerms" [value]="selectedCardImageFile"
+                [disabled]="!hasEditPerms"
                 ></app-image-upload>
               </div>
             </div>

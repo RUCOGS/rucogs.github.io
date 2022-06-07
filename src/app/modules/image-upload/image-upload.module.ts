@@ -5,6 +5,7 @@ import { UtilsModule } from '@src/app/utils/_utils.module';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 
+export { ImageUploadComponent };
 
 
 @NgModule({

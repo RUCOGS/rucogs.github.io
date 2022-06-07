@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Project, ProjectFilterInput, UserFilterInput } from '@src/generated/graphql-endpoint.types';
 import { FileUtils } from '@app/utils/file-utils';
@@ -18,6 +18,8 @@ import { deepClone } from '@src/app/utils/utils';
 import { UserSocialEdit } from '@src/app/modules/user/editable-social-button/editable-social-button.component';
 import { takeUntil } from 'rxjs/operators';
 import { UIMessageService } from '@src/app/modules/ui-message/ui-message.module';
+import { ImageUploadComponent } from '@src/app/modules/image-upload/image-upload.module';
+import { SettingsService } from '@src/_settings';
 
 export const AVATAR_FILE_SIZE_LIMIT_MB = 5;
 export const BANNER_FILE_SIZE_LIMIT_MB = 10;
@@ -64,12 +66,10 @@ export class UserPageComponent implements OnInit, OnDestroy {
 
   // The selected picture sources will become data URLs when
   // a new image is uploaded from the user's computer.
-  selectedAvatarSrc: string = "";
-  selectedBannerSrc: string = "";
   selectedDisplayName: string = "";
 
-  selectedAvatarFile: File | undefined;
-  selectedBannerFile: File | undefined;
+  @ViewChild('avatarUpload') avatarUpload?: ImageUploadComponent;
+  @ViewChild('bannerUpload') bannerUpload?: ImageUploadComponent;
   
   rolesEdited: boolean = false;
   socialsEdited: boolean = false;
@@ -91,6 +91,7 @@ export class UserPageComponent implements OnInit, OnDestroy {
     private uiMessageService: UIMessageService,
     private cdnService: CdnService,
     private changeDetector: ChangeDetectorRef,
+    private settings: SettingsService,
   ) {
     this.form = formBuilder.group({
       displayName: [null, [Validators.required]],
@@ -170,7 +171,9 @@ export class UserPageComponent implements OnInit, OnDestroy {
       }
       
       const myUser = data.users[0];
-      this.avatarSrc = this.cdnService.getFileLink(myUser.avatarLink);
+      this.avatarSrc = this.cdnService.getFileLink(myUser.avatarLink)
+      if (this.avatarSrc === "")
+        this.avatarSrc = this.settings.General.defaultAvatarSrc;
       this.bannerSrc = this.cdnService.getFileLink(myUser.bannerLink);
       this.displayName = myUser.displayName;
       this.bio = myUser.bio;
@@ -198,10 +201,10 @@ export class UserPageComponent implements OnInit, OnDestroy {
   
   updateBannerColor() {
     // We only default to color when there isn't a banner.
-    if (this.bannerSrc != "")
+    if (this.bannerSrc !== "")
       return;
     
-    const img = document.querySelector<HTMLImageElement>('img.app-user.profile-picture')
+    const img = document.querySelector<HTMLImageElement>('img.app-user-page.avatar')
     if (img) {
       img.setAttribute('crossOrigin', '');
       const colorThief = new ColorThief();
@@ -214,6 +217,7 @@ export class UserPageComponent implements OnInit, OnDestroy {
           // colorThief.getColor(img);
           const [r, g, b] = colorThief.getColor(img);
           this.bannerColor = new Color(r, g, b);
+          console.log(img.eventListeners?.length);
         });
       }
     }
@@ -322,58 +326,6 @@ export class UserPageComponent implements OnInit, OnDestroy {
     this.userSocialEdits.splice(index, 1);
   }
 
-  onAvatarChanged(event: any) {
-    const file: File = event.target.files[0];
-    
-    if (file) {
-      this.addProcess();
-      FileUtils.ReadAsBase64(file)
-        .then(result => {
-          // Limit file size to less than 2 MB
-          const filesize = FileUtils.ByteToMB(FileUtils.Base64ToByteSize(result));
-          if (filesize < AVATAR_FILE_SIZE_LIMIT_MB) {
-            this.selectedAvatarFile = file;
-            this.selectedAvatarSrc = result;
-          } else {
-            // TODO: Make popup for errors
-            console.log(`File size is too big! ${filesize}MB > 2MB`);
-          }
-        })
-        .catch(err => {
-          console.log(err);
-        })
-        .finally(() => {
-          this.removeProcess();
-        });
-    }
-  }
-
-  onBannerChanged(event: any) {
-    const file: File = event.target.files[0];
-    
-    if (file) {
-      this.addProcess();
-      FileUtils.ReadAsBase64(file)
-        .then(result => {
-          // Limit file size
-          const filesize = FileUtils.ByteToMB(FileUtils.Base64ToByteSize(result));
-          if (filesize < BANNER_FILE_SIZE_LIMIT_MB) {
-            this.selectedBannerFile = file;
-            this.selectedBannerSrc = result;
-          } else {
-            // TODO: Make popup for errors
-            console.log(`File size is too big! ${filesize}MB > 2MB`);
-          }
-        })
-        .catch(err => {
-          console.log(err)
-        })
-        .finally(() => {
-          this.removeProcess();
-        });
-    }
-  }
-
   // We use the container to show a single colored banner
   getBannerContainerStyle(): Object {
     return { 
@@ -386,12 +338,14 @@ export class UserPageComponent implements OnInit, OnDestroy {
   edit() {
     this.isEditing = true;
 
-    this.selectedAvatarSrc = this.avatarSrc;
-    this.selectedBannerSrc = this.bannerSrc;
+    this.changeDetector.detectChanges();
+    if (!this.avatarUpload || !this.bannerUpload)
+      return;
+    
+    this.avatarUpload.init(this.avatarSrc == this.settings.General.defaultAvatarSrc ? "" : this.avatarSrc);
+    this.bannerUpload.init(this.bannerSrc);
+    
     this.selectedDisplayName = this.displayName;
-
-    this.selectedAvatarFile = undefined;
-    this.selectedBannerFile = undefined;
 
     this.socialsEdited = false;
     this.userSocialEdits = this.userSocials.map(x => new UserSocialEdit(deepClone(x)));
@@ -422,45 +376,57 @@ export class UserPageComponent implements OnInit, OnDestroy {
   }
 
   save() {
-    if (!this.validate())
+    if (!this.avatarUpload || !this.bannerUpload || 
+        !this.validate())
       return;
     
     this.isEditing = false;
     
     // Upload profile picture
-    const profileUploadFormData = new FormData();
+    const uploadFormData = new FormData();
 
     if (this.rolesEdited) {
-      profileUploadFormData.set("roles", JSON.stringify(this.roles));
+      uploadFormData.set("roles", JSON.stringify(this.roles));
     }
 
     // Socials changed 
     if (this.socialsEdited) {
       // Store JSON array of the new socials
-      profileUploadFormData.set("socials", JSON.stringify(this.userSocialEdits.map(x => x.userSocial)));
+      uploadFormData.set("socials", JSON.stringify(this.userSocialEdits.map(x => x.userSocial)));
     }
 
     // Display name changed
     if (this.form.get("displayName")?.value !== this.displayName) {
-      profileUploadFormData.set("displayName", this.form.get("displayName")?.value);
+      uploadFormData.set("displayName", this.form.get("displayName")?.value);
     }
     
     // Bio changed
     if (this.form.get("bio")?.value !== this.bio) {
-      profileUploadFormData.set("bio", this.form.get("bio")?.value);
+      uploadFormData.set("bio", this.form.get("bio")?.value);
     }
 
-    if (this.selectedAvatarFile) {
-      profileUploadFormData.append("avatar", this.selectedAvatarFile);
+    const deletedFiles: string[] = [];
+
+    if (this.avatarUpload.edited) {
+      if (this.avatarUpload.value)
+        uploadFormData.append("avatar", this.avatarUpload.value);
+      else
+        deletedFiles.push("avatar");
     }
 
-    // Upload background picture
-    if (this.selectedBannerFile) {
-      profileUploadFormData.append("banner", this.selectedBannerFile);
+    if (this.bannerUpload.edited) {
+      if (this.bannerUpload.value)
+        uploadFormData.append("banner", this.bannerUpload.value);
+      else
+        deletedFiles.push("banner");
+    }
+
+    if (deletedFiles.length > 0) {
+      uploadFormData.set("deletedFiles", JSON.stringify(deletedFiles));
     }
 
     // If change data is not empty, meaning there were changes...
-    if (profileUploadFormData.entries().next().value) {
+    if (uploadFormData.entries().next().value) {
       this.addProcess();
       this.backend
         .withAuth()
@@ -480,7 +446,7 @@ export class UserPageComponent implements OnInit, OnDestroy {
           }
         }>(
           "/upload/user/", 
-          profileUploadFormData
+          uploadFormData
         ).pipe(takeUntil(this.onDestroy$)).subscribe({
           error: (error) => {
             this.removeProcess();
@@ -488,7 +454,9 @@ export class UserPageComponent implements OnInit, OnDestroy {
           next: (value) => {
             if (value.data.avatarLink)
               this.avatarSrc = this.cdnService.getFileLink(value.data.avatarLink);
-            if (value.data.bannerLink)
+            if (value.data.avatarLink === "")
+              this.avatarSrc = this.settings.General.defaultAvatarSrc;
+            if (value.data.bannerLink || value.data.bannerLink === "")
               this.bannerSrc = this.cdnService.getFileLink(value.data.bannerLink);
             if (value.data.displayName)
               this.displayName = value.data.displayName;
@@ -499,8 +467,7 @@ export class UserPageComponent implements OnInit, OnDestroy {
             if (value.data.roleCodes)
               this.roles = value.data.roleCodes
 
-            if (value.data.avatarLink || value.data.bannerLink)
-              this.updateBannerColor();
+            this.updateBannerColor();
           },
           complete: () => {
             this.removeProcess();

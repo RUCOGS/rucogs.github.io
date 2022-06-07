@@ -2,33 +2,13 @@
   <div *ngIf="isEditing; then editingPage; else displayPage"></div>
   <ng-template #editingPage>
     <form [formGroup]="form" enctype="multipart/form-data">
-      <div class="app-user-page profile-background-container">
-        <img [src]="selectedBannerSrc" class="app-user-page profile-background">
-        <div class="app-user-page edit-profile-background-tint"></div>
-        <input
-        name="banner"
-        style="display: none"
-        type="file" accept="image/png, image/jpeg, image/gif" 
-        (change)="onBannerChanged($event)"
-        #profileBackgroundInput>
-        <button mat-icon-button class="app-user-page edit-profile-background-button" (click)="profileBackgroundInput.click()" [disabled]="processing">
-          <mat-icon>edit</mat-icon>
-        </button>
+      <div class="app-user-page banner-container">
+        <app-image-upload #bannerUpload></app-image-upload>
       </div>
       <div class="app-user-page content-width-padding">
         <div class="app-user-page content">
-          <div class="app-user-page profile-picture-container">
-            <img [src]="selectedAvatarSrc" class="app-user-page profile-picture">
-            <div class="app-user-page edit-profile-picture-tint"></div>
-            <input
-            name="avatar"
-            style="display: none"
-            type="file" accept="image/png, image/jpeg, image/gif" 
-            (change)="onAvatarChanged($event)"
-            #profilePictureInput>
-            <button mat-icon-button class="app-user-page edit-profile-picture-button" (click)="profilePictureInput.click()" [disabled]="processing">
-              <mat-icon>edit</mat-icon>
-            </button>
+          <div class="app-user-page avatar-container">
+            <app-image-upload #avatarUpload class="app-user-page avatar"></app-image-upload>
           </div>
           <div style="
             position: relative;
@@ -96,13 +76,13 @@
     </form>
   </ng-template>
   <ng-template #displayPage>
-    <div class="app-user-page profile-background-container" [ngStyle]="getBannerContainerStyle()">
-      <img [src]="bannerSrc" class="app-user-page profile-background" [hidden]="this.bannerColor">
+    <div class="app-user-page banner-container" [ngStyle]="getBannerContainerStyle()">
+      <img *ngIf="bannerSrc" [src]="bannerSrc" class="app-user-page banner">
     </div>
     <div class="app-user-page content-width-padding">
       <div class="app-user-page content">
-        <div class="app-user-page profile-picture-container">
-          <img [src]="avatarSrc" class="app-user-page profile-picture">
+        <div class="app-user-page avatar-container">
+          <img *ngIf="avatarSrc" [src]="avatarSrc" class="app-user-page avatar">
         </div>
         <div style="
           position: relative;

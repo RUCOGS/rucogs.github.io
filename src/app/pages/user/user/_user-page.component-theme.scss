@@ -7,7 +7,7 @@
   $foreground: map.get($config, foreground);
   $background: map.get($config, background);
 
-  .app-user-page.profile-picture {
+  .app-user-page.avatar {
 		border-color: mat.get-color-from-palette($background, background) !important;
   }
 
@@ -15,13 +15,13 @@
 	  color: mat.get-color-from-palette($foreground, disabled-button)
   }
 
-  .app-user-page.profile-picture-container,
-  .app-user-page.profile-background-container {
+  .app-user-page.avatar-container,
+  .app-user-page.banner-container {
     background-color: mat.get-color-from-palette($background, background)
   }
 
-  .app-user-page.edit-profile-picture-button, 
-  .app-user-page.edit-profile-background-button {
+  .app-user-page.edit-avatar-button, 
+  .app-user-page.edit-banner-button {
     border-color: mat.get-color-from-palette($misc, light) !important;
     color: mat.get-color-from-palette($misc, light) !important;
   }

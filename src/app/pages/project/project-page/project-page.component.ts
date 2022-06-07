@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Project, ProjectFilterInput, ProjectMember } from '@src/generated/graphql-endpoint.types';
 import { FileUtils } from '@app/utils/file-utils';
@@ -18,6 +18,7 @@ import { ProjectMemberEdit } from '@src/app/modules/project-member/editable-proj
 import { assertProjectValid } from '@src/shared/utils';
 import { deepClone } from '@src/app/utils/utils';
 import { UIMessageService } from '@src/app/modules/ui-message/ui-message.module';
+import { ImageUploadComponent } from '@src/app/modules/image-upload/image-upload/image-upload.component';
 
 
 export const CARD_IMAGE_FILE_SIZE_LIMIT_MB = 10;
@@ -64,8 +65,8 @@ export class ProjectPageComponent implements OnInit, OnDestroy {
 
   form: FormGroup;
 
-  selectedCardImageFile: File | undefined;
-  selectedBannerFile: File | undefined;
+  @ViewChild('cardImageUpload') cardImageUpload?: ImageUploadComponent;
+  @ViewChild('bannerUpload') bannerUpload?: ImageUploadComponent;
   
   projectMembersEdited: boolean = false;
   // projectMemberEdits: ProjectMemberEdit[] = [];
@@ -205,6 +206,10 @@ export class ProjectPageComponent implements OnInit, OnDestroy {
   edit() {
     this.isEditing = true;
 
+    this.changeDetector.detectChanges();
+    if (!this.cardImageUpload || !this.bannerUpload)
+      return;
+
     const configureFormControl = (name: string, initialValue: any, enable: boolean) => {
       const control = this.form.get(name);
       if (!control)
@@ -221,6 +226,9 @@ export class ProjectPageComponent implements OnInit, OnDestroy {
     configureFormControl('name', this.projectEdits.name, this.hasEditPerms);
     configureFormControl('pitch', this.projectEdits.pitch, this.hasEditPerms);
     configureFormControl('description', this.projectEdits.description, this.hasEditPerms);
+
+    this.cardImageUpload.init(this.projectEdits.cardImageLink ?? "");
+    this.bannerUpload.init(this.projectEdits.bannerLink ?? "");
     
     this.projectMemberEdits = this.project.members?.map(x => new ProjectMemberEdit(x)) ?? [];
 
@@ -249,38 +257,51 @@ export class ProjectPageComponent implements OnInit, OnDestroy {
   }
 
   save() {
-    if (!this.validate())
+    if (!this.cardImageUpload || !this.bannerUpload ||
+        !this.validate())
       return;
     
     this.isEditing = false;
 
     // Upload profile picture
-    const profileUploadFormData = new FormData();
+    const uploadFormData = new FormData();
 
     if (this.projectMembersEdited) {
-      profileUploadFormData.set("projectMembers", JSON.stringify(this.projectMemberEdits.map(x => {
+      uploadFormData.set("projectMembers", JSON.stringify(this.projectMemberEdits.map(x => {
         x.projectMember
         x.roles
       })));
     }
 
     if (this.form.get("name")?.value !== this.project.name) {
-      profileUploadFormData.set("name", this.form.get("name")?.value);
+      uploadFormData.set("name", this.form.get("name")?.value);
     }
     
     if (this.form.get("pitch")?.value !== this.project.pitch) {
-      profileUploadFormData.set("pitch", this.form.get("pitch")?.value);
+      uploadFormData.set("pitch", this.form.get("pitch")?.value);
     }
 
-    if (this.selectedCardImageFile) {
-      profileUploadFormData.append("cardImage", this.selectedCardImageFile);
+    const deletedFiles: string[] = [];
+
+    if (this.cardImageUpload.edited) {
+      if (this.cardImageUpload.value)
+        uploadFormData.append("cardImage", this.cardImageUpload.value);
+      else
+        deletedFiles.push("cardImage");
     }
 
-    if (this.selectedBannerFile) {
-      profileUploadFormData.append("banner", this.selectedBannerFile);
+    if (this.bannerUpload.edited) {
+      if (this.bannerUpload.value)
+        uploadFormData.append("banner", this.bannerUpload.value);
+      else
+        deletedFiles.push("banner");
     }
 
-    if (profileUploadFormData.entries().next().value) {
+    if (deletedFiles.length > 0) {
+      uploadFormData.set("deletedFiles", JSON.stringify(deletedFiles));
+    }
+
+    if (uploadFormData.entries().next().value) {
       this.addProcess();
       this.backend
         .withAuth()
@@ -291,7 +312,7 @@ export class ProjectPageComponent implements OnInit, OnDestroy {
           }
         }>(
           "/upload/project/", 
-          profileUploadFormData
+          uploadFormData
         ).pipe(takeUntil(this.onDestroy$)).subscribe({
           error: (error) => {
             this.removeProcess();

@@ -1,4 +1,4 @@
-.profile-background-container {
+.banner-container {
   box-sizing: content-box;
   height: 256px; 
   width: 100%;
@@ -8,14 +8,14 @@
   position: relative;
 }
 
-.profile-background {
+.banner {
   position: absolute;
   width: 100%;
   height: 100%;
   object-fit: cover;
 }
 
-.edit-profile-background-tint {
+.edit-banner-tint {
   position: absolute;
   width: 100%;
   height: 100%;
@@ -23,7 +23,7 @@
   opacity: 0.5;
 }
 
-.profile-picture-container {
+.avatar-container {
   --border-width: 8px;
   --length: 128px;
   width: calc(var(--length) + var(--border-width));
@@ -37,7 +37,7 @@
   border-radius: 50%;
 }
 
-.profile-picture {
+.avatar {
   position: absolute;
   border: solid var(--border-width);
   border-radius: 50%;
@@ -46,7 +46,7 @@
   height: calc(100% - 2 * var(--border-width));
 }
 
-.edit-profile-picture-tint {
+.edit-avatar-tint {
   position: absolute;
   width: calc(100% - 2 * var(--border-width));
   height: calc(100% - 2 * var(--border-width));
