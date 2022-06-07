@@ -5,6 +5,7 @@ export * from './article-info';
 export * from './image-info';
 export * from './color';
 export * from './pagelink';
+export * from './custom-validators';
 
 
 @NgModule({

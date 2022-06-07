@@ -1,0 +1,17 @@
+<app-inline-profile *ngIf="value && !isEnteringNewUser" [user]="value"></app-inline-profile>
+<input type="text"
+  placeholder="Enter username"
+  matInput
+  [formControl]="inputControl"
+  [matAutocomplete]="auto"
+  [ngClass]="{'cdk-visually-hidden': !isEnteringNewUser}"
+>
+<mat-autocomplete 
+  autoActiveFirstOption 
+  #auto
+  (optionSelected)="onAutoCompleteOptionSelected()"
+>
+  <mat-option *ngFor="let filteredUser of filteredUsers$ | async" [value]="filteredUser">
+    <app-inline-profile [user]="filteredUser"></app-inline-profile>
+  </mat-option>
+</mat-autocomplete>

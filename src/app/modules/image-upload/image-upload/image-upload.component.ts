@@ -15,9 +15,7 @@ export class ImageUploadComponent implements OnInit {
 
   constructor() { }
 
-  ngOnInit(): void {
-  }
-
+  ngOnInit(): void {}
   
   onImageFileChanged(event: any) {
     const file: File = event.target.files[0];

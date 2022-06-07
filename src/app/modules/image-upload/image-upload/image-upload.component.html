@@ -1,10 +1,10 @@
-<img class="app-image-upload image">
+<img class="app-image-upload image" [src]="imageSrc">
 <div class="app-image-upload tint"></div>
 <input
 style="display: none"
 type="file" accept="image/png, image/jpeg, image/gif" 
 (change)="onImageFileChanged($event)"
 #imageFileInput>
-<button mat-icon-button (click)="imageFileInput.click()" [disabled]="processing">
+<button mat-icon-button (click)="imageFileInput.click()" [disabled]="processing" class="app-image-upload edit-button">
   <mat-icon>edit</mat-icon>
 </button>

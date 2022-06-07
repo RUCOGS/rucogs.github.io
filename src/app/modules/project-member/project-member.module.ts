@@ -5,23 +5,36 @@ import { AvatarModule } from '../avatar/avatar.module';
 import { UserModule } from '../user/user.module';
 import { RolesModule } from '../roles/roles.module';
 import { ProjectMembersDisplayComponent } from './project-members-display/project-members-display.component';
+import { EditableProjectMemberProfileComponent } from './editable-project-member-profile/editable-project-member-profile.component';
+import { MatInputModule } from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button';
+import { ReactiveFormsModule } from '@angular/forms';
+import { ProjectMembersInputComponent } from './project-members-input/project-members-input.component';
 
 
 
 @NgModule({
   declarations: [
     ProjectMemberProfileComponent,
-    ProjectMembersDisplayComponent
+    ProjectMembersDisplayComponent,
+    EditableProjectMemberProfileComponent,
+    ProjectMembersInputComponent
   ],
   imports: [
     CommonModule,
     AvatarModule,
     UserModule,
-    RolesModule
+    RolesModule,
+    MatInputModule,
+    MatButtonModule,
+    ReactiveFormsModule,
+    UserModule
   ],
   exports: [
     ProjectMemberProfileComponent,
-    ProjectMembersDisplayComponent
+    ProjectMembersDisplayComponent,
+    EditableProjectMemberProfileComponent,
+    ProjectMembersInputComponent,
   ]
 })
 export class ProjectMemberModule { }
