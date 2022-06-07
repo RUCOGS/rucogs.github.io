@@ -7,21 +7,21 @@
   $foreground: map.get($config, foreground);
   $background: map.get($config, background);
 
-  .app-user.profile-picture {
+  .app-user-page.profile-picture {
 		border-color: mat.get-color-from-palette($background, background) !important;
   }
 
-  .app-user.no-results-text {
+  .app-user-page.no-results-text {
 	  color: mat.get-color-from-palette($foreground, disabled-button)
   }
 
-  .app-user.profile-picture-container,
-  .app-user.profile-background-container {
+  .app-user-page.profile-picture-container,
+  .app-user-page.profile-background-container {
     background-color: mat.get-color-from-palette($background, background)
   }
 
-  .app-user.edit-profile-picture-button, 
-  .app-user.edit-profile-background-button {
+  .app-user-page.edit-profile-picture-button, 
+  .app-user-page.edit-profile-background-button {
     border-color: mat.get-color-from-palette($misc, light) !important;
     color: mat.get-color-from-palette($misc, light) !important;
   }

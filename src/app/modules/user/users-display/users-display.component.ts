@@ -115,7 +115,7 @@ export class UsersDisplayComponent implements AfterViewInit, OnDestroy {
         authenticate: true,
       }
     }).toPromise();
-    console.log(results);
+    
     if (results.error)
       return [];
     return results.data.users;

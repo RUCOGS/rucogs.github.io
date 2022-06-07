@@ -34,7 +34,7 @@ export class ProjectPageComponent implements OnInit, OnDestroy {
 
   projectEdits: PartialDeep<Project> = {};
 
-  isEditing: boolean = false;
+  isEditing: boolean = true;
   processingQueue: boolean[] = [];
 
   hasEditPerms: boolean = false;
@@ -77,8 +77,9 @@ export class ProjectPageComponent implements OnInit, OnDestroy {
     private changeDetector: ChangeDetectorRef,
   ) {
     this.form = formBuilder.group({
-      displayName: [null, [Validators.required]],
-      bio: [null, []]
+      name: [null, [Validators.required]],
+      pitch: [null, [Validators.required]],
+      description: [null, [Validators.required]],
     })
   }
   
@@ -163,17 +164,20 @@ export class ProjectPageComponent implements OnInit, OnDestroy {
         this.nonExistent = true;
         return;
       }
-      
+
       this.project = data.projects[0];
       this.opDomain = <OperationSecurityDomain>{
         projectId: [ this.project.id ]
       };
+
       const permCalc = this.securityService.makePermCalc().withDomain(this.opDomain);
       this.hasEditPerms = permCalc.hasPermission(Permission.UpdateProject);
       
       this.isMarkdownReady = true;
 
       this.changeDetector.detectChanges();
+      
+      this.edit();
     });
   }
   
@@ -185,11 +189,25 @@ export class ProjectPageComponent implements OnInit, OnDestroy {
     return this.cdnService.getFileLink(filePath);
   }
 
+  // TODO: Add perms validation
   edit() {
     this.isEditing = true;
     
     this.projectEdits = JSON.parse(JSON.stringify(this.project));
 
+    this.form.get('name')?.setValue(this.projectEdits.name);
+    this.form.get('pitch')?.setValue(this.projectEdits.pitch);
+    this.form.get('description')?.setValue(this.projectEdits.description);
+
     this.changeDetector.detectChanges();
+  }
+
+  exitEdit() {
+    this.isEditing = false;
+  }
+
+  save() {
+    // TODO: FInish this
+    this.isEditing = false;
   }
 }

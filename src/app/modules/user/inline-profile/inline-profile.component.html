@@ -1,0 +1,9 @@
+<div style="
+  display: flex;
+  align-items: center;
+  gap: 0.5em;
+">
+  <app-avatar size="input" [avatarSrc]="cdn.getFileLink(user.avatarLink)"></app-avatar>
+  <div>{{user.displayName}}</div>
+  <div style="font-size: 0.75em;">@{{user.username}}</div>
+</div>
