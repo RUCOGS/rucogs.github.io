@@ -11,6 +11,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { UIMessageModule } from '@src/app/modules/ui-message/ui-message.module';
 
 export { UserPageComponent };
 
@@ -31,6 +32,7 @@ export { UserPageComponent };
     MatFormFieldModule,
     ReactiveFormsModule,
     MatInputModule,
+    UIMessageModule,
   ],
   exports: [
     UserPageComponent

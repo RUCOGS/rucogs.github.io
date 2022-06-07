@@ -56,9 +56,9 @@
               flex-wrap: wrap-reverse;
               gap: 10px;
             ">
-              <button class="app-user-page edit-button" mat-stroked-button color="basic" pill (click)="exitEditProfile()" [disabled]="processing">Exit
+              <button class="app-user-page edit-button" mat-stroked-button color="basic" pill (click)="exitEdit()" [disabled]="processing">Exit
               </button>
-              <button class="app-user-page edit-button" mat-stroked-button color="basic" pill (click)="saveProfile()" [disabled]="processing">Save Profile
+              <button class="app-user-page edit-button" mat-stroked-button color="basic" pill (click)="save()" [disabled]="processing">Save Profile
               </button>
             </div>
           </div>
@@ -88,7 +88,7 @@
             </div>
             <div *ngIf="hasManageRolesPerms">
               <h2>Roles</h2>
-              <app-role-codes-editor [roles]="selectedRoles" [allRoles]="acceptedRoles" (rolesEdited)="onEditRoles()"></app-role-codes-editor>
+              <app-role-codes-editor [roles]="selectedRoles" [allRoles]="acceptedRoles" (rolesEdited)="onEditRoles()" [disabledRoles]="['USER']"></app-role-codes-editor>
             </div>
           </div>
         </div>
@@ -121,7 +121,7 @@
             display: flex;
             flex-direction: row;
           ">
-            <button class="app-user-page edit-button" mat-stroked-button color="basic" pill (click)="editProfile()" *ngIf="hasEditPerms">Edit Profile
+            <button class="app-user-page edit-button" mat-stroked-button color="basic" pill (click)="edit()" *ngIf="hasEditPerms">Edit Profile
             </button>
           </div>
         </div>

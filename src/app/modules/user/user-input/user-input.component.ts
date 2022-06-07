@@ -125,6 +125,13 @@ export class UserInputComponent implements OnInit, ControlValueAccessor, MatForm
   }
 
   ngOnInit(): void {
+    if (this.value != null) {
+      this.inputControl.setValue(this.value.username, {
+        emitEvent: false
+      });
+      this.isEnteringNewUser = false;
+    }
+    
     this.inputControl.valueChanges
       .pipe(takeUntil(this.onDestroy$))
       .subscribe({

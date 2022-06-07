@@ -4,11 +4,12 @@
 
 @mixin color($config) {
   $foreground: map.get($config, foreground);
-  $background: map.get($config, background);
-
-  .app-editable-social-button.card {
-    border-color: mat.get-color-from-palette($foreground, divider) !important;
-    color: mat.get-color-from-palette($foreground, text);
+ 
+  .app-user-input.disabled {
+    img {
+      opacity: 0.5;
+    }
+    color: mat.get-color-from-palette($foreground, disabled-text);
   }
 }
 

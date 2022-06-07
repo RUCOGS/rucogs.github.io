@@ -14,6 +14,10 @@ export class UserSocialEdit {
   public validate() {
     return this.editableSocialButton?.validate();
   }
+
+  public compositeValue() {
+    return this.userSocial;
+  }
 }
 
 @Component({

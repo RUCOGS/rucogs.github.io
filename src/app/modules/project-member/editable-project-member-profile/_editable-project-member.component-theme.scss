@@ -6,9 +6,13 @@
   $foreground: map.get($config, foreground);
   $background: map.get($config, background);
 
-  .app-editable-social-button.card {
+  .app-editable-project-member-profile.card {
     border-color: mat.get-color-from-palette($foreground, divider) !important;
     color: mat.get-color-from-palette($foreground, text);
+  }
+  
+  .app-editable-project-member-profile.disabled {
+    color: mat.get-color-from-palette($foreground, disabled-text);
   }
 }
 

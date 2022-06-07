@@ -12,6 +12,7 @@ export class ImageUploadComponent implements OnInit {
   @Input() fileSizeLimitMB: number = 10;
   @Input() imageSrc: string = "";
   @Input() value?: File;
+  @Input() disabled = false;
 
   constructor() { }
 

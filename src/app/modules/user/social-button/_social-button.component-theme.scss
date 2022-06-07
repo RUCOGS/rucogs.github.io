@@ -6,7 +6,7 @@
   $foreground: map.get($config, foreground);
   $background: map.get($config, background);
 
-  .app-social-button.social-button {
+  .app-social-button.card {
     border-color: mat.get-color-from-palette($foreground, divider) !important;
     color: mat.get-color-from-palette($foreground, text);
   }

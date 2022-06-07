@@ -5,6 +5,8 @@ import { CoreModule } from '@src/app/modules/_core/core.module';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { CardsModule } from '@src/app/modules/cards/cards.module';
 import { ResourceModule } from '@src/app/modules/resource/resource.module';
+import { MatButtonModule } from '@angular/material/button';
+import { IconModule } from '@visurel/iconify-angular';
 
 export { ScarletGameJamPageComponent };
 
@@ -17,7 +19,9 @@ export { ScarletGameJamPageComponent };
     CommonModule,
     CoreModule,
     MatExpansionModule,
-    CardsModule
+    CardsModule,
+    MatButtonModule,
+    IconModule,
   ],
   exports: [
     ScarletGameJamPageComponent

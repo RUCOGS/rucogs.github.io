@@ -3,7 +3,7 @@
   <ng-template #editingPage>
     <form [formGroup]="form" enctype="multipart/form-data">
       <div class="app-project-page banner-container">
-        <app-image-upload #bannerUpload [imageSrc]="getFileLink(projectEdits.bannerLink)" [fileSizeLimitMB]="10"></app-image-upload>
+        <app-image-upload #bannerUpload [imageSrc]="getFileLink(projectEdits.bannerLink)" [fileSizeLimitMB]="10" [disabled]="!hasEditPerms" [value]="selectedBannerFile"></app-image-upload>
       </div>
       <div class="app-project-page content-width-padding">
         <div class="app-project-page content">
@@ -26,7 +26,10 @@
           >
             <div class="app-project-page card-offset">
               <div class="app-project-page card-image-container">
-                <app-image-upload #cardImageUpload [imageSrc]="getFileLink(project.cardImageLink)" [fileSizeLimitMB]="5" class="app-project-page card-image"></app-image-upload>
+                <app-image-upload #cardImageUpload [imageSrc]="getFileLink(project.cardImageLink)" [fileSizeLimitMB]="5" 
+                class="app-project-page card-image"
+                [disabled]="!hasEditPerms" [value]="selectedCardImageFile"
+                ></app-image-upload>
               </div>
             </div>
             <div style="
@@ -95,7 +98,13 @@
             </div>
             <mat-divider></mat-divider>
             <h2>Members</h2>
-            <app-project-members-input></app-project-members-input>
+            <div style="
+              display: flex;
+              gap: 1em;
+              flex-direction: column;
+            ">
+              <app-editable-project-member-profile *ngFor="let memberEdit of projectMemberEdits" [projectMemberEdit]="memberEdit"></app-editable-project-member-profile>
+            </div>
           </div>
         </div>
       </div>

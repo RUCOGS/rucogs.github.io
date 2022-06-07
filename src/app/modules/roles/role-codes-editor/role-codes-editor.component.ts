@@ -19,6 +19,8 @@ export class RoleCodesEditorComponent implements OnInit {
   @Input() label: string = "";
   @Input() roles: RoleCode[] = []
   @Input() allRoles: RoleCode[] = [];
+  @Input() disabledRoles: RoleCode[] = [];
+  @Input() disabled: boolean = false;
 
   separatorKeysCodes: number[] = [ENTER, COMMA];
   filteredRoles: Observable<RoleCode[]>;
