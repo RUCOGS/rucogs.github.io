@@ -21,12 +21,12 @@ export interface AuthPayload {
   providedIn: 'root'
 })
 export class AuthService implements OnDestroy {
-  public payload$: Observable<AuthPayload>;
+  public payload$: Observable<AuthPayload | undefined>;
   public get authenticated() {
     return this.getPayload() !== null;
   }
 
-  private payloadSubject: BehaviorSubject<AuthPayload>;
+  private payloadSubject: BehaviorSubject<AuthPayload | undefined>;
   private get authLink() {
     return this.settings.Backend.backendApiLink + "/auth/";
   }
@@ -41,9 +41,10 @@ export class AuthService implements OnDestroy {
     private http: HttpClient,
     private settings: SettingsService
   ) {
-    let token = JSON.parse(localStorage.getItem(AUTH_PAYLOAD_KEY) ?? "{}") as AuthPayload;
+    const serializedPayload = localStorage.getItem(AUTH_PAYLOAD_KEY);
+    let payload = serializedPayload ? JSON.parse(serializedPayload) as AuthPayload : undefined;
     this.payload$ = new Observable();
-    this.payloadSubject = new BehaviorSubject<AuthPayload>(token);
+    this.payloadSubject = new BehaviorSubject<AuthPayload | undefined>(payload);
     this.payload$ = this.payloadSubject.asObservable();
   }
 
@@ -52,16 +53,18 @@ export class AuthService implements OnDestroy {
   }
 
   public logout() {
-    localStorage.removeItem(AUTH_PAYLOAD_KEY);
+    this.setPayload(undefined);
 
     this.router.navigateByUrl('/login');
   }
 
-  public setPayload(payload: AuthPayload): void {
+  public setPayload(payload: AuthPayload | undefined): void {
     localStorage.removeItem(AUTH_PAYLOAD_KEY);
 
-    localStorage.setItem(AUTH_PAYLOAD_KEY, JSON.stringify(payload));
-
+    if (payload) {
+      localStorage.setItem(AUTH_PAYLOAD_KEY, JSON.stringify(payload));
+    }
+    
     this.payloadSubject.next(payload);
   }
   

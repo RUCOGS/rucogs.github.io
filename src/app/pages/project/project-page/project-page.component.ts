@@ -19,6 +19,8 @@ import { assertProjectValid } from '@src/shared/utils';
 import { deepClone } from '@src/app/utils/utils';
 import { UIMessageService } from '@src/app/modules/ui-message/ui-message.module';
 import { ImageUploadComponent } from '@src/app/modules/image-upload/image-upload/image-upload.component';
+import ColorThief from 'colorthief';
+import { SettingsService } from '@src/_settings';
 
 
 export const CARD_IMAGE_FILE_SIZE_LIMIT_MB = 10;
@@ -72,6 +74,7 @@ export class ProjectPageComponent implements OnInit, OnDestroy {
   // projectMemberEdits: ProjectMemberEdit[] = [];
   
   isMarkdownReady = false;
+  bannerColor: Color | undefined;
 
   private opDomain: OperationSecurityDomain | undefined;
   private onDestroy$ = new Subject<void>();
@@ -84,6 +87,7 @@ export class ProjectPageComponent implements OnInit, OnDestroy {
     private cdnService: CdnService,
     private uiMessageService: UIMessageService,
     private changeDetector: ChangeDetectorRef,
+    private settings: SettingsService,
   ) {
     this.form = formBuilder.group({
       name: [null, [Validators.required]],
@@ -186,6 +190,8 @@ export class ProjectPageComponent implements OnInit, OnDestroy {
       
       this.isMarkdownReady = true;
 
+      this.updateBannerColor();
+
       this.changeDetector.detectChanges();
       
       this.edit();
@@ -196,8 +202,44 @@ export class ProjectPageComponent implements OnInit, OnDestroy {
     return this.project.members as PartialDeep<ProjectMember>[];
   }
 
-  getFileLink(filePath: string | undefined | null) {
-    return this.cdnService.getFileLink(filePath);
+  updateBannerColor() {
+    // We only default to color when there isn't a banner.
+    if (this.project.bannerLink !== "")
+      return;
+    
+    const img = document.querySelector<HTMLImageElement>('img.app-project-page.card-image')
+    if (img) {
+      img.setAttribute('crossOrigin', '');
+      const colorThief = new ColorThief();
+      if (img.complete) {
+        // colorThief.getColor(img);
+        const [r, g, b] = colorThief.getColor(img);
+        this.bannerColor = new Color(r, g, b);
+      } else {
+        img.addEventListener('load', () => {
+          // colorThief.getColor(img);
+          const [r, g, b] = colorThief.getColor(img);
+          this.bannerColor = new Color(r, g, b);
+          console.log(img.eventListeners?.length);
+        });
+      }
+    }
+  }
+
+  getBannerContainerStyle() {
+    return { 
+      ...(this.bannerColor && {'background-color': this.bannerColor.hexString() })
+    }
+  }
+
+  getBannerSrc() {
+    return this.cdnService.getFileLink(this.project.bannerLink);
+  }
+
+  getCardImageSrc() {
+    if (this.project.cardImageLink)
+      return this.cdnService.getFileLink(this.project.cardImageLink);
+    return this.settings.General.defaultCardImageSrc;
   }
 
 //#region // ----- FORM BASE ----- //
@@ -321,6 +363,7 @@ export class ProjectPageComponent implements OnInit, OnDestroy {
             // Spread the return value to overwrite the old data 
             // with any new changes
             this.project = { ...this.project, ...value.data.project }
+            this.updateBannerColor();
           },
           complete: () => {
             this.removeProcess();

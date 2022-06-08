@@ -55,8 +55,7 @@ export class SettingsService {
       new PageLink("Calendar", "calendar"),
       new PageLink("Resources", "resources"),
       // new PageLink("SGJ", "scarlet-game-jam"),
-      new PageLink("Blog", "blog"),
-      new PageLink("Login", "login")
+      new PageLink("Blog", "blog")
     ];
 
     // Social media links
@@ -99,6 +98,7 @@ export class SettingsService {
     }
 
     defaultAvatarSrc: string = "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png";
+    defaultCardImageSrc: string = "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png";
   }
   public Backend = new class {
     public backendApiLink: string = "http://localhost:8080";

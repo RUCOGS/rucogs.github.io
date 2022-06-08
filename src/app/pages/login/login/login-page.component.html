@@ -1,7 +1,7 @@
 <app-section full-page>
   <div class="app-login-page login-container">
-    <form [formGroup]="form" (ngSubmit)="onLoginSubmit()" class="app-login-page login-form">
-      <h1 class="mb-32">Log in</h1>
+    <h1 class="mb-32">Log in</h1>
+    <!-- <form [formGroup]="form" (ngSubmit)="onLoginSubmit()" class="app-login-page login-form">
       <mat-form-field appearance="fill">
         <mat-label>Username</mat-label>
         <input matInput formControlName="username">
@@ -23,13 +23,13 @@
         </mat-error>
       </mat-form-field>
       <button mat-flat-button type="submit" color="primary" tall-button class="mt-16">Log in</button>
-    </form>
+    </form> -->
 
     <div class="app-login-page social-login-container">
-      <button (click)="socialLogin('google')" mat-flat-button type="submit" color="primary" tall-button>
+      <!-- <button (click)="socialLogin('google')" mat-flat-button type="submit" color="primary" tall-button>
         <ic-icon size="24px" class="app-button iconify icon" icon="google"></ic-icon>
         Login with Google
-      </button>
+      </button> -->
       <button (click)="socialLogin('discord')" mat-flat-button type="submit" color="#5865F2" text-color="#ffffff" tall-button>
         <ic-icon size="24px" class="app-button iconify icon" icon="discord"></ic-icon>
         Login with Discord

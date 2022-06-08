@@ -12,6 +12,11 @@ import { HamburgerMenuComponent } from './hamburger-menu/hamburger-menu.componen
 import { HeaderSocialMediaButtonsComponent } from './header-social-media-buttons/header-social-media-buttons.component';
 import { HorizontalMenuComponent } from './horizontal-menu/horizontal-menu.component';
 import { SiteHeaderComponent } from './site-header/site-header.component';
+import { LoginButtonComponent } from './login-button/login-button.component';
+import { RouterModule } from '@angular/router';
+import { ServicesModule } from '@src/app/services/_services.module';
+import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 
 
@@ -23,6 +28,7 @@ import { SiteHeaderComponent } from './site-header/site-header.component';
     HeaderSocialMediaButtonsComponent,
     HorizontalMenuComponent,
     SiteHeaderComponent,
+    LoginButtonComponent,
   ],
   imports: [
     CommonModule,
@@ -30,7 +36,11 @@ import { SiteHeaderComponent } from './site-header/site-header.component';
     IconModule,
     MatIconModule,
     MatSlideToggleModule,
-    MatButtonModule
+    MatButtonModule,
+    RouterModule,
+    ServicesModule,
+    BrowserModule,
+    BrowserAnimationsModule,
   ],
   exports: [
     SiteHeaderComponent,

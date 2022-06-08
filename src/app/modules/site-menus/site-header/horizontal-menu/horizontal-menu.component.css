@@ -10,7 +10,7 @@
 	justify-content: left;
 	margin: auto;
 	height: 100%;
-	width: var(--content-width);
+	width: var(--main-width);
 }
 
 .content > * {

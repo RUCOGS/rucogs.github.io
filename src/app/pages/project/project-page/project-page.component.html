@@ -2,7 +2,7 @@
   <div *ngIf="isEditing; then editingPage; else displayPage"></div>
   <ng-template #editingPage>
     <form [formGroup]="form" enctype="multipart/form-data">
-      <div class="app-project-page banner-container">
+      <div class="app-project-page banner-container" [ngStyle]="getBannerContainerStyle()">
         <app-image-upload #bannerUpload [fileSizeLimitMB]="10" [disabled]="!hasEditPerms"></app-image-upload>
       </div>
       <div class="app-project-page content-width-padding">
@@ -112,7 +112,7 @@
   </ng-template>
   <ng-template #displayPage>
     <div class="app-project-page banner-container">
-      <img [src]="getFileLink(project.bannerLink ?? '')" class="app-project-page banner">
+      <img *ngIf="getBannerSrc()" [src]="getBannerSrc()" class="app-project-page banner">
     </div>
     <div class="app-project-page content-width-padding">
       <div class="app-project-page content">
@@ -135,7 +135,7 @@
         >
           <div class="app-project-page card-offset">
             <div class="app-project-page card-image-container">
-              <img [src]="getFileLink(project.cardImageLink ?? '')" class="app-project-page card-image">
+              <img [src]="getCardImageSrc()" class="app-project-page card-image">
             </div>
           </div>
           <div style="

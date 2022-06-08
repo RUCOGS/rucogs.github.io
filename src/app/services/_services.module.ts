@@ -39,4 +39,4 @@ export { TokenStorageService } from './token-storage.service';
     TokenStorageService
   ]
 })
-export class PagesModule { }
+export class ServicesModule { }

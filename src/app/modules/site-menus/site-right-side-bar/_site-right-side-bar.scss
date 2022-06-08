@@ -1,0 +1,5 @@
+@use './site-right-side-bar/site-right-side-bar.component-theme' as site-right-side-bar;
+
+@mixin theme($theme) {
+	@include site-right-side-bar.theme($theme);
+}
