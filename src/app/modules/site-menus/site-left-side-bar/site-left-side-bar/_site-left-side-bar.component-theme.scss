@@ -3,8 +3,13 @@
 
 @mixin color($config) {
   $primary: map.get($config, primary);
+  $background: map.get($config, background);
 
   // .app-site-left-side-bar.bg {
+	//   background-color: mat.get-color-from-palette($background, background);
+  // }
+
+  // .app-site-left-side-bar.bg-corner {
 	//   background-color: mat.get-color-from-palette($primary, 500);
   // }
 }
