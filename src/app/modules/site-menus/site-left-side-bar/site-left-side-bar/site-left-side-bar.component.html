@@ -1,52 +1,18 @@
 <div class="app-site-left-side-bar bg" style="
   display: flex;
+  box-sizing: border-box;
   justify-content: right;
-  padding: 16px;
+  flex-direction: column;
 ">
   <div style="
     display: flex;
     flex-direction: column;
     gap: 1em;
-    width: 200px;
+    padding: 16px;
   ">
-    <button mat-flat-button round-tl round-bl tall-button color="primary" style="
-      width: 100%;
-    ">
-      <div style="
-        width: 100%;
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-      ">
-        <mat-icon>person</mat-icon>
-        <div style="flex: 1">Profile</div>
-      </div>
-    </button>
-    <button mat-flat-button round-tl round-bl tall-button color="primary" style="
-      width: 100%;
-    ">
-      <div style="
-        width: 100%;
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-      ">
-        <mat-icon>person</mat-icon>
-        <div style="flex: 1;">Profile</div>
-      </div>
-    </button>
-    <button mat-flat-button round-tl round-bl tall-button color="primary" style="
-      width: 100%;
-    ">
-      <div style="
-        width: 100%;
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-      ">
-        <mat-icon>person</mat-icon>
-        <div style="flex: 1;">Profile</div>
-      </div>
-    </button>
+    <app-side-bar-button icon="person" name="Profile" color="primary" (click)="onProfileClick()"></app-side-bar-button>
+    <app-side-bar-button icon="mail" name="Invites" color="primary"></app-side-bar-button>
+    <app-side-bar-button icon="settings" name="Settings" color="primary"></app-side-bar-button>
+    <app-side-bar-button icon="add" name="New Project" color="primary"></app-side-bar-button>
   </div>
 </div>

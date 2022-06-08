@@ -1,12 +1,10 @@
 :host {
 	position: sticky;
 	top: 0px;
-	height: 100%;
-	flex: 1;
-	z-index: 300;
+	z-index: 120;
+	height: calc(100vh - var(--site-header-height));
 	pointer-events: none;
 	padding-top: var(--site-header-height);
-	min-width: 300px;
 }
 
 .bg {
