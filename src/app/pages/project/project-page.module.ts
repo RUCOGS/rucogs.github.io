@@ -14,6 +14,7 @@ import { MatInputModule } from '@angular/material/input';
 import { UtilsModule } from '@src/app/utils/_utils.module';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { UIMessageModule } from '@src/app/modules/ui-message/ui-message.module';
+import { SettingsModule } from '@src/app/settings/_settings.module';
 
 export { ProjectPageComponent };
 
@@ -37,6 +38,7 @@ export { ProjectPageComponent };
     MatInputModule,
     UtilsModule,
     UIMessageModule,
+    SettingsModule,
   ],
   exports: [
     ProjectPageComponent

@@ -49,7 +49,7 @@ div.last {
 }
 
 .content {
-	display: block;
+	width: 100%;
 	margin: auto;
 	max-width: var(--content-width);
 }

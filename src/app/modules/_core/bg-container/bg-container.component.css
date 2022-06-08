@@ -7,9 +7,6 @@
 	display: -webkit-flex;
 	display: -ms-flexbox;
 	display: flex;
-	-webkit-box-align: center;
-	-webkit-align-items: center;
-	-ms-flex-align: center;
 	align-items: center;
 	box-sizing: border-box;
 	padding: var(--content-padding);
