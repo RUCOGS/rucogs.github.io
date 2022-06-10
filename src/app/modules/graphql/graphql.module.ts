@@ -1,10 +1,11 @@
-import {NgModule} from '@angular/core';
-import {ApolloModule, APOLLO_OPTIONS } from 'apollo-angular';
-import {ApolloLink, InMemoryCache } from '@apollo/client/core';
-import {HttpLink} from 'apollo-angular/http';
+import { NgModule } from '@angular/core';
+import { ApolloModule, APOLLO_OPTIONS } from 'apollo-angular';
+import { ApolloLink, InMemoryCache } from '@apollo/client/core';
+import { HttpLink } from 'apollo-angular/http';
 import { AuthService } from '@app/services/auth.service';
 import { onError } from '@apollo/client/link/error';
 import { SettingsService } from '@src/_settings';
+import { createUploadLink } from 'apollo-upload-client'
 
 export interface ApolloContext {
   authenticate?: boolean
@@ -34,7 +35,10 @@ export function createApollo(httpLink: HttpLink, authService: AuthService, setti
   });
 
   return {
-    link: errorLink.concat(authLink.concat(httpLink.create({ uri: settings.Backend.backendApiLink + '/api/graphql' }))),
+    link: errorLink.concat(authLink.concat(createUploadLink({ 
+      uri: settings.Backend.backendApiLink + '/api/graphql',
+      headers: { 'Apollo-Require-Preflight': 'true' }
+    }))),
     cache: new InMemoryCache(),
   };
 }
