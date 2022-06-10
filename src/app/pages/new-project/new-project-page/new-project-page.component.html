@@ -1,0 +1,77 @@
+<app-bg-container color="blank">
+  <h1 style="margin-bottom: 1em;">Create a New Project</h1>
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <mat-form-field appearance="outline" style="width: min(300px, 100%)">
+      <mat-label>Name</mat-label>
+      <input matInput formControlName="name">
+      <mat-error *ngIf="form.get('name')?.hasError('required')">
+        Name is required
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field appearance="outline" style="width: 100%;" class="no-padding">
+      <mat-label>Pitch</mat-label>
+      <textarea matInput
+                cdkTextareaAutosize
+                cdkAutosizeMinRows="1"
+                cdkAutosizeMaxRows="5"
+                formControlName="pitch"></textarea>
+      <mat-error *ngIf="form.get('pitch')?.hasError('required')">
+        Pitch is required
+      </mat-error>
+    </mat-form-field>
+    <mat-radio-group formControlName="access" style="
+      display: flex;
+      flex-direction: column;
+      margin-top: 1em;
+      margin-bottom: 1.5em;
+      gap: 1em;
+    ">
+      <mat-radio-button value="OPEN">
+        <div style="
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 0.5em;
+        ">
+          <mat-icon>lock_open</mat-icon>
+          <div style="flex: 1; white-space: normal;">
+            <h4 class="mb-4">Open</h4>
+            <p class="mb-0 mat-caption">Anyone can join this project.</p>
+          </div>
+        </div>
+      </mat-radio-button>
+      <mat-radio-button value="INVITE">
+        <div style="
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 0.5em;
+        ">
+          <mat-icon>mail</mat-icon>
+          <div style="flex: 1; white-space: normal;">
+            <h4 class="mb-4">Invite</h4>
+            <p class="mb-0 mat-caption">Only users who've recieved and accepted an invite can join this project. Members can request to join the project.</p>
+          </div>
+        </div>
+      </mat-radio-button>
+      <mat-radio-button value="CLOSED">
+        <div style="
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 0.5em;
+        ">
+          <mat-icon>close</mat-icon>
+          <div style="flex: 1; white-space: normal;">
+            <h4 class="mb-4">Closed</h4>
+            <p class="mb-0 mat-caption">Only users who've recieved and accepted an invite can join this project.</p>
+          </div>
+        </div>
+      </mat-radio-button>
+    </mat-radio-group>
+    <mat-error *ngIf="form.get('access')?.hasError('access')">
+      Access is required
+    </mat-error>
+    <button mat-flat-button pill color="primary" type="submit">Create Project</button>
+  </form>
+</app-bg-container>

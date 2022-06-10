@@ -7,6 +7,7 @@ import { CardsModule } from '../cards/cards.module';
 import { AvatarModule } from '../avatar/avatar.module';
 import { TagsModule } from '../tags/tags.module';
 import { RouterModule } from '@angular/router';
+import { SettingsModule } from '@src/app/settings/_settings.module';
 
 
 
@@ -22,6 +23,7 @@ import { RouterModule } from '@angular/router';
     AvatarModule,
     TagsModule,
     RouterModule,
+    SettingsModule
   ],
   exports: [
     ProjectItemComponent,

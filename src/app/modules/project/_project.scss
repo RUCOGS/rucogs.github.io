@@ -1,7 +1,5 @@
 @use './project-item/project-item.component-theme' as project-item;
-@use './projects-display/projects-display.component-theme' as projects-display;
 
 @mixin theme($theme) {
 	@include project-item.theme($theme);
-	@include projects-display.theme($theme);
 }

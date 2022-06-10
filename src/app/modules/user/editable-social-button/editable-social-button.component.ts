@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
+import { ChangeDetectorRef, Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { SOCIAL_PLATFORMS } from '@src/app/settings/_settings.module';
 import { UserSocial } from '@src/generated/graphql-endpoint.types';
@@ -38,7 +38,9 @@ export class EditableSocialButtonComponent implements OnInit, OnDestroy {
 
   private onDestroy$ = new Subject<void>();
   
-  constructor(private formBuilder: FormBuilder) { 
+  constructor(
+    formBuilder: FormBuilder
+  ) { 
     this.form = formBuilder.group({
       platform: [null, [Validators.required]],
       username: [null, [Validators.required]],
@@ -76,7 +78,9 @@ export class EditableSocialButtonComponent implements OnInit, OnDestroy {
   }
 
   validate() {
+    this.form.markAllAsTouched();
     this.form.updateValueAndValidity();
+    
     return this.form.valid;
   }
 

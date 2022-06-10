@@ -1,26 +1,25 @@
 import { ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { Project, ProjectFilterInput, ProjectMember } from '@src/generated/graphql-endpoint.types';
-import { FileUtils } from '@app/utils/file-utils';
-import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { gql } from 'apollo-angular';
-import { Subject, Subscription } from 'rxjs';
-import { Color } from '@app/classes/_classes.module';
+import { Color, ProcessMonitor } from '@app/classes/_classes.module';
 import { CdnService } from '@app/services/cdn.service';
-import { getRolesBelowRoles, OperationSecurityDomain } from '@src/shared/security';
-import { Permission, RoleCode } from '@src/generated/graphql-endpoint.types';
-import { SecurityService } from '@src/app/services/security.service';
 import { ApolloContext } from '@src/app/modules/graphql/graphql.module';
-import { BackendService } from '@src/app/services/backend.service';
-import { PartialDeep } from 'type-fest';
-import { takeUntil } from 'rxjs/operators';
-import { ProjectMemberEdit } from '@src/app/modules/project-member/editable-project-member-profile/editable-project-member-profile.component';
-import { assertProjectValid } from '@src/shared/utils';
-import { deepClone } from '@src/app/utils/utils';
-import { UIMessageService } from '@src/app/modules/ui-message/ui-message.module';
 import { ImageUploadComponent } from '@src/app/modules/image-upload/image-upload/image-upload.component';
-import ColorThief from 'colorthief';
+import { ProjectMemberEdit } from '@src/app/modules/project-member/editable-project-member-profile/editable-project-member-profile.component';
+import { UIMessageService } from '@src/app/modules/ui-message/ui-message.module';
+import { AuthService } from '@src/app/services/auth.service';
+import { BackendService } from '@src/app/services/backend.service';
+import { SecurityService } from '@src/app/services/security.service';
+import { deepClone } from '@src/app/utils/utils';
+import { Access, Permission, Project, ProjectFilterInput, ProjectMember, RoleCode } from '@src/generated/graphql-endpoint.types';
+import { OperationSecurityDomain } from '@src/shared/security';
+import { assertProjectValid } from '@src/shared/utils';
 import { SettingsService } from '@src/_settings';
+import { gql } from 'apollo-angular';
+import ColorThief from 'colorthief';
+import { Subject } from 'rxjs';
+import { finalize, takeUntil } from 'rxjs/operators';
+import { PartialDeep } from 'type-fest';
 
 
 export const CARD_IMAGE_FILE_SIZE_LIMIT_MB = 10;
@@ -39,32 +38,19 @@ export class ProjectPageComponent implements OnInit, OnDestroy {
   // }
 
   project: PartialDeep<Project> = {};
+  cardImageSrc: string = "https://c.tenor.com/Tu0MCmJ4TJUAAAAC/load-loading.gif";
+  bannerSrc: string = "https://c.tenor.com/Tu0MCmJ4TJUAAAAC/load-loading.gif";
 
   projectEdits: PartialDeep<Project> = {};
 
-  isEditing: boolean = true;
+  isEditing: boolean = false;
   processingQueue: boolean[] = [];
 
   hasEditPerms: boolean = false;
+  isMember: boolean = false;
   nonExistent: boolean = false;
 
   projectMemberEdits: ProjectMemberEdit[] = [];
-
-  // 'processing' is set to true whenever we are processing an uplaod
-  // or doing anything else asynchronously. This lets us disable uplaod controls
-  // when we are still processing an image. 
-  get processing(): boolean {
-    return this.processingQueue.length > 0;
-  }
-
-  addProcess(): void {
-    this.processingQueue.push(true);
-  }
-
-  removeProcess(): void {
-    this.processingQueue.pop();
-  }
-
   form: FormGroup;
 
   @ViewChild('cardImageUpload') cardImageUpload?: ImageUploadComponent;
@@ -73,8 +59,28 @@ export class ProjectPageComponent implements OnInit, OnDestroy {
   projectMembersEdited: boolean = false;
   // projectMemberEdits: ProjectMemberEdit[] = [];
   
-  isMarkdownReady = false;
   bannerColor: Color | undefined;
+  monitor = new ProcessMonitor();
+
+  accessOptions: {
+    [key in Access]: {
+      name: string
+      matIcon: string
+    }
+  } = {
+    [Access.Open]: {
+      name: "Open",
+      matIcon: "lock_open"
+    },
+    [Access.Invite]: {
+      name: "Invite",
+      matIcon: "mail"
+    },
+    [Access.Closed]: {
+      name: "Closed",
+      matIcon: "close"
+    }
+  }
 
   private opDomain: OperationSecurityDomain | undefined;
   private onDestroy$ = new Subject<void>();
@@ -84,6 +90,7 @@ export class ProjectPageComponent implements OnInit, OnDestroy {
     formBuilder: FormBuilder, 
     private backend: BackendService,
     private securityService: SecurityService,
+    private authService: AuthService,
     private cdnService: CdnService,
     private uiMessageService: UIMessageService,
     private changeDetector: ChangeDetectorRef,
@@ -91,8 +98,9 @@ export class ProjectPageComponent implements OnInit, OnDestroy {
   ) {
     this.form = formBuilder.group({
       name: [null, [Validators.required]],
+      access: [null, [Validators.required]],
       pitch: [null, [Validators.required]],
-      description: [null, [Validators.required]],
+      description: [null, []],
     })
   }
   
@@ -110,7 +118,6 @@ export class ProjectPageComponent implements OnInit, OnDestroy {
   }
 
   private fetchData() {
-    this.isMarkdownReady = false;
     this.backend.watchQuery<{
       projects: {
         id: string,
@@ -120,10 +127,12 @@ export class ProjectPageComponent implements OnInit, OnDestroy {
         createdAt: Date
         updatedAt: Date
         name: string
+        access: Access
         pitch: string
         description: string
         downloadLinks: string[]
         members: {
+          id: string,
           contributions: string
           user: {
             id: string
@@ -147,10 +156,12 @@ export class ProjectPageComponent implements OnInit, OnDestroy {
             createdAt
             updatedAt
             name
+            access
             pitch
             description
             downloadLinks
             members {
+              id
               user {
                 id
                 avatarLink
@@ -180,21 +191,19 @@ export class ProjectPageComponent implements OnInit, OnDestroy {
         return;
       }
 
-      this.project = data.projects[0];
+      this.loadProject(data.projects[0]);
       this.opDomain = <OperationSecurityDomain>{
         projectId: [ this.project.id ]
       };
 
       const permCalc = this.securityService.makePermCalc().withDomain(this.opDomain);
       this.hasEditPerms = permCalc.hasPermission(Permission.UpdateProject);
-      
-      this.isMarkdownReady = true;
 
-      this.updateBannerColor();
+      if (this.authService.authenticated)
+        this.isMember = this.project.members?.some(x => x?.user?.id === this.authService.getPayload()?.user.id) ?? false;
+      console.log(this.isMember + " " + this.project.access);
 
       this.changeDetector.detectChanges();
-      
-      this.edit();
     });
   }
   
@@ -204,7 +213,7 @@ export class ProjectPageComponent implements OnInit, OnDestroy {
 
   updateBannerColor() {
     // We only default to color when there isn't a banner.
-    if (this.project.bannerLink !== "")
+    if (this.bannerSrc !== "")
       return;
     
     const img = document.querySelector<HTMLImageElement>('img.app-project-page.card-image')
@@ -212,15 +221,12 @@ export class ProjectPageComponent implements OnInit, OnDestroy {
       img.setAttribute('crossOrigin', '');
       const colorThief = new ColorThief();
       if (img.complete) {
-        // colorThief.getColor(img);
         const [r, g, b] = colorThief.getColor(img);
         this.bannerColor = new Color(r, g, b);
       } else {
         img.addEventListener('load', () => {
-          // colorThief.getColor(img);
           const [r, g, b] = colorThief.getColor(img);
           this.bannerColor = new Color(r, g, b);
-          console.log(img.eventListeners?.length);
         });
       }
     }
@@ -232,24 +238,30 @@ export class ProjectPageComponent implements OnInit, OnDestroy {
     }
   }
 
-  getBannerSrc() {
-    return this.cdnService.getFileLink(this.project.bannerLink);
+  onProjectMemberEdit() {
+    this.projectMembersEdited = true;
   }
 
-  getCardImageSrc() {
-    if (this.project.cardImageLink)
-      return this.cdnService.getFileLink(this.project.cardImageLink);
-    return this.settings.General.defaultCardImageSrc;
+  onDeleteProjectMember(index: number) {
+    this.projectMemberEdits = this.projectMemberEdits.splice(index, 1);
+  }
+
+  join() {
+    
+  }
+  
+  requestInvite() {
+
   }
 
 //#region // ----- FORM BASE ----- //
 
   // TODO: Add perms validation
-  edit() {
+  async edit() {
     this.isEditing = true;
 
     this.changeDetector.detectChanges();
-    if (!this.cardImageUpload || !this.bannerUpload)
+    if (!this.cardImageUpload || !this.bannerUpload || !this.project.id)
       return;
 
     const configureFormControl = (name: string, initialValue: any, enable: boolean) => {
@@ -265,14 +277,29 @@ export class ProjectPageComponent implements OnInit, OnDestroy {
 
     this.projectEdits = deepClone(this.project);
 
+    configureFormControl('access', this.projectEdits.access, this.hasEditPerms);
     configureFormControl('name', this.projectEdits.name, this.hasEditPerms);
     configureFormControl('pitch', this.projectEdits.pitch, this.hasEditPerms);
     configureFormControl('description', this.projectEdits.description, this.hasEditPerms);
 
-    this.cardImageUpload.init(this.projectEdits.cardImageLink ?? "");
-    this.bannerUpload.init(this.projectEdits.bannerLink ?? "");
+    const permsCalc = this.securityService.makePermCalc();
+
+    const addableRoles = await this.securityService.getAddableProjectRoles(this.project.id);
     
-    this.projectMemberEdits = this.project.members?.map(x => new ProjectMemberEdit(x)) ?? [];
+    this.cardImageUpload.init(this.cdnService.getFileLink(this.project.cardImageLink) ?? "");
+    this.bannerUpload.init(this.bannerSrc ?? "");
+    
+    this.projectMemberEdits = this.project.members?.map((x) => {
+      const canEditMember = permsCalc.withDomain({
+        projectMemberId: [ x?.id ?? "" ]
+      }).hasPermission(Permission.UpdateProjectMember);
+      return new ProjectMemberEdit(
+        x, 
+        addableRoles,
+        !canEditMember,
+        this.project.members?.length === 1
+      );
+    }) ?? [];
 
     this.changeDetector.detectChanges();
   }
@@ -288,6 +315,11 @@ export class ProjectPageComponent implements OnInit, OnDestroy {
 
       const compositeProject = deepClone(this.projectEdits);
       compositeProject.members = this.projectMemberEdits.map(x => x.compositeValue());
+
+      this.form.updateValueAndValidity();
+      if (!this.form.valid) {
+        throw new Error("Some project information is missing!");
+      }
 
       assertProjectValid(compositeProject);
       
@@ -309,10 +341,17 @@ export class ProjectPageComponent implements OnInit, OnDestroy {
     const uploadFormData = new FormData();
 
     if (this.projectMembersEdited) {
-      uploadFormData.set("projectMembers", JSON.stringify(this.projectMemberEdits.map(x => {
-        x.projectMember
-        x.roles
+      uploadFormData.set("projectMembers", JSON.stringify(this.projectMemberEdits.map((x) => {
+        return {
+          userId: x.projectMember.user?.id,
+          contributions: x.projectMember.contributions,
+          roles: x.roles
+        };
       })));
+    }
+
+    if (this.form.get("access")?.value !== this.project.access) {
+      uploadFormData.set("access", this.form.get("access")?.value);
     }
 
     if (this.form.get("name")?.value !== this.project.name) {
@@ -321,6 +360,10 @@ export class ProjectPageComponent implements OnInit, OnDestroy {
     
     if (this.form.get("pitch")?.value !== this.project.pitch) {
       uploadFormData.set("pitch", this.form.get("pitch")?.value);
+    }
+
+    if (this.form.get("description")?.value !== this.project.description) {
+      uploadFormData.set("description", this.form.get("description")?.value);
     }
 
     const deletedFiles: string[] = [];
@@ -344,32 +387,48 @@ export class ProjectPageComponent implements OnInit, OnDestroy {
     }
 
     if (uploadFormData.entries().next().value) {
-      this.addProcess();
+      this.monitor.addProcess();
       this.backend
         .withAuth()
         .withOpDomain(this.opDomain)
         .post<{
           data: {
             project: PartialDeep<Project>
+            members?: {
+              userId: string,
+              contributions: string,
+              roles: RoleCode[]
+            }[]
           }
         }>(
-          "/upload/project/", 
+          "/upload/project", 
           uploadFormData
-        ).pipe(takeUntil(this.onDestroy$)).subscribe({
-          error: (error) => {
-            this.removeProcess();
-          },
+        )
+        .pipe(
+          takeUntil(this.onDestroy$),
+          finalize(() => {
+            this.monitor.removeProcess();
+          })
+        )
+        .subscribe({
           next: (value) => {
-            // Spread the return value to overwrite the old data 
-            // with any new changes
-            this.project = { ...this.project, ...value.data.project }
-            this.updateBannerColor();
+            this.loadProject(value.data.project);
+            this.monitor.removeProcess();
           },
-          complete: () => {
-            this.removeProcess();
-          }
         });
     }
+  }
+
+  loadProject(project: PartialDeep<Project>) {
+    // Spread the return value to overwrite the old data 
+    // with any new changes
+    this.project = { ...this.project, ...project };
+    this.bannerSrc = this.project.bannerLink ? this.cdnService.getFileLink(this.project.bannerLink) : "";
+    this.cardImageSrc = this.project.cardImageLink ? this.cdnService.getFileLink(this.project.cardImageLink) : this.settings.General.defaultCardImageSrc;
+
+    this.updateBannerColor();
+
+    this.changeDetector.detectChanges();
   }
   
 //#endregion // -- FORM BASE ----- //

@@ -10,6 +10,7 @@
     max-height: 100%;
   ">
     <h2>Contributions</h2>
+    <p class="app-project-member-profile text-disabled" *ngIf="!projectMember.contributions">Empty for now...</p>
     <p style="
       flex: 1;
     ">{{ projectMember.contributions }}</p>

@@ -1,6 +1,6 @@
 <a class="app-project-item card" [routerLink]="getProjectLink()">
   <div class="app-project-item image-wrapper">
-    <img class="app-project-item image" [src]="getFileLink(project.cardImageLink)">
+    <img class="app-project-item image" [src]="getCardImage()">
   </div>
   <div class="app-project-item card-content">
     <h2>{{project.name ?? ""}}</h2>

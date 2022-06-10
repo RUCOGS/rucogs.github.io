@@ -1,25 +1,23 @@
 import { ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { Project, ProjectFilterInput, UserFilterInput } from '@src/generated/graphql-endpoint.types';
-import { FileUtils } from '@app/utils/file-utils';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { gql } from 'apollo-angular';
-import { Subject, Subscription } from 'rxjs';
-import ColorThief from 'colorthief';
-import { Color } from '@app/classes/_classes.module';
-import { UserSocial } from '@src/generated/graphql-endpoint.types';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Color, ProcessMonitor } from '@app/classes/_classes.module';
 import { CdnService } from '@app/services/cdn.service';
-import { getRolesBelowRoles, OperationSecurityDomain } from '@src/shared/security';
-import { Permission, RoleCode } from '@src/generated/graphql-endpoint.types';
-import { SecurityService } from '@src/app/services/security.service';
 import { ApolloContext } from '@src/app/modules/graphql/graphql.module';
-import { BackendService } from '@src/app/services/backend.service';
-import { deepClone } from '@src/app/utils/utils';
-import { UserSocialEdit } from '@src/app/modules/user/editable-social-button/editable-social-button.component';
-import { takeUntil } from 'rxjs/operators';
-import { UIMessageService } from '@src/app/modules/ui-message/ui-message.module';
 import { ImageUploadComponent } from '@src/app/modules/image-upload/image-upload.module';
+import { UIMessageService } from '@src/app/modules/ui-message/ui-message.module';
+import { UserSocialEdit } from '@src/app/modules/user/editable-social-button/editable-social-button.component';
+import { BackendService } from '@src/app/services/backend.service';
+import { SecurityService } from '@src/app/services/security.service';
+import { deepClone } from '@src/app/utils/utils';
+import { Permission, Project, ProjectFilterInput, RoleCode, UserFilterInput, UserSocial } from '@src/generated/graphql-endpoint.types';
+import { OperationSecurityDomain, RoleType } from '@src/shared/security';
+import { assertNoDuplicates } from '@src/shared/utils';
 import { SettingsService } from '@src/_settings';
+import { gql } from 'apollo-angular';
+import ColorThief from 'colorthief';
+import { Subject } from 'rxjs';
+import { finalize, takeUntil } from 'rxjs/operators';
 
 export const AVATAR_FILE_SIZE_LIMIT_MB = 5;
 export const BANNER_FILE_SIZE_LIMIT_MB = 10;
@@ -44,7 +42,6 @@ export class UserPageComponent implements OnInit, OnDestroy {
   processingQueue: boolean[] = [];
 
   hasEditPerms: boolean = false;
-  hasManageRolesPerms: boolean = false;
   nonExistent: boolean = false;
 
   // 'processing' is set to true whenever we are processing an uplaod
@@ -80,6 +77,8 @@ export class UserPageComponent implements OnInit, OnDestroy {
   bannerSrc: string = "https://c.tenor.com/Tu0MCmJ4TJUAAAAC/load-loading.gif";
   bannerColor: Color | undefined;
 
+  monitor = new ProcessMonitor();
+
   private opDomain: OperationSecurityDomain | undefined;
   private onDestroy$ = new Subject<void>();
 
@@ -92,6 +91,7 @@ export class UserPageComponent implements OnInit, OnDestroy {
     private cdnService: CdnService,
     private changeDetector: ChangeDetectorRef,
     private settings: SettingsService,
+    private router: Router,
   ) {
     this.form = formBuilder.group({
       displayName: [null, [Validators.required]],
@@ -184,12 +184,11 @@ export class UserPageComponent implements OnInit, OnDestroy {
       };
       const permCalc = this.securityService.makePermCalc().withDomain(this.opDomain);
       this.hasEditPerms = permCalc.hasPermission(Permission.UpdateProfile);
-      this.hasManageRolesPerms = permCalc.hasPermission(Permission.ManageUserRoles);
 
       this.userSocials = myUser.socials;
       this.roles = myUser.roles.map(x => x.roleCode as RoleCode);
       
-      this.acceptedRoles = getRolesBelowRoles(this.roles);
+      this.acceptedRoles = this.securityService.getAddableRolesOfType(RoleType.User);
 
       this.updateBannerColor();
 
@@ -217,13 +216,15 @@ export class UserPageComponent implements OnInit, OnDestroy {
           // colorThief.getColor(img);
           const [r, g, b] = colorThief.getColor(img);
           this.bannerColor = new Color(r, g, b);
-          console.log(img.eventListeners?.length);
         });
       }
     }
   }
 
   async projectsQuery(filter: any, skip: number, limit: number): Promise<Partial<Project>[]> {
+    if (!this.hasProjects)
+      return [];
+
     // TODO LATER: Once Typetta gets support for filtering
     //             based on value in foreign keys.
     const userOwnedProjectsResult = await this.backend.query<{
@@ -253,7 +254,7 @@ export class UserPageComponent implements OnInit, OnDestroy {
       }
     }).toPromise();
 
-    if (userOwnedProjectsResult.error)
+    if (userOwnedProjectsResult.error || !userOwnedProjectsResult)
       return [];
 
     const result = await this.backend.query<{
@@ -333,6 +334,10 @@ export class UserPageComponent implements OnInit, OnDestroy {
     }
   }
 
+  onNewProjectClick() {
+    this.router.navigateByUrl('/projects/new');
+  }
+
   //#region // ----- FORM BASE ----- //
 
   edit() {
@@ -368,6 +373,9 @@ export class UserPageComponent implements OnInit, OnDestroy {
         if (!userSocialEdit.validate())
           throw new Error("A user social is incomplete!");
       }
+      
+      assertNoDuplicates(this.userSocialEdits.map(x => x.userSocial), "socials");
+
       return true;
     } catch(err: any) {
       this.uiMessageService.error(err);
@@ -427,7 +435,7 @@ export class UserPageComponent implements OnInit, OnDestroy {
 
     // If change data is not empty, meaning there were changes...
     if (uploadFormData.entries().next().value) {
-      this.addProcess();
+      this.monitor.addProcess();
       this.backend
         .withAuth()
         .withOpDomain(this.opDomain)
@@ -447,10 +455,14 @@ export class UserPageComponent implements OnInit, OnDestroy {
         }>(
           "/upload/user/", 
           uploadFormData
-        ).pipe(takeUntil(this.onDestroy$)).subscribe({
-          error: (error) => {
-            this.removeProcess();
-          },
+        )
+        .pipe(
+          takeUntil(this.onDestroy$),
+          finalize(() => {
+            this.monitor.removeProcess();
+          })
+        )
+        .subscribe({
           next: (value) => {
             if (value.data.avatarLink)
               this.avatarSrc = this.cdnService.getFileLink(value.data.avatarLink);
@@ -468,13 +480,9 @@ export class UserPageComponent implements OnInit, OnDestroy {
               this.roles = value.data.roleCodes
 
             this.updateBannerColor();
-          },
-          complete: () => {
-            this.removeProcess();
           }
         });
     }
   }
-
 //#endregion // -- FORM BASE ----- //
 }

@@ -1,8 +1,10 @@
 import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
+import { UIMessageService } from '@src/app/modules/ui-message/ui-message.module';
 import { AuthService } from '@src/app/services/auth.service';
-import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { CdnService } from '@src/app/services/cdn.service';
+import { Observable, Subject } from 'rxjs';
+import { first, takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-login-button',
@@ -11,24 +13,26 @@ import { takeUntil } from 'rxjs/operators';
 })
 export class LoginButtonComponent implements OnInit, OnDestroy {
 
-  @Output() click = new EventEmitter();
-
   onDestroy$ = new Subject<void>();
   isLoggedIn: boolean = false;
-  text: string = "Login";
 
   constructor(
+    public cdn: CdnService,
+    private authService: AuthService,
     private router: Router,
-    private authService: AuthService
+    private uiMessageService: UIMessageService,
   ) {   
     authService.payload$
       .pipe(takeUntil(this.onDestroy$))
       .subscribe({
         next: (payload) => {
           this.isLoggedIn = payload !== undefined;
-          this.text = this.isLoggedIn ? "Logout" : "Login";
         }
-      })
+      });
+  }
+
+  get user() {
+    return this.authService.getPayload()?.user
   }
 
   ngOnInit(): void {
@@ -38,13 +42,20 @@ export class LoginButtonComponent implements OnInit, OnDestroy {
     this.onDestroy$.next();
   }
 
-  onClick() {
-    if (this.isLoggedIn) {
-      this.authService.logout();
-      this.router.navigateByUrl('/home');
-    } else {
-      this.router.navigateByUrl('/login');
-    }
-    this.click.emit();
+  onLoginClick() {
+    this.router.navigateByUrl('/login');
+  }
+
+  onLogoutClick() {
+    this.authService.logout();
+    this.router.navigateByUrl('/home');
+  }
+
+  onProfileClick() {
+    this.router.navigateByUrl(`/users/${this.user?.username}`);
+  }
+
+  onCreateProjectClick() {
+    this.router.navigateByUrl('/projects/new');
   }
 }

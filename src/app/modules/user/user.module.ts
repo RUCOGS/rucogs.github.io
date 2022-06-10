@@ -55,6 +55,7 @@ import { InlineProfileComponent } from './inline-profile/inline-profile.componen
     SocialButtonComponent,
     UsersDisplayComponent,
     UserInputComponent,
+    InlineProfileComponent
   ]
 })
 export class UserModule { }

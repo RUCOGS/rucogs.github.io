@@ -5,6 +5,7 @@ import { User } from '@src/generated/graphql-endpoint.types';
 import { Router } from '@angular/router';
 import { SettingsService } from '@src/_settings';
 import { takeUntil } from 'rxjs/operators';
+import { BackendService } from './backend.service';
 
 const AUTH_PAYLOAD_KEY = 'auth-payload';
 
@@ -80,7 +81,7 @@ export class AuthService implements OnDestroy {
   public socialLogin(social): Observable<AuthPayload> {
     let authUrl: string = this.oAuthLink + social;
     const socialLogin$ = new Observable<AuthPayload>((observer) => {
-      const popup = window.open(authUrl, 'myWindow', 'location=1,status=1,scrollbars=1,width=800,height=800');
+      const popup = window.open(authUrl, 'myWindow', 'location=1,status=1,scrollbars=1,width=800,height=900');
       let listener = window.addEventListener('message', (message) => {
         if (message.origin === this.settings.Backend.backendApiLink) {
           observer.next(message.data);
@@ -89,7 +90,6 @@ export class AuthService implements OnDestroy {
     });
     socialLogin$.pipe(takeUntil(this.onDestroy$)).subscribe({
       next: (data: AuthPayload) => {
-        console.log("got payload");
         this.setPayload(data);
       }
     });

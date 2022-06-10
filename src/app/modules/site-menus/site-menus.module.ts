@@ -4,6 +4,7 @@ import { SiteHeaderModule } from './site-header/site-header.module';
 import { SiteFooterModule } from './site-footer/site-footer.module';
 import { SiteLeftSideBarModule } from './site-left-side-bar/site-left-side-bar.module';
 import { SiteRightSideBarModule } from './site-right-side-bar/site-right-side-bar.module';
+import { AvatarModule } from '../avatar/avatar.module';
 
 
 
@@ -14,7 +15,7 @@ import { SiteRightSideBarModule } from './site-right-side-bar/site-right-side-ba
     SiteHeaderModule,
     SiteFooterModule,
     SiteLeftSideBarModule,
-    SiteRightSideBarModule,
+    SiteRightSideBarModule
   ],
   exports: [
     SiteHeaderModule,

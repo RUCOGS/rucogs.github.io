@@ -28,4 +28,8 @@
 	a:active {
 		color: mat.get-color-from-palette($primary, 100);
 	}
+
+  .text-disabled {
+	  color: mat.get-color-from-palette($foreground, disabled-button)
+  }
 }

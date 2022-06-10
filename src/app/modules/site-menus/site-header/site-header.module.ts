@@ -17,6 +17,10 @@ import { RouterModule } from '@angular/router';
 import { ServicesModule } from '@src/app/services/_services.module';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { AvatarModule } from '@app/modules/avatar/avatar.module';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatBadgeModule } from '@angular/material/badge';
 
 
 
@@ -41,6 +45,10 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     ServicesModule,
     BrowserModule,
     BrowserAnimationsModule,
+    AvatarModule,
+    MatMenuModule,
+    MatDividerModule,
+    MatBadgeModule,
   ],
   exports: [
     SiteHeaderComponent,
