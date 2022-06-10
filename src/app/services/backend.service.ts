@@ -1,11 +1,12 @@
 import { HttpClient, HttpContext, HttpHeaders, HttpParams } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { ApolloQueryResult, FetchResult, QueryOptions, SubscriptionOptions, WatchQueryOptions } from '@apollo/client/core';
-import { OperationSecurityDomain } from '@src/shared/security';
+import { Injectable, OnInit } from '@angular/core';
+import { ApolloQueryResult, FetchResult, gql, QueryOptions, SubscriptionOptions, WatchQueryOptions } from '@apollo/client/core';
+import { OperationSecurityDomain, SecurityContext } from '@src/shared/security';
 import { SettingsService } from '@src/_settings';
 import { Apollo, QueryRef } from 'apollo-angular';
 import { EmptyObject, ExtraSubscriptionOptions, MutationOptions, MutationResult } from 'apollo-angular/types';
 import { Observable } from 'rxjs';
+import { first } from 'rxjs/operators';
 import { AuthService } from './auth.service';
 
 type HttpClientOptions = {
@@ -25,7 +26,7 @@ type HttpClientOptions = {
 @Injectable({
   providedIn: 'root'
 })
-export class BackendService {
+export class BackendService implements OnInit {
   private opSettings: {
     useAuth: boolean;
     operationDomain: OperationSecurityDomain | undefined;
@@ -36,7 +37,28 @@ export class BackendService {
     private authService: AuthService,
     private http: HttpClient,
     private settings: SettingsService,
-  ) {}
+  ) {
+    this.ngOnInit();
+  }
+  
+  async ngOnInit() {
+    // Validate current auth
+    const result = await this.withAuth().query<{
+        securityContext: SecurityContext
+      }>({
+        query: gql`
+          query {
+            securityContext
+          }
+        `,
+      })
+      .pipe(first())
+      .toPromise();
+    if (this.authService.authenticated && !result.data.securityContext.userId) {
+      // We have fallen to default security context, meaning our current auth is invalid
+      this.authService.logout();
+    }
+  }
 
   private reset() {
     this.opSettings = this.defaultSettings();

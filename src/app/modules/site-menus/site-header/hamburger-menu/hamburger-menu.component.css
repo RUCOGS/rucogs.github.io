@@ -19,6 +19,7 @@
 	right: 0px;
 	bottom: 0px;
 	left: 0px;
+	z-index: 10;
 }
 
 .dropdown-content {
@@ -36,15 +37,12 @@
 	padding-right: 20px;
 }
 
-.cogs-title {
-	float: left; 
-	margin-top: auto; 
-	margin-bottom: auto; 
-	height: 100%; 
-	vertical-align: middle;
+app-cogs-logo-text-button {
+	z-index: 10;
 }
 
 .hamburger-icon {
 	position: relative;
-	top: -2px
+	top: -2px;
+	z-index: 10;
 }

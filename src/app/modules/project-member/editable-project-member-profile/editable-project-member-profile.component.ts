@@ -8,12 +8,13 @@ import { takeUntil } from 'rxjs/operators';
 import { PartialDeep } from 'type-fest';
 
 export class ProjectMemberEdit {
-  acceptedRoles: RoleCode[] = [];
   roles: RoleCode[] = [];
 
   constructor(
     public projectMember: PartialDeep<ProjectMember> = {},
-    public disabled: boolean = true,
+    public acceptedRoles: RoleCode[] = [],
+    public disabled: boolean = false,
+    public deleteDisabled: boolean = false,
     public editor?: EditableProjectMemberProfileComponent,
   ) {
     this.projectMember = deepClone(projectMember);
@@ -65,7 +66,7 @@ export class EditableProjectMemberProfileComponent implements OnInit, OnDestroy 
   constructor(private formBuilder: FormBuilder) { 
     this.form = formBuilder.group({
       // TODO NOW: Finis this after makign user search bar
-      contributions: [null, [Validators.required]],
+      contributions: [null, []],
       user: [null, [Validators.required]]
     });
   }

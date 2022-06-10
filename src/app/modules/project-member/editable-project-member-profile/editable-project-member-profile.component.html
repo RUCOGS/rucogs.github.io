@@ -5,21 +5,13 @@
       align-items: center;
       margin-bottom: 1em;
     ">
-      <h2 style="
+      <app-inline-profile [user]="projectMemberEdit.projectMember.user ?? {}" style="
         flex: 1;
-        margin-bottom: 0;
-      ">Project Member</h2>
-      <button type="button" mat-icon-button (click)="onDelete()" [disabled]="disabled">
-        <mat-icon>delete</mat-icon>
+      "></app-inline-profile>
+      <button type="button" mat-icon-button (click)="onDelete()" [disabled]="disabled || projectMemberEdit.deleteDisabled">
+        <mat-icon>logout</mat-icon>
       </button>
     </div>
-    <mat-form-field appearance="outline" style="width: 100%">
-      <mat-label>User</mat-label>
-      <app-user-input formControlName="user"></app-user-input>
-      <mat-error *ngIf="form.get('user')?.hasError('required')">
-        User is required
-      </mat-error>
-    </mat-form-field>
     <mat-form-field appearance="outline" style="width: 100%; line-height: 1.5em">
       <mat-label>Contributions</mat-label>
       <textarea 

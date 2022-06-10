@@ -3,6 +3,6 @@
 <div #usersContainer class="app-users-display users-container">
   <app-profile-grid [users]="users"></app-profile-grid>
   <div *ngIf="users.length === 0">
-    <h1 class="app-users-display no-results-text">No results found...</h1>
+    <h1 class="text-disabled">No results found...</h1>
   </div>
 </div>

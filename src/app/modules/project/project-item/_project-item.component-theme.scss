@@ -5,11 +5,30 @@
 @mixin color($config) {
   $background: map.get($config, background);
   $foreground: map.get($config, foreground);
+  $primary: map.get($config, primary);
 
   .app-project-item.card {
     background-color: mat.get-color-from-palette($background, card);
     color: mat.get-color-from-palette($foreground, text);
     border-color: mat.get-color-from-palette($foreground, divider);
+    
+    // Zoom animation
+    overflow: hidden;
+	  transition: transform .1s ease-out;
+
+    .app-project-item.image {
+	    transition: transform .25s ease-out;
+    }
+
+    &:hover {
+      transform: scale(1.025);
+      z-index: 10;
+
+      .app-project-item.image {
+        transform: scale(1.1); 
+      }
+    }
+
   }
 }
 

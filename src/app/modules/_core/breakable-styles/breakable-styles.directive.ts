@@ -1,10 +1,10 @@
-import { AfterViewInit, Directive, ElementRef, Input } from '@angular/core';
+import { AfterViewInit, Directive, ElementRef, Input, OnDestroy } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 
 @Directive({
   selector: '[breakable-styles]'
 })
-export class BreakableStylesDirective implements AfterViewInit {
+export class BreakableStylesDirective implements AfterViewInit, OnDestroy {
 
   @Input() style: string = "";
   @Input('prebreak-style') preBreakStyle: string = "";
@@ -13,10 +13,16 @@ export class BreakableStylesDirective implements AfterViewInit {
 
   isBreaking: boolean = false;
 
+  resizeObserver?: ResizeObserver; 
+
   constructor(
     private el: ElementRef,
     private doms: DomSanitizer
   ) {}
+
+  ngOnDestroy(): void {
+    this.resizeObserver?.disconnect();
+  }
 
   ngAfterViewInit(): void {
     const args = this.breakOn.split(' ');
@@ -37,7 +43,7 @@ export class BreakableStylesDirective implements AfterViewInit {
       case "height":
       case "x":
       case "y":
-        const resizeObserver = new ResizeObserver((entries, observer) => {
+        this.resizeObserver = new ResizeObserver((entries, observer) => {
           for (const entry of entries) {
             const comparedToValue = entry.contentRect[type];
             this.isBreaking = this.compareValues(comparedToValue, targetValue, operator);
@@ -46,7 +52,7 @@ export class BreakableStylesDirective implements AfterViewInit {
           }
         });
         
-        resizeObserver.observe(this.el.nativeElement);
+        this.resizeObserver.observe(this.el.nativeElement);
         
         return;
       default:

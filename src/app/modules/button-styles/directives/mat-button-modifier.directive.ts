@@ -49,7 +49,7 @@ export class MatButtonModifierDirective implements OnInit {
       this.el.nativeElement.style.height = "3em";
 
     if (this.pill)
-      this.el.nativeElement.style.borderRadius = "100%";
+      this.el.nativeElement.style.borderRadius = "100em";
 
     if (this.fab) {
       this.el.nativeElement.style.padding = "0px";

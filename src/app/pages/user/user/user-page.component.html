@@ -36,9 +36,9 @@
               flex-wrap: wrap-reverse;
               gap: 10px;
             ">
-              <button class="app-user-page edit-button" mat-stroked-button color="basic" pill (click)="exitEdit()" [disabled]="processing">Exit
+              <button class="app-user-page edit-button" mat-stroked-button color="basic" pill (click)="exitEdit()" [disabled]="monitor.isProcessing">Exit
               </button>
-              <button class="app-user-page edit-button" mat-stroked-button color="basic" pill (click)="save()" [disabled]="processing">Save Profile
+              <button class="app-user-page edit-button" mat-stroked-button color="basic" pill (click)="save()" [disabled]="monitor.isProcessing">Save Profile
               </button>
             </div>
           </div>
@@ -66,7 +66,7 @@
                 </div>
               </div>
             </div>
-            <div *ngIf="hasManageRolesPerms">
+            <div>
               <h2>Roles</h2>
               <app-role-codes-editor [roles]="selectedRoles" [allRoles]="acceptedRoles" (rolesEdited)="onEditRoles()" [disabledRoles]="['USER']"></app-role-codes-editor>
             </div>
@@ -124,9 +124,19 @@
             <h2>Roles</h2>
             <app-roles-display [roles]="roles"></app-roles-display>
           </div>
-          <div *ngIf="hasProjects">
+          <div>
             <mat-divider style="margin-bottom: 32px;"></mat-divider>
-            <h2>Projects</h2>
+            <div style="
+              display: flex;
+              flex-direction: row;
+              margin-bottom: 1em;
+            ">
+              <h2 style="flex: 1; margin-bottom: 0;">Projects</h2>
+              <button *ngIf="hasEditPerms" mat-stroked-button pill (click)="onNewProjectClick()">
+                <mat-icon>add</mat-icon>
+                New Project
+              </button>
+            </div>
             <app-projects-display [projectsQuery]="projectsQuery.bind(this)"></app-projects-display>
           </div>
         </div>

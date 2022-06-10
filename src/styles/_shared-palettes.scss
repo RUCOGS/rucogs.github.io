@@ -251,17 +251,19 @@ $misc: mat.define-palette((
 
 $cogs-typography: mat.define-typography-config(
 	$font-family: 'Urbanist',
-	$display-4:   mat.define-typography-level(44px, 1em, 900),
-	$display-3:   mat.define-typography-level(40px, 1em, 900),
-	$display-2:   mat.define-typography-level(36px, 1em, 900),
-	$display-1:   mat.define-typography-level(32px, 1em, 900),
-	$headline:    mat.define-typography-level(2em, 1em, 800),
-	$title:       mat.define-typography-level(1.5em, 1em, 800),
-	$body-1:      mat.define-typography-level(1em, 1.5em, 600),
-	$body-2:      mat.define-typography-level(1em, 1.5em, 600),
-	$caption:     mat.define-typography-level(1em, 1.5em, 500),
-	$button:      mat.define-typography-level(1.1em, 1.5em, 800),
-	$input:		  	mat.define-typography-level(1em, 1em, 600)
+	$display-4:    mat.define-typography-level(44px, 1em, 900),
+	$display-3:    mat.define-typography-level(40px, 1em, 900),
+	$display-2:    mat.define-typography-level(36px, 1em, 900),
+	$display-1:    mat.define-typography-level(32px, 1em, 900),
+	$headline:     mat.define-typography-level(2em, 1em, 800),
+	$title:        mat.define-typography-level(1.5em, 1em, 800),
+	$subheading-2: mat.define-typography-level(1em, 1em, 700),
+	$subheading-1: mat.define-typography-level(1em, 1em, 700),
+	$body-1:       mat.define-typography-level(1em, 1.5em, 600),
+	$body-2:       mat.define-typography-level(1em, 1.5em, 600),
+	$caption:      mat.define-typography-level(1em, 1.5em, 500),
+	$button:       mat.define-typography-level(1.1em, 1.5em, 800),
+	$input:		  	 mat.define-typography-level(1em, 1em, 600)
 );
 
 @include mat.core($cogs-typography);

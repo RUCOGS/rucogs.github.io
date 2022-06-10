@@ -46,6 +46,8 @@ export class RoleCodesEditorComponent implements OnInit {
       this.roles.splice(index, 1);
       this.rolesEdited.emit();
     }
+
+    this.roleControl.setValue(null);
   }
   
   onAddRoleChip(event: MatChipInputEvent) {

@@ -14,6 +14,7 @@ import { MatInputModule } from '@angular/material/input';
 import { UIMessageModule } from '@src/app/modules/ui-message/ui-message.module';
 import { ImageUploadModule } from '@src/app/modules/image-upload/image-upload.module';
 import { SettingsModule } from '@src/app/settings/_settings.module';
+import { RouterModule } from '@angular/router';
 
 export { UserPageComponent };
 
@@ -36,7 +37,8 @@ export { UserPageComponent };
     MatInputModule,
     UIMessageModule,
     ImageUploadModule,
-    SettingsModule
+    SettingsModule,
+    RouterModule
   ],
   exports: [
     UserPageComponent
