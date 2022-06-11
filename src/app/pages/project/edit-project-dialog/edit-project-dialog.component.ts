@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, EventEmitter, Inject, OnInit, Output, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, EventEmitter, Inject, OnInit, Output, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ImageUploadComponent } from '@src/app/modules/image-upload/image-upload.module';
 import { UIMessageService } from '@src/app/modules/ui-message/ui-message.module';
@@ -25,7 +25,7 @@ export interface EditProjectDialogData {
   templateUrl: './edit-project-dialog.component.html',
   styleUrls: ['./edit-project-dialog.component.css']
 })
-export class EditProjectDialogComponent implements OnInit {
+export class EditProjectDialogComponent implements AfterViewInit {
 
   @Output() edited = new EventEmitter<PartialDeep<Project>>();
 
@@ -57,10 +57,11 @@ export class EditProjectDialogComponent implements OnInit {
     })
     dialogRef.disableClose = true;
     this.project = deepClone(data.project);
+    console.log(this.project)
   }
 
 //#region // ----- FORM BASE ----- //
-  ngOnInit() {
+  ngAfterViewInit(): void {
     if (!this.cardImageUpload || !this.bannerUpload || !this.project.id)
       return;
 
@@ -146,6 +147,7 @@ export class EditProjectDialogComponent implements OnInit {
     }
 
     if (Object.keys(input).length > 1) {
+      console.log("up")
       this.monitor.addProcess();
       this.backend
         .withAuth()
@@ -159,17 +161,14 @@ export class EditProjectDialogComponent implements OnInit {
             input
           }
         })
-        .pipe(
-          first(),
-          finalize(() => {
-            this.monitor.removeProcess();
-          })
-        )
+        .pipe(first())
         .subscribe({
           next: (value) => {
+            this.monitor.removeProcess();
             this.exit(true);
           },
           error: (value) => {
+            this.monitor.removeProcess();
             this.exit(false);
           }
         });

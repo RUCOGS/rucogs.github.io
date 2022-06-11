@@ -36,9 +36,6 @@ export class OverviewTabComponent implements AfterViewInit, OnChanges {
 
   ngAfterViewInit(): void {
     this.setupBannerColorListeners();
-    
-    // TODO: remove this after finihsing edit ui
-    this.edit();
   }
 
   ngOnChanges(changes: SimpleChanges): void {
