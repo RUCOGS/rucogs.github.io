@@ -1,0 +1,116 @@
+<mat-dialog-content>
+  <form [formGroup]="form" enctype="multipart/form-data" style="
+    position: relative;
+  ">
+    <div style="
+      width: 100%;
+      height: 200px;
+      border-radius: 0.25em;
+      overflow: hidden;
+    ">
+      <app-image-upload #bannerUpload fileSizeLimit="10 MB"></app-image-upload>
+    </div>
+    <div style="
+      --size: 128px;
+      --offset: calc(var(--size) / 2);
+      --offset-left-over: calc(var(--size) - var(--offset));
+      position: relative;
+      height: var(--offset-left-over);
+      margin-bottom: 1em;
+    ">
+      <div style="
+        left: 2em;
+        top: calc(-1 * var(--offset));
+        position: absolute;
+        height: var(--size);
+        width: var(--size);
+        border-radius: 1em;
+        overflow: hidden;
+        outline: white solid 0.25em;
+      ">
+        <div style="
+          width: 100%;
+          height: 100%;
+          background-color: white;
+        ">
+          <app-image-upload #cardImageUpload  fileSizeLimit="5 MB" class="app-edit-project-dialog card-image"></app-image-upload>
+        </div>
+      </div>
+    </div>
+    <div style="
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap-reverse;
+      justify-content: left;
+      align-items: flex-end;
+      margin-bottom: 16px;
+      gap: 24px;
+    ">
+      <div style="
+        flex: 1;
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: 12px
+      ">
+        <mat-form-field appearance="outline" style="flex: 1;">
+          <mat-label>Project Name</mat-label>
+          <input matInput formControlName="name">
+          <mat-error *ngIf="form.get('name')?.hasError('required')">
+            Project name is required
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field appearance="outline" style="flex: 1;">
+          <mat-label>Access</mat-label>
+          <mat-select formControlName="access">
+            <mat-select-trigger *ngIf="form.get('access')?.value as accessValue" style="
+              display: flex;
+              align-items: center;
+              gap: 1em;
+              height: 20px;
+            ">
+              <mat-icon>{{accessOptions[accessValue].matIcon}}</mat-icon>
+              {{accessOptions[accessValue].name}}
+            </mat-select-trigger>
+            <mat-option *ngFor="let option of accessOptions | keyvalue" [value]="option.key">
+              <div style="
+              display: flex;
+              align-items: center;
+              ">
+                <mat-icon>{{option.value.matIcon}}</mat-icon>
+                {{option.value.name}}
+              </div>
+            </mat-option>
+          </mat-select>
+          <mat-error *ngIf="form.get('access')?.hasError('required')">
+            Project name is required
+          </mat-error>
+        </mat-form-field>
+      </div>
+    </div>
+    <mat-form-field appearance="outline" style="width: 100%; line-height: 1.5em" class="no-padding">
+      <mat-label>Pitch</mat-label>
+      <textarea matInput
+                cdkTextareaAutosize
+                cdkAutosizeMinRows="1"
+                cdkAutosizeMaxRows="5"
+                formControlName="pitch"></textarea>
+      <mat-error *ngIf="form.get('pitch')?.hasError('required')">
+        Pitch is required
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field appearance="outline" style="width: 100%; line-height: 1.5em">
+      <mat-label>Description</mat-label>
+      <textarea matInput
+                cdkTextareaAutosize
+                cdkAutosizeMinRows="5"
+                formControlName="description"></textarea>
+    </mat-form-field>
+  </form>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button class="app-edit-project-dialog edit-button" mat-stroked-button color="basic" pill (click)="exit()" [disabled]="monitor.isProcessing">Exit
+  </button>
+  <button class="app-edit-project-dialog edit-button" mat-stroked-button color="basic" pill (click)="save()" [disabled]="monitor.isProcessing">Save Project
+  </button>
+</mat-dialog-actions>

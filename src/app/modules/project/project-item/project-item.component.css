@@ -14,7 +14,6 @@
   border-width: 2px;
   border-radius: 8px;
   box-sizing: border-box;
-  width: 500px;
   text-decoration: inherit;
   color: inherit;
 }
@@ -25,8 +24,8 @@
   box-sizing: border-box;
 	flex: 1;
 	width: 100%;
-	padding: 28px;
-  padding-top: 20px;
+	padding: 1.75em;
+  padding-top: 1.25em;
 }
   
 .image {	

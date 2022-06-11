@@ -16,6 +16,11 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { UIMessageModule } from '@src/app/modules/ui-message/ui-message.module';
 import { SettingsModule } from '@src/app/settings/_settings.module';
 import { MatSelectModule } from '@angular/material/select';
+import { MatTabsModule } from '@angular/material/tabs';
+import { MembersTabComponent } from './members-tab/members-tab.component';
+import { OverviewTabComponent } from './overview-tab/overview-tab.component';
+import { EditProjectDialogComponent } from './edit-project-dialog/edit-project-dialog.component';
+import { MatDialogModule } from '@angular/material/dialog';
 
 export { ProjectPageComponent };
 
@@ -23,7 +28,10 @@ export { ProjectPageComponent };
 
 @NgModule({
   declarations: [
-    ProjectPageComponent
+    ProjectPageComponent,
+    MembersTabComponent,
+    OverviewTabComponent,
+    EditProjectDialogComponent
   ],
   imports: [
     CommonModule,
@@ -40,7 +48,9 @@ export { ProjectPageComponent };
     UtilsModule,
     UIMessageModule,
     SettingsModule,
-    MatSelectModule
+    MatSelectModule,
+    MatTabsModule,
+    MatDialogModule,
   ],
   exports: [
     ProjectPageComponent

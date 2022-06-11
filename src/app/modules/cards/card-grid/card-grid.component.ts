@@ -24,13 +24,14 @@ export class CardGridComponent implements OnInit, AfterViewInit, OnDestroy {
       const element = this.elementRef.nativeElement as HTMLElement;
       const pixelColumnWidth = this.cssLength.convertToNumber(this.columnWidth, 'px');
       const possibleColumnCount = Math.floor(element.offsetWidth / pixelColumnWidth);
-      if (element.children.length < possibleColumnCount) {
-        // Override autofitting
-        this.updateGridTemplateColumns(false);
-      } else {
-        // Use autofitting
-        this.updateGridTemplateColumns();
-      }
+      
+      console.log(element.offsetWidth + "  " + pixelColumnWidth);
+      console.log("smallfit? " + (element.offsetWidth <= pixelColumnWidth));
+      // Override autofitting if we only have a few elements
+      this.updateGridTemplateColumns(
+        element.children.length < possibleColumnCount ? false : this.autofitColumns,
+        element.offsetWidth <= pixelColumnWidth
+      );
     });
   }
 
@@ -42,8 +43,11 @@ export class CardGridComponent implements OnInit, AfterViewInit, OnDestroy {
     this.updateGridTemplateColumns();
   }
 
-  updateGridTemplateColumns(autofit: boolean = this.autofitColumns) {
-    this.gridTemplateColumns = `repeat( ${this.columns}, ` + (autofit ? `minmax(${this.columnWidth}, 1fr)` : this.columnWidth) + ` )`;
+  updateGridTemplateColumns(autofit: boolean = this.autofitColumns, smallFit: boolean = false) {
+    if (smallFit)
+      this.gridTemplateColumns = `repeat( ${this.columns} )`;
+    else
+      this.gridTemplateColumns = `repeat( ${this.columns}, ` + (autofit ? `minmax(${this.columnWidth}, 1fr)` : this.columnWidth) + ` )`;
   }
 
   ngAfterViewInit(): void {
