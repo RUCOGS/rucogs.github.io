@@ -8,7 +8,7 @@
       <app-overview-tab 
         [project]="project"
         [projectOptions]="projectOptions" 
-        (edited)="fetchData()">
+        (edited)="fetchData(true)">
       </app-overview-tab>
     </mat-tab>
     <mat-tab *ngIf="projectOptions.isMember">

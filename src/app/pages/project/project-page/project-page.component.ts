@@ -45,6 +45,7 @@ export class ProjectPageComponent implements OnInit {
   project: PartialDeep<Project> = {};
   projectOptions: ProjectOptions = DefaultProjectOptions;
   
+  private projectId: string = "";
   private opDomain: OperationSecurityDomain | undefined;
   private onDestroy$ = new Subject<void>();
 
@@ -59,7 +60,7 @@ export class ProjectPageComponent implements OnInit {
     this.activatedRoute.paramMap.pipe(takeUntil(this.onDestroy$))
       .subscribe(async (params) => {
       // TODO:      
-      this.project.id = params.get('projectId') as string;
+      this.projectId = params.get('projectId') as string;
 
       await this.securityService.waitUntilReady();
 
@@ -71,7 +72,7 @@ export class ProjectPageComponent implements OnInit {
     this.onDestroy$.next();
   }
 
-  fetchData() {
+  fetchData(invalidateCache: boolean = false) {
     this.backend.withAuth().query<{
       projects: {
         id: string,
@@ -132,9 +133,10 @@ export class ProjectPageComponent implements OnInit {
       `,
       variables: {
         filter: <ProjectFilterInput>{
-          id: { eq: this.project.id }
+          id: { eq: this.projectId }
         }
       },
+      ...(invalidateCache && { fetchPolicy: 'no-cache' })
     })
     .pipe(first())
     .subscribe(({data}) => {
