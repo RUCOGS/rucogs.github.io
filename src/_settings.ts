@@ -54,7 +54,6 @@ export class SettingsService {
       new PageLink("Pictures", "pictures"),
       new PageLink("Calendar", "calendar"),
       new PageLink("Resources", "resources"),
-      new PageLink("Test", "test"),
       // new PageLink("SGJ", "scarlet-game-jam"),
       new PageLink("Blog", "blog")
     ];

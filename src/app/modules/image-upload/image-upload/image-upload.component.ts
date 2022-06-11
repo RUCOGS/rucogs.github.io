@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FileUtils } from '@src/app/utils/_utils.module';
+import { UIMessageService } from '../../ui-message/ui-message.module';
 
 @Component({
   selector: 'app-image-upload',
@@ -11,15 +12,31 @@ export class ImageUploadComponent implements OnInit {
   @Output() changed = new EventEmitter<File>();
   @Output() deleted = new EventEmitter();
 
-  @Input() fileSizeLimitMB: number = 10;
+  @Input() fileSizeLimit: string = "10 MB";
   @Input() imageSrc: string = "";
   @Input() value?: File;
   @Input() disabled = false;
   @Input() edited = false;
 
-  constructor() { }
+  fileSizeLimitBytes: number = 0;
 
-  ngOnInit(): void {}
+  constructor(private uiMessageService: UIMessageService) { }
+
+  ngOnInit(): void {
+    const args = this.fileSizeLimit.split(' ');
+    this.fileSizeLimitBytes = parseFloat(args[0]);
+    switch(args[1].toUpperCase()) {
+      case "GB":
+        this.fileSizeLimitBytes *= 1_000_000_000;
+        break;
+      case "MB":
+        this.fileSizeLimitBytes *= 1_000_000;
+        break; 
+      case "KB":
+        this.fileSizeLimitBytes *= 1_000;
+        break;
+    }
+  }
   
   init(imageSrc: string) {
     this.imageSrc = imageSrc;
@@ -40,18 +57,17 @@ export class ImageUploadComponent implements OnInit {
     
     if (file) {
       this.processing = true;
-      FileUtils.ReadAsBase64(file)
+      FileUtils.readAsBase64(file)
         .then(result => {
           // Limit file size
-          const filesize = FileUtils.ByteToMB(FileUtils.Base64ToByteSize(result));
-          if (filesize < this.fileSizeLimitMB) {
+          const filesize = FileUtils.base64ToByteSize(result);
+          if (filesize < this.fileSizeLimitBytes) {
             this.value = file;
             this.imageSrc = result;
             this.edited = true;
             this.changed.emit(this.value);
           } else {
-            // TODO: Make popup for errors
-            console.log(`File size is too big! ${filesize}MB > ${this.fileSizeLimitMB}MB`);
+            this.uiMessageService.error(`File size is too big! ${FileUtils.byteSizeToString(filesize)} > ${FileUtils.byteSizeToString(this.fileSizeLimitBytes)}`);
           }
         })
         .catch(err => {

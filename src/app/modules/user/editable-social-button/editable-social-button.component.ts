@@ -1,13 +1,17 @@
 import { ChangeDetectorRef, Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { SOCIAL_PLATFORMS } from '@src/app/settings/_settings.module';
-import { UserSocial } from '@src/generated/graphql-endpoint.types';
+import { UpdateUserSocialInput, UserSocial } from '@src/generated/graphql-endpoint.types';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
 export class UserSocialEdit {
   constructor(
-    public userSocial: Partial<UserSocial> = {},
+    public userSocial: UpdateUserSocialInput = {
+      link: "",
+      platform: "",
+      username: ""
+    },
     public editableSocialButton?: EditableSocialButtonComponent,
   ) {}
 

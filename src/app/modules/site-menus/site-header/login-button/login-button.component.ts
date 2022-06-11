@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
+import { ChangeDetectorRef, Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { UIMessageService } from '@src/app/modules/ui-message/ui-message.module';
 import { AuthService } from '@src/app/services/auth.service';
@@ -20,15 +20,8 @@ export class LoginButtonComponent implements OnInit, OnDestroy {
     public cdn: CdnService,
     private authService: AuthService,
     private router: Router,
-    private uiMessageService: UIMessageService,
+    private uiMessageService: UIMessageService
   ) {   
-    authService.payload$
-      .pipe(takeUntil(this.onDestroy$))
-      .subscribe({
-        next: (payload) => {
-          this.isLoggedIn = payload !== undefined;
-        }
-      });
   }
 
   get user() {
@@ -36,6 +29,13 @@ export class LoginButtonComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    this.authService.payload$
+      .pipe(takeUntil(this.onDestroy$))
+      .subscribe({
+        next: (payload) => {
+          this.isLoggedIn = payload !== undefined;
+        }
+      });
   }
   
   ngOnDestroy(): void {

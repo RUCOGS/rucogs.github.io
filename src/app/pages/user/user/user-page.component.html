@@ -3,12 +3,12 @@
   <ng-template #editingPage>
     <form [formGroup]="form" enctype="multipart/form-data">
       <div class="app-user-page banner-container">
-        <app-image-upload #bannerUpload></app-image-upload>
+        <app-image-upload #bannerUpload fileSizeLimit="10 MB"></app-image-upload>
       </div>
       <div class="app-user-page content-width-padding">
         <div class="app-user-page content">
           <div class="app-user-page avatar-container">
-            <app-image-upload #avatarUpload class="app-user-page avatar"></app-image-upload>
+            <app-image-upload #avatarUpload class="app-user-page avatar" fileSizeLimit="5 MB"></app-image-upload>
           </div>
           <div style="
             position: relative;

@@ -1,11 +1,13 @@
 import { Injectable, OnDestroy } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
-import { User } from '@src/generated/graphql-endpoint.types';
+import { User, UserFilterInput } from '@src/generated/graphql-endpoint.types';
 import { Router } from '@angular/router';
 import { SettingsService } from '@src/_settings';
-import { takeUntil } from 'rxjs/operators';
+import { first, takeUntil } from 'rxjs/operators';
 import { BackendService } from './backend.service';
+import { Apollo, gql } from 'apollo-angular';
+import { EntityManagerMetadata, OperationSecurityDomain, SecurityContext } from '@src/shared/security';
 
 const AUTH_PAYLOAD_KEY = 'auth-payload';
 
@@ -14,7 +16,7 @@ const httpOptions = {
 };
 
 export interface AuthPayload {
-  user: User,
+  user: Partial<User>,
   accessToken: string,
 }
 
@@ -38,6 +40,7 @@ export class AuthService implements OnDestroy {
   private onDestroy$ = new Subject<boolean>();
 
   constructor(
+    private apollo: Apollo,
     private router: Router,
     private http: HttpClient,
     private settings: SettingsService
@@ -47,6 +50,98 @@ export class AuthService implements OnDestroy {
     this.payload$ = new Observable();
     this.payloadSubject = new BehaviorSubject<AuthPayload | undefined>(payload);
     this.payload$ = this.payloadSubject.asObservable();
+
+    this.validateAuth();
+  }
+
+  async validateAuth() {
+    if (!this.authenticated)
+      return;
+    
+    // Validate current auth
+    // TODO: Write a dedicated endpoint for verifying. Sending over entire
+    // security context is overkill.
+    const result = await this.apollo.query<{
+        securityContext: SecurityContext
+      }>({
+        query: gql`
+          query {
+            securityContext
+          }
+        `,
+        fetchPolicy: 'no-cache',
+        context: {
+          headers: {
+            "Authorization": "Bearer " + this.getToken(),
+          }
+        }
+      })
+      .pipe(first())
+      .toPromise();
+    
+    if (!result.data.securityContext.userId) {
+      // We have fallen to default security context, meaning our current auth is invalid
+      this.logout();
+    }
+  }
+
+  async updateUser() {
+    const userId = this.getPayload()?.user.id; 
+    if (!userId)
+      return;
+    
+    // We can't use BackendService here because that would
+    // cause a cyclical dependency error. Therefore we must
+    // manually build the full query from apollo.
+    const result = await this.apollo.query<{
+        users: {
+          id: string,
+          email: string,
+          username: string,
+          displayName: string,
+          bio: string,
+          avatarLink: string,
+          bannerLink: string,
+        }[]
+      }>({
+        query: gql`
+          query {
+            users {
+              id
+              email
+              username
+              displayName
+              bio
+              avatarLink
+              bannerLink
+            }
+          }
+        `,
+        fetchPolicy: 'no-cache',
+        context: {
+          headers: {
+            "Authorization": "Bearer " + this.getToken(),
+            "Operation-Metadata": JSON.stringify(<EntityManagerMetadata>{
+              securityDomain: {
+                userId: [ userId ]
+              }
+            })
+          }
+        }
+      })
+      .pipe(first())
+      .toPromise();
+    
+    console.log("update user");
+    console.log(result);
+
+    if (result.error)
+      return;
+    
+    this.setPayload({
+      accessToken: this.getToken(),
+      user: result.data.users[0]
+    })
   }
 
   ngOnDestroy(): void {
