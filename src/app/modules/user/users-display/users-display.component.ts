@@ -1,6 +1,5 @@
 import { AfterViewInit, Component, Input, OnDestroy, ViewChild } from '@angular/core';
 import { FilterHeaderComponent } from '@src/app/modules/filtering/filtering.module';
-import { ApolloContext } from '@src/app/modules/graphql/graphql.module';
 import { BackendService } from '@src/app/services/backend.service';
 import { ScrollService } from '@src/app/services/scroll.service';
 import { User, UserFilterInput, UserSortInput } from '@src/generated/graphql-endpoint.types';
@@ -86,7 +85,7 @@ export class UsersDisplayComponent implements AfterViewInit, OnDestroy {
   async queryUsers(filter: UserFilterInput | undefined = undefined) {
     if (filter !== undefined)
       this.filter = filter;
-    const results = await this.backend.query<{
+    const results = await this.backend.withAuth().query<{
       users: {
         // Result type
         avatarLink: string, 
@@ -115,9 +114,6 @@ export class UsersDisplayComponent implements AfterViewInit, OnDestroy {
             username: 'asc'
           }
         ]
-      },
-      context: <ApolloContext>{
-        authenticate: true,
       }
     }).toPromise();
     

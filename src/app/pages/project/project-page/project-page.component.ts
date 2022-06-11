@@ -3,7 +3,6 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Color, ProcessMonitor } from '@app/classes/_classes.module';
 import { CdnService } from '@app/services/cdn.service';
-import { ApolloContext } from '@src/app/modules/graphql/graphql.module';
 import { ImageUploadComponent } from '@src/app/modules/image-upload/image-upload/image-upload.component';
 import { ProjectMemberEdit } from '@src/app/modules/project-member/editable-project-member-profile/editable-project-member-profile.component';
 import { UIMessageService } from '@src/app/modules/ui-message/ui-message.module';
@@ -13,7 +12,7 @@ import { SecurityService } from '@src/app/services/security.service';
 import { deepClone } from '@src/app/utils/utils';
 import { Access, Permission, Project, ProjectFilterInput, ProjectMember, RoleCode } from '@src/generated/graphql-endpoint.types';
 import { OperationSecurityDomain } from '@src/shared/security';
-import { assertProjectValid } from '@src/shared/utils';
+import { assertProjectValid } from '@src/shared/validation';
 import { SettingsService } from '@src/_settings';
 import { gql } from 'apollo-angular';
 import ColorThief from 'colorthief';
@@ -118,7 +117,7 @@ export class ProjectPageComponent implements OnInit, OnDestroy {
   }
 
   private fetchData() {
-    this.backend.watchQuery<{
+    this.backend.withAuth().watchQuery<{
       projects: {
         id: string,
         cardImageLink: string
@@ -181,9 +180,6 @@ export class ProjectPageComponent implements OnInit, OnDestroy {
           id: { eq: this.project.id }
         }
       },
-      context: <ApolloContext>{
-        authenticate: true,
-      }
     })
     .valueChanges.pipe(takeUntil(this.onDestroy$)).subscribe(({data}) => {
       if (data.projects.length == 0) {

@@ -3,21 +3,20 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Color, ProcessMonitor } from '@app/classes/_classes.module';
 import { CdnService } from '@app/services/cdn.service';
-import { ApolloContext } from '@src/app/modules/graphql/graphql.module';
 import { ImageUploadComponent } from '@src/app/modules/image-upload/image-upload.module';
 import { UIMessageService } from '@src/app/modules/ui-message/ui-message.module';
 import { UserSocialEdit } from '@src/app/modules/user/editable-social-button/editable-social-button.component';
 import { BackendService } from '@src/app/services/backend.service';
 import { SecurityService } from '@src/app/services/security.service';
-import { deepClone } from '@src/app/utils/utils';
-import { Permission, Project, ProjectFilterInput, RoleCode, UserFilterInput, UserSocial } from '@src/generated/graphql-endpoint.types';
+import { AuthService } from '@src/app/services/_services.module';
+import { Permission, Project, ProjectFilterInput, RoleCode, UpdateUserInput, UploadOperation, UserFilterInput, UserSocial } from '@src/generated/graphql-endpoint.types';
 import { OperationSecurityDomain, RoleType } from '@src/shared/security';
-import { assertNoDuplicates } from '@src/shared/utils';
+import { assertNoDuplicates } from '@src/shared/validation';
 import { SettingsService } from '@src/_settings';
 import { gql } from 'apollo-angular';
 import ColorThief from 'colorthief';
 import { Subject } from 'rxjs';
-import { finalize, takeUntil } from 'rxjs/operators';
+import { finalize, first, takeUntil } from 'rxjs/operators';
 
 export const AVATAR_FILE_SIZE_LIMIT_MB = 5;
 export const BANNER_FILE_SIZE_LIMIT_MB = 10;
@@ -92,6 +91,7 @@ export class UserPageComponent implements OnInit, OnDestroy {
     private changeDetector: ChangeDetectorRef,
     private settings: SettingsService,
     private router: Router,
+    private authService: AuthService,
   ) {
     this.form = formBuilder.group({
       displayName: [null, [Validators.required]],
@@ -112,7 +112,7 @@ export class UserPageComponent implements OnInit, OnDestroy {
   }
 
   private fetchData() {
-    this.backend.watchQuery<{
+    this.backend.withAuth().query<{
       users: {
         // Result type
         avatarLink: string, 
@@ -160,11 +160,10 @@ export class UserPageComponent implements OnInit, OnDestroy {
           username: { eq: this.username }
         }
       },
-      context: <ApolloContext>{
-        authenticate: true,
-      }
+      fetchPolicy: 'no-cache'
     })
-    .valueChanges.pipe(takeUntil(this.onDestroy$)).subscribe(({data}) => {
+    .pipe(first())
+    .subscribe(({data}) => {
       if (data.users.length == 0) {
         this.nonExistent = true;
         return;
@@ -183,7 +182,7 @@ export class UserPageComponent implements OnInit, OnDestroy {
         userId: [ this.userId ]
       };
       const permCalc = this.securityService.makePermCalc().withDomain(this.opDomain);
-      this.hasEditPerms = permCalc.hasPermission(Permission.UpdateProfile);
+      this.hasEditPerms = permCalc.hasPermission(Permission.UpdateUser);
 
       this.userSocials = myUser.socials;
       this.roles = myUser.roles.map(x => x.roleCode as RoleCode);
@@ -353,7 +352,11 @@ export class UserPageComponent implements OnInit, OnDestroy {
     this.selectedDisplayName = this.displayName;
 
     this.socialsEdited = false;
-    this.userSocialEdits = this.userSocials.map(x => new UserSocialEdit(deepClone(x)));
+    this.userSocialEdits = this.userSocials.map(x => new UserSocialEdit({
+      link: x.link ?? "",
+      platform: x.platform ?? "",
+      username: x.username ?? ""
+    }));
 
     this.rolesEdited = false;
     this.selectedRoles = this.roles;
@@ -374,7 +377,13 @@ export class UserPageComponent implements OnInit, OnDestroy {
           throw new Error("A user social is incomplete!");
       }
       
-      assertNoDuplicates(this.userSocialEdits.map(x => x.userSocial), "socials");
+      assertNoDuplicates(
+        this.userSocialEdits.map(x => x.userSocial), 
+        (a, b) => {
+          return a.username === b.username && a.platform === b.platform
+        },
+        "Cannot have duplicate user socials with identical usernames and platforms!"
+      );
 
       return true;
     } catch(err: any) {
@@ -385,101 +394,79 @@ export class UserPageComponent implements OnInit, OnDestroy {
 
   save() {
     if (!this.avatarUpload || !this.bannerUpload || 
-        !this.validate())
+        !this.validate()) {
       return;
+    }
     
     this.isEditing = false;
     
-    // Upload profile picture
-    const uploadFormData = new FormData();
+    const input = <UpdateUserInput>{
+      id: this.userId
+    }
 
     if (this.rolesEdited) {
-      uploadFormData.set("roles", JSON.stringify(this.roles));
+      input.roles = this.roles;
     }
 
-    // Socials changed 
     if (this.socialsEdited) {
-      // Store JSON array of the new socials
-      uploadFormData.set("socials", JSON.stringify(this.userSocialEdits.map(x => x.userSocial)));
+      input.socials = this.userSocialEdits.map(x => x.userSocial);
     }
 
-    // Display name changed
     if (this.form.get("displayName")?.value !== this.displayName) {
-      uploadFormData.set("displayName", this.form.get("displayName")?.value);
+      input.displayName = this.form.get("displayName")?.value;
     }
     
-    // Bio changed
     if (this.form.get("bio")?.value !== this.bio) {
-      uploadFormData.set("bio", this.form.get("bio")?.value);
+      input.bio = this.form.get("bio")?.value;
     }
 
-    const deletedFiles: string[] = [];
-
     if (this.avatarUpload.edited) {
-      if (this.avatarUpload.value)
-        uploadFormData.append("avatar", this.avatarUpload.value);
-      else
-        deletedFiles.push("avatar");
+      input.avatar = this.avatarUpload.value ? {
+        upload: this.avatarUpload.value,
+        operation: UploadOperation.Insert,
+      } : {
+        operation: UploadOperation.Delete,
+      };
     }
 
     if (this.bannerUpload.edited) {
-      if (this.bannerUpload.value)
-        uploadFormData.append("banner", this.bannerUpload.value);
-      else
-        deletedFiles.push("banner");
-    }
-
-    if (deletedFiles.length > 0) {
-      uploadFormData.set("deletedFiles", JSON.stringify(deletedFiles));
+      input.banner = this.bannerUpload.value ? {
+        upload: this.bannerUpload.value,
+        operation: UploadOperation.Insert,
+      } : {
+        operation: UploadOperation.Delete,
+      };
     }
 
     // If change data is not empty, meaning there were changes...
-    if (uploadFormData.entries().next().value) {
+    if (Object.keys(input).length > 1) {
       this.monitor.addProcess();
       this.backend
         .withAuth()
-        .withOpDomain(this.opDomain)
-        .post<{
-          data: {
-            avatarLink?: string,
-            bannerLink?: string,
-            socials?: {
-              username: string,
-              platform: string,
-              link: string
-            }[],
-            bio?: string,
-            displayName?: string,
-            roleCodes?: RoleCode[],
+        .mutate<{
+          updateUser: boolean
+        }>({
+          mutation: gql`
+            mutation($input: UpdateUserInput!) {
+              updateUser(input: $input)
+            }
+          `,
+          variables: {
+            input,
           }
-        }>(
-          "/upload/user/", 
-          uploadFormData
-        )
+        })
         .pipe(
-          takeUntil(this.onDestroy$),
-          finalize(() => {
-            this.monitor.removeProcess();
-          })
+          first(), 
+          finalize(() => this.monitor.removeProcess())
         )
         .subscribe({
           next: (value) => {
-            if (value.data.avatarLink)
-              this.avatarSrc = this.cdnService.getFileLink(value.data.avatarLink);
-            if (value.data.avatarLink === "")
-              this.avatarSrc = this.settings.General.defaultAvatarSrc;
-            if (value.data.bannerLink || value.data.bannerLink === "")
-              this.bannerSrc = this.cdnService.getFileLink(value.data.bannerLink);
-            if (value.data.displayName)
-              this.displayName = value.data.displayName;
-            if (value.data.bio)
-              this.bio = value.data.bio;
-            if (value.data.socials)
-              this.userSocials = value.data.socials;
-            if (value.data.roleCodes)
-              this.roles = value.data.roleCodes
+            this.fetchData();
 
-            this.updateBannerColor();
+            if (this.userId === this.authService.getPayload()?.user.id) {
+              // Regenerate payload
+              this.authService.updateUser();
+            }
           }
         });
     }

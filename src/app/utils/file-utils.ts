@@ -1,5 +1,23 @@
+export enum DataSize {
+  GB = 1_000_000_000,
+  MB = 1_000_000,
+  KB = 1_000,
+  B = 1
+}
+
 export class FileUtils {
-  static ReadAsBase64(file): Promise<any> {
+  static byteSizeToString(byteSize: number) {
+    if (byteSize > DataSize.GB)
+      return `${this.byteTo(byteSize, DataSize.GB)} GB`;
+    else if (byteSize > DataSize.MB)
+      return `${this.byteTo(byteSize, DataSize.MB)} MB`;
+    else if (byteSize > DataSize.KB)
+      return `${this.byteTo(byteSize, DataSize.KB)} KB`;
+    else
+      return `byteSize B`;
+  }
+
+  static readAsBase64(file): Promise<any> {
     const reader = new FileReader();
     const fileValue = new Promise((resolve, reject) => {
       reader.addEventListener('load', () => {
@@ -20,16 +38,12 @@ export class FileUtils {
     return fileValue;
   }
 
-  static Base64ToByteSize(base64: string) {
+  static base64ToByteSize(base64: string) {
     // We want to remove the '=' padding characters to get the true length
     return 4 * base64.replace('=', '').length / 3; 
   }
 
-  static ByteToKB(bytes: number) {
-    return bytes / 1000;
-  }
-  
-  static ByteToMB(bytes: number) {
-    return this.ByteToKB(bytes) / 1000;
+  static byteTo(bytes: number, dataSize: DataSize) {
+    return bytes / dataSize; 
   }
 }

@@ -4,6 +4,7 @@ import { ImageUploadComponent } from './image-upload/image-upload.component';
 import { UtilsModule } from '@src/app/utils/_utils.module';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
+import { UIMessageModule } from '../ui-message/ui-message.module';
 
 export { ImageUploadComponent };
 
@@ -17,6 +18,7 @@ export { ImageUploadComponent };
     UtilsModule,
     MatButtonModule,
     MatIconModule,
+    UIMessageModule
   ],
   exports: [
     ImageUploadComponent

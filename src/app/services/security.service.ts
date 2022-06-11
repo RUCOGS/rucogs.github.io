@@ -26,7 +26,8 @@ export class SecurityService implements OnDestroy {
       .pipe(takeUntil(this.onDestroy$))
       .subscribe({
         next: (value) => {
-          this.fetchData();
+          if (value)
+            this.fetchData();
         }
       });
   }

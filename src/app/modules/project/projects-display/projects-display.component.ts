@@ -1,6 +1,5 @@
 import { AfterViewInit, Component, Input, OnDestroy, ViewChild } from '@angular/core';
 import { FilterHeaderComponent } from '@src/app/modules/filtering/filter-header/filter-header.component';
-import { ApolloContext } from '@src/app/modules/graphql/graphql.module';
 import { BackendService } from '@src/app/services/backend.service';
 import { ScrollService } from '@src/app/services/scroll.service';
 import { Project, ProjectFilterInput, ProjectSortInput } from '@src/generated/graphql-endpoint.types';
@@ -95,7 +94,7 @@ export class ProjectsDisplayComponent implements AfterViewInit, OnDestroy {
   }
 
   async defaultQuery(filter: any, skip: number, limit: number) {
-    const results = await this.backend.query<{
+    const results = await this.backend.withAuth().query<{
       projects: {
         // Result type
         id: string,
@@ -143,9 +142,6 @@ export class ProjectsDisplayComponent implements AfterViewInit, OnDestroy {
             name: 'asc'
           }
         ]
-      },
-      context: <ApolloContext>{
-        authenticate: true,
       }
     }).toPromise();
     if (results.error)
