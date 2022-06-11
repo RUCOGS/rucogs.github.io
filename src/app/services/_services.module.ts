@@ -10,16 +10,18 @@ import { SecurityService } from './security.service';
 import { StyleManagerService } from './style-manager.service';
 import { ThemeManagerService } from './theme-manager.service';
 import { TokenStorageService } from './token-storage.service';
+import { RolesService } from './roles.service';
 
-export { AuthService } from './auth.service';
-export { BackendService } from './backend.service';
-export { BreakpointManagerService } from './breakpoint-manager.service';
-export { CdnService } from './cdn.service';
-export { ScrollService } from './scroll.service';
-export { SecurityService } from './security.service';
-export { StyleManagerService } from './style-manager.service';
-export { ThemeManagerService } from './theme-manager.service';
-export { TokenStorageService } from './token-storage.service';
+export { AuthService };
+export { BackendService };
+export { BreakpointManagerService };
+export { CdnService };
+export { ScrollService };
+export { SecurityService };
+export { StyleManagerService };
+export { ThemeManagerService };
+export { TokenStorageService };
+export { RolesService };
 
 
 @NgModule({
@@ -36,7 +38,8 @@ export { TokenStorageService } from './token-storage.service';
     SecurityService,
     StyleManagerService,
     ThemeManagerService,
-    TokenStorageService
+    TokenStorageService,
+    RolesService
   ]
 })
 export class ServicesModule { }

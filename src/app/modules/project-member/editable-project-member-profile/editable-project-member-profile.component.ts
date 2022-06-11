@@ -65,7 +65,6 @@ export class EditableProjectMemberProfileComponent implements OnInit, OnDestroy 
   
   constructor(private formBuilder: FormBuilder) { 
     this.form = formBuilder.group({
-      // TODO NOW: Finis this after makign user search bar
       contributions: [null, []],
       user: [null, [Validators.required]]
     });

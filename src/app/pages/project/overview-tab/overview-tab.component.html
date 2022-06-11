@@ -1,0 +1,94 @@
+<div class="app-overview-tab banner-container" [ngStyle]="getBannerContainerStyle()">
+  <img *ngIf="bannerSrc" [src]="bannerSrc" class="app-overview-tab banner">
+</div>
+<div class="app-overview-tab content-width-padding">
+  <div class="app-overview-tab content">
+    <div breakable-styles 
+      style="
+        position: relative;
+        display: flex; 
+        margin-top: 2em; 
+        flex-wrap: wrap; 
+        width: 100%;
+        gap: 2em;
+      "
+      prebreak-style="
+        flex-direction: row; 
+      "
+      break-style="
+        flex-direction: column;
+      "
+      break-on="width < 840"
+    >
+      <div class="app-overview-tab card-offset">
+        <div class="app-overview-tab card-image-container">
+          <img [src]="cardImageSrc" class="app-overview-tab card-image">
+        </div>
+      </div>
+      <div style="
+        flex: 1 1 0;
+        display: flex;
+        flex-direction: column;
+        max-width: 100%;
+      ">
+        <div style="
+          display: flex;
+          flex-direction: row;
+          flex-wrap: wrap;
+          justify-content: left;
+          align-items: flex-start;
+          margin-bottom: 16px;
+          gap: 8px;
+        ">
+          <h1 class="app-overview-tab name" style="
+            margin-bottom: 0px;
+            flex: 1;
+          ">{{ project.name }}</h1>
+          <div *ngIf="accessOptions[project.access!] !== undefined" style="padding: 0.4em 0.5em 0 0.5em;">
+            <h4 class="mat-caption" style="
+              display: flex;
+              flex-direction: row;
+              gap: 1em;
+              margin-bottom: 0px;
+              align-items: center;
+            ">
+              <mat-icon>{{accessOptions[project.access!].matIcon}}</mat-icon>
+              {{accessOptions[project.access!].name}}
+            </h4>
+          </div>
+          <ng-template [ngIf]="!projectOptions.isMember">
+            <button *ngIf="project.access === 'OPEN'" class="app-overview-tab edit-button" mat-stroked-button color="basic" pill (click)="join()">
+              <mat-icon>add</mat-icon>
+              Join
+            </button>
+            <button *ngIf="project.access === 'INVITE'" class="app-overview-tab edit-button" mat-stroked-button color="basic" pill (click)="requestInvite()">
+              <mat-icon>mail</mat-icon>
+              Request to Join
+            </button>
+            <button *ngIf="project.access === 'CLOSED'" class="app-overview-tab edit-button" mat-stroked-button color="basic" pill disabled>
+              <mat-icon>close</mat-icon>
+              Closed
+            </button>
+          </ng-template>
+          <button *ngIf="projectOptions.hasEditPerms" class="app-overview-tab edit-button" mat-stroked-button color="basic" pill (click)="edit()">Edit Project
+          </button>
+        </div>
+        <p class="app-overview-tab pitch">
+          {{ project.pitch }}
+        </p>
+      </div>
+    </div>
+    <div class="app-overview-tab core-content">
+      <div class="margin-top: 16px">
+        <markdown katex lineNumbers [data]="project.description ?? ''"></markdown>
+      </div>
+      <div *ngIf="projectOptions.nonExistent">
+        <h1>This project doesn't exist</h1>
+        <p class="app-overview-tab no-results-text">Try searching for another</p>
+      </div>
+      <mat-divider></mat-divider>
+      <h2>Members</h2>
+      <app-project-members-display [projectMembers]="getProjectMembers()"></app-project-members-display>
+    </div>
+  </div>
+</div>

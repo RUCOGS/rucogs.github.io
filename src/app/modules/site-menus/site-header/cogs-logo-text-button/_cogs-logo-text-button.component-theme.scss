@@ -1,6 +1,7 @@
 @use 'sass:map';
 @use 'sass:color';
 @use '@angular/material' as mat;
+@use 'styles/variables' as variables;
 
 @mixin color($config) {
   $primary: map.get($config, primary);
@@ -17,6 +18,13 @@
 
     &:active {
       color: darken(mat.get-color-from-palette($primary, 500-contrast), 30%);
+    }
+  }
+
+  .app-cogs-logo-text-button.icon {
+	  height: 3em;
+    @media screen and (max-width: variables.$tiny-mobile-width) {
+      height: 2.25em;
     }
   }
 

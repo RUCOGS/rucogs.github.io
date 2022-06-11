@@ -1,7 +1,7 @@
 :host {
   --banner-height: calc(50vh - var(--site-header-height));
-  --avatar-border-width: 8px;
-  --avatar-size: 128px;
+  --avatar-border-width: 0.5em;
+  --avatar-size: 8em;
 }
 
 .banner-container {
@@ -84,7 +84,7 @@
 	margin-left: auto;
 	margin-right: auto;
 	gap: 8px;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(18.75, 1fr));
 }
 
 .content {

@@ -8,7 +8,7 @@ import { UIMessageService } from '@src/app/modules/ui-message/ui-message.module'
 import { UserSocialEdit } from '@src/app/modules/user/editable-social-button/editable-social-button.component';
 import { BackendService } from '@src/app/services/backend.service';
 import { SecurityService } from '@src/app/services/security.service';
-import { AuthService } from '@src/app/services/_services.module';
+import { AuthService, RolesService } from '@src/app/services/_services.module';
 import { Permission, Project, ProjectFilterInput, RoleCode, UpdateUserInput, UploadOperation, UserFilterInput, UserSocial } from '@src/generated/graphql-endpoint.types';
 import { OperationSecurityDomain, RoleType } from '@src/shared/security';
 import { assertNoDuplicates } from '@src/shared/validation';
@@ -89,6 +89,7 @@ export class UserPageComponent implements OnInit, OnDestroy {
     private uiMessageService: UIMessageService,
     private cdnService: CdnService,
     private changeDetector: ChangeDetectorRef,
+    private rolesService: RolesService,
     private settings: SettingsService,
     private router: Router,
     private authService: AuthService,
@@ -163,7 +164,7 @@ export class UserPageComponent implements OnInit, OnDestroy {
       fetchPolicy: 'no-cache'
     })
     .pipe(first())
-    .subscribe(({data}) => {
+    .subscribe(async({data}) => {
       if (data.users.length == 0) {
         this.nonExistent = true;
         return;
@@ -187,12 +188,11 @@ export class UserPageComponent implements OnInit, OnDestroy {
       this.userSocials = myUser.socials;
       this.roles = myUser.roles.map(x => x.roleCode as RoleCode);
       
-      this.acceptedRoles = this.securityService.getAddableRolesOfType(RoleType.User);
-
       this.updateBannerColor();
+      this.acceptedRoles = await this.rolesService.getAddableUserRoles();
 
       this.hasProjects = myUser.projectMembers.length > 0;
-      
+
       this.changeDetector.detectChanges();
     });
   }

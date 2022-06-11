@@ -1,6 +1,6 @@
 <app-filter-header searchBar></app-filter-header>
 
-<app-card-grid column-width="350px" style="width: 100%;">
+<app-card-grid column-width="20em" style="width: 100%;">
   <app-project-item *ngFor="let project of projects" [project]="project"></app-project-item>
   <div *ngIf="projects.length === 0">
     <h1 class="text-disabled">No results found...</h1>

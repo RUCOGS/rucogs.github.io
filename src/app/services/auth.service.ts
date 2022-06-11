@@ -1,13 +1,12 @@
-import { Injectable, OnDestroy } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { BehaviorSubject, Observable, Subject } from 'rxjs';
-import { User, UserFilterInput } from '@src/generated/graphql-endpoint.types';
+import { Injectable, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
+import { User } from '@src/generated/graphql-endpoint.types';
+import { EntityManagerMetadata, SecurityContext } from '@src/shared/security';
 import { SettingsService } from '@src/_settings';
-import { first, takeUntil } from 'rxjs/operators';
-import { BackendService } from './backend.service';
 import { Apollo, gql } from 'apollo-angular';
-import { EntityManagerMetadata, OperationSecurityDomain, SecurityContext } from '@src/shared/security';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
+import { first, takeUntil } from 'rxjs/operators';
 
 const AUTH_PAYLOAD_KEY = 'auth-payload';
 

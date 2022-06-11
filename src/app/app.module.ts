@@ -37,5 +37,3 @@ import { ServicesModule } from './services/_services.module';
   bootstrap: [AppComponent]
 })
 export class AppModule { }
-
-// TODO NOW: Fix error: "If 'app-page-header' is an Angular component, then verify that it is part of this module."

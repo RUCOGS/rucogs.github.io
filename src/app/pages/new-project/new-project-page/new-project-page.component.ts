@@ -4,21 +4,21 @@ import { Router } from '@angular/router';
 import { ProcessMonitor } from '@src/app/classes/process-monitor';
 import { BackendService } from '@src/app/services/backend.service';
 import { SecurityService } from '@src/app/services/_services.module';
-import { Access } from '@src/generated/graphql-endpoint.types';
+import { Access, NewProjectInput } from '@src/generated/graphql-endpoint.types';
+import { gql } from 'apollo-angular';
 import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { finalize, first, takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-new-project-page',
   templateUrl: './new-project-page.component.html',
   styleUrls: ['./new-project-page.component.css']
 })
-export class NewProjectPageComponent implements OnDestroy {
+export class NewProjectPageComponent {
 
   form: FormGroup;
 
   monitor = new ProcessMonitor();
-  onDestroy$ = new Subject<void>();
 
   constructor(
     formBuilder: FormBuilder,
@@ -35,43 +35,45 @@ export class NewProjectPageComponent implements OnDestroy {
     this.form.get('access')?.setValue(Access.Open);
   }
 
-  ngOnDestroy(): void {
-    this.onDestroy$.next();
-  }
-
   onSubmit() {
     if (this.monitor.isProcessing || !this.form.valid)
       return;
     
     this.monitor.addProcess();
 
-    const uploadFormData = new FormData();
-    uploadFormData.set('name', this.form.get('name')?.value);
-    uploadFormData.set('access', this.form.get('access')?.value);
-    uploadFormData.set('pitch', this.form.get('pitch')?.value);
-
+    const input = <NewProjectInput>{
+      name: this.form.get('name')?.value,
+      access: this.form.get('access')?.value,
+      pitch: this.form.get('pitch')?.value,
+    };
+    
     this.backend
       .withAuth()
-      .post<{
-        data: {
-          id: string,
+      .mutate<{
+        newProject: string
+      }>({
+        mutation: gql`
+          mutation($input: NewProjectInput!) {
+            newProject(input: $input)
+          }
+        `,
+        variables: {
+          input
         }
-      }>(
-        "/upload/project/new", 
-        uploadFormData
-      )
-      .pipe(takeUntil(this.onDestroy$))
-      .subscribe({
-        error: (error) => {
+      })
+      .pipe(
+        first(), 
+        finalize(() => {
           this.monitor.removeProcess();
-        },
+        })
+      ).subscribe({
         next: async(value) => {
+          if (!value.data?.newProject)
+            return;
+          
           await this.security.fetchData();
-          this.router.navigateByUrl(`/projects/${value.data.id}`);
+          this.router.navigateByUrl(`/projects/${value.data.newProject}`);
         },
-        complete: () => {
-          this.monitor.removeProcess();
-        }
       });
   }
 }

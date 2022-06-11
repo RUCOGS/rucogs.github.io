@@ -11,6 +11,6 @@ export class ProjectsPageComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
-    // TODO NOW
+    
   }
 }

@@ -1,237 +1,28 @@
 <div class="app-project-page main-bg">
-  <div *ngIf="isEditing; then editingPage; else displayPage"></div>
-  <ng-template #editingPage>
-    <form [formGroup]="form" enctype="multipart/form-data">
-      <div class="app-project-page banner-container">
-        <app-image-upload #bannerUpload fileSizeLimit="10 MB"></app-image-upload>
-      </div>
-      <div class="app-project-page content-width-padding">
-        <div class="app-project-page content">
-          <div breakable-styles 
-            style="
-              position: relative;
-              display: flex; 
-              margin-top: 2em; 
-              flex-wrap: wrap; 
-              width: 100%;
-              gap: 2em;
-            "
-            prebreak-style="
-              flex-direction: row; 
-            "
-            break-style="
-              flex-direction: column;
-            "
-            break-on="width < 840"
-          >
-            <div class="app-project-page card-offset">
-              <div class="app-project-page card-image-container">
-                <app-image-upload #cardImageUpload  fileSizeLimit="5 MB" 
-                class="app-project-page card-image"
-                ></app-image-upload>
-              </div>
-            </div>
-            <div style="
-              flex: 1 1 0;
-              display: flex;
-              flex-direction: column;
-              max-width: 100%;
-            ">
-              <div style="
-                display: flex;
-                flex-direction: row;
-                flex-wrap: wrap-reverse;
-                justify-content: left;
-                align-items: flex-end;
-                margin-bottom: 16px;
-                gap: 24px;
-              ">
-                <div style="
-                  flex: 1;
-                  display: flex;
-                  flex-direction: row;
-                  gap: 12px
-                ">
-                  <mat-form-field appearance="outline" style="flex: 1;">
-                    <mat-label>Project Name</mat-label>
-                    <input matInput formControlName="name">
-                    <mat-error *ngIf="form.get('name')?.hasError('required')">
-                      Project name is required
-                    </mat-error>
-                  </mat-form-field>
-                  <mat-form-field appearance="outline">
-                    <mat-label>Access</mat-label>
-                    <mat-select formControlName="access">
-                      <mat-select-trigger *ngIf="form.get('access')?.value as accessValue" style="
-                        display: flex;
-                        align-items: center;
-                        gap: 1em;
-                      ">
-                        <mat-icon>{{accessOptions[accessValue].matIcon}}</mat-icon>
-                        {{accessOptions[accessValue].name}}
-                      </mat-select-trigger>
-                      <mat-option *ngFor="let option of accessOptions | keyvalue" [value]="option.key">
-                        <div style="
-                        display: flex;
-                        align-items: center;
-                        ">
-                          <mat-icon>{{option.value.matIcon}}</mat-icon>
-                          {{option.value.name}}
-                        </div>
-                      </mat-option>
-                    </mat-select>
-                    <mat-error *ngIf="form.get('access')?.hasError('required')">
-                      Project name is required
-                    </mat-error>
-                  </mat-form-field>
-                </div>
-                <div style=" 
-                  display: flex;
-                  flex-direction: row;
-                  gap: 10px;
-                  justify-content: center;
-                ">
-                  <button class="app-project-page edit-button" mat-stroked-button color="basic" pill (click)="exitEdit()" [disabled]="monitor.isProcessing">Exit
-                  </button>
-                  <button class="app-project-page edit-button" mat-stroked-button color="basic" pill (click)="save()" [disabled]="monitor.isProcessing">Save Project
-                  </button>
-                </div>
-              </div>
-              <mat-form-field appearance="outline" style="width: 100%; line-height: 1.5em" class="no-padding">
-                <mat-label>Pitch</mat-label>
-                <textarea matInput
-                          cdkTextareaAutosize
-                          cdkAutosizeMinRows="1"
-                          cdkAutosizeMaxRows="5"
-                          formControlName="pitch"></textarea>
-                <mat-error *ngIf="form.get('pitch')?.hasError('required')">
-                  Pitch is required
-                </mat-error>
-              </mat-form-field>
-            </div>
-          </div>
-          <div class="app-project-page core-content">
-            <div class="margin-top: 16px">
-              <mat-form-field appearance="outline" style="width: 100%; line-height: 1.5em">
-                <mat-label>Description</mat-label>
-                <textarea matInput
-                          cdkTextareaAutosize
-                          cdkAutosizeMinRows="10"
-                          formControlName="description"></textarea>
-              </mat-form-field>
-            </div>
-            <div *ngIf="nonExistent">
-              <h1>This account doesn't exist</h1>
-              <p class="app-project-page no-results-text">Try searching for another</p>
-            </div>
-            <mat-divider></mat-divider>
-            <h2>Members</h2>
-            <div style="
-              display: flex;
-              gap: 1em;
-              flex-direction: column;
-            ">
-              <app-editable-project-member-profile *ngFor="let memberEdit of projectMemberEdits; let i = index" [projectMemberEdit]="memberEdit" (edit)="onProjectMemberEdit()" (delete)="onDeleteProjectMember(i)"></app-editable-project-member-profile>
-            </div>
-          </div>
-        </div>
-      </div>
-    </form>
-  </ng-template>
-  <ng-template #displayPage>
-    <div class="app-project-page banner-container" [ngStyle]="getBannerContainerStyle()">
-      <img *ngIf="bannerSrc" [src]="bannerSrc" class="app-project-page banner">
-    </div>
-    <div class="app-project-page content-width-padding">
-      <div class="app-project-page content">
-        <div breakable-styles 
-          style="
-            position: relative;
-            display: flex; 
-            margin-top: 2em; 
-            flex-wrap: wrap; 
-            width: 100%;
-            gap: 2em;
-          "
-          prebreak-style="
-            flex-direction: row; 
-          "
-          break-style="
-            flex-direction: column;
-          "
-          break-on="width < 840"
-        >
-          <div class="app-project-page card-offset">
-            <div class="app-project-page card-image-container">
-              <img [src]="cardImageSrc" class="app-project-page card-image">
-            </div>
-          </div>
-          <div style="
-            flex: 1 1 0;
-            display: flex;
-            flex-direction: column;
-            max-width: 100%;
-          ">
-            <div style="
-              display: flex;
-              flex-direction: row;
-              flex-wrap: wrap;
-              justify-content: left;
-              align-items: flex-start;
-              margin-bottom: 16px;
-              gap: 8px;
-            ">
-              <h1 class="app-project-page name" style="
-                margin-bottom: 0px;
-                flex: 1;
-              ">{{ project.name }}</h1>
-              <div *ngIf="accessOptions[project.access!] !== undefined" style="padding: 0.4em 0.5em 0 0.5em;">
-                <h4 class="mat-caption" style="
-                  display: flex;
-                  flex-direction: row;
-                  gap: 1em;
-                  margin-bottom: 0px;
-                  align-items: center;
-                ">
-                  <mat-icon>{{accessOptions[project.access!].matIcon}}</mat-icon>
-                  {{accessOptions[project.access!].name}}
-                </h4>
-              </div>
-              <ng-template [ngIf]="!isMember">
-                <button *ngIf="project.access === 'OPEN'" class="app-project-page edit-button" mat-stroked-button color="basic" pill (click)="join()">
-                  <mat-icon>add</mat-icon>
-                  Join
-                </button>
-                <button *ngIf="project.access === 'INVITE'" class="app-project-page edit-button" mat-stroked-button color="basic" pill (click)="requestInvite()">
-                  <mat-icon>mail</mat-icon>
-                  Request to Join
-                </button>
-                <button *ngIf="project.access === 'CLOSED'" class="app-project-page edit-button" mat-stroked-button color="basic" pill disabled>
-                  <mat-icon>close</mat-icon>
-                  Closed
-                </button>
-              </ng-template>
-              <button *ngIf="hasEditPerms" class="app-project-page edit-button" mat-stroked-button color="basic" pill (click)="edit()">Edit Project
-              </button>
-            </div>
-            <p class="app-project-page pitch">
-              {{ project.pitch }}
-            </p>
-          </div>
-        </div>
-        <div class="app-project-page core-content">
-          <div class="margin-top: 16px">
-            <markdown katex lineNumbers [data]="project.description ?? ''"></markdown>
-          </div>
-          <div *ngIf="nonExistent">
-            <h1>This account doesn't exist</h1>
-            <p class="app-project-page no-results-text">Try searching for another</p>
-          </div>
-          <mat-divider></mat-divider>
-          <h2>Members</h2>
-          <app-project-members-display [projectMembers]="getProjectMembers()"></app-project-members-display>
-        </div>
-      </div>
-    </div>
-  </ng-template>
+  <mat-tab-group mat-align-tabs="center">
+    <mat-tab>
+      <ng-template mat-tab-label>
+        <mat-icon style="margin-right: 0.5em">remove_red_eye</mat-icon>
+        Overview
+      </ng-template>
+      <app-overview-tab 
+        [project]="project"
+        [projectOptions]="projectOptions" 
+        (edited)="fetchData()">
+      </app-overview-tab>
+    </mat-tab>
+    <mat-tab *ngIf="projectOptions.isMember">
+      <ng-template mat-tab-label>
+        <mat-icon style="margin-right: 0.5em">person</mat-icon>
+        Members
+      </ng-template>
+      <app-members-tab></app-members-tab>
+    </mat-tab>
+    <mat-tab *ngIf="projectOptions.hasEditPerms">
+      <ng-template mat-tab-label>
+        <mat-icon style="margin-right: 0.5em">settings</mat-icon>
+        Settings
+      </ng-template>
+    </mat-tab>
+  </mat-tab-group>
 </div>

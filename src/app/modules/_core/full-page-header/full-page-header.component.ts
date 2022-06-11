@@ -5,7 +5,6 @@ import { Component, ElementRef, Input, OnInit } from '@angular/core';
   templateUrl: './full-page-header.component.html',
   styleUrls: ['./full-page-header.component.css']
 })
-// TODO: Refactor FullPageHeader to use material theme for colors instead CSS vars
 export class FullPageHeaderComponent implements OnInit {
   
   @Input() bgImage: string = "";

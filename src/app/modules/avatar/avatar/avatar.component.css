@@ -37,15 +37,15 @@
 }
 
 .large {
-  --length: 128px;
+  --length: 8em;
 }
 
 .medium {
-  --length: 64px;
+  --length: 4em;
 }
 
 .small {
-  --length: 42px;
+  --length: 2.625em;
 }
 
 .input {
