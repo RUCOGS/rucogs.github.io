@@ -31,8 +31,10 @@ export class RolesService implements OnDestroy {
 
   public async getDisabledUserRoles() {
     const userRoles = await this.getUserRoles();
-    const highestUserRoles = getHighestRoles(userRoles);
-    return highestUserRoles;
+    const disabledRoles = getHighestRoles(userRoles);
+    if (!disabledRoles.includes(RoleCode.User))
+      disabledRoles.push(RoleCode.User);
+    return disabledRoles;
   }
 
   public async getUserRoles() {
@@ -85,14 +87,15 @@ export class RolesService implements OnDestroy {
   public async getDisabledProjectRoles(projectId: string) {
     const [userRoles, projectRoles] = await Promise.all([this.getUserRoles(), this.getProjectRoles(projectId)]);
     const merged = [...userRoles, ...projectRoles];
-    return getHighestRoles(merged).filter(x => RoleData[x].type.includes(RoleType.ProjectMember));
+    const disabledRoles = getHighestRoles(merged).filter(x => RoleData[x].type.includes(RoleType.ProjectMember));
+    if (!disabledRoles.includes(RoleCode.ProjectMember))
+      disabledRoles.push(RoleCode.ProjectMember);
+    return disabledRoles;
   }
 
   public async getProjectRoles(projectId: string) {
     if (!this.securityService.securityContext?.userId)
       return [];
-    
-    const addableUserRoles = await this.getAddableUserRoles();
 
     const result = await this.backend.withAuth().query<{
       projectMembers: {
@@ -120,7 +123,7 @@ export class RolesService implements OnDestroy {
     })
     .pipe(first())
     .toPromise();
-
+    
     if (result.error || result.data.projectMembers.length == 0)
       return [];
     
@@ -140,7 +143,10 @@ export class RolesService implements OnDestroy {
   public async getDisabledEBoardRoles(projectId: string) {
     const [userRoles, eboardRoles] = await Promise.all([this.getUserRoles(), this.getEBoardRoles(projectId)]);
     const merged = [...userRoles, ...eboardRoles];
-    return getHighestRoles(merged).filter(x => RoleData[x].type.includes(RoleType.EBoard));
+    const disabledRoles = getHighestRoles(merged).filter(x => RoleData[x].type.includes(RoleType.EBoard));
+    if (!disabledRoles.includes(RoleCode.Eboard))
+      disabledRoles.push(RoleCode.Eboard);
+    return disabledRoles;
   }
 
   public async getEBoardRoles(eboardId: string) {

@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
+import { AfterViewChecked, AfterViewInit, ChangeDetectorRef, Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Color } from '@src/app/classes/_classes.module';
 import { CdnService } from '@src/app/services/_services.module';
@@ -16,7 +16,7 @@ import { AccessOptions } from '../_classes/utils';
   templateUrl: './overview-tab.component.html',
   styleUrls: ['./overview-tab.component.css']
 })
-export class OverviewTabComponent implements AfterViewInit, OnChanges {
+export class OverviewTabComponent implements AfterViewChecked, OnChanges {
 
   @Output() edited = new EventEmitter();
 
@@ -28,14 +28,17 @@ export class OverviewTabComponent implements AfterViewInit, OnChanges {
   bannerColor: Color | undefined;
   accessOptions = AccessOptions;
 
+  private setupBannerColorListener = false;
+
   constructor(
     private cdnService: CdnService,
     private settings: SettingsService,
     private dialog: MatDialog,
   ) {}
 
-  ngAfterViewInit(): void {
-    this.setupBannerColorListeners();
+  // We can't use ngAfterViewInit because tab group triggers that despite not rendering the tab
+  ngAfterViewChecked(): void {
+    this.trySetupBannerColorListeners();
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -49,7 +52,10 @@ export class OverviewTabComponent implements AfterViewInit, OnChanges {
     return this.project.members as PartialDeep<ProjectMember>[];
   }
 
-  setupBannerColorListeners() {    
+  trySetupBannerColorListeners() {
+    if (this.setupBannerColorListener)
+      return;
+    
     const img = document.querySelector<HTMLImageElement>('img.app-overview-tab.card-image')
     if (img) {
       img.setAttribute('crossOrigin', '');
@@ -58,6 +64,7 @@ export class OverviewTabComponent implements AfterViewInit, OnChanges {
         const [r, g, b] = colorThief.getColor(img);
         this.bannerColor = new Color(r, g, b);
       });
+      this.setupBannerColorListener = true;
     }
   }
 
@@ -79,7 +86,8 @@ export class OverviewTabComponent implements AfterViewInit, OnChanges {
     const dialog = this.dialog.open(EditProjectDialogComponent, {
       data: <EditProjectDialogData>{
         project: this.project
-      }
+      },
+      width: "600px"
     });
     dialog.afterClosed()
       .pipe(first())

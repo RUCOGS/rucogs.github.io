@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Attribute, Component, Input, OnInit, Optional } from '@angular/core';
 
 @Component({
   selector: 'app-bg-container',
@@ -7,9 +7,15 @@ import { Component, Input, OnInit } from '@angular/core';
 })
 export class BgContainerComponent implements OnInit {
 
-  @Input() color: string = "primary";
+  @Input() color: string = "blank";
   
-  constructor() { }
+  fullPage: boolean;
+
+  constructor(
+    @Optional() @Attribute('full-page') fullPage: any,
+  ) { 
+    this.fullPage = fullPage !== undefined;
+  }
 
   ngOnInit(): void {
   }

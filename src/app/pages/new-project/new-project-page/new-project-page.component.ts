@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ProcessMonitor } from '@src/app/classes/process-monitor';
@@ -6,8 +6,7 @@ import { BackendService } from '@src/app/services/backend.service';
 import { SecurityService } from '@src/app/services/_services.module';
 import { Access, NewProjectInput } from '@src/generated/graphql-endpoint.types';
 import { gql } from 'apollo-angular';
-import { Subject } from 'rxjs';
-import { finalize, first, takeUntil } from 'rxjs/operators';
+import { finalize, first } from 'rxjs/operators';
 
 @Component({
   selector: 'app-new-project-page',

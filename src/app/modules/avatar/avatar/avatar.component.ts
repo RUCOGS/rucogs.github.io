@@ -31,8 +31,7 @@ export class AvatarComponent implements OnInit {
     this.clickableStyle = clickableStyle != undefined;
   }
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
   getContainerClass() {
     return {

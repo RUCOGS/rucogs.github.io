@@ -21,6 +21,14 @@ import { MembersTabComponent } from './members-tab/members-tab.component';
 import { OverviewTabComponent } from './overview-tab/overview-tab.component';
 import { EditProjectDialogComponent } from './edit-project-dialog/edit-project-dialog.component';
 import { MatDialogModule } from '@angular/material/dialog';
+import { ServicesModule } from '@src/app/services/_services.module';
+import { AvatarModule } from '@src/app/modules/avatar/avatar.module';
+import { FilteringModule } from '@src/app/modules/filtering/filtering.module';
+import { UserModule } from '@src/app/modules/user/user.module';
+import { DragDropModule } from '@angular/cdk/drag-drop';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { EditMemberDialogComponent } from './edit-member-dialog/edit-member-dialog.component';
+import { RolesModule } from '@src/app/modules/roles/roles.module';
 
 export { ProjectPageComponent };
 
@@ -31,7 +39,8 @@ export { ProjectPageComponent };
     ProjectPageComponent,
     MembersTabComponent,
     OverviewTabComponent,
-    EditProjectDialogComponent
+    EditProjectDialogComponent,
+    EditMemberDialogComponent
   ],
   imports: [
     CommonModule,
@@ -51,6 +60,13 @@ export { ProjectPageComponent };
     MatSelectModule,
     MatTabsModule,
     MatDialogModule,
+    ServicesModule,
+    AvatarModule,
+    FilteringModule,
+    UserModule,
+    DragDropModule,
+    MatTooltipModule,
+    RolesModule
   ],
   exports: [
     ProjectPageComponent

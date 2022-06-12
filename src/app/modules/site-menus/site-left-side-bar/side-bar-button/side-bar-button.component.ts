@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { BreakpointManagerService } from '@src/app/services/breakpoint-manager.service';
-import { Breakpoints } from '@src/app/settings/breakpoints';
+import { Breakpoint } from '@src/app/settings/breakpoints';
 
 @Component({
   selector: 'app-side-bar-button',
@@ -15,15 +15,7 @@ export class SideBarButtonComponent {
   @Input() name: string = "";
   @Input() icon: string = "";
 
-  constructor(private breakpointManager: BreakpointManagerService) { }
-
-  isDesktop() {
-    return !this.isMobile();
-  }
-
-  isMobile() {
-    return this.breakpointManager.currentBreakpoint === "mobile";
-  }
+  constructor(public breakpointManager: BreakpointManagerService) { }
 
   onClick() {
     this.click.emit();
