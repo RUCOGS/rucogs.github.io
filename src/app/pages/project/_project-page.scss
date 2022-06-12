@@ -1,5 +1,7 @@
 @use './overview-tab/overview-tab.component-theme' as overview-tab;
+@use './members-tab/members-tab.component-theme' as members-tab;
 
 @mixin theme($theme) {
 	@include overview-tab.theme($theme);
+	@include members-tab.theme($theme);
 }

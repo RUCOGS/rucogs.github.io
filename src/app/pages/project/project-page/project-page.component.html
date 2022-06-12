@@ -1,5 +1,5 @@
 <div class="app-project-page main-bg">
-  <mat-tab-group mat-align-tabs="center">
+  <mat-tab-group mat-align-tabs="center" [selectedIndex]="1">
     <mat-tab>
       <ng-template mat-tab-label>
         <mat-icon style="margin-right: 0.5em">remove_red_eye</mat-icon>
@@ -11,12 +11,16 @@
         (edited)="fetchData(true)">
       </app-overview-tab>
     </mat-tab>
-    <mat-tab *ngIf="projectOptions.isMember">
+    <mat-tab >
       <ng-template mat-tab-label>
         <mat-icon style="margin-right: 0.5em">person</mat-icon>
         Members
       </ng-template>
-      <app-members-tab></app-members-tab>
+      <app-members-tab
+        [project]="project"
+        [projectOptions]="projectOptions" 
+        (edited)="fetchData(true)">
+      </app-members-tab>
     </mat-tab>
     <mat-tab *ngIf="projectOptions.hasEditPerms">
       <ng-template mat-tab-label>

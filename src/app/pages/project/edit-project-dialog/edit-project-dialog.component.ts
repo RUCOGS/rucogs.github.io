@@ -56,11 +56,9 @@ export class EditProjectDialogComponent implements AfterViewInit {
       description: [null, []],
     })
     dialogRef.disableClose = true;
-    this.project = deepClone(data.project);
-    console.log(this.project)
+    this.project = data.project;
   }
 
-//#region // ----- FORM BASE ----- //
   ngAfterViewInit(): void {
     if (!this.cardImageUpload || !this.bannerUpload || !this.project.id)
       return;
@@ -73,8 +71,6 @@ export class EditProjectDialogComponent implements AfterViewInit {
 
     this.cardImageUpload.init(this.cdnService.getFileLink(this.project.cardImageLink) ?? "");
     this.bannerUpload.init(this.cdnService.getFileLink(this.project.bannerLink) ?? "");
-
-    this.changeDetector.detectChanges();
   }
 
   exit(success: boolean = false) {
@@ -147,7 +143,6 @@ export class EditProjectDialogComponent implements AfterViewInit {
     }
 
     if (Object.keys(input).length > 1) {
-      console.log("up")
       this.monitor.addProcess();
       this.backend
         .withAuth()

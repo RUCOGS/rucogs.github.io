@@ -1,1 +1,19 @@
-<p>members-tab works!</p>
+<app-bg-container full-page>
+  <app-filter-header searchBar></app-filter-header>
+  <div style="display: flex; flex-direction: column; gap: 0.25em;">
+    <div *ngFor="let member of project?.members">
+      <app-inline-options-profile  [user]="member?.user!" *ngIf="getPermsData(member) as permsData">
+        <div [matTooltip]="permsData.updateMemberTooltip">
+          <button mat-icon-button (click)="onEdit(member)" [disabled]="!permsData.canUpdateMember">
+            <mat-icon>edit</mat-icon>
+          </button>
+        </div>
+        <div [matTooltip]="permsData.kickMemberTooltip">
+          <button mat-icon-button (click)="onKick(member)" [disabled]="!permsData.canKickMember">
+            <mat-icon>logout</mat-icon>
+          </button>
+        </div>
+      </app-inline-options-profile>
+    </div>
+  </div>
+</app-bg-container>

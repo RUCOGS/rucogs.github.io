@@ -25,8 +25,6 @@ export class CardGridComponent implements OnInit, AfterViewInit, OnDestroy {
       const pixelColumnWidth = this.cssLength.convertToNumber(this.columnWidth, 'px');
       const possibleColumnCount = Math.floor(element.offsetWidth / pixelColumnWidth);
       
-      console.log(element.offsetWidth + "  " + pixelColumnWidth);
-      console.log("smallfit? " + (element.offsetWidth <= pixelColumnWidth));
       // Override autofitting if we only have a few elements
       this.updateGridTemplateColumns(
         element.children.length < possibleColumnCount ? false : this.autofitColumns,

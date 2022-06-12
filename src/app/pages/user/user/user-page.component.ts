@@ -187,9 +187,9 @@ export class UserPageComponent implements OnInit, OnDestroy {
 
       this.userSocials = myUser.socials;
       this.roles = myUser.roles.map(x => x.roleCode as RoleCode);
+      this.acceptedRoles = await this.rolesService.getAddableUserRoles();
       
       this.updateBannerColor();
-      this.acceptedRoles = await this.rolesService.getAddableUserRoles();
 
       this.hasProjects = myUser.projectMembers.length > 0;
 

@@ -19,6 +19,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { UserInputComponent } from './user-input/user-input.component';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { InlineProfileComponent } from './inline-profile/inline-profile.component';
+import { InlineOptionsProfileComponent } from './inline-options-profile/inline-options-profile.component';
+import { ServicesModule } from '@src/app/services/_services.module';
 
 
 
@@ -31,7 +33,8 @@ import { InlineProfileComponent } from './inline-profile/inline-profile.componen
     SocialButtonComponent,
     UsersDisplayComponent,
     UserInputComponent,
-    InlineProfileComponent
+    InlineProfileComponent,
+    InlineOptionsProfileComponent
   ],
   imports: [
     CommonModule,
@@ -46,7 +49,8 @@ import { InlineProfileComponent } from './inline-profile/inline-profile.componen
     RouterModule,
     MatInputModule,
     MatButtonModule,
-    MatAutocompleteModule
+    MatAutocompleteModule,
+    ServicesModule
   ],
   exports: [
     BasicProfileComponent,
@@ -55,7 +59,8 @@ import { InlineProfileComponent } from './inline-profile/inline-profile.componen
     SocialButtonComponent,
     UsersDisplayComponent,
     UserInputComponent,
-    InlineProfileComponent
+    InlineProfileComponent,
+    InlineOptionsProfileComponent
   ]
 })
 export class UserModule { }

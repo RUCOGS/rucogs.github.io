@@ -119,10 +119,6 @@ export class BlogPageComponent implements AfterViewInit {
   getArticleText(article: ArticleInfo): string {
     return (article.title + " " + article.description + " " + article.date + " " + article.authors.join(" ") + " " + article.tags.join(" ")).toLowerCase();
   }
-
-  onDesktop(): boolean {
-    return this.breakpointManager.currentBreakpoint == 'desktop';
-  }
 }
 
 class ArticleWithRanking {
