@@ -1,6 +1,7 @@
 import { Injectable, OnDestroy } from '@angular/core';
-import { ApolloQueryResult } from '@apollo/client/core';
-import { PermissionsCalculator, SecurityContext, SecurityPolicy } from '@src/shared/security';
+import { ApolloQueryResult, Operation } from '@apollo/client/core';
+import { Permission } from '@src/generated/graphql-endpoint.types';
+import { BaseSecurityDomain, isBaseSecurityDomain, isExtendedSecurityDomain, OperationSecurityDomain, PermissionsCalculator, SecurityContext, SecurityDomain, SecurityDomainTemplate, SecurityPolicy } from '@src/shared/security';
 import { gql } from 'apollo-angular';
 import { Observable, Subject } from 'rxjs';
 import { first, takeUntil } from 'rxjs/operators';
@@ -37,6 +38,7 @@ export class SecurityService implements OnDestroy {
   
   ngOnDestroy(): void {
     this.onDestroy$.next();
+    this.onDestroy$.complete();
   }
 
   async fetchData() {
@@ -72,5 +74,50 @@ export class SecurityService implements OnDestroy {
 
   public makePermCalc() {
     return new PermissionsCalculator(this.securityContext);
+  }
+
+  public get permissions() {
+    return this.securityContext?.permissions;
+  }
+
+  public getOpDomainFieldFromPermissionDomain<T extends keyof SecurityDomainTemplate>(permissionDomain: SecurityDomain, field: T): SecurityDomainTemplate[T][] {
+    if (isBaseSecurityDomain(permissionDomain)) {
+      if (permissionDomain === true) {
+        // There's no point in filtering for an entity using the operation domain here.
+        // If permission == true, then we should be able to access every entity, hence the 
+        // operation domain is irrelevant.
+        return [];
+      }
+      if (permissionDomain.some(x => x[field] === undefined))
+        throw new Error(`Field "${field}" doesn't exist on domain.`);
+      return permissionDomain.map(x => x[field]) as SecurityDomainTemplate[T][];
+    } else if (isExtendedSecurityDomain(permissionDomain)) {
+      // Only process the base domain
+      return this.getOpDomainFieldFromPermissionDomain(permissionDomain.baseDomain, field);
+    } else {
+      // Do nothing for custom domains
+      return [];
+    }
+  }
+
+  public getOpDomainFromPermission<T extends keyof SecurityDomainTemplate>(permissionCode: Permission, fields: (keyof SecurityDomainTemplate)[]): OperationSecurityDomain {
+    let domain: OperationSecurityDomain = {};
+    for (const field of fields) {
+      domain[field] = this.getOpDomainFieldFromPermission(permissionCode, field);
+    }
+    return domain;
+  }
+
+  public getOpDomainFieldFromPermission<T extends keyof SecurityDomainTemplate>(permissionCode: Permission, field: keyof SecurityDomainTemplate): SecurityDomainTemplate[T][] {
+    const permissionDomain = this.securityContext?.permissions[permissionCode];
+    try {
+      return this.getOpDomainFieldFromPermissionDomain(permissionDomain, field);
+    } catch(err) {
+      if (err instanceof Error) {
+        err.message += ` Permission: "${permissionCode}".`;
+        throw err;
+      }
+    }
+    return [];
   }
 }

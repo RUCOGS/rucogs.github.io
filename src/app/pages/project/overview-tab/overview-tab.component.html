@@ -61,9 +61,9 @@
               <mat-icon>add</mat-icon>
               Join
             </button>
-            <button *ngIf="project.access === 'INVITE'" class="app-overview-tab edit-button" mat-stroked-button color="basic" pill (click)="requestInvite()">
+            <button *ngIf="project.access === 'INVITE'" class="app-overview-tab edit-button" mat-stroked-button color="basic" pill (click)="requestInvite()" [disabled]="projectOptions.inviteSent">
               <mat-icon>mail</mat-icon>
-              Request to Join
+              {{projectOptions.inviteSent ? 'Invite requested' : 'Request to Join'}}
             </button>
             <button *ngIf="project.access === 'CLOSED'" class="app-overview-tab edit-button" mat-stroked-button color="basic" pill disabled>
               <mat-icon>close</mat-icon>

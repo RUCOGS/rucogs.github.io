@@ -1,9 +1,11 @@
 import { AfterViewChecked, AfterViewInit, ChangeDetectorRef, Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { Color } from '@src/app/classes/_classes.module';
-import { CdnService } from '@src/app/services/_services.module';
-import { Project, ProjectMember } from '@src/generated/graphql-endpoint.types';
+import { Color, ProcessMonitor } from '@src/app/classes/_classes.module';
+import { UIMessageService } from '@src/app/modules/ui-message/ui-message.module';
+import { BackendService, CdnService, SecurityService } from '@src/app/services/_services.module';
+import { InviteType, NewProjectInviteInput, Project, ProjectMember } from '@src/generated/graphql-endpoint.types';
 import { SettingsService } from '@src/_settings';
+import { gql } from 'apollo-angular';
 import ColorThief from 'colorthief';
 import { first } from 'rxjs/operators';
 import { PartialDeep } from 'type-fest';
@@ -28,12 +30,17 @@ export class OverviewTabComponent implements AfterViewChecked, OnChanges {
   bannerColor: Color | undefined;
   accessOptions = AccessOptions;
 
+  monitor = new ProcessMonitor();
+
   private setupBannerColorListener = false;
 
   constructor(
     private cdnService: CdnService,
     private settings: SettingsService,
     private dialog: MatDialog,
+    private backend: BackendService,
+    private security: SecurityService,
+    private uiMessageService: UIMessageService,
   ) {}
 
   // We can't use ngAfterViewInit because tab group triggers that despite not rendering the tab
@@ -74,12 +81,61 @@ export class OverviewTabComponent implements AfterViewChecked, OnChanges {
     }
   }
 
-  join() {
+  async join() {
+    if (this.monitor.isProcessing)
+      return;
     
+    this.monitor.addProcess();
+    const result = await this.backend.withAuth().mutate<{
+      newProjectInvite: boolean
+    }>({
+      mutation: gql`
+        mutation($projectId: ID!) {
+          joinOpenProject(projectId: $projectId)
+        }
+      `,
+      variables: {
+        projectId: this.project.id,
+      }
+    }).pipe(first()).toPromise();
+    this.monitor.removeProcess();
+
+    if (result.errors)
+      return;
+    
+    this.edited.emit();
+
+    this.uiMessageService.notifyConfirmed('Joined project!');
   }
   
-  requestInvite() {
+  async requestInvite() {
+    if (this.monitor.isProcessing)
+      return;
     
+    this.monitor.addProcess();
+    const result = await this.backend.withAuth().mutate<{
+      newProjectInvite: string
+    }>({
+      mutation: gql`
+        mutation($input: NewProjectInviteInput!) {
+          newProjectInvite(input: $input)
+        }
+      `,
+      variables: {
+        input: <NewProjectInviteInput>{
+          type: InviteType.Incoming,
+          projectId: this.project.id,
+          userId: this.security.securityContext?.userId,
+        }
+      }
+    }).pipe(first()).toPromise();
+    this.monitor.removeProcess();
+
+    if (result.errors)
+      return;
+    
+    this.edited.emit();
+    this.uiMessageService.notifyConfirmed('Invite sent!');
   }
 
   edit() {

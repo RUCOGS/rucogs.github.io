@@ -1,12 +1,11 @@
 import { Injectable, OnDestroy } from '@angular/core';
-import { EBoardFilterInput, ProjectMemberFilterInput, RoleCode, UserFilterInput } from '@src/generated/graphql-endpoint.types';
-import { getHighestRoles, getRolesBelow, getRolesBelowOrEqualRoles, getRolesBelowRoles, RoleData, RoleType } from '@src/shared/security';
+import { RoleCode } from '@src/generated/graphql-endpoint.types';
+import { EBoardFilterInput, ProjectMemberFilterInput } from '@src/generated/model.types';
+import { getHighestRoles, getRolesBelowRoles, RoleData, RoleType } from '@src/shared/security';
 import { gql } from 'apollo-angular';
 import { Subject } from 'rxjs';
 import { first } from 'rxjs/operators';
-import { arrayWithoutDuplicates, mergeArraysWithoutDuplicates } from '@app/utils/_utils.module';
 import { BackendService, SecurityService } from './_services.module';
-import { Xliff } from '@angular/compiler';
 
 @Injectable({
   providedIn: 'root'
@@ -22,6 +21,7 @@ export class RolesService implements OnDestroy {
 
   ngOnDestroy(): void {
     this.onDestroy$.next();
+    this.onDestroy$.complete();
   }
 
   public async getAddableUserRoles() {

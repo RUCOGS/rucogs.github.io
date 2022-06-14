@@ -70,7 +70,6 @@ export class NewProjectPageComponent {
           if (!value.data?.newProject)
             return;
           
-          await this.security.fetchData();
           this.router.navigateByUrl(`/projects/${value.data.newProject}`);
         },
       });

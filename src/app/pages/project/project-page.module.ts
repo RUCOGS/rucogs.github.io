@@ -29,6 +29,8 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { EditMemberDialogComponent } from './edit-member-dialog/edit-member-dialog.component';
 import { RolesModule } from '@src/app/modules/roles/roles.module';
+import { InvitesTabComponent } from './invites-tab/invites-tab.component';
+import { MatTableModule } from '@angular/material/table';
 
 export { ProjectPageComponent };
 
@@ -40,7 +42,8 @@ export { ProjectPageComponent };
     MembersTabComponent,
     OverviewTabComponent,
     EditProjectDialogComponent,
-    EditMemberDialogComponent
+    EditMemberDialogComponent,
+    InvitesTabComponent
   ],
   imports: [
     CommonModule,
@@ -66,7 +69,8 @@ export { ProjectPageComponent };
     UserModule,
     DragDropModule,
     MatTooltipModule,
-    RolesModule
+    RolesModule,
+    MatTableModule,
   ],
   exports: [
     ProjectPageComponent

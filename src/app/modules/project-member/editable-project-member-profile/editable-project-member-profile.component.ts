@@ -100,6 +100,7 @@ export class EditableProjectMemberProfileComponent implements OnInit, OnDestroy 
   
   ngOnDestroy() {
     this.onDestroy$.next();
+    this.onDestroy$.complete();
   }
 
   validate() {

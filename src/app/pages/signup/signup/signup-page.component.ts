@@ -34,6 +34,7 @@ export class SignupPageComponent implements OnDestroy {
 
   ngOnDestroy(): void {
     this.onDestroy$.next();
+    this.onDestroy$.complete();
   }
 
   socialSignup(social: string) {

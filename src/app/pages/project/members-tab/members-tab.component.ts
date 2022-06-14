@@ -1,12 +1,14 @@
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
-import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
+import { AfterViewChecked, AfterViewInit, Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { FilterHeaderComponent } from '@src/app/modules/filtering/filtering.module';
 import { UIMessageService } from '@src/app/modules/ui-message/ui-message.module';
-import { BackendService, CdnService, SecurityService } from '@src/app/services/_services.module';
+import { BackendService, BreakpointManagerService, CdnService, SecurityService } from '@src/app/services/_services.module';
 import { deepClone } from '@src/app/utils/utils';
-import { Permission, Project, ProjectMember } from '@src/generated/graphql-endpoint.types';
+import { Permission, Project, ProjectMember, RoleCode } from '@src/generated/graphql-endpoint.types';
 import { gql } from 'apollo-angular';
-import { first } from 'rxjs/operators';
+import { Subject } from 'rxjs';
+import { first, takeUntil } from 'rxjs/operators';
 import { PartialDeep } from 'type-fest';
 import { EditMemberDialogComponent, EditMemberDialogData } from '../edit-member-dialog/edit-member-dialog.component';
 import { DefaultProjectOptions, ProjectOptions } from '../project-page/project-page.component';
@@ -16,22 +18,62 @@ import { DefaultProjectOptions, ProjectOptions } from '../project-page/project-p
   templateUrl: './members-tab.component.html',
   styleUrls: ['./members-tab.component.css']
 })
-export class MembersTabComponent implements OnInit {
+export class MembersTabComponent implements AfterViewInit, OnDestroy, OnChanges {
 
   @Output() edited = new EventEmitter();
 
   @Input() project: PartialDeep<Project> = {};
   @Input() projectOptions: ProjectOptions = DefaultProjectOptions;
 
+  @ViewChild('membersFilter') filterHeader: FilterHeaderComponent | undefined
+  
+  filteredProjectMembers: PartialDeep<ProjectMember>[] = [];
+
+  private onDestroy$ = new Subject();
+
   constructor(
     public cdn: CdnService,
+    public breakpointManager: BreakpointManagerService,
     private backend: BackendService,
     private security: SecurityService,
     private uiMessage: UIMessageService,
     private dialog: MatDialog,
   ) { }
 
-  ngOnInit(): void {
+  ngAfterViewInit(): void {
+    if (!this.filterHeader)
+      return;
+    
+    // NOTE: This is really inefficient because we are regenerating the entire sortedSections array
+    //       whenever the project changes a filter option. We should consider only modifying parts of
+    //       of the sorted array that are needed (ie. only reversing the sortedSections if sortAscending 
+    //       changes).
+    this.filterHeader.newSearchRequest$.pipe(takeUntil(this.onDestroy$)).subscribe(this.onNewSearchRequest.bind(this));
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['project']) {
+      if (this.project.members)
+        this.filteredProjectMembers = deepClone(this.project.members) as PartialDeep<ProjectMember>[];
+    }
+  }
+
+  getUserMember() {
+    return this.project.members?.find(x => x?.user?.id === this.security.securityContext?.userId) ?? {};
+  }
+
+  onNewSearchRequest(searchText: string) {
+    if (searchText === "") {
+      this.filteredProjectMembers = deepClone(this.project.members) as PartialDeep<ProjectMember>[];
+    } else {
+      this.filteredProjectMembers = (this.project.members as PartialDeep<ProjectMember>[])!.filter(x => x!.user!.username!.indexOf(searchText) > -1);
+      this.filteredProjectMembers = this.filteredProjectMembers.sort((a, b) => { return b.user!.username!.indexOf(searchText) - a.user!.username!.indexOf(searchText); });
+    }
+  }
+
+  ngOnDestroy(): void {
+    this.onDestroy$.next();
+    this.onDestroy$.complete();
   }
 
   async onEdit(member: PartialDeep<ProjectMember> | undefined) {
@@ -54,7 +96,7 @@ export class MembersTabComponent implements OnInit {
       const result = await this.backend.withAuth()
         .mutate<boolean>({
           mutation: gql`
-            mutation($id: ID!) {
+            mutation KickMember($id: ID!) {
               deleteProjectMember(id: $id)
             }
           `,
@@ -84,7 +126,7 @@ export class MembersTabComponent implements OnInit {
       .withDomain({
         projectMemberId: [ member.id ]
       })
-      .hasPermission(Permission.UpdateProjectMember)
+      .hasPermission(Permission.ManageProjectMember)
     ) {
       canUpdateMember = false;
       updateMemberTooltip = "Insufficient permissions"; 
@@ -92,13 +134,17 @@ export class MembersTabComponent implements OnInit {
 
     let canKickMember = true;
     let kickMemberTooltip = "";
-    if (canUpdateMember) {
+    if (!canUpdateMember) {
       canKickMember = false;
       kickMemberTooltip = "Insufficient permissions";
     }
-    if (this.project.members.length > 0) {
+    if (this.project.members.length === 1) {
       canKickMember = false;
       kickMemberTooltip = "Project must have at least one member";
+    }
+    if (member.roles?.some(x => x?.roleCode === RoleCode.ProjectOwner)) {
+      canKickMember = false;
+      kickMemberTooltip = "Cannot kick the owner until ownership is transferred!";
     }
 
     return {
@@ -107,6 +153,10 @@ export class MembersTabComponent implements OnInit {
       kickMemberTooltip,
       updateMemberTooltip,
     }
+  }
+
+  onInvitesEdited() {
+    this.edited.emit();
   }
 }
 

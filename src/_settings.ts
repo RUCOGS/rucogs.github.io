@@ -101,7 +101,10 @@ export class SettingsService {
     defaultCardImageSrc: string = "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png";
   }
   public Backend = new class {
-    public backendApiLink: string = "http://localhost:8080";
+    public backendApiBaseLink: string = "localhost:8080";
+    public get backendApiHttpLink() { 
+      return "http://" + this.backendApiBaseLink;
+    }
 
     public selfHostedPrefix = "cdn://";
     public cdnRelativePath: string = "/cdn";
