@@ -11,6 +11,7 @@ import { StyleManagerService } from './style-manager.service';
 import { ThemeManagerService } from './theme-manager.service';
 import { TokenStorageService } from './token-storage.service';
 import { RolesService } from './roles.service';
+import { ApolloModule } from 'apollo-angular';
 
 export { AuthService };
 export { BackendService };
@@ -28,6 +29,7 @@ export { RolesService };
   declarations: [],
   imports: [
     CommonModule,
+    ApolloModule
   ],
   providers: [
     AuthService,

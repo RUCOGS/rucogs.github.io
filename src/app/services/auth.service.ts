@@ -7,6 +7,8 @@ import { SettingsService } from '@src/_settings';
 import { Apollo, gql } from 'apollo-angular';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { first, takeUntil } from 'rxjs/operators';
+import { HttpLink } from 'apollo-angular/http';
+import { InMemoryCache } from '@apollo/client/core';
 
 const AUTH_PAYLOAD_KEY = 'auth-payload';
 
@@ -30,10 +32,10 @@ export class AuthService implements OnDestroy {
 
   private payloadSubject: BehaviorSubject<AuthPayload | undefined>;
   private get authLink() {
-    return this.settings.Backend.backendApiHttpLink + "/auth/";
+    return this.settings.Backend.backendHttpURL + "/auth/";
   }
   private get oAuthLink() {
-    return this.settings.Backend.backendApiHttpLink + "/auth/thirdparty/";
+    return this.settings.Backend.backendHttpURL + "/auth/thirdparty/";
   }
 
   private onDestroy$ = new Subject<boolean>();
@@ -42,11 +44,19 @@ export class AuthService implements OnDestroy {
     private apollo: Apollo,
     private router: Router,
     private http: HttpClient,
+    httpLink: HttpLink,
     private settings: SettingsService
   ) {
+    // Create a dedicated client for the auth service. This is needed because we cannot use
+    // the backend service, else we create a cyclical dependency.
+    this.apollo.createNamed("auth", {
+      link: httpLink.create({
+        uri: this.settings.Backend.graphQLHttpURL
+      }),
+      cache: new InMemoryCache(),
+    });
     const serializedPayload = localStorage.getItem(AUTH_PAYLOAD_KEY);
     let payload = serializedPayload ? JSON.parse(serializedPayload) as AuthPayload : undefined;
-    this.payload$ = new Observable();
     this.payloadSubject = new BehaviorSubject<AuthPayload | undefined>(payload);
     this.payload$ = this.payloadSubject.asObservable();
 
@@ -60,7 +70,7 @@ export class AuthService implements OnDestroy {
     // Validate current auth
     // TODO: Write a dedicated endpoint for verifying. Sending over entire
     // security context is overkill.
-    const result = await this.apollo.query<{
+    const result = await this.apollo.use("auth").query<{
         securityContext: SecurityContext
       }>({
         query: gql`
@@ -92,7 +102,7 @@ export class AuthService implements OnDestroy {
     // We can't use BackendService here because that would
     // cause a cyclical dependency error. Therefore we must
     // manually build the full query from apollo.
-    const result = await this.apollo.query<{
+    const result = await this.apollo.use("auth").query<{
         users: {
           id: string,
           email: string,
@@ -175,7 +185,7 @@ export class AuthService implements OnDestroy {
     const socialLogin$ = new Observable<AuthPayload>((observer) => {
       const popup = window.open(authUrl, 'myWindow', 'location=1,status=1,scrollbars=1,width=800,height=900');
       let listener = window.addEventListener('message', (message) => {
-        if (message.origin === this.settings.Backend.backendApiHttpLink) {
+        if (message.origin === this.settings.Backend.backendHttpURL) {
           observer.next(message.data);
         }
       });

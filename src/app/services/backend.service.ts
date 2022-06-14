@@ -1,12 +1,17 @@
 import { HttpClient, HttpContext, HttpHeaders, HttpParams } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { ApolloQueryResult, FetchResult, QueryOptions, SubscriptionOptions, WatchQueryOptions } from '@apollo/client/core';
+import { Injectable, OnDestroy } from '@angular/core';
+import { ApolloQueryResult, FetchResult, InMemoryCache, QueryOptions, split, SubscriptionOptions, WatchQueryOptions } from '@apollo/client/core';
 import { EntityManagerMetadata, OperationSecurityDomain } from '@src/shared/security';
 import { SettingsService } from '@src/_settings';
 import { Apollo, QueryRef } from 'apollo-angular';
 import { EmptyObject, ExtraSubscriptionOptions, MutationOptions, MutationResult } from 'apollo-angular/types';
-import { Observable } from 'rxjs';
+import { createUploadLink } from 'apollo-upload-client';
+import { Observable, Subject } from 'rxjs';
 import { AuthService } from './auth.service';
+import { GraphQLWsLink } from "@apollo/client/link/subscriptions";
+import { createClient, Client as GraphQLWsClient } from "graphql-ws";
+import { getMainDefinition } from '@apollo/client/utilities';
+import { takeUntil } from 'rxjs/operators';
 
 type HttpClientOptions = {
   headers?: HttpHeaders | {
@@ -25,25 +30,51 @@ type HttpClientOptions = {
 @Injectable({
   providedIn: 'root'
 })
-export class BackendService {
+export class BackendService implements OnDestroy {
 
   private opSettings: {
     useAuth: boolean;
     operationDomain: OperationSecurityDomain | undefined;
-  } = this.defaultSettings();
+  } = this.defaultOpSettings();
+
+  protected onDestroy$ = new Subject();
+  private graphQLWsClient!: GraphQLWsClient;
 
   constructor(
     private apollo: Apollo, 
     private authService: AuthService,
     private http: HttpClient,
     private settings: SettingsService,
-  ) {}
-
-  private reset() {
-    this.opSettings = this.defaultSettings();
+  ) {
+    this.rebuildClient();
+    this.authService.payload$
+      .pipe(takeUntil(this.onDestroy$))
+      .subscribe({
+        next: (value) => {
+          console.log("auth updated, updating client")
+          this.rebuildClient();
+        }
+      })
   }
 
-  private defaultSettings() {
+  ngOnDestroy(): void {
+    this.onDestroy$.next();
+    this.onDestroy$.complete();
+  }
+
+  private resetOpSettings() {
+    this.opSettings = this.defaultOpSettings();
+  }
+
+  public rebuildClient() {
+    if (this.apollo.default().client) {
+      this.apollo.default().client.clearStore();
+      this.apollo.removeClient("default");
+    }
+    this.apollo.createDefault(this.configureApolloClientOptions(this.authService.getToken()));
+  }
+
+  private defaultOpSettings() {
     return {
       useAuth: false,
       operationDomain: undefined
@@ -61,7 +92,7 @@ export class BackendService {
     };
   }
 
-  private configureApolloOptions(options: any) {
+  private configureApolloOperationOptions(options: any) {
     return {
       ...options,
       ...(this.opSettings.useAuth && {
@@ -73,6 +104,47 @@ export class BackendService {
           }
         }
       })
+    };
+  }
+
+  private configureApolloClientOptions(authToken: string = "") {
+    const baseGraphQLUri = this.settings.Backend.backendDomain + this.settings.Backend.graphQLRelativePath;
+
+    const uploadLink = createUploadLink({ 
+      uri: `http://${baseGraphQLUri}`,
+      headers: { 'Apollo-Require-Preflight': 'true' }
+    });
+
+    if (this.graphQLWsClient)
+      this.graphQLWsClient.dispose();
+    this.graphQLWsClient = createClient({
+      url: `ws://${baseGraphQLUri}`,
+      connectionParams: {
+        authentication: `Bearer ${authToken}`
+      }
+    });
+    
+    const webSocketLink = new GraphQLWsLink(
+      this.graphQLWsClient
+    );
+
+    // using the ability to split links, you can send data to each link
+    // depending on what kind of operation is being sent
+    const splitLink = split(
+      // split based on operation type
+      ({query}) => {
+        const definition = getMainDefinition(query);
+        return (
+          definition.kind === 'OperationDefinition' && definition.operation === 'subscription'
+        );
+      },
+      webSocketLink,
+      uploadLink,
+    );
+
+    return {
+      link: splitLink,
+      cache: new InMemoryCache(),
     };
   }
 
@@ -93,7 +165,7 @@ export class BackendService {
 
   private configureUrl(url: string) {
     if (url.startsWith('/'))
-      return this.settings.Backend.backendApiHttpLink + url;
+      return this.settings.Backend.backendHttpURL + url;
     return url;
   }
 
@@ -112,26 +184,26 @@ export class BackendService {
 
   // #region // ----- GRAPHQL ----- //
   watchQuery<TData, TVariables = EmptyObject>(options: WatchQueryOptions<TVariables, TData>): QueryRef<TData, TVariables> {
-    const result = this.apollo.watchQuery<TData, TVariables>(this.configureApolloOptions(options));
-    this.reset();
+    const result = this.apollo.default().watchQuery<TData, TVariables>(this.configureApolloOperationOptions(options));
+    this.resetOpSettings();
     return result;
   }
 
   query<T, V = EmptyObject>(options: QueryOptions<V, T>): Observable<ApolloQueryResult<T>> {
-    const result = this.apollo.query<T, V>(this.configureApolloOptions(options));
-    this.reset();
+    const result = this.apollo.default().query<T, V>(this.configureApolloOperationOptions(options));
+    this.resetOpSettings();
     return result;
   }
   
   mutate<T, V = EmptyObject>(options: MutationOptions<T, V>): Observable<MutationResult<T>> {
-    const result = this.apollo.mutate<T, V>(this.configureApolloOptions(options));
-    this.reset();
+    const result = this.apollo.default().mutate<T, V>(this.configureApolloOperationOptions(options));
+    this.resetOpSettings();
     return result;
   }
 
   subscribe<T, V = EmptyObject>(options: SubscriptionOptions<V, T>, extra?: ExtraSubscriptionOptions): Observable<FetchResult<T>> {
-    const result = this.apollo.subscribe<T, V>(this.configureApolloOptions(options));
-    this.reset();
+    const result = this.apollo.default().subscribe<T, V>(this.configureApolloOperationOptions(options));
+    this.resetOpSettings();
     return result;
   }
   // #endregion // -- SETTINGS ----- //
