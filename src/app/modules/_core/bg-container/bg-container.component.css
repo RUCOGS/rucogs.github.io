@@ -3,10 +3,8 @@
 }
 
 .bg {
-	display: -webkit-box;
-	display: -webkit-flex;
-	display: -ms-flexbox;
 	display: flex;
+	flex-direction: column;
 	align-items: center;
 	box-sizing: border-box;
 	padding: var(--content-padding);

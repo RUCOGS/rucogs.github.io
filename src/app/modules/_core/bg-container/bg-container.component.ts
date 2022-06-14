@@ -14,7 +14,7 @@ export class BgContainerComponent implements OnInit {
   constructor(
     @Optional() @Attribute('full-page') fullPage: any,
   ) { 
-    this.fullPage = fullPage !== undefined;
+    this.fullPage = fullPage != undefined;
   }
 
   ngOnInit(): void {

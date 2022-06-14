@@ -2,7 +2,8 @@ import { AfterViewInit, Component, Input, OnDestroy, ViewChild } from '@angular/
 import { FilterHeaderComponent } from '@src/app/modules/filtering/filter-header/filter-header.component';
 import { BackendService } from '@src/app/services/backend.service';
 import { ScrollService } from '@src/app/services/scroll.service';
-import { Project, ProjectFilterInput, ProjectSortInput } from '@src/generated/graphql-endpoint.types';
+import { Project } from '@src/generated/graphql-endpoint.types';
+import { ProjectFilterInput, ProjectSortInput } from '@src/generated/model.types';
 import { gql } from 'apollo-angular';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -54,6 +55,7 @@ export class ProjectsDisplayComponent implements AfterViewInit, OnDestroy {
   
   ngOnDestroy(): void {
     this.onDestroy$.next();
+    this.onDestroy$.complete();
   }
 
   async queryUntilFillPage(filter: ProjectFilterInput | undefined = undefined) {

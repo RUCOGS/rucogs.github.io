@@ -30,10 +30,10 @@ export class AuthService implements OnDestroy {
 
   private payloadSubject: BehaviorSubject<AuthPayload | undefined>;
   private get authLink() {
-    return this.settings.Backend.backendApiLink + "/auth/";
+    return this.settings.Backend.backendApiHttpLink + "/auth/";
   }
   private get oAuthLink() {
-    return this.settings.Backend.backendApiLink + "/auth/thirdparty/";
+    return this.settings.Backend.backendApiHttpLink + "/auth/thirdparty/";
   }
 
   private onDestroy$ = new Subject<boolean>();
@@ -130,9 +130,6 @@ export class AuthService implements OnDestroy {
       })
       .pipe(first())
       .toPromise();
-    
-    console.log("update user");
-    console.log(result);
 
     if (result.error)
       return;
@@ -145,6 +142,7 @@ export class AuthService implements OnDestroy {
 
   ngOnDestroy(): void {
     this.onDestroy$.next();
+    this.onDestroy$.complete();
   }
 
   public logout() {
@@ -177,7 +175,7 @@ export class AuthService implements OnDestroy {
     const socialLogin$ = new Observable<AuthPayload>((observer) => {
       const popup = window.open(authUrl, 'myWindow', 'location=1,status=1,scrollbars=1,width=800,height=900');
       let listener = window.addEventListener('message', (message) => {
-        if (message.origin === this.settings.Backend.backendApiLink) {
+        if (message.origin === this.settings.Backend.backendApiHttpLink) {
           observer.next(message.data);
         }
       });

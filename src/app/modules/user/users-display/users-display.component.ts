@@ -2,7 +2,8 @@ import { AfterViewInit, Component, Input, OnDestroy, ViewChild } from '@angular/
 import { FilterHeaderComponent } from '@src/app/modules/filtering/filtering.module';
 import { BackendService } from '@src/app/services/backend.service';
 import { ScrollService } from '@src/app/services/scroll.service';
-import { User, UserFilterInput, UserSortInput } from '@src/generated/graphql-endpoint.types';
+import { User } from '@src/generated/graphql-endpoint.types';
+import { UserFilterInput, UserSortInput } from '@src/generated/model.types';
 import { gql } from 'apollo-angular';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -50,6 +51,7 @@ export class UsersDisplayComponent implements AfterViewInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.onDestroy$.next();
+    this.onDestroy$.complete();
   }
 
   async queryUntilFillPage(filter: UserFilterInput | undefined = undefined) {

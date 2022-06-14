@@ -22,7 +22,7 @@ export class BreakpointManagerService implements OnDestroy {
 
   constructor(private breakpointObserver: BreakpointObserver) {
     for (let i = 0; i < BreakpointsData.length - 1; i++) {
-      this.breakpointObserver.observe(BreakpointsData[i].query)
+      this.breakpointObserver.observe(`(max-width: ${BreakpointsData[i].maxWidth})`)
         .pipe(takeUntil(this.onDestroy$))
         .subscribe((state: BreakpointState) => {
           this.breakpointsMatched[i] = state.matches;
@@ -49,15 +49,19 @@ export class BreakpointManagerService implements OnDestroy {
     return this.matchedBreakpointOrAbove(start) && this.matchedBreakpointOrBelow(end);
   }
 
-  matchedBreakpointOrAbove(breakpoint: Breakpoint) {
+  matchedBreakpointOrAbove(breakpoint: Breakpoint, key: string = "") {
     const index = BreakpointsData.findIndex(x => x.name === breakpoint);
-    if (index > 1)
-      if (this.breakpointsMatched[index - 1])
-        return false;
-    return this.breakpointsMatched[index];
+    // Make sure previous breakpoint hasne't triggered, because that would mean we're
+    // currently matching with something below this breakpoint.
+    if (index > 0 && this.breakpointsMatched[index - 1])
+      return false;
+    // Because the last element is always true, we know there must be a breakpoint above
+    // that has been triggered.
+    return true;
   }
 
   ngOnDestroy(): void {
     this.onDestroy$.next();
+    this.onDestroy$.complete();
   }
 }

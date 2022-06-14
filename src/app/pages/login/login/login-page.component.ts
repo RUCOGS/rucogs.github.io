@@ -32,6 +32,7 @@ export class LoginPageComponent implements OnDestroy {
 
   ngOnDestroy(): void {
     this.onDestroy$.next();
+    this.onDestroy$.complete();
   }
 
   socialLogin(social: string) {

@@ -13,6 +13,10 @@ export class UIMessageService {
     private snackBar: MatSnackBar,
     private dialog: MatDialog,
   ) { }
+  
+  notifyConfirmed(message: string) {
+    this.snackBar.open("✅ " + message, undefined, { duration: 100 * message.length });
+  }
 
   error(error: Error | string) {
     let message = "";
@@ -21,7 +25,7 @@ export class UIMessageService {
     else
       message = error;
     
-    this.snackBar.open("🛑 " + message, undefined, { duration: 3000 });
+    this.snackBar.open("🛑 " + message, undefined, { duration: 100 * message.length });
   }
 
   confirmDialog(message: string) {

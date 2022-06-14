@@ -93,7 +93,7 @@ export class BackendService {
 
   private configureUrl(url: string) {
     if (url.startsWith('/'))
-      return this.settings.Backend.backendApiLink + url;
+      return this.settings.Backend.backendApiHttpLink + url;
     return url;
   }
 

@@ -4,12 +4,14 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Color, ProcessMonitor } from '@app/classes/_classes.module';
 import { CdnService } from '@app/services/cdn.service';
 import { ImageUploadComponent } from '@src/app/modules/image-upload/image-upload.module';
+import { ProjectsDisplayComponent } from '@src/app/modules/project/projects-display/projects-display.component';
 import { UIMessageService } from '@src/app/modules/ui-message/ui-message.module';
 import { UserSocialEdit } from '@src/app/modules/user/editable-social-button/editable-social-button.component';
 import { BackendService } from '@src/app/services/backend.service';
 import { SecurityService } from '@src/app/services/security.service';
 import { AuthService, RolesService } from '@src/app/services/_services.module';
-import { Permission, Project, ProjectFilterInput, RoleCode, UpdateUserInput, UploadOperation, UserFilterInput, UserSocial } from '@src/generated/graphql-endpoint.types';
+import { Permission, Project, RoleCode, UpdateUserInput, UploadOperation, UserSocial } from '@src/generated/graphql-endpoint.types';
+import { ProjectFilterInput, UserFilterInput } from '@src/generated/model.types';
 import { OperationSecurityDomain, RoleType } from '@src/shared/security';
 import { assertNoDuplicates } from '@src/shared/validation';
 import { SettingsService } from '@src/_settings';
@@ -66,6 +68,7 @@ export class UserPageComponent implements OnInit, OnDestroy {
 
   @ViewChild('avatarUpload') avatarUpload?: ImageUploadComponent;
   @ViewChild('bannerUpload') bannerUpload?: ImageUploadComponent;
+  @ViewChild(ProjectsDisplayComponent) projectsDisplay?: ProjectsDisplayComponent;
   
   rolesEdited: boolean = false;
   socialsEdited: boolean = false;
@@ -88,7 +91,6 @@ export class UserPageComponent implements OnInit, OnDestroy {
     private securityService: SecurityService,
     private uiMessageService: UIMessageService,
     private cdnService: CdnService,
-    private changeDetector: ChangeDetectorRef,
     private rolesService: RolesService,
     private settings: SettingsService,
     private router: Router,
@@ -110,6 +112,7 @@ export class UserPageComponent implements OnInit, OnDestroy {
   
   ngOnDestroy() {
     this.onDestroy$.next();
+    this.onDestroy$.complete();
   }
 
   private fetchData() {
@@ -193,7 +196,7 @@ export class UserPageComponent implements OnInit, OnDestroy {
 
       this.hasProjects = myUser.projectMembers.length > 0;
 
-      this.changeDetector.detectChanges();
+      this.projectsDisplay?.queryUntilFillPage();
     });
   }
   
@@ -342,7 +345,6 @@ export class UserPageComponent implements OnInit, OnDestroy {
   edit() {
     this.isEditing = true;
 
-    this.changeDetector.detectChanges();
     if (!this.avatarUpload || !this.bannerUpload)
       return;
     

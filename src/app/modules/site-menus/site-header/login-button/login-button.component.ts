@@ -40,6 +40,7 @@ export class LoginButtonComponent implements OnInit, OnDestroy {
   
   ngOnDestroy(): void {
     this.onDestroy$.next();
+    this.onDestroy$.complete();
   }
 
   onLoginClick() {

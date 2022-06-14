@@ -36,6 +36,7 @@ export class AppComponent implements OnDestroy {
 
   ngOnDestroy(): void {
     this.onDestroy$.next();
+    this.onDestroy$.complete();
   }
   
   updateStyleVars() {

@@ -7,23 +7,23 @@ export const Breakpoint = {
 export type Breakpoint = typeof Breakpoint[keyof typeof Breakpoint];
 
 export const BreakpointsData: {
-  query: string
+  maxWidth: string
   name: Breakpoint
 }[] = [
   {
     name: Breakpoint.TinyMobile,
-    query: "(max-width: 400px)",
+    maxWidth: "400px",
   },
   {
     name: Breakpoint.MediumMobile,
-    query: "(max-width: 700px)",
+    maxWidth: "700px",
   },
   {
     name: Breakpoint.Mobile,
-    query: "(max-width: 1180px)",
+    maxWidth: "1180px",
   },
   {
     name: Breakpoint.Desktop,
-    query: ""
+    maxWidth: ""
   },
 ];
