@@ -101,9 +101,19 @@ export class SettingsService {
     defaultCardImageSrc: string = "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png";
   }
   public Backend = new class {
-    public backendApiBaseLink: string = "localhost:8080";
-    public get backendApiHttpLink() { 
-      return "http://" + this.backendApiBaseLink;
+    public backendDomain: string = "localhost:8080";
+    public graphQLRelativePath = "/api/graphql";
+
+    public get backendHttpURL() {
+      return "http://" + this.backendDomain;
+    }
+
+    public get graphQLHttpURL() {
+      return "http://" + this.backendDomain + this.graphQLRelativePath;
+    }
+    
+    public get graphQLWsURL() {
+      return "ws://" + this.backendDomain + this.graphQLRelativePath;
     }
 
     public selfHostedPrefix = "cdn://";

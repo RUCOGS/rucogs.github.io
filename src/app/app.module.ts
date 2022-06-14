@@ -8,7 +8,6 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { MarkdownModule } from 'ngx-markdown';
 import { HttpClientModule } from '@angular/common/http';
-import { GraphQLModule } from './modules/graphql/graphql.module';
 import { IconModule } from '@visurel/iconify-angular';
 
 import { PagesModule } from './pages/pages.module';
@@ -30,8 +29,7 @@ import { ServicesModule } from './services/_services.module';
     ServicesModule,
     MarkdownModule.forRoot({
       sanitize: SecurityContext.NONE
-    }),
-    GraphQLModule
+    })
   ],
   providers: [],
   bootstrap: [AppComponent]

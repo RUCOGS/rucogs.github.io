@@ -40,6 +40,7 @@ export class TestPageComponent implements OnInit, OnDestroy {
   }
 
   testSubscription() {
+    this.backend.rebuildClient();
     this.backend.subscribe({
       query: gql`
         subscription TestSubscription($filter: TestSubscriptionFilter){
@@ -49,6 +50,9 @@ export class TestPageComponent implements OnInit, OnDestroy {
           }
         } 
       `,
+      context: {
+        thisIsInContext: "hey"
+      },
       variables: {
         filter: <TestSubscriptionFilter>{
           id: "joes",
