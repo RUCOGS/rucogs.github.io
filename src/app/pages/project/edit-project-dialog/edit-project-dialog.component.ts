@@ -164,7 +164,7 @@ export class EditProjectDialogComponent implements AfterViewInit {
           },
           error: (value) => {
             this.monitor.removeProcess();
-            this.exit(false);
+            this.uiMessageService.error("Error uploading data!");
           }
         });
     }

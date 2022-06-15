@@ -69,9 +69,6 @@ export class ProjectPageComponent implements OnInit {
 
   async fetchData(invalidateCache: boolean = false) {
     await this.security.fetchData();
-    
-    console.log("sec dom");
-    console.log(this.security.securityContext)
 
     const invitesOpDomain = this.security.getOpDomainFromPermission(
       Permission.ManageProjectInvites, 
@@ -236,30 +233,29 @@ export class ProjectPageComponent implements OnInit {
     }).pipe(takeUntil(this.onDestroy$))
     .subscribe({
       next: (value) => {
-        if (inviteSubFilter.projectId)
+        if (this.projectOptions.hasEditPerms)
           this.uiMessageService.notifyInfo("New invite!")
         this.fetchData(true);
       }
     });
 
-    // this.backend.subscribe<{
-    //   projectInviteDeleted: string
-    // }>({
-    //   query: gql`
-    //     subscription($filter: ProjectInviteSubscriptionFilter!) {
-    //       projectInviteDeleted(filter: $filter)
-    //     }
-    //   `,
-    //   variables: {
-    //     filter: inviteSubFilter
-    //   },
-    // }).pipe(takeUntil(this.onDestroy$))
-    // .subscribe({
-    //   next: (value) => {
-    //     if (inviteSubFilter.projectId)
-    //       this.uiMessageService.notifyInfo("Invite deleted!")
-    //     this.fetchData(true);
-    //   }
-    // });
+    this.backend.subscribe<{
+      projectInviteDeleted: string
+    }>({
+      query: gql`
+        subscription($filter: ProjectInviteSubscriptionFilter!) {
+          projectInviteDeleted(filter: $filter)
+        }
+      `,
+      variables: {
+        filter: inviteSubFilter
+      },
+    }).pipe(takeUntil(this.onDestroy$))
+    .subscribe({
+      next: (value) => {
+        this.uiMessageService.notifyInfo("Invite rejected!")
+        this.fetchData(true);
+      }
+    });
   }
 }

@@ -21,6 +21,7 @@ import { InvitesTabComponent } from './invites-tab/invites-tab.component';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatTableModule } from '@angular/material/table';
 import { FilteringModule } from '@src/app/modules/filtering/filtering.module';
+import { MatDialogModule } from '@angular/material/dialog';
 
 export { UserPageComponent };
 
@@ -50,7 +51,8 @@ export { UserPageComponent };
     RouterModule,
     MatTabsModule,
     MatTableModule,
-    FilteringModule
+    FilteringModule,
+    MatDialogModule
   ],
   exports: [
     UserPageComponent

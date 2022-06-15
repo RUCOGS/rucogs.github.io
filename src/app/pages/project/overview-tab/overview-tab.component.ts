@@ -143,7 +143,7 @@ export class OverviewTabComponent implements AfterViewChecked, OnChanges {
       data: <EditProjectDialogData>{
         project: this.project
       },
-      width: "600px"
+      width: "37.5em"
     });
     dialog.afterClosed()
       .pipe(first())

@@ -1,1 +1,112 @@
-<p>edit-user-dialog works!</p>
+<mat-dialog-content>
+  <form [formGroup]="form" style="
+    position: relative;
+  ">
+    <div style="
+      width: 100%;
+      height: 12.5em;
+      border-radius: 0.25em;
+      overflow: hidden;
+    ">
+      <app-image-upload #bannerUpload fileSizeLimit="10 MB"></app-image-upload>
+    </div>
+    <div style="
+      --size: 8em;
+      --offset: calc(var(--size) / 2);
+      --offset-left-over: calc(var(--size) - var(--offset));
+      position: relative;
+      height: var(--offset-left-over);
+      margin-bottom: 1em;
+    ">
+      <div style="
+        left: 2em;
+        top: calc(-1 * var(--offset));
+        position: absolute;
+        height: var(--size);
+        width: var(--size);
+        border-radius: 8em;
+        overflow: hidden;
+        outline: white solid 0.25em;
+      ">
+        <div style="
+          width: 100%;
+          height: 100%;
+          background-color: white;
+        ">
+          <app-image-upload #avatarUpload fileSizeLimit="5 MB" class="app-edit-user-dialog avatar"></app-image-upload>
+        </div>
+      </div>
+    </div>
+    <div style="
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap-reverse;
+      justify-content: left;
+      align-items: flex-end;
+      margin-bottom: 16px;
+      gap: 24px;
+    ">
+      <div style="
+        flex: 1;
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: 12px
+      ">
+        <mat-form-field appearance="outline" style="flex: 1;">
+          <mat-label>Display Name</mat-label>
+          <input matInput formControlName="displayName" [maxLength]="50">
+          <mat-hint align="end">{{form.get('displayName')?.value?.length || 0}}/50</mat-hint>
+          <mat-error *ngIf="form.get('displayName')?.hasError('required')">
+            Display name is required
+          </mat-error>
+        </mat-form-field>
+      </div>
+    </div>
+    <mat-form-field appearance="outline" style="width: 100%; line-height: 1.5em" class="no-padding">
+      <mat-label>Bio</mat-label>
+      <textarea matInput
+                cdkTextareaAutosize
+                cdkAutosizeMinRows="1"
+                cdkAutosizeMaxRows="5"
+                formControlName="bio"
+                [maxLength]="600"></textarea>
+      <mat-hint align="end">{{form.get('bio')?.value?.length || 0}}/600</mat-hint>
+      <mat-error *ngIf="form.get('bio')?.hasError('required')">
+        Bio is required
+      </mat-error>
+    </mat-form-field>
+    <div style="margin: 0 0 2em 0">
+      <div style="
+        display: flex;
+        align-items: center;
+        margin-bottom: 0.5em;
+      ">
+        <div style="margin-bottom: 0; flex-grow: 1;">Socials</div>
+        <button type="button" mat-stroked-button pill class="app-edit-user-dialog add-socials-button" (click)="onAddSocial()">
+          <mat-icon>add</mat-icon>
+          Add Social
+        </button>
+      </div>
+      <div style="
+        display: flex;
+        flex-direction: column;
+        gap: 0.5em;
+      ">
+        <div *ngIf="userSocialEdits.length == 0" class="text-disabled">Empty...</div>
+        <div *ngFor="let userSocialEdit of userSocialEdits; let i = index">
+          <app-editable-social-button [userSocialEdit]="userSocialEdit" (delete)="onDeleteSocial(i)" (edit)="onEditSocial()"></app-editable-social-button>
+        </div>
+      </div>
+    </div>
+    <div>
+      <app-role-codes-editor [roles]="roles" [allRoles]="acceptedRoles" (rolesEdited)="onEditRoles()" [disabledRoles]="['USER']" label="Roles"></app-role-codes-editor>
+    </div>
+  </form>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-stroked-button color="basic" pill (click)="exit()" [disabled]="monitor.isProcessing">Exit
+  </button>
+  <button mat-stroked-button color="basic" pill (click)="save()" [disabled]="monitor.isProcessing">Save
+  </button>
+</mat-dialog-actions>
