@@ -6,11 +6,10 @@ import { ProjectsDisplayComponent } from '@src/app/modules/project/project.modul
 import { UIMessageService } from '@src/app/modules/ui-message/ui-message.module';
 import { BackendService, CdnService, SecurityService } from '@src/app/services/_services.module';
 import { Project, RoleCode, User } from '@src/generated/graphql-endpoint.types';
-import { ProjectFilterInput, UserFilterInput } from '@src/generated/model.types';
+import { ProjectFilterInput } from '@src/generated/model.types';
 import { SettingsService } from '@src/_settings';
 import { gql } from 'apollo-angular';
 import ColorThief from 'colorthief';
-import { first } from 'rxjs/operators';
 import { PartialDeep } from 'type-fest';
 import { EditUserDialogComponent, EditUserDialogData } from '../edit-user-dialog/edit-user-dialog.component';
 import { DefaultUserOptions, UserOptions } from '../user-page/user-page.component';
@@ -64,8 +63,6 @@ export class OverviewTabComponent implements AfterViewChecked, OnChanges {
         this.roles = this.user.roles.map(x => x?.roleCode as RoleCode);
 
       this.projectsDisplay?.queryUntilFillPage();
-
-      console.log(this.userOptions.hasEditPerms);
     }
   }
   
@@ -93,37 +90,7 @@ export class OverviewTabComponent implements AfterViewChecked, OnChanges {
 
 
   async projectsQuery(filter: any, skip: number, limit: number): Promise<Partial<Project>[]> {
-    if (!this.userOptions.hasProjects)
-      return [];
-
-    const userOwnedProjectsResult = await this.backend.query<{
-      users: {
-        projectMembers: {
-          project: {
-            id: string
-          }
-        }[]
-      }[]
-    }>({
-      query: gql`
-        query($filter: UserFilterInput) {
-          users(filter: $filter) {
-            projectMembers {
-              project {
-                id
-              }
-            }
-          }
-        }
-      `,
-      variables: {
-        filter: <UserFilterInput>{
-          id: { eq: this.user.id }
-        }
-      }
-    }).toPromise();
-
-    if (userOwnedProjectsResult.error || !userOwnedProjectsResult)
+    if (!this.userOptions.hasProjects || !this.user.id || !this.user.projectMembers)
       return [];
 
     const result = await this.backend.query<{
@@ -170,13 +137,14 @@ export class OverviewTabComponent implements AfterViewChecked, OnChanges {
       limit,
       filter: <ProjectFilterInput>{
         ...filter,
-        id: { in: userOwnedProjectsResult.data.users[0].projectMembers.map(x => x.project.id) },
+        id: { in: this.user.projectMembers.map(x => x?.projectId) },
       }
     }
     }).toPromise();
-    
+
     if (result.error)
       return [];
+    
     
     return <Partial<Project>[]>result.data.projects;
   }
@@ -185,7 +153,8 @@ export class OverviewTabComponent implements AfterViewChecked, OnChanges {
     const result = await this.dialog.open(EditUserDialogComponent, {
       data: <EditUserDialogData>{
         user: this.user
-      }
+      },
+      width: "37.5em"
     }).afterClosed().toPromise();
     
     if (result)

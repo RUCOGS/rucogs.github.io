@@ -3,7 +3,9 @@
   border-radius: 8px;
   align-content: center;
   align-items: center;
-  padding: 1.5em;
+  padding: 1em;
+  padding-top: 3em;
+  position: relative;
 }
 
 .icon {

@@ -1,4 +1,4 @@
-import { Component, Inject, Input, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, Inject, Input, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ProcessMonitor } from '@src/app/classes/process-monitor';
@@ -25,7 +25,7 @@ export interface EditUserDialogData {
   templateUrl: './edit-user-dialog.component.html',
   styleUrls: ['./edit-user-dialog.component.css']
 })
-export class EditUserDialogComponent implements OnInit {
+export class EditUserDialogComponent implements AfterViewInit {
 
   user: PartialDeep<User> = {};
   // userOptions: UserOptions = DefaultUserOptions;
@@ -58,10 +58,11 @@ export class EditUserDialogComponent implements OnInit {
       displayName: [null, [Validators.required]],
       bio: [null, []]
     })
+    dialogRef.disableClose = true;
     this.user = data.user;
   }
 
-  async ngOnInit() {
+  async ngAfterViewInit() {
     if (!this.avatarUpload || !this.bannerUpload || !this.user.roles || !this.user.id)
       return;  
     
@@ -69,6 +70,7 @@ export class EditUserDialogComponent implements OnInit {
     formConfig.initControl('displayName', this.user.displayName);
     formConfig.initControl('bio', this.user.bio);
     
+    console.log(this.user);
     this.avatarUpload.init(this.cdn.getFileLink(this.user.avatarLink));
     this.bannerUpload.init(this.cdn.getFileLink(this.user.bannerLink));
     
@@ -86,8 +88,25 @@ export class EditUserDialogComponent implements OnInit {
     this.disabledRoles = await this.rolesService.getDisabledUserRoles();
   }
 
+  onEditSocial() {
+    this.socialsEdited = true;
+  }
+
+  onEditRoles() {
+    this.rolesEdited = true;
+  }
+
+  onAddSocial() {
+    this.userSocialEdits.push(new UserSocialEdit());
+  }
+
+  onDeleteSocial(index: number) {
+    this.userSocialEdits.splice(index, 1);
+  }
+
   // Don't save, revert changes
   exit(success: boolean = false) {
+    console.log("exit? is proc" + this.monitor.isProcessing)
     if (!this.monitor.isProcessing)
       this.dialogRef.close(success);
   }
@@ -119,7 +138,7 @@ export class EditUserDialogComponent implements OnInit {
         !this.validate()) {
       return;
     }
-    this.monitor.addProcess();
+
     const input = <UpdateUserInput>{
       id: this.user.id
     }
@@ -176,15 +195,16 @@ export class EditUserDialogComponent implements OnInit {
           }
         })
         .pipe(
-          first(), 
-          finalize(() => this.monitor.removeProcess())
+          first()
         )
         .subscribe({
           next: (value) => {
+            this.monitor.removeProcess();
             this.exit(true);
           },
           error: (error) => {
-            this.uiMessageService.error("Error in uploading data!");
+            this.monitor.removeProcess();
+            this.uiMessageService.error("Error uploading data!");
           }
         });
     }

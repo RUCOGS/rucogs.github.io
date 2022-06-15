@@ -73,6 +73,10 @@ export class UserPageComponent implements OnInit, OnDestroy {
         avatarLink: string
         bannerLink: string
         bio: string
+        projectMembers: {
+          id: string
+          projectId: string
+        }[]
         socials: {
           id: string
           link: string
@@ -93,6 +97,10 @@ export class UserPageComponent implements OnInit, OnDestroy {
             avatarLink
             bannerLink
             bio
+            projectMembers {
+              id
+              projectId
+            }
             socials {
               id
               link
@@ -123,6 +131,8 @@ export class UserPageComponent implements OnInit, OnDestroy {
     }
     const permCalc = this.security.makePermCalc().withDomain(userOpDomain);
     this.userOptions.hasEditPerms = permCalc.hasPermission(Permission.UpdateUser);
+
+    this.userOptions.hasProjects = (this.user.projectMembers?.length ?? 0) > 0;
 
     const invitesOpDomain = this.security.getOpDomainFromPermission(
       Permission.ManageProjectInvites, 
@@ -190,6 +200,7 @@ export class UserPageComponent implements OnInit, OnDestroy {
     }).pipe(takeUntil(this.onDestroy$))
     .subscribe({
       next: (value) => {
+        console.log("Got new invite " + value);
         if (inviteSubFilter.projectId)
           this.uiMessageService.notifyInfo("New invite!")
         this.fetchData(true);
