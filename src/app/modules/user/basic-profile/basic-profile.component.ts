@@ -17,6 +17,7 @@ export class BasicProfileComponent implements OnInit {
     displayName: "At Lynx"
   }
   @Input() clickable: boolean = true;
+  @Input() size = "medium";
 
   constructor(
     public cdnService: CdnService

@@ -1,4 +1,4 @@
-<div class="app-project-page main-bg">
+<div class="app-user-page main-bg">
   <mat-tab-group mat-align-tabs="center" backgroundColor="primary" [selectedIndex]="0">
     <mat-tab>
       <ng-template mat-tab-label>
@@ -6,23 +6,23 @@
         <div style="margin-left: 0.5em;" *ngIf="breakpointManager.matchedBreakpointOrAbove('MOBILE', 'key')">Overview</div>
       </ng-template>
       <app-overview-tab 
-        [project]="project"
-        [projectOptions]="projectOptions" 
+        [user]="user"
+        [userOptions]="userOptions" 
         (edited)="fetchData(true)">
       </app-overview-tab>
     </mat-tab>
-    <mat-tab *ngIf="projectOptions.isMember">
+    <mat-tab *ngIf="userOptions.hasEditPerms">
       <ng-template mat-tab-label>
-        <mat-icon>person</mat-icon>
-        <div style="margin-left: 0.5em;" *ngIf="breakpointManager.matchedBreakpointOrAbove('MOBILE')">Members</div>
+        <mat-icon>mail</mat-icon>
+        <div style="margin-left: 0.5em;" *ngIf="breakpointManager.matchedBreakpointOrAbove('MOBILE')">Invites</div>
       </ng-template>
-      <app-members-tab
-        [project]="project"
-        [projectOptions]="projectOptions" 
+      <app-invites-tab
+        [user]="user"
+        [userOptions]="userOptions" 
         (edited)="fetchData(true)">
-      </app-members-tab>
+      </app-invites-tab>
     </mat-tab>
-    <mat-tab *ngIf="projectOptions.hasEditPerms">
+    <mat-tab *ngIf="userOptions.hasEditPerms">
       <ng-template mat-tab-label>
         <mat-icon>settings</mat-icon>
         <div style="margin-left: 0.5em;" *ngIf="breakpointManager.matchedBreakpointOrAbove('MOBILE')">Settings</div>

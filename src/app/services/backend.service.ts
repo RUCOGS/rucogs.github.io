@@ -51,7 +51,6 @@ export class BackendService implements OnDestroy {
       .pipe(takeUntil(this.onDestroy$))
       .subscribe({
         next: (value) => {
-          console.log("auth updated, updating client")
           this.rebuildClient();
         }
       })
@@ -68,6 +67,7 @@ export class BackendService implements OnDestroy {
 
   public rebuildClient() {
     if (this.apollo.default().client) {
+      this.apollo.default().client.stop();
       this.apollo.default().client.clearStore();
       this.apollo.removeClient("default");
     }

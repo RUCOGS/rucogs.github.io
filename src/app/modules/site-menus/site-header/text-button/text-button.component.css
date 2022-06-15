@@ -5,7 +5,8 @@
 	text-decoration: none;
 	display: inline-block;
   white-space: nowrap;
-	height: 3.125em;
+	height: 2.5em;
+	font-size: 1.2em;
   width: 100%;
 	display: flex;  
   align-items: center;

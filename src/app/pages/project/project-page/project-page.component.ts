@@ -1,16 +1,17 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { UIMessageService } from '@src/app/modules/ui-message/ui-message.module';
 import { AuthService } from '@src/app/services/auth.service';
 import { BackendService } from '@src/app/services/backend.service';
 import { BreakpointManagerService } from '@src/app/services/breakpoint-manager.service';
 import { SecurityService } from '@src/app/services/security.service';
 import { deepClone } from '@src/app/utils/utils';
-import { Access, InviteType, Permission, Project, ProjectInvite, RoleCode } from '@src/generated/graphql-endpoint.types';
+import { Access, InviteType, Permission, Project, ProjectInvite, ProjectInviteSubscriptionFilter, RoleCode } from '@src/generated/graphql-endpoint.types';
 import { ProjectFilterInput, ProjectInviteFilterInput } from '@src/generated/model.types';
-import { BaseSecurityDomain, OperationSecurityDomain, SecurityDomain } from '@src/shared/security';
+import { OperationSecurityDomain } from '@src/shared/security';
 import { gql } from 'apollo-angular';
 import { Subject } from 'rxjs';
-import { first, takeUntil } from 'rxjs/operators';
+import { takeUntil } from 'rxjs/operators';
 import { PartialDeep } from 'type-fest';
 
 export const DefaultProjectOptions = {
@@ -26,9 +27,6 @@ export type ProjectOptions = {
   hasEditPerms: boolean
   inviteSent: boolean
 }
-
-export const CARD_IMAGE_FILE_SIZE_LIMIT_MB = 10;
-export const BANNER_FILE_SIZE_LIMIT_MB = 10;
 
 @Component({
   selector: 'app-project-page',
@@ -49,19 +47,18 @@ export class ProjectPageComponent implements OnInit {
     private backend: BackendService,
     private security: SecurityService,
     private authService: AuthService,
+    private uiMessageService: UIMessageService,
   ) {}
   
   ngOnInit() {
-    this.activatedRoute.paramMap.pipe(takeUntil(this.onDestroy$))
-      .subscribe(async (params) => {
+    this.activatedRoute.paramMap.pipe(takeUntil(this.onDestroy$)).subscribe(async (params) => {
       // TODO:      
       this.projectId = params.get('projectId') as string;
-      console.log("params")
-      console.log(params.keys);
 
       await this.security.waitUntilReady();
 
-      this.fetchData();
+      await this.fetchData(true);
+      this.setupSubscribers();
     });
   }
   
@@ -72,7 +69,10 @@ export class ProjectPageComponent implements OnInit {
 
   async fetchData(invalidateCache: boolean = false) {
     await this.security.fetchData();
-    // TODO LATER: Merge invite query into project query if https://github.com/twinlogix/typetta/discussions/252 get implemented
+    
+    console.log("sec dom");
+    console.log(this.security.securityContext)
+
     const invitesOpDomain = this.security.getOpDomainFromPermission(
       Permission.ManageProjectInvites, 
       [ 'projectInviteId' ]
@@ -111,8 +111,7 @@ export class ProjectPageComponent implements OnInit {
         }
       },
       ...(invalidateCache && { fetchPolicy: 'no-cache' })
-    })
-    .pipe(first()).toPromise() : undefined;
+    }).toPromise() : undefined;
 
     const projectOpDomain = <OperationSecurityDomain>{
       projectId: [ this.projectId ]
@@ -185,9 +184,8 @@ export class ProjectPageComponent implements OnInit {
         }
       },
       ...(invalidateCache && { fetchPolicy: 'no-cache' })
-    })
-    .pipe(first()).toPromise();
-    
+    }).toPromise();
+
     const [invitesResult, projectResult] = await Promise.all([invitesQuery, projectQuery]);
 
     if (projectResult.data.projects.length == 0) {
@@ -208,5 +206,60 @@ export class ProjectPageComponent implements OnInit {
 
     if (this.authService.authenticated)
       this.projectOptions.isMember = this.project.members?.some(x => x?.user?.id === this.authService.getPayload()?.user.id) ?? false;
+  }
+
+  setupSubscribers() {
+    if (!this.security.securityContext?.userId)
+      return;
+    
+    let inviteSubFilter = <ProjectInviteSubscriptionFilter>{
+      userId: this.security.securityContext.userId,
+      projectId: this.projectId
+    }
+    if (this.projectOptions.hasEditPerms) {
+      inviteSubFilter = {
+        projectId: this.projectId
+      }
+    }
+
+    this.backend.subscribe<{
+      projectInviteCreated: ProjectInvite
+    }>({
+      query: gql`
+        subscription($filter: ProjectInviteSubscriptionFilter!) {
+          projectInviteCreated(filter: $filter)
+        }
+      `,
+      variables: {
+        filter: inviteSubFilter
+      },
+    }).pipe(takeUntil(this.onDestroy$))
+    .subscribe({
+      next: (value) => {
+        if (inviteSubFilter.projectId)
+          this.uiMessageService.notifyInfo("New invite!")
+        this.fetchData(true);
+      }
+    });
+
+    // this.backend.subscribe<{
+    //   projectInviteDeleted: string
+    // }>({
+    //   query: gql`
+    //     subscription($filter: ProjectInviteSubscriptionFilter!) {
+    //       projectInviteDeleted(filter: $filter)
+    //     }
+    //   `,
+    //   variables: {
+    //     filter: inviteSubFilter
+    //   },
+    // }).pipe(takeUntil(this.onDestroy$))
+    // .subscribe({
+    //   next: (value) => {
+    //     if (inviteSubFilter.projectId)
+    //       this.uiMessageService.notifyInfo("Invite deleted!")
+    //     this.fetchData(true);
+    //   }
+    // });
   }
 }

@@ -1,5 +1,7 @@
-@use './user/user-page.component-theme' as user;
+@use './overview-tab/overview-tab.component-theme' as overview-tab;
+@use './user-page/user-page.component-theme' as user-page;
 
 @mixin theme($theme) {
-	@include user.theme($theme);
+	@include overview-tab.theme($theme);
+	@include user-page.theme($theme);
 }

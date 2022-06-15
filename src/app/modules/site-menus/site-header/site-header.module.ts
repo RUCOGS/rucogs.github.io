@@ -21,6 +21,7 @@ import { AvatarModule } from '@app/modules/avatar/avatar.module';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatBadgeModule } from '@angular/material/badge';
+import { TextButtonComponent } from './text-button/text-button.component';
 
 
 
@@ -33,6 +34,7 @@ import { MatBadgeModule } from '@angular/material/badge';
     HorizontalMenuComponent,
     SiteHeaderComponent,
     LoginButtonComponent,
+    TextButtonComponent,
   ],
   imports: [
     CommonModule,

@@ -3,8 +3,10 @@
 @use './horizontal-menu/horizontal-menu.component-theme' as horz-menu;
 @use './dark-mode-toggle/dark-mode-toggle.component-theme' as dark-mode-toggle;
 @use './header-social-media-buttons/header-social-media-buttons.component-theme' as header-social-buttons;
+@use './text-button/text-button.component-theme' as text-button;
 
 @mixin theme($theme) {
+	@include text-button.theme($theme);
 	@include cogs-button.theme($theme);
 	@include hamburger-menu.theme($theme);
 	@include horz-menu.theme($theme);

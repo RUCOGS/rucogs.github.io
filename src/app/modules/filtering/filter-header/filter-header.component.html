@@ -1,6 +1,6 @@
 
 <div>
-  <mat-form-field *ngIf="searchBar" style="width: 100%;" appearance="fill">
+  <mat-form-field *ngIf="searchBar" style="width: 100%;" appearance="outline">
     <mat-label>Search</mat-label>
     <input #searchInput type="search" matInput [(ngModel)]="searchText" (keydown.enter)="emitNewSearchRequest(searchText)">
     <button mat-icon-button matSuffix (click)="emitNewSearchRequest(searchText)">

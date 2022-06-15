@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { SOCIAL_PLATFORMS } from '@src/app/settings/_settings.module';
 import { UserSocial } from '@src/generated/graphql-endpoint.types';
+import { PartialDeep } from 'type-fest';
 
 @Component({
   selector: 'app-social-button',
@@ -9,7 +10,7 @@ import { UserSocial } from '@src/generated/graphql-endpoint.types';
 })
 export class SocialButtonComponent implements OnInit {
 
-  @Input() userSocial: Partial<UserSocial> | undefined;
+  @Input() userSocial: PartialDeep<UserSocial> | undefined;
 
   @Input() icon: string = "";
   @Input() username: string = "";

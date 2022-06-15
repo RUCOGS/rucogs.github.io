@@ -52,7 +52,7 @@ export class EditMemberDialogComponent implements OnInit {
 
   async ngOnInit() {
     if (!this.projectMember.roles)
-      return;
+      return;  
     
     const formConfig = new FormConfigurer(this.form);
     formConfig.initControl('contributions', this.projectMember.contributions);

@@ -31,6 +31,7 @@ import { EditMemberDialogComponent } from './edit-member-dialog/edit-member-dial
 import { RolesModule } from '@src/app/modules/roles/roles.module';
 import { InvitesTabComponent } from './invites-tab/invites-tab.component';
 import { MatTableModule } from '@angular/material/table';
+import { MatBadgeModule } from '@angular/material/badge';
 
 export { ProjectPageComponent };
 
@@ -71,6 +72,7 @@ export { ProjectPageComponent };
     MatTooltipModule,
     RolesModule,
     MatTableModule,
+    MatBadgeModule,
   ],
   exports: [
     ProjectPageComponent

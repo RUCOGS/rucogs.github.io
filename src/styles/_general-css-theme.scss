@@ -29,7 +29,13 @@
 		color: mat.get-color-from-palette($primary, 100);
 	}
 
-  .text-disabled {
-	  color: mat.get-color-from-palette($foreground, disabled-button)
-  }
+	.text {
+		&-disabled {
+			color: mat.get-color-from-palette($foreground, disabled-button) !important;
+		}
+
+		&-foreground {
+			color: mat.get-color-from-palette($foreground, text) !important;
+		}
+	}
 }

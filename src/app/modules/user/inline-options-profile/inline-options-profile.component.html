@@ -4,6 +4,8 @@
   flex-direction: row;
   gap: 0.5em;
   align-items: center;
+  overflow: hidden;
+  text-overflow: ellipsis;
 ">
   <app-avatar [avatarSrc]="cdn.getFileLink(user.avatarLink)" size="medium"></app-avatar>
   <div style="

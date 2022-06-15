@@ -9,13 +9,19 @@ import { ConfirmDialogComponent } from '../confirm-dialog/confirm-dialog.compone
 })
 export class UIMessageService {
 
+  perCharacterDuration = 500;
+
   constructor(
     private snackBar: MatSnackBar,
     private dialog: MatDialog,
   ) { }
   
+  notifyInfo(message: string) {
+    this.snackBar.open("❔ " + message, undefined, { duration: this.perCharacterDuration * message.length });
+  }
+
   notifyConfirmed(message: string) {
-    this.snackBar.open("✅ " + message, undefined, { duration: 100 * message.length });
+    this.snackBar.open("✅ " + message, undefined, { duration: this.perCharacterDuration * message.length });
   }
 
   error(error: Error | string) {
@@ -25,7 +31,7 @@ export class UIMessageService {
     else
       message = error;
     
-    this.snackBar.open("🛑 " + message, undefined, { duration: 100 * message.length });
+    this.snackBar.open("🛑 " + message, undefined, { duration: this.perCharacterDuration * message.length });
   }
 
   confirmDialog(message: string) {

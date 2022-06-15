@@ -69,8 +69,8 @@ export class EditProjectDialogComponent implements AfterViewInit {
     formConfig.initControl('pitch', this.project.pitch);
     formConfig.initControl('description', this.project.description);
 
-    this.cardImageUpload.init(this.cdnService.getFileLink(this.project.cardImageLink) ?? "");
-    this.bannerUpload.init(this.cdnService.getFileLink(this.project.bannerLink) ?? "");
+    this.cardImageUpload.init(this.cdnService.getFileLink(this.project.cardImageLink));
+    this.bannerUpload.init(this.cdnService.getFileLink(this.project.bannerLink));
   }
 
   exit(success: boolean = false) {

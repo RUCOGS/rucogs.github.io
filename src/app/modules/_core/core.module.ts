@@ -10,7 +10,6 @@ import { PageHeaderComponent } from './page-header/page-header.component';
 import { QuestionPanelComponent } from './question-panel/question-panel.component';
 import { SectionComponent } from './section/section.component';
 import { SubSectionComponent } from './sub-section/sub-section.component';
-import { TextButtonComponent } from './text-button/text-button.component';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatButtonModule } from '@angular/material/button';
@@ -35,7 +34,6 @@ import { BreakableStylesDirective } from './breakable-styles/breakable-styles.di
     QuestionPanelComponent,
     SectionComponent,
     SubSectionComponent,
-    TextButtonComponent,
     BreakableStylesDirective,
   ],
   imports: [
@@ -63,7 +61,6 @@ import { BreakableStylesDirective } from './breakable-styles/breakable-styles.di
     QuestionPanelComponent,
     SectionComponent,
     SubSectionComponent,
-    TextButtonComponent,
     BreakableStylesDirective
   ]
 })

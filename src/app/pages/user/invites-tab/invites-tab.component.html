@@ -1,15 +1,16 @@
-<div style="margin-top: 2em;" *ngIf="project.invites">
+<div style="margin-top: 2em;" *ngIf="user.projectInvites">
   <app-filter-header #membersFilter searchBar style="flex: 1;"></app-filter-header>
   <div style="display: flex; flex-direction: column; gap: 0.25em;">
   </div>
-  <table mat-table [dataSource]="project.invites" matSort class="mat-elevation-z8" style="width: 100%;">
+  <table mat-table [dataSource]="user.projectInvites" matSort class="mat-elevation-z8" style="width: 100%;">
     <!-- User Column -->
-    <ng-container matColumnDef="user">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by user">
-        User
+    <ng-container matColumnDef="project">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by project">
+        Project
       </th>
       <td mat-cell *matCellDef="let element" style="max-width: 100px; overflow: hidden;"> 
-        <app-inline-profile [user]="element.user"></app-inline-profile>
+        <!-- TODO: Make app-inline-project -->
+        <!-- <app-inline-profile [user]="element.user"></app-inline-profile> -->
       </td>
     </ng-container>
 
@@ -42,7 +43,7 @@
           display: flex;
           justify-content: right;
         ">
-          <button *ngIf="element.type === 'INCOMING'" mat-icon-button (click)="onAcceptInvite(element)" [disabled]="monitor.isProcessing">
+          <button *ngIf="element.type === 'OUTGOING'" mat-icon-button (click)="onAcceptInvite(element)" [disabled]="monitor.isProcessing">
             <mat-icon>check_circle</mat-icon>
           </button>
           <button mat-icon-button (click)="onRejectInvite(element)" [disabled]="monitor.isProcessing" style="margin-left: 0.5em;">
