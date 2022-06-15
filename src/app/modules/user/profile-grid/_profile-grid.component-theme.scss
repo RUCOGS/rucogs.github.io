@@ -4,19 +4,21 @@
 @use 'styles/variables' as variables;
 
 @mixin color($config) {
-  $misc: map.get($config, misc);
   $foreground: map.get($config, foreground);
   $background: map.get($config, background);
 
-  .app-basic-profile.container {
-		@media screen and (max-width: variables.$medium-mobile-width) {
-			font-size: 80%;
+  .app-profile-grid.grid {
+  	grid-template-columns: repeat(auto-fit, minmax(8.25em, 1fr));
+    @media screen and (max-width: variables.$medium-mobile-width) {
+	    grid-template-columns: repeat(auto-fit, minmax(calc(8.25em * 0.8), 1fr));
 		}
   }
 }
 
 @mixin typography($config) {
-
+  .app-social-button.social-button-name {
+    @include mat.typography-level($config, 'button');
+  }
 }
 
 @mixin theme($theme) {

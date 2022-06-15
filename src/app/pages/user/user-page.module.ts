@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { UserPageComponent } from './user/user-page.component';
+import { UserPageComponent } from './user-page/user-page.component';
 import { CoreModule } from '@src/app/modules/_core/core.module';
 import { ProjectModule } from '@src/app/modules/project/project.module';
 import { CardsModule } from '@src/app/modules/cards/cards.module';
@@ -15,13 +15,22 @@ import { UIMessageModule } from '@src/app/modules/ui-message/ui-message.module';
 import { ImageUploadModule } from '@src/app/modules/image-upload/image-upload.module';
 import { SettingsModule } from '@src/app/settings/_settings.module';
 import { RouterModule } from '@angular/router';
+import { OverviewTabComponent } from './overview-tab/overview-tab.component';
+import { EditUserDialogComponent } from './edit-user-dialog/edit-user-dialog.component';
+import { InvitesTabComponent } from './invites-tab/invites-tab.component';
+import { MatTabsModule } from '@angular/material/tabs';
+import { MatTableModule } from '@angular/material/table';
+import { FilteringModule } from '@src/app/modules/filtering/filtering.module';
 
 export { UserPageComponent };
 
 
 @NgModule({
   declarations: [
-    UserPageComponent
+    UserPageComponent,
+    OverviewTabComponent,
+    EditUserDialogComponent,
+    InvitesTabComponent
   ],
   imports: [
     CommonModule,
@@ -38,7 +47,10 @@ export { UserPageComponent };
     UIMessageModule,
     ImageUploadModule,
     SettingsModule,
-    RouterModule
+    RouterModule,
+    MatTabsModule,
+    MatTableModule,
+    FilteringModule
   ],
   exports: [
     UserPageComponent

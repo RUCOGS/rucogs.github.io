@@ -21,11 +21,8 @@
     }
   }
 
-  .app-cogs-logo-text-button.icon {
-	  height: 3em;
-    @media screen and (max-width: variables.$tiny-mobile-width) {
-      height: 2.25em;
-    }
+  .app-cogs-logo-text-button.button {
+	  font-size: 1em;
   }
 
 	// Technicaly recoloration of icon doesn't work right now
@@ -33,6 +30,7 @@
 	//
 	// See https://css-tricks.com/change-color-of-svg-on-hover/
   .app-cogs-logo-text-button.icon {
+	  height: 2.5em;
     & * {
       fill: mat.get-color-from-palette($primary, 500-contrast);
     }

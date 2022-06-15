@@ -34,8 +34,8 @@
   <mat-tab-group mat-align-tabs="center" mat-stretch-tabs [selectedIndex]="0">
     <mat-tab>
       <ng-template mat-tab-label>
-        <mat-icon style="margin-right: 0.5em">remove_red_eye</mat-icon>
-        <div *ngIf="breakpointManager.matchedBreakpointOrAbove('MOBILE', 'key')">Members</div>
+        <mat-icon>remove_red_eye</mat-icon>
+        <div style="margin-left: 0.5em;" *ngIf="breakpointManager.matchedBreakpointOrAbove('MOBILE', 'key')">Members</div>
       </ng-template>
       <div style="margin-top: 2em;">
         <app-filter-header #membersFilter searchBar></app-filter-header>
@@ -62,8 +62,14 @@
     </mat-tab>
     <mat-tab>
       <ng-template mat-tab-label>
-        <mat-icon style="margin-right: 0.5em">mail</mat-icon>
-        <div *ngIf="breakpointManager.matchedBreakpointOrAbove('MOBILE', 'key')">Invites</div>
+        <div [matBadge]="project?.invites?.length ?? 0 > 0 ? project?.invites?.length : undefined" matBadgeOverlap="false" style="
+          display: flex;
+          flex-direction: row;
+          gap: 0.5em;
+        ">
+          <mat-icon>mail</mat-icon>
+          <div *ngIf="breakpointManager.matchedBreakpointOrAbove('MOBILE', 'key')">Invites</div>
+        </div>
       </ng-template>
       <app-invites-tab [project]="project" [projectOptions]="projectOptions" (edited)="onInvitesEdited()"></app-invites-tab>
     </mat-tab>

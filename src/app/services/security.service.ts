@@ -57,7 +57,6 @@ export class SecurityService implements OnDestroy {
     .pipe(first(), takeUntil(this.onDestroy$));
 
     const result = await this.fetchQuery.toPromise();
-
     if (result.error)
       return;
 

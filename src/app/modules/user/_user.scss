@@ -2,8 +2,10 @@
 @use './editable-social-button/editable-social-button.component-theme' as editable-social-button;
 @use './social-button/social-button.component-theme' as social-button;
 @use './user-input/user-input.component-theme' as user-input;
+@use './profile-grid/profile-grid.component-theme' as profile-grid;
 
 @mixin theme($theme) {
+	@include profile-grid.theme($theme);
 	@include basic-profile.theme($theme);
 	@include editable-social-button.theme($theme);
 	@include social-button.theme($theme);

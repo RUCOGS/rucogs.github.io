@@ -8,6 +8,11 @@ import { AvatarModule } from '../avatar/avatar.module';
 import { TagsModule } from '../tags/tags.module';
 import { RouterModule } from '@angular/router';
 import { SettingsModule } from '@src/app/settings/_settings.module';
+import { InlineProjectItemComponent } from './inline-project-item/inline-project-item.component';
+
+export { ProjectsDisplayComponent };
+export { ProjectItemComponent };
+export { InlineProjectItemComponent };
 
 
 
@@ -15,6 +20,7 @@ import { SettingsModule } from '@src/app/settings/_settings.module';
   declarations: [
     ProjectItemComponent,
     ProjectsDisplayComponent,
+    InlineProjectItemComponent,
   ],
   imports: [
     CommonModule,

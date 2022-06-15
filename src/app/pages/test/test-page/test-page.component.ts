@@ -28,7 +28,6 @@ export class TestPageComponent implements OnInit, OnDestroy {
   }
 
   async triggerTestSubscription() {
-    console.log("Trigger start");
     await this.backend.mutate({
       mutation: gql`
         mutation TriggerTestSubscription {
@@ -36,7 +35,6 @@ export class TestPageComponent implements OnInit, OnDestroy {
         }
       `
     }).toPromise();
-    console.log("Trigger end!");
   }
 
   testSubscription() {
@@ -62,11 +60,8 @@ export class TestPageComponent implements OnInit, OnDestroy {
     }).pipe(takeUntil(this.onDestroy$))
     .subscribe({
       next: (value) => {
-        console.log("Sub got obj:");
-        console.log(value.data);
       }
     });
-    console.log("Test subscription subscribed!");
   }
 
 }

@@ -5,41 +5,43 @@ Login
   <app-avatar size="input" border-width="0px" clickable-style [avatarSrc]="cdn.getFileLink(user?.avatarLink)"></app-avatar>
 </div>
 <mat-menu #menu="matMenu">
-  <div style="
-    padding: 1em;
-    width: 200px;
-    display: flex;
-    flex-direction: column;
-    gap: 0.5em;
-    align-items: center;
-  " (click)="$event.stopPropagation();">
-    <app-avatar size="medium" [avatarSrc]="cdn.getFileLink(user?.avatarLink)"></app-avatar>
+  <div class="menu">
     <div style="
+      padding: 1em;
+      width: 12.5em;
       display: flex;
       flex-direction: column;
+      gap: 0.5em;
       align-items: center;
-    ">
-      <h4 class="mb-0">{{user?.displayName}}</h4>
-      <p class="mb-0">@{{user?.username}}</p>
+    " (click)="$event.stopPropagation();">
+      <app-avatar size="medium" [avatarSrc]="cdn.getFileLink(user?.avatarLink)"></app-avatar>
+      <div style="
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      ">
+        <h4 class="mb-0">{{user?.displayName}}</h4>
+        <p class="mb-0">@{{user?.username}}</p>
+      </div>
+      <button mat-flat-button color="primary" pill (click)="onLogoutClick()">Logout</button>
     </div>
-    <button mat-flat-button color="primary" pill (click)="onLogoutClick()">Logout</button>
+    <mat-divider></mat-divider>
+    <button mat-menu-item (click)="onProfileClick()">
+      <mat-icon>person</mat-icon>
+      <span>Profile</span>
+    </button>
+    <button mat-menu-item (click)="onCreateProjectClick()">
+      <mat-icon>add</mat-icon>
+      <span>Create Project</span>
+    </button>
+    <button mat-menu-item>
+      <mat-icon>mail</mat-icon>
+      <span>Invites</span>
+    </button>
+    <!-- <mat-divider></mat-divider>
+    <button mat-menu-item>
+      <mat-icon>settings</mat-icon>
+      <span>Settings</span>
+    </button> -->
   </div>
-  <mat-divider></mat-divider>
-  <button mat-menu-item (click)="onProfileClick()">
-    <mat-icon>person</mat-icon>
-    <span>Profile</span>
-  </button>
-  <button mat-menu-item (click)="onCreateProjectClick()">
-    <mat-icon>add</mat-icon>
-    <span>Create Project</span>
-  </button>
-  <button mat-menu-item>
-    <mat-icon>mail</mat-icon>
-    <span>Invites</span>
-  </button>
-  <!-- <mat-divider></mat-divider>
-  <button mat-menu-item>
-    <mat-icon>settings</mat-icon>
-    <span>Settings</span>
-  </button> -->
 </mat-menu>

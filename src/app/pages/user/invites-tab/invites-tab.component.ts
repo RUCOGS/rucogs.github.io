@@ -1,14 +1,13 @@
-import { Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnDestroy, Output, SimpleChanges } from '@angular/core';
 import { ProcessMonitor } from '@src/app/classes/process-monitor';
 import { BackendService } from '@src/app/services/backend.service';
 import { BreakpointManagerService } from '@src/app/services/breakpoint-manager.service';
 import { deepClone } from '@src/app/utils/utils';
-import { Project, ProjectInvite, ProjectInviteSubscriptionFilter } from '@src/generated/graphql-endpoint.types';
+import { ProjectInvite, User } from '@src/generated/graphql-endpoint.types';
 import { gql } from 'apollo-angular';
 import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
 import { PartialDeep } from 'type-fest';
-import { DefaultProjectOptions, ProjectOptions } from '../project-page/project-page.component';
+import { DefaultUserOptions, UserOptions } from '../user-page/user-page.component';
 
 @Component({
   selector: 'app-invites-tab',
@@ -19,11 +18,11 @@ export class InvitesTabComponent implements OnChanges, OnDestroy {
 
   @Output() edited = new EventEmitter();
 
-  @Input() project: PartialDeep<Project> = {};
-  @Input() projectOptions: ProjectOptions = DefaultProjectOptions;
+  @Input() user: PartialDeep<User> = {};
+  @Input() userOptions: UserOptions = DefaultUserOptions;
 
   monitor = new ProcessMonitor();
-  displayedColumns: string[] = ['user', 'type', 'buttons'];
+  displayedColumns: string[] = ['project', 'type', 'buttons'];
   filteredInvites: PartialDeep<ProjectInvite>[] = [];
 
   protected onDestroy$ = new Subject();
@@ -41,16 +40,16 @@ export class InvitesTabComponent implements OnChanges, OnDestroy {
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['project']) {
       this.monitor.removeProcess();
-      if (this.project.invites)
-        this.filteredInvites = deepClone(this.project.invites) as PartialDeep<ProjectInvite>[];
+      if (this.user.projectInvites)
+        this.filteredInvites = deepClone(this.user.projectInvites) as PartialDeep<ProjectInvite>[];
     }
   }
   
   onNewSearchRequest(searchText: string) {
     if (searchText === "") {
-      this.filteredInvites = deepClone(this.project.invites) as PartialDeep<ProjectInvite>[];
+      this.filteredInvites = deepClone(this.user.projectInvites) as PartialDeep<ProjectInvite>[];
     } else {
-      this.filteredInvites = (this.project.invites as PartialDeep<ProjectInvite>[])!.filter(x => x.user!.username!.indexOf(searchText) > -1);
+      this.filteredInvites = (this.user.projectInvites as PartialDeep<ProjectInvite>[])!.filter(x => x.user!.username!.indexOf(searchText) > -1);
       this.filteredInvites = this.filteredInvites.sort((a, b) => { return b.user!.username!.indexOf(searchText) - a.user!.username!.indexOf(searchText); });
     }
   }
