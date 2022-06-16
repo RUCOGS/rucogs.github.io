@@ -61,7 +61,7 @@ export class ProjectsDisplayComponent implements AfterViewInit, OnDestroy {
   async queryUntilFillPage(filter: ProjectFilterInput | undefined = undefined) {
     if (this.fillingPage)
       return;
-    console.log("Querying " + this.currentPage + " " + this.projectsPerPage);
+      
     this.fillingPage = true;
     let resultsLength: number = 0;
     this.scrollService.updateScrollData();

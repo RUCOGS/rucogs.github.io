@@ -29,9 +29,10 @@ export { InlineProjectItemComponent };
     AvatarModule,
     TagsModule,
     RouterModule,
-    SettingsModule
+    SettingsModule,
   ],
   exports: [
+    InlineProjectItemComponent,
     ProjectItemComponent,
     ProjectsDisplayComponent
   ]

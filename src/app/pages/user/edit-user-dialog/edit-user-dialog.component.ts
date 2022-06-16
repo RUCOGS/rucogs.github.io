@@ -70,7 +70,6 @@ export class EditUserDialogComponent implements AfterViewInit {
     formConfig.initControl('displayName', this.user.displayName);
     formConfig.initControl('bio', this.user.bio);
     
-    console.log(this.user);
     this.avatarUpload.init(this.cdn.getFileLink(this.user.avatarLink));
     this.bannerUpload.init(this.cdn.getFileLink(this.user.bannerLink));
     
@@ -106,7 +105,6 @@ export class EditUserDialogComponent implements AfterViewInit {
 
   // Don't save, revert changes
   exit(success: boolean = false) {
-    console.log("exit? is proc" + this.monitor.isProcessing)
     if (!this.monitor.isProcessing)
       this.dialogRef.close(success);
   }

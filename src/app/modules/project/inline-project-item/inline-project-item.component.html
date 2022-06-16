@@ -1,1 +1,8 @@
-<p>inline-project-item works!</p>
+<div style="
+  display: flex;
+  align-items: center;
+  gap: 0.5em;
+">
+  <app-avatar size="input" square [avatarSrc]="cdn.getFileLink(project.cardImageLink)"></app-avatar>
+  <div>{{project.name}}</div>
+</div>

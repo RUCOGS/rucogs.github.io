@@ -1,5 +1,5 @@
 <mat-dialog-content>
-  <form [formGroup]="form" enctype="multipart/form-data" style="
+  <form [formGroup]="form" style="
     position: relative;
   ">
     <div style="
@@ -26,13 +26,13 @@
         width: var(--size);
         border-radius: 1em;
         overflow: hidden;
-        outline: white solid 0.25em;
-      ">
+        outline-style: solid;
+        outline-width: 0.25em;
+      " class="outline-color-card">
         <div style="
           width: 100%;
           height: 100%;
-          background-color: white;
-        ">
+        " class="background-color-card">
           <app-image-upload #cardImageUpload fileSizeLimit="5 MB" class="app-edit-project-dialog card-image"></app-image-upload>
         </div>
       </div>

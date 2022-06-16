@@ -7,19 +7,21 @@
   $foreground: map.get($config, foreground);
   $background: map.get($config, background);
   
-  .app-overview-tab.banner-container,
-  .app-overview-tab.card-image-container {
-    background-color: mat.get-color-from-palette($background, background);
-  }
+  .project-page.overview-tab {
+    &.banner-container,
+    &.card-image-container {
+      background-color: mat.get-color-from-palette($background, background);
+    }
 
-  .app-overview-tab.card-image-container {
-    outline-color: mat.get-color-from-palette($background, background);
-  }
+    &.card-image-container {
+      outline-color: mat.get-color-from-palette($background, background);
+    }
 
-  .app-overview-tab.edit-banner-button, 
-  .app-overview-tab.edit-card-image-button {
-    border-color: mat.get-color-from-palette($misc, light) !important;
-    color: mat.get-color-from-palette($misc, light) !important;
+    &.edit-banner-button, 
+    &.edit-card-image-button {
+      border-color: mat.get-color-from-palette($misc, light) !important;
+      color: mat.get-color-from-palette($misc, light) !important;
+    }
   }
 }
 

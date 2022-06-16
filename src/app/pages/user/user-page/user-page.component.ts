@@ -53,7 +53,7 @@ export class UserPageComponent implements OnInit, OnDestroy {
       await this.security.waitUntilReady();
 
       await this.fetchData(true);
-      // this.setupSubscribers();
+      this.setupSubscribers();
     });
   }
   
@@ -125,14 +125,14 @@ export class UserPageComponent implements OnInit, OnDestroy {
       this.userOptions.nonExistent = true;
       return;
     }
-    this.user = deepClone(userResult.data.users[0]);
+    const user: PartialDeep<User> = deepClone(userResult.data.users[0]);
     const userOpDomain = <OperationSecurityDomain>{
-      userId: [ this.user.id ]
+      userId: [ user.id ]
     }
     const permCalc = this.security.makePermCalc().withDomain(userOpDomain);
     this.userOptions.hasEditPerms = permCalc.hasPermission(Permission.UpdateUser);
 
-    this.userOptions.hasProjects = (this.user.projectMembers?.length ?? 0) > 0;
+    this.userOptions.hasProjects = (user.projectMembers?.length ?? 0) > 0;
 
     const invitesOpDomain = this.security.getOpDomainFromPermission(
       Permission.ManageProjectInvites, 
@@ -166,15 +166,18 @@ export class UserPageComponent implements OnInit, OnDestroy {
       `,
       variables: {
         filter: <ProjectInviteFilterInput>{
-          projectId: { eq: this.user.id }
+          userId: { eq: user.id }
         }
       },
       ...(invalidateCache && { fetchPolicy: 'no-cache' })
     }).toPromise() : undefined;
 
     if (invitesResult && !invitesResult.error) {
-      this.user.projectInvites = invitesResult.data.projectInvites;
+      user.projectInvites = invitesResult.data.projectInvites;
     }
+
+    // Set user last to let angular propagate it.
+    this.user = user;
   }
 
   setupSubscribers() {
@@ -200,7 +203,6 @@ export class UserPageComponent implements OnInit, OnDestroy {
     }).pipe(takeUntil(this.onDestroy$))
     .subscribe({
       next: (value) => {
-        console.log("Got new invite " + value);
         if (inviteSubFilter.projectId)
           this.uiMessageService.notifyInfo("New invite!")
         this.fetchData(true);

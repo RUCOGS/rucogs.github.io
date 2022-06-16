@@ -71,6 +71,8 @@ export class EditProjectDialogComponent implements AfterViewInit {
 
     this.cardImageUpload.init(this.cdnService.getFileLink(this.project.cardImageLink));
     this.bannerUpload.init(this.cdnService.getFileLink(this.project.bannerLink));
+
+    this.changeDetector.detectChanges();
   }
 
   exit(success: boolean = false) {
