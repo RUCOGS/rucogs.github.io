@@ -11,9 +11,11 @@ import { PartialDeep } from 'type-fest';
 export class InlineProfileComponent implements OnInit {
 
   @Input() user: PartialDeep<User> = {};
+  @Input() clickable: boolean = false;
+  @Input() link = "";
 
   constructor(
-    public cdn: CdnService
+    public cdn: CdnService,
   ) { }
 
   ngOnInit(): void {

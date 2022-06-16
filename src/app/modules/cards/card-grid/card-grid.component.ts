@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ContentChildren, ElementRef, HostBinding, Input, OnDestroy, OnInit, QueryList } from '@angular/core';
+import { AfterContentInit, AfterViewChecked, AfterViewInit, ChangeDetectorRef, Component, ContentChildren, ElementRef, HostBinding, Input, OnDestroy, OnInit, QueryList } from '@angular/core';
 import { CssLengthService } from '@src/app/services/css-length.service';
 
 @Component({
@@ -6,7 +6,7 @@ import { CssLengthService } from '@src/app/services/css-length.service';
   templateUrl: './card-grid.component.html',
   styleUrls: ['./card-grid.component.css']
 })
-export class CardGridComponent implements OnInit, AfterViewInit, OnDestroy {
+export class CardGridComponent implements AfterViewInit, OnDestroy {
   
   @Input('column-width') columnWidth: string = "250px";
   @Input() columns: string = "auto-fit";
@@ -19,18 +19,21 @@ export class CardGridComponent implements OnInit, AfterViewInit, OnDestroy {
   constructor(
     private elementRef: ElementRef,
     private cssLength: CssLengthService,
+    private changeDetector: ChangeDetectorRef,
   ) { 
     this.observer = new MutationObserver(mutations => {    
       this.updateGridTemplateColumns();
     });
   }
 
+  ngAfterViewInit(): void {
+    this.observer.observe(this.elementRef.nativeElement, {
+      childList: true
+    });
+  }
+
   ngOnDestroy(): void {
     this.observer.disconnect();
-  }
-  
-  ngOnInit(): void {
-    this.updateGridTemplateColumns();
   }
 
   updateGridTemplateColumns() {
@@ -45,11 +48,5 @@ export class CardGridComponent implements OnInit, AfterViewInit, OnDestroy {
       this.gridTemplateColumns = `repeat( ${this.columns} )`;
     else
       this.gridTemplateColumns = `repeat( ${this.columns}, ` + (autofit ? `minmax(${this.columnWidth}, 1fr)` : this.columnWidth) + ` )`;
-  }
-
-  ngAfterViewInit(): void {
-    this.observer.observe(this.elementRef.nativeElement, {
-      childList: true
-    });
   }
 }

@@ -1,0 +1,7 @@
+.clickable {
+	transition: transform .1s ease-out;
+}
+
+.clickable:hover {
+	transform: scale(1.10);
+}

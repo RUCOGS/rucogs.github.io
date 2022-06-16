@@ -2,7 +2,7 @@
   <app-filter-header #membersFilter searchBar style="flex: 1;" (newSearchRequest$)="onNewSearchRequest"></app-filter-header>
   <div style="display: flex; flex-direction: column; gap: 0.25em;">
   </div>
-  <table mat-table [dataSource]="filteredInvites" matSort class="mat-elevation-z8" style="width: 100%;">
+  <table mat-table [dataSource]="filteredInvites" matSort class="mat-elevation-z8" style="width: 100%;" matSort (matSortChange)="sortData($event)">
     <!-- User Column -->
     <ng-container matColumnDef="user">
       <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by user">

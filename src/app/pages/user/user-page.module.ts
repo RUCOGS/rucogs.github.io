@@ -14,7 +14,7 @@ import { MatInputModule } from '@angular/material/input';
 import { UIMessageModule } from '@src/app/modules/ui-message/ui-message.module';
 import { ImageUploadModule } from '@src/app/modules/image-upload/image-upload.module';
 import { SettingsModule } from '@src/app/settings/_settings.module';
-import { RouterModule } from '@angular/router';
+import { Route, RouterModule } from '@angular/router';
 import { OverviewTabComponent } from './overview-tab/overview-tab.component';
 import { EditUserDialogComponent } from './edit-user-dialog/edit-user-dialog.component';
 import { InvitesTabComponent } from './invites-tab/invites-tab.component';
@@ -22,18 +22,25 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { MatTableModule } from '@angular/material/table';
 import { FilteringModule } from '@src/app/modules/filtering/filtering.module';
 import { MatDialogModule } from '@angular/material/dialog';
+import { SettingsTabComponent } from './settings-tab/settings-tab.component';
 
 export { UserPageComponent };
 
+
+const ROUTES: Route[] = [
+  { path: "**", component: UserPageComponent }
+];
 
 @NgModule({
   declarations: [
     UserPageComponent,
     OverviewTabComponent,
     EditUserDialogComponent,
-    InvitesTabComponent
+    InvitesTabComponent,
+    SettingsTabComponent
   ],
   imports: [
+    RouterModule.forChild(ROUTES),
     CommonModule,
     CoreModule,
     ProjectModule,

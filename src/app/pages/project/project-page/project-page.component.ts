@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { UIMessageService } from '@src/app/modules/ui-message/ui-message.module';
 import { AuthService } from '@src/app/services/auth.service';
@@ -6,7 +6,7 @@ import { BackendService } from '@src/app/services/backend.service';
 import { BreakpointManagerService } from '@src/app/services/breakpoint-manager.service';
 import { SecurityService } from '@src/app/services/security.service';
 import { deepClone } from '@src/app/utils/utils';
-import { Access, InviteType, Permission, Project, ProjectInvite, ProjectInviteSubscriptionFilter, RoleCode } from '@src/generated/graphql-endpoint.types';
+import { Access, InviteType, Permission, Project, ProjectInvite, ProjectInviteSubscriptionFilter, ProjectMemberSubscriptionFilter, RoleCode } from '@src/generated/graphql-endpoint.types';
 import { ProjectFilterInput, ProjectInviteFilterInput } from '@src/generated/model.types';
 import { OperationSecurityDomain } from '@src/shared/security';
 import { gql } from 'apollo-angular';
@@ -223,7 +223,7 @@ export class ProjectPageComponent implements OnInit {
       projectInviteCreated: ProjectInvite
     }>({
       query: gql`
-        subscription($filter: ProjectInviteSubscriptionFilter!) {
+        subscription OnProjectInviteCreated($filter: ProjectInviteSubscriptionFilter!) {
           projectInviteCreated(filter: $filter)
         }
       `,
@@ -243,7 +243,7 @@ export class ProjectPageComponent implements OnInit {
       projectInviteDeleted: string
     }>({
       query: gql`
-        subscription($filter: ProjectInviteSubscriptionFilter!) {
+        subscription OnProjectInviteDeleted($filter: ProjectInviteSubscriptionFilter!) {
           projectInviteDeleted(filter: $filter)
         }
       `,
@@ -252,9 +252,60 @@ export class ProjectPageComponent implements OnInit {
       },
     }).pipe(takeUntil(this.onDestroy$))
     .subscribe({
-      next: (value) => {
-        this.uiMessageService.notifyInfo("Invite rejected!")
-        this.fetchData(true);
+      next: async (value) => {
+        const deletedInvite = this.project.invites?.find(x => x?.id === value.data?.projectInviteDeleted);
+        await this.fetchData(true);
+        if (this.project.members?.some(x => x?.user?.id === deletedInvite?.user?.id))
+          this.uiMessageService.notifyInfo("Invite accepted!")
+        else
+          this.uiMessageService.notifyInfo("Invite rejected!")
+      }
+    });
+
+    this.backend.subscribe<{
+      projectMemberDeleted: string
+    }>({
+      query: gql`
+        subscription OnProjectMemberDeleted($filter: ProjectMemberSubscriptionFilter!) {
+          projectMemberDeleted(filter: $filter)
+        }
+      `,
+      variables: {
+        filter: <ProjectMemberSubscriptionFilter>{
+          projectId: this.projectId
+        }
+      },
+    }).pipe(takeUntil(this.onDestroy$))
+    .subscribe({
+      next: async (value) => {
+        const deletedMember = this.project.members?.find(x => x?.id === value.data?.projectMemberDeleted);
+        if (deletedMember?.user?.id === this.security.securityContext?.userId)
+          this.uiMessageService.notifyInfo("You were kicked!");
+        else
+          this.uiMessageService.notifyInfo("Member kicked!");
+        await this.fetchData(true);
+      }
+    });
+
+    this.backend.subscribe<{
+      projectMemberCreated: string
+    }>({
+      query: gql`
+        subscription OnProjectMemberCreated($filter: ProjectMemberSubscriptionFilter!) {
+          projectMemberCreated(filter: $filter)
+        }
+      `,
+      variables: {
+        filter: <ProjectMemberSubscriptionFilter>{
+          projectId: this.projectId
+        }
+      },
+    }).pipe(takeUntil(this.onDestroy$))
+    .subscribe({
+      next: async (value) => {
+        if (this.projectOptions.hasEditPerms)
+          this.uiMessageService.notifyInfo("Member added!");
+        await this.fetchData(true);
       }
     });
   }
