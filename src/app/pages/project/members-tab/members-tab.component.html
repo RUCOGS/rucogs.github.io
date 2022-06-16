@@ -60,7 +60,7 @@
         </div>
       </div>
     </mat-tab>
-    <mat-tab>
+    <mat-tab *ngIf="projectOptions.hasEditPerms">
       <ng-template mat-tab-label>
         <div [matBadge]="project?.invites?.length ?? 0 > 0 ? project?.invites?.length : undefined" matBadgeOverlap="false" style="
           display: flex;
