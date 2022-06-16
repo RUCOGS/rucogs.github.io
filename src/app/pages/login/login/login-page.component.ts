@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Form, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Form, UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '@app/services/auth.service';
 import { TokenStorageService } from '@app/services/token-storage.service';
@@ -13,15 +13,15 @@ import { first, takeUntil } from 'rxjs/operators';
 })
 export class LoginPageComponent implements OnDestroy {
 
-  form: FormGroup;
+  form: UntypedFormGroup;
   hide: boolean = true;
   errorMessage: string = "";
   isLoginFailed: boolean = false;
 
-  private onDestroy$ = new Subject<void>();
+  protected onDestroy$ = new Subject<void>();
 
   constructor(
-    formBuilder: FormBuilder, 
+    formBuilder: UntypedFormBuilder, 
     private authService: AuthService, 
     private router: Router) {
     this.form = formBuilder.group({

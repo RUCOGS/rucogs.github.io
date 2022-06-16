@@ -10,7 +10,7 @@ import { Access, InviteType, Permission, Project, ProjectInvite, ProjectInviteSu
 import { ProjectFilterInput, ProjectInviteFilterInput } from '@src/generated/model.types';
 import { OperationSecurityDomain } from '@src/shared/security';
 import { gql } from 'apollo-angular';
-import { Subject } from 'rxjs';
+import { firstValueFrom, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { PartialDeep } from 'type-fest';
 
@@ -39,7 +39,7 @@ export class ProjectPageComponent implements OnInit {
   projectOptions: ProjectOptions = DefaultProjectOptions;
   
   private projectId: string = "";
-  private onDestroy$ = new Subject<void>();
+  protected onDestroy$ = new Subject<void>();
 
   constructor(
     public breakpointManager: BreakpointManagerService,
@@ -74,7 +74,7 @@ export class ProjectPageComponent implements OnInit {
       Permission.ManageProjectInvites, 
       [ 'projectInviteId' ]
     );
-    const invitesQuery = this.security.securityContext ? this.backend.withAuth()
+    const invitesQuery = this.security.securityContext ? firstValueFrom(this.backend.withAuth()
     .withOpDomain(invitesOpDomain)
     .query<{
       projectInvites: {
@@ -108,14 +108,14 @@ export class ProjectPageComponent implements OnInit {
         }
       },
       ...(invalidateCache && { fetchPolicy: 'no-cache' })
-    }).toPromise() : undefined;
+    })) : undefined;
 
     const projectOpDomain = <OperationSecurityDomain>{
       projectId: [ this.projectId ]
     }
     const permCalc = this.security.makePermCalc().withDomain(projectOpDomain);
     this.projectOptions.hasEditPerms = permCalc.hasPermission(Permission.UpdateProject);
-    const projectQuery = this.backend.withAuth().withOpDomain({
+    const projectQuery = firstValueFrom(this.backend.withAuth().withOpDomain({
       projectId: [ this.projectId ]
     }).query<{
       projects: {
@@ -181,7 +181,7 @@ export class ProjectPageComponent implements OnInit {
         }
       },
       ...(invalidateCache && { fetchPolicy: 'no-cache' })
-    }).toPromise();
+    }));
 
     const [invitesResult, projectResult] = await Promise.all([invitesQuery, projectQuery]);
 

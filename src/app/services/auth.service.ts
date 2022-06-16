@@ -5,7 +5,7 @@ import { User } from '@src/generated/graphql-endpoint.types';
 import { EntityManagerMetadata, SecurityContext } from '@src/shared/security';
 import { SettingsService } from '@src/_settings';
 import { Apollo, gql } from 'apollo-angular';
-import { BehaviorSubject, Observable, Subject } from 'rxjs';
+import { BehaviorSubject, firstValueFrom, Observable, Subject } from 'rxjs';
 import { first, takeUntil } from 'rxjs/operators';
 import { HttpLink } from 'apollo-angular/http';
 import { InMemoryCache } from '@apollo/client/core';
@@ -38,7 +38,7 @@ export class AuthService implements OnDestroy {
     return this.settings.Backend.backendHttpURL + "/auth/thirdparty/";
   }
 
-  private onDestroy$ = new Subject<boolean>();
+  protected onDestroy$ = new Subject<void>();
 
   constructor(
     private apollo: Apollo,
@@ -70,7 +70,7 @@ export class AuthService implements OnDestroy {
     // Validate current auth
     // TODO: Write a dedicated endpoint for verifying. Sending over entire
     // security context is overkill.
-    const result = await this.apollo.use("auth").query<{
+    const result = await firstValueFrom(this.apollo.use("auth").query<{
         securityContext: SecurityContext
       }>({
         query: gql`
@@ -84,9 +84,7 @@ export class AuthService implements OnDestroy {
             "Authorization": "Bearer " + this.getToken(),
           }
         }
-      })
-      .pipe(first())
-      .toPromise();
+      }));
     
     if (!result.data.securityContext.userId) {
       // We have fallen to default security context, meaning our current auth is invalid
@@ -102,7 +100,7 @@ export class AuthService implements OnDestroy {
     // We can't use BackendService here because that would
     // cause a cyclical dependency error. Therefore we must
     // manually build the full query from apollo.
-    const result = await this.apollo.use("auth").query<{
+    const result = await firstValueFrom(this.apollo.use("auth").query<{
         users: {
           id: string,
           email: string,
@@ -137,9 +135,7 @@ export class AuthService implements OnDestroy {
             })
           }
         }
-      })
-      .pipe(first())
-      .toPromise();
+      }));
 
     if (result.error)
       return;

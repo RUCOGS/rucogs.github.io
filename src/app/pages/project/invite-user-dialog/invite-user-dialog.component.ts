@@ -1,11 +1,12 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ProcessMonitor } from '@src/app/classes/process-monitor';
 import { UIMessageService } from '@src/app/modules/ui-message/ui-message.module';
 import { BackendService } from '@src/app/services/backend.service';
 import { InviteType, NewProjectInviteInput, Project, User } from '@src/generated/graphql-endpoint.types';
 import { gql } from 'apollo-angular';
+import { firstValueFrom } from 'rxjs';
 import { first } from 'rxjs/operators';
 import { PartialDeep } from 'type-fest';
 
@@ -21,12 +22,12 @@ export interface InviteUserDialogData {
 export class InviteUserDialogComponent implements OnInit {
 
   project: PartialDeep<Project> = {};
-  form: FormGroup;
+  form: UntypedFormGroup;
 
   monitor = new ProcessMonitor();
 
   constructor(
-    formBuilder: FormBuilder, 
+    formBuilder: UntypedFormBuilder, 
     private backend: BackendService,
     private uiMessageService: UIMessageService,
     public dialogRef: MatDialogRef<InviteUserDialogComponent>,
@@ -73,7 +74,7 @@ export class InviteUserDialogComponent implements OnInit {
 
     const userId = this.form.get('user')?.value;
 
-    const result = await this.backend.withAuth().mutate({
+    const result = await firstValueFrom(this.backend.withAuth().mutate({
       mutation: gql`
         mutation InviteUserToProject($input: NewProjectInviteInput!) {
           newProjectInvite(input: $input)
@@ -86,7 +87,7 @@ export class InviteUserDialogComponent implements OnInit {
           userId: userId
         }
       }
-    }).pipe(first()).toPromise();
+    }));
 
     if (result.errors)
       return;

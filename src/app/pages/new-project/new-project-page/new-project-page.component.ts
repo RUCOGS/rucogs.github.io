@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ProcessMonitor } from '@src/app/classes/process-monitor';
 import { BackendService } from '@src/app/services/backend.service';
@@ -15,12 +15,12 @@ import { finalize, first } from 'rxjs/operators';
 })
 export class NewProjectPageComponent {
 
-  form: FormGroup;
+  form: UntypedFormGroup;
 
   monitor = new ProcessMonitor();
 
   constructor(
-    formBuilder: FormBuilder,
+    formBuilder: UntypedFormBuilder,
     private backend: BackendService,
     private router: Router,
     private security: SecurityService,

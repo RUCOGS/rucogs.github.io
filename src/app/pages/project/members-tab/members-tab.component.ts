@@ -7,7 +7,7 @@ import { BackendService, BreakpointManagerService, CdnService, SecurityService }
 import { compare, deepClone } from '@src/app/utils/utils';
 import { Permission, Project, ProjectMember, RoleCode } from '@src/generated/graphql-endpoint.types';
 import { gql } from 'apollo-angular';
-import { Subject } from 'rxjs';
+import { firstValueFrom, Subject } from 'rxjs';
 import { first, takeUntil } from 'rxjs/operators';
 import { PartialDeep } from 'type-fest';
 import { EditMemberDialogComponent, EditMemberDialogData } from '../edit-member-dialog/edit-member-dialog.component';
@@ -30,7 +30,7 @@ export class MembersTabComponent implements AfterViewInit, OnDestroy, OnChanges 
   displayedColumns = ['member', 'buttons'];  
   filteredProjectMembers: PartialDeep<ProjectMember>[] = [];
 
-  private onDestroy$ = new Subject();
+  protected onDestroy$ = new Subject<void>();
 
   constructor(
     public cdn: CdnService,
@@ -94,7 +94,7 @@ export class MembersTabComponent implements AfterViewInit, OnDestroy, OnChanges 
       .pipe(first())
       .toPromise();
     if (confirmed) {
-      const result = await this.backend.withAuth()
+      const result = await firstValueFrom(this.backend.withAuth()
         .mutate<boolean>({
           mutation: gql`
             mutation KickMember($id: ID!) {
@@ -104,7 +104,7 @@ export class MembersTabComponent implements AfterViewInit, OnDestroy, OnChanges 
           variables: {
             id: member?.id
           }
-        }).toPromise();
+        }));
       if (result.errors || !result.data)
         return;
       this.edited.emit();

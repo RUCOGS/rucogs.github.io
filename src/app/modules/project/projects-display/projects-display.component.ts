@@ -5,7 +5,7 @@ import { ScrollService } from '@src/app/services/scroll.service';
 import { Access, Project } from '@src/generated/graphql-endpoint.types';
 import { ProjectFilterInput, ProjectSortInput } from '@src/generated/model.types';
 import { gql } from 'apollo-angular';
-import { Subject } from 'rxjs';
+import { firstValueFrom, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
 @Component({
@@ -97,7 +97,7 @@ export class ProjectsDisplayComponent implements AfterViewInit, OnDestroy {
   }
 
   async defaultQuery(filter: any, skip: number, limit: number) {
-    const results = await this.backend.withAuth().query<{
+    const results = await firstValueFrom(this.backend.withAuth().query<{
       projects: {
         // Result type
         id: string,
@@ -148,7 +148,7 @@ export class ProjectsDisplayComponent implements AfterViewInit, OnDestroy {
           }
         ]
       }
-    }).toPromise();
+    }));
     if (results.error)
       return [];
     return <Partial<Project>[]>results.data.projects;

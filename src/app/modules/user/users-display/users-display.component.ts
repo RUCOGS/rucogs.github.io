@@ -5,7 +5,7 @@ import { ScrollService } from '@src/app/services/scroll.service';
 import { User } from '@src/generated/graphql-endpoint.types';
 import { UserFilterInput, UserSortInput } from '@src/generated/model.types';
 import { gql } from 'apollo-angular';
-import { Subject } from 'rxjs';
+import { firstValueFrom, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
 @Component({
@@ -24,7 +24,7 @@ export class UsersDisplayComponent implements AfterViewInit, OnDestroy {
   filter: UserFilterInput = {};
   fillingPage: boolean = false;
 
-  private onDestroy$ = new Subject<void>();
+  protected onDestroy$ = new Subject<void>();
 
   // TODO MAYBE: Find the exact amount of users needed to fill
   //             the viewer's page. This ofcourse is dependent on
@@ -87,7 +87,7 @@ export class UsersDisplayComponent implements AfterViewInit, OnDestroy {
   async queryUsers(filter: UserFilterInput | undefined = undefined) {
     if (filter !== undefined)
       this.filter = filter;
-    const results = await this.backend.withAuth().query<{
+    const results = await firstValueFrom(this.backend.withAuth().query<{
       users: {
         // Result type
         avatarLink: string, 
@@ -117,7 +117,7 @@ export class UsersDisplayComponent implements AfterViewInit, OnDestroy {
           }
         ]
       }
-    }).toPromise();
+    }));
     
     if (results.error)
       return [];

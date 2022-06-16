@@ -10,6 +10,7 @@ import { ProjectFilterInput } from '@src/generated/model.types';
 import { SettingsService } from '@src/_settings';
 import { gql } from 'apollo-angular';
 import ColorThief from 'colorthief';
+import { firstValueFrom } from 'rxjs';
 import { PartialDeep } from 'type-fest';
 import { EditUserDialogComponent, EditUserDialogData } from '../edit-user-dialog/edit-user-dialog.component';
 import { DefaultUserOptions, UserOptions } from '../user-page/user-page.component';
@@ -93,7 +94,7 @@ export class OverviewTabComponent implements AfterViewChecked, OnChanges {
     if (!this.userOptions.hasProjects || !this.user.id || !this.user.projectMembers)
       return [];
 
-    const result = await this.backend.query<{
+    const result = await firstValueFrom(this.backend.query<{
       projects: {
         // Result type
         id: string,
@@ -142,7 +143,7 @@ export class OverviewTabComponent implements AfterViewChecked, OnChanges {
         id: { in: this.user.projectMembers.map(x => x?.projectId) },
       }
     }
-    }).toPromise();
+    }));
 
     if (result.error)
       return [];

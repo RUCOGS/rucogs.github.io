@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { CustomValidators } from '@src/app/classes/custom-validators';
 import { deepClone } from '@src/app/utils/utils';
 import { ProjectMember, ProjectMemberRole, RoleCode, User } from '@src/generated/graphql-endpoint.types';
@@ -51,7 +51,7 @@ export class EditableProjectMemberProfileComponent implements OnInit, OnDestroy 
   // TODO: Fetch this instead of keeping it as true
   @Input() hasManageRolesPerms = true;
 
-  form: FormGroup;
+  form: UntypedFormGroup;
 
   get contributions() {
     return this.form.get('contributions');
@@ -61,9 +61,9 @@ export class EditableProjectMemberProfileComponent implements OnInit, OnDestroy 
     return this.projectMemberEdit.disabled;
   }
 
-  private onDestroy$ = new Subject<void>();
+  protected onDestroy$ = new Subject<void>();
   
-  constructor(private formBuilder: FormBuilder) { 
+  constructor(private formBuilder: UntypedFormBuilder) { 
     this.form = formBuilder.group({
       contributions: [null, []],
       user: [null, [Validators.required]]

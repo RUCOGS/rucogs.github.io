@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ProcessMonitor } from '@src/app/classes/process-monitor';
 import { UIMessageService } from '@src/app/modules/ui-message/ui-message.module';
@@ -25,7 +25,7 @@ export class EditMemberDialogComponent implements OnInit {
   projectMember: PartialDeep<ProjectMember>;
   projectId: string;
 
-  form: FormGroup;
+  form: UntypedFormGroup;
 
   rolesEdited: boolean = false;
   roles: RoleCode[] = [];
@@ -35,7 +35,7 @@ export class EditMemberDialogComponent implements OnInit {
   monitor = new ProcessMonitor();
 
   constructor( 
-    formBuilder: FormBuilder, 
+    formBuilder: UntypedFormBuilder, 
     private backend: BackendService,
     private uiMessageService: UIMessageService,
     private rolesService: RolesService,

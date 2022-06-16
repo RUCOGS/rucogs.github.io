@@ -1,5 +1,5 @@
 import { AfterViewInit, Component, Inject, Input, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ProcessMonitor } from '@src/app/classes/process-monitor';
 import { ImageUploadComponent } from '@src/app/modules/image-upload/image-upload.module';
@@ -33,7 +33,7 @@ export class EditUserDialogComponent implements AfterViewInit {
   @ViewChild('avatarUpload') avatarUpload?: ImageUploadComponent;
   @ViewChild('bannerUpload') bannerUpload?: ImageUploadComponent;
   
-  form: FormGroup;
+  form: UntypedFormGroup;
 
   userSocialEdits: UserSocialEdit[] = [];
   socialsEdited = false;
@@ -46,7 +46,7 @@ export class EditUserDialogComponent implements AfterViewInit {
   monitor = new ProcessMonitor();
 
   constructor(
-    formBuilder: FormBuilder,
+    formBuilder: UntypedFormBuilder,
     private cdn: CdnService,
     private backend: BackendService,
     private rolesService: RolesService,

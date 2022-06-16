@@ -11,7 +11,7 @@ import { takeUntil } from 'rxjs/operators';
 })
 export class TestPageComponent implements OnInit, OnDestroy {
 
-  private onDestroy$ = new Subject();
+  protected onDestroy$ = new Subject<void>();
 
   constructor(
     private backend: BackendService

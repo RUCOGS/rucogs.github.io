@@ -3,8 +3,7 @@ import { ApolloQueryResult, Operation } from '@apollo/client/core';
 import { Permission } from '@src/generated/graphql-endpoint.types';
 import { BaseSecurityDomain, isBaseSecurityDomain, isExtendedSecurityDomain, OperationSecurityDomain, PermissionsCalculator, SecurityContext, SecurityDomain, SecurityDomainTemplate, SecurityPolicy } from '@src/shared/security';
 import { gql } from 'apollo-angular';
-import { Observable, Subject } from 'rxjs';
-import { first, takeUntil } from 'rxjs/operators';
+import { firstValueFrom, Observable, Subject, first, takeUntil } from 'rxjs';
 import { AuthService } from './auth.service';
 import { BackendService } from './backend.service';
 
@@ -19,7 +18,7 @@ export class SecurityService implements OnDestroy {
     securityContext: SecurityContext
     securityPolicy: SecurityPolicy
   }>>;
-  private onDestroy$ = new Subject();
+  protected onDestroy$ = new Subject<void>();
   
   constructor(
     private backend: BackendService,
@@ -56,7 +55,7 @@ export class SecurityService implements OnDestroy {
     })
     .pipe(first(), takeUntil(this.onDestroy$));
 
-    const result = await this.fetchQuery.toPromise();
+    const result = await firstValueFrom(this.fetchQuery);
     if (result.error)
       return;
 

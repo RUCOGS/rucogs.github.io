@@ -9,7 +9,7 @@ import { InviteType, Permission, ProjectInviteSubscriptionFilter, User } from '@
 import { ProjectInviteFilterInput, UserFilterInput } from '@src/generated/model.types';
 import { OperationSecurityDomain } from '@src/shared/security';
 import { gql } from 'apollo-angular';
-import { Subject } from 'rxjs';
+import { firstValueFrom, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { PartialDeep } from 'type-fest';
 
@@ -52,7 +52,7 @@ export class UserPageComponent implements OnInit, OnDestroy {
   ];
 
   private username: string = "";
-  private onDestroy$ = new Subject<void>();
+  protected onDestroy$ = new Subject<void>();
 
   constructor(
     public breakpointManager: BreakpointManagerService,
@@ -81,7 +81,7 @@ export class UserPageComponent implements OnInit, OnDestroy {
   async fetchData(invalidateCache: boolean = false) {
     await this.security.fetchData();
 
-    const userResult = await this.backend.withAuth().query<{
+    const userResult = await firstValueFrom(this.backend.withAuth().query<{
       users: any[]
     }>({
       query: gql`
@@ -115,7 +115,7 @@ export class UserPageComponent implements OnInit, OnDestroy {
         }
       },
       ...(invalidateCache && { fetchPolicy: 'no-cache' })
-    }).toPromise();
+    }));
 
     if (userResult.data.users.length == 0) {
       this.userOptions.nonExistent = true;
@@ -134,7 +134,7 @@ export class UserPageComponent implements OnInit, OnDestroy {
         userId: [ user.id! ]
       }).hasPermission(Permission.ReadUserPrivate)
     ) {
-      const privateUserResult = await this.backend.withAuth()
+      const privateUserResult = await firstValueFrom(this.backend.withAuth()
       .withOpDomain({
         userId: [ user.id! ]
       }).query<{
@@ -154,17 +154,12 @@ export class UserPageComponent implements OnInit, OnDestroy {
           }
         `,
         ...(invalidateCache && { fetchPolicy: 'no-cache' })
-      }).toPromise();
+      }));
       if (privateUserResult.error || privateUserResult.data.users.length === 0)
         return;
       user = {
         ...user,
-        ...privateUserResult.data.users[0],
-        loginIdentities: [
-          ...privateUserResult.data.users[0].loginIdentities,
-          ...privateUserResult.data.users[0].loginIdentities, 
-          ...privateUserResult.data.users[0].loginIdentities 
-        ]
+        ...privateUserResult.data.users[0]
       }
     }
 
