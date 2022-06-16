@@ -5,7 +5,7 @@ import { Color, ProcessMonitor } from '@src/app/classes/_classes.module';
 import { ProjectsDisplayComponent } from '@src/app/modules/project/project.module';
 import { UIMessageService } from '@src/app/modules/ui-message/ui-message.module';
 import { BackendService, CdnService, SecurityService } from '@src/app/services/_services.module';
-import { Project, RoleCode, User } from '@src/generated/graphql-endpoint.types';
+import { Access, Project, RoleCode, User } from '@src/generated/graphql-endpoint.types';
 import { ProjectFilterInput } from '@src/generated/model.types';
 import { SettingsService } from '@src/_settings';
 import { gql } from 'apollo-angular';
@@ -97,6 +97,7 @@ export class OverviewTabComponent implements AfterViewChecked, OnChanges {
       projects: {
         // Result type
         id: string,
+        access: Access,
         cardImageLink: string,
         completedAt: Date,
         createdAt: Date,
@@ -116,6 +117,7 @@ export class OverviewTabComponent implements AfterViewChecked, OnChanges {
         query($filter: ProjectFilterInput, $skip: Int, $limit: Int) {
           projects(filter: $filter, skip: $skip, limit: $limit) {
             id
+            access
             cardImageLink
             completedAt
             createdAt

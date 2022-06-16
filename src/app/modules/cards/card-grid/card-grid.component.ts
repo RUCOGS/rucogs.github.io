@@ -21,15 +21,7 @@ export class CardGridComponent implements OnInit, AfterViewInit, OnDestroy {
     private cssLength: CssLengthService,
   ) { 
     this.observer = new MutationObserver(mutations => {    
-      const element = this.elementRef.nativeElement as HTMLElement;
-      const pixelColumnWidth = this.cssLength.convertToNumber(this.columnWidth, 'px');
-      const possibleColumnCount = Math.floor(element.offsetWidth / pixelColumnWidth);
-      
-      // Override autofitting if we only have a few elements
-      this.updateGridTemplateColumns(
-        element.children.length < possibleColumnCount ? false : this.autofitColumns,
-        element.offsetWidth <= pixelColumnWidth
-      );
+      this.updateGridTemplateColumns();
     });
   }
 
@@ -41,7 +33,14 @@ export class CardGridComponent implements OnInit, AfterViewInit, OnDestroy {
     this.updateGridTemplateColumns();
   }
 
-  updateGridTemplateColumns(autofit: boolean = this.autofitColumns, smallFit: boolean = false) {
+  updateGridTemplateColumns() {
+    const element = this.elementRef.nativeElement as HTMLElement;
+    const pixelColumnWidth = this.cssLength.convertToNumber(this.columnWidth, 'px');
+    const possibleColumnCount = Math.floor(element.offsetWidth / pixelColumnWidth);
+
+    const autofit = element.children.length < possibleColumnCount ? false : this.autofitColumns;
+    const smallFit = element.offsetWidth <= pixelColumnWidth;
+
     if (smallFit)
       this.gridTemplateColumns = `repeat( ${this.columns} )`;
     else

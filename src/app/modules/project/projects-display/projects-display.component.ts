@@ -2,7 +2,7 @@ import { AfterViewInit, Component, Input, OnDestroy, ViewChild } from '@angular/
 import { FilterHeaderComponent } from '@src/app/modules/filtering/filter-header/filter-header.component';
 import { BackendService } from '@src/app/services/backend.service';
 import { ScrollService } from '@src/app/services/scroll.service';
-import { Project } from '@src/generated/graphql-endpoint.types';
+import { Access, Project } from '@src/generated/graphql-endpoint.types';
 import { ProjectFilterInput, ProjectSortInput } from '@src/generated/model.types';
 import { gql } from 'apollo-angular';
 import { Subject } from 'rxjs';
@@ -18,7 +18,7 @@ import { takeUntil } from 'rxjs/operators';
 })
 export class ProjectsDisplayComponent implements AfterViewInit, OnDestroy {
 
-  @ViewChild(FilterHeaderComponent) filterHeader: FilterHeaderComponent | undefined
+  @ViewChild(FilterHeaderComponent) filterHeader: FilterHeaderComponent | undefined;
   @Input() projects: Partial<Project>[] = [];
   @Input() projectsQuery: (filter: any, skip: number, limit: number) => Promise<Partial<Project>[]> = this.defaultQuery.bind(this);
   
@@ -61,7 +61,7 @@ export class ProjectsDisplayComponent implements AfterViewInit, OnDestroy {
   async queryUntilFillPage(filter: ProjectFilterInput | undefined = undefined) {
     if (this.fillingPage)
       return;
-      
+
     this.fillingPage = true;
     let resultsLength: number = 0;
     this.scrollService.updateScrollData();
@@ -101,6 +101,7 @@ export class ProjectsDisplayComponent implements AfterViewInit, OnDestroy {
       projects: {
         // Result type
         id: string,
+        access: Access,
         cardImageLink: string,
         completedAt: Date,
         createdAt: Date,
@@ -119,6 +120,7 @@ export class ProjectsDisplayComponent implements AfterViewInit, OnDestroy {
         query($filter: ProjectFilterInput, $skip: Int, $limit: Int, $sorts: [ProjectSortInput!]) {
           projects(filter: $filter, skip: $skip, limit: $limit, sorts: $sorts) {
             id
+            access
             cardImageLink
             completedAt
             createdAt
