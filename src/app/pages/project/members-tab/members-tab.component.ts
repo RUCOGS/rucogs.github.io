@@ -1,10 +1,10 @@
-import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
-import { AfterViewChecked, AfterViewInit, Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, EventEmitter, Input, OnChanges, OnDestroy, Output, SimpleChanges, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { Sort } from '@angular/material/sort';
 import { FilterHeaderComponent } from '@src/app/modules/filtering/filtering.module';
 import { UIMessageService } from '@src/app/modules/ui-message/ui-message.module';
 import { BackendService, BreakpointManagerService, CdnService, SecurityService } from '@src/app/services/_services.module';
-import { deepClone } from '@src/app/utils/utils';
+import { compare, deepClone } from '@src/app/utils/utils';
 import { Permission, Project, ProjectMember, RoleCode } from '@src/generated/graphql-endpoint.types';
 import { gql } from 'apollo-angular';
 import { Subject } from 'rxjs';
@@ -26,7 +26,8 @@ export class MembersTabComponent implements AfterViewInit, OnDestroy, OnChanges 
   @Input() projectOptions: ProjectOptions = DefaultProjectOptions;
 
   @ViewChild('membersFilter') filterHeader: FilterHeaderComponent | undefined
-  
+
+  displayedColumns = ['member', 'buttons'];  
   filteredProjectMembers: PartialDeep<ProjectMember>[] = [];
 
   private onDestroy$ = new Subject();
@@ -157,6 +158,24 @@ export class MembersTabComponent implements AfterViewInit, OnDestroy, OnChanges 
 
   onInvitesEdited() {
     this.edited.emit();
+  }
+  
+  sortData(sort: Sort) {
+    const data = this.filteredProjectMembers.slice();
+    if (!sort.active || sort.direction === '') {
+      this.filteredProjectMembers = data;
+      return;
+    }
+
+    this.filteredProjectMembers = data.sort((a, b) => {
+      const isAsc = sort.direction === 'asc';
+      switch (sort.active) {
+        case 'member':
+          return compare(a.user?.username, b.user?.username, isAsc);
+        default:
+          return 0;
+      }
+    });
   }
 }
 

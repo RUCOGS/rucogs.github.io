@@ -5,7 +5,7 @@ import { BackendService } from '@src/app/services/backend.service';
 import { SecurityService } from '@src/app/services/security.service';
 import { BreakpointManagerService } from '@src/app/services/_services.module';
 import { deepClone } from '@src/app/utils/utils';
-import { InviteType, Permission, ProjectInvite, ProjectInviteSubscriptionFilter, RoleCode, User } from '@src/generated/graphql-endpoint.types';
+import { InviteType, Permission, ProjectInviteSubscriptionFilter, User } from '@src/generated/graphql-endpoint.types';
 import { ProjectInviteFilterInput, UserFilterInput } from '@src/generated/model.types';
 import { OperationSecurityDomain } from '@src/shared/security';
 import { gql } from 'apollo-angular';
@@ -34,6 +34,22 @@ export class UserPageComponent implements OnInit, OnDestroy {
   
   user: PartialDeep<User> = {};
   userOptions: UserOptions = DefaultUserOptions;
+
+  tabLinks = [
+    {
+      matIcon: 'add',
+      label: 'First',
+      link: './first',
+    }, {
+      matIcon: 'add',
+      label: 'Second',
+      link: './second',
+    }, {
+      matIcon: 'add',
+      label: 'Third',
+      link: './third',
+    }, 
+  ];
 
   private username: string = "";
   private onDestroy$ = new Subject<void>();
@@ -64,29 +80,9 @@ export class UserPageComponent implements OnInit, OnDestroy {
 
   async fetchData(invalidateCache: boolean = false) {
     await this.security.fetchData();
-    
+
     const userResult = await this.backend.withAuth().query<{
-      users: {
-        id: string,
-        username: string,
-        displayName: string,
-        avatarLink: string
-        bannerLink: string
-        bio: string
-        projectMembers: {
-          id: string
-          projectId: string
-        }[]
-        socials: {
-          id: string
-          link: string
-          platform: string
-          username: string
-        }[]
-        roles: {
-          roleCode: RoleCode
-        }[]
-      }[]
+      users: any[]
     }>({
       query: gql`
         query FetchUserPageUser($filter: UserFilterInput) {
@@ -125,14 +121,52 @@ export class UserPageComponent implements OnInit, OnDestroy {
       this.userOptions.nonExistent = true;
       return;
     }
-    const user: PartialDeep<User> = deepClone(userResult.data.users[0]);
+    let user: PartialDeep<User> = deepClone(userResult.data.users[0]);
     const userOpDomain = <OperationSecurityDomain>{
       userId: [ user.id ]
     }
     const permCalc = this.security.makePermCalc().withDomain(userOpDomain);
     this.userOptions.hasEditPerms = permCalc.hasPermission(Permission.UpdateUser);
-
     this.userOptions.hasProjects = (user.projectMembers?.length ?? 0) > 0;
+
+    if (this.security.makePermCalc()
+      .withDomain({
+        userId: [ user.id! ]
+      }).hasPermission(Permission.ReadUserPrivate)
+    ) {
+      const privateUserResult = await this.backend.withAuth()
+      .withOpDomain({
+        userId: [ user.id! ]
+      }).query<{
+        users: any[]
+      }>({
+        query: gql`
+          query FetchUserPagePrivateUser {
+            users {
+              email
+              loginIdentities {
+                id
+                name
+                identityId
+                data
+              }
+            }
+          }
+        `,
+        ...(invalidateCache && { fetchPolicy: 'no-cache' })
+      }).toPromise();
+      if (privateUserResult.error || privateUserResult.data.users.length === 0)
+        return;
+      user = {
+        ...user,
+        ...privateUserResult.data.users[0],
+        loginIdentities: [
+          ...privateUserResult.data.users[0].loginIdentities,
+          ...privateUserResult.data.users[0].loginIdentities, 
+          ...privateUserResult.data.users[0].loginIdentities 
+        ]
+      }
+    }
 
     const invitesOpDomain = this.security.getOpDomainFromPermission(
       Permission.ManageProjectInvites, 

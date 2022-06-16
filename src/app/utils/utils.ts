@@ -1,3 +1,9 @@
+export function compare(a: number | string | undefined | null, b: number | string | undefined | null, isAsc: boolean) {
+  if (!a || !b)
+    return 0;
+  return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
+}
+
 export function deepClone<T>(object: T) {
   return JSON.parse(JSON.stringify(object)) as T;
 }

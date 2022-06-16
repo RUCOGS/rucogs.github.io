@@ -1,10 +1,11 @@
 import { AfterViewInit, Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { Sort } from '@angular/material/sort';
 import { ProcessMonitor } from '@src/app/classes/process-monitor';
 import { FilterHeaderComponent } from '@src/app/modules/filtering/filtering.module';
 import { BackendService } from '@src/app/services/backend.service';
 import { BreakpointManagerService } from '@src/app/services/breakpoint-manager.service';
-import { deepClone } from '@src/app/utils/utils';
+import { compare, deepClone } from '@src/app/utils/utils';
 import { Project, ProjectInvite, ProjectInviteSubscriptionFilter } from '@src/generated/graphql-endpoint.types';
 import { gql } from 'apollo-angular';
 import { Subject } from 'rxjs';
@@ -124,5 +125,25 @@ export class InvitesTabComponent implements OnChanges, OnDestroy, AfterViewInit 
     
     if (result)
       this.edited.emit();
+  }
+
+  sortData(sort: Sort) {
+    const data = this.filteredInvites.slice();
+    if (!sort.active || sort.direction === '') {
+      this.filteredInvites = data;
+      return;
+    }
+
+    this.filteredInvites = data.sort((a, b) => {
+      const isAsc = sort.direction === 'asc';
+      switch (sort.active) {
+        case 'user':
+          return compare(a.user?.username, b.user?.username, isAsc);
+        case 'type':
+          return compare(a.type, b.type, isAsc);
+        default:
+          return 0;
+      }
+    });
   }
 }

@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes, UrlSegment } from '@angular/router';
-import { ArticlePageComponent, BlogPageComponent, CalendarPageComponent, HomePageComponent, LoginPageComponent, PicturesPageComponent, ProjectsPageComponent, ResourcesPageComponent, ScarletGameJamPageComponent, SignupPageComponent, UserPageComponent, UsersPageComponent, ProjectPageComponent, TestPageComponent } from '@app/pages/pages.module';
+import { ArticlePageComponent, BlogPageComponent, CalendarPageComponent, HomePageComponent, LoginPageComponent, PicturesPageComponent, ProjectsPageComponent, ResourcesPageComponent, ScarletGameJamPageComponent, SignupPageComponent, UserPageComponent, UsersPageComponent, ProjectPageComponent, TestPageComponent, UserPageModule } from '@app/pages/pages.module';
 import { NewProjectPageComponent } from './pages/new-project/new-project.module';
 
 const routes: Routes = [
@@ -42,7 +42,10 @@ const routes: Routes = [
   },
   { path: 'login', component: LoginPageComponent },
   { path: 'signup', component: SignupPageComponent },
-  { path: 'users/:username', component: UserPageComponent },
+  {
+    path: 'users/:username', 
+    loadChildren: () => UserPageModule
+  },
   { path: 'users', component: UsersPageComponent },
   { path: 'test', component: TestPageComponent },
   { path: '', redirectTo: '/home', pathMatch: 'full' },

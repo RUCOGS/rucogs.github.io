@@ -27,13 +27,13 @@
 
 .card-image-container {
   outline-style: solid;
-  outline-width: 8px;
+  outline-width: 0.5em;
   display: block;
   position: relative;
   bottom: var(--card-offset);
   height: var(--card-image-size);
   width: var(--card-image-size);
-  border-radius: 16px;
+  border-radius: 1em;
 }
 
 .card-image {

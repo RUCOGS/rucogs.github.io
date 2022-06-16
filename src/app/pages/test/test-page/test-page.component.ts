@@ -1,6 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { BackendService } from '@src/app/services/_services.module';
-import { TestSubscriptionFilter } from '@src/generated/graphql-endpoint.types';
 import { gql } from 'apollo-angular';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -52,7 +51,7 @@ export class TestPageComponent implements OnInit, OnDestroy {
         thisIsInContext: "hey"
       },
       variables: {
-        filter: <TestSubscriptionFilter>{
+        filter: {
           id: "joes",
           someField: "I have data!"
         }
