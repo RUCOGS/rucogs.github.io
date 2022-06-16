@@ -3,23 +3,29 @@
   flex-direction: row;
   gap: 2.5em;
 ">
-  <div class="sticky" style="
+  <div style="
+   flex: 1 1 calc(100% - 13.75em)
+  ">
+    <ng-content></ng-content>
+    <div *ngIf="breakpointManager.matchedBreakpointOrBelow('MOBILE')">
+      <button class="scrollup-button--fixed" mat-fab color="primary" (click)="onScrollUp()" *ngIf="showScrollUpButton" [@zoomAnimation]>
+        <ic-icon size="2em" class="app-button iconify icon icon-large" icon="chevronUp"></ic-icon>
+      </button>
+    </div>
+  </div>
+  <div style="
     display: flex;
     flex-direction: column;
     flex: 1 0 180px;
     align-items: flex-start;
+
+    position: sticky;
+    top: 80px;
+    align-self: flex-start
   " *ngIf="breakpointManager.matchedBreakpointOrAbove('DESKTOP')">
     <app-scrollspy-nav [headings]="headings"></app-scrollspy-nav>
     <button class="scrollup-button" mat-mini-fab color="primary" (click)="onScrollUp()" *ngIf="showScrollUpButton" [@zoomAnimation]>
       <ic-icon size="1.5em" class="app-button iconify icon" icon="chevronUp"></ic-icon>
-    </button>
-  </div>
-  <div style="
-   flex: 1 1 calc(100% - 13.75em)
-  " *ngIf="breakpointManager.matchedBreakpointOrBelow('MOBILE')">
-    <ng-content></ng-content>
-    <button class="scrollup-button--fixed" mat-fab color="primary" (click)="onScrollUp()" *ngIf="showScrollUpButton" [@zoomAnimation]>
-      <ic-icon size="2em" class="app-button iconify icon icon-large" icon="chevronUp"></ic-icon>
     </button>
   </div>
 </div>

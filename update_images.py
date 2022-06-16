@@ -13,7 +13,7 @@ import re
 
 IMAGE_FILE_EXTENSIONS = [ "png", "jpg", "jpeg", "gif" ]
 PICTURES_PAGE_IMAGES_DIR = "src/assets/pictures-page-images/"
-PICTURES_PAGE_IMAGES_TYPESCRIPT_FILE = "src/app/settings/picture-page-images.ts"
+PICTURES_PAGE_IMAGES_TYPESCRIPT_FILE = "src/app/settings/pictures-page-images.ts"
 
 class ImageInfo:
 	def __init__(self, file_path: str, description: str = "", tags = []) -> None:

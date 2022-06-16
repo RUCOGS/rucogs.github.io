@@ -21,8 +21,10 @@ export class ScrollspyNavComponent implements OnChanges, OnDestroy {
   ) { }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes['headings']?.currentValue) {
-      this.setScrollSpy();
+    if (changes['headings']) {
+      // We only need scroll spy for markdown with headings
+      if (this.headings && this.headings?.length > 0)
+        this.setScrollSpy();
     }
   }
 

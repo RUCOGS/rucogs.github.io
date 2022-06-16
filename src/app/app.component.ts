@@ -19,9 +19,9 @@ export class AppComponent implements OnDestroy {
 
   constructor(
     private elementRef: ElementRef,
-    private iconService: IconService,
-    private authService: AuthService,
-    private settings: SettingsService
+    iconService: IconService,
+    authService: AuthService,
+    settings: SettingsService
   ) {
     iconService.registerAll(settings.General.icons);
     this.updateStyleVars();
