@@ -24,6 +24,7 @@ export class CardGridComponent implements AfterViewInit, OnDestroy {
     this.observer = new MutationObserver(mutations => {    
       this.updateGridTemplateColumns();
     });
+    this.updateGridTemplateColumns(true);
   }
 
   ngAfterViewInit(): void {
@@ -36,13 +37,17 @@ export class CardGridComponent implements AfterViewInit, OnDestroy {
     this.observer.disconnect();
   }
 
-  updateGridTemplateColumns() {
-    const element = this.elementRef.nativeElement as HTMLElement;
-    const pixelColumnWidth = this.cssLength.convertToNumber(this.columnWidth, 'px');
-    const possibleColumnCount = Math.floor(element.offsetWidth / pixelColumnWidth);
+  updateGridTemplateColumns(ignoreMinSizeCheck: boolean = false) {
+    let autofit = this.autofitColumns;
+    let smallFit = false;
+    if (!ignoreMinSizeCheck) {
+      const element = this.elementRef.nativeElement as HTMLElement;
+      const pixelColumnWidth = this.cssLength.convertToNumber(this.columnWidth, 'px');
+      const possibleColumnCount = Math.floor(element.offsetWidth / pixelColumnWidth);
 
-    const autofit = element.children.length < possibleColumnCount ? false : this.autofitColumns;
-    const smallFit = element.offsetWidth <= pixelColumnWidth;
+      autofit = element.children.length < possibleColumnCount ? false : this.autofitColumns;
+      smallFit = element.offsetWidth <= pixelColumnWidth;
+    }
 
     if (smallFit)
       this.gridTemplateColumns = `repeat( ${this.columns} )`;

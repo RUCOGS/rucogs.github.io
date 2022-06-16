@@ -1,6 +1,26 @@
 @use "sass:map" as map;
 @use '@angular/material' as mat;
 
+// Custom functions to define a basic palette. The define-palette function
+// provided by angular material has changed, so now we can't use it
+// to make our custom palettes that don't contain number levels (ie. 400, 200, 900, etc.).
+@function define-basic-palette($base-palette) {
+  $result: $base-palette;
+
+  // For each hue in the palette, add a "-contrast" color to the map.
+  @each $hue, $color in $base-palette {
+    $result: map.merge($result, (
+      '#{$hue}-contrast': get-contrast-color-from-palette($base-palette, $hue)
+    ));
+  }
+
+  @return $result;
+}
+
+@function get-contrast-color-from-palette($palette, $hue) {
+  @return map.get(map.get($palette, contrast), $hue);
+}
+
 // General Dark/Light Themining //
 
 $dark-primary-text: rgba(black, 0.87);
@@ -237,7 +257,7 @@ $cogs-bright-red: mat.define-palette((
 	)
 ));
 
-$misc: (
+$misc: define-basic-palette((
 	discord: #5865F2,
 	form: #7248b9,
 	contrast: (
@@ -247,7 +267,7 @@ $misc: (
 	),
 	light: $light-primary-text,
 	dark: $dark-primary-text
-);
+));
 
 $cogs-typography: mat.define-typography-config(
 	$font-family: 'Urbanist',
