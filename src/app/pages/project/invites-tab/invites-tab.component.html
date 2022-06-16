@@ -1,8 +1,8 @@
 <div style="margin-top: 2em;" *ngIf="project.invites">
-  <app-filter-header #membersFilter searchBar style="flex: 1;"></app-filter-header>
+  <app-filter-header #membersFilter searchBar style="flex: 1;" (newSearchRequest$)="onNewSearchRequest"></app-filter-header>
   <div style="display: flex; flex-direction: column; gap: 0.25em;">
   </div>
-  <table mat-table [dataSource]="project.invites" matSort class="mat-elevation-z8" style="width: 100%;">
+  <table mat-table [dataSource]="filteredInvites" matSort class="mat-elevation-z8" style="width: 100%;">
     <!-- User Column -->
     <ng-container matColumnDef="user">
       <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by user">
@@ -31,7 +31,7 @@
           display: flex;
           justify-content: right;
         ">
-          <button mat-stroked-button pill class="text-foreground">
+          <button mat-stroked-button pill class="text-foreground" (click)="invite()">
             <mat-icon>add</mat-icon>
             Invite User
           </button>

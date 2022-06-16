@@ -29,13 +29,24 @@
 		color: mat.get-color-from-palette($primary, 100);
 	}
 
-	.text {
-		&-disabled {
-			color: mat.get-color-from-palette($foreground, disabled-button) !important;
-		}
+	@include colorStyles(disabled, mat.get-color-from-palette($foreground, disabled-button));
+	@include colorStyles(foreground, mat.get-color-from-palette($foreground, text));
+	@include colorStyles(background, mat.get-color-from-palette($background, background));
+	@include colorStyles(card, mat.get-color-from-palette($background, card));
+}
 
-		&-foreground {
-			color: mat.get-color-from-palette($foreground, text) !important;
-		}
+@mixin colorStyles($selectorName, $color) {
+	.background-color-#{$selectorName} {
+		background-color: $color;
+	}
+	.text-#{$selectorName},
+	.color-#{$selectorName} {
+		color: $color;
+	}
+	.outline-color-#{$selectorName} {
+		outline-color: $color;
+	}
+	.border-color-#{$selectorName} {
+		border-color: $color;
 	}
 }

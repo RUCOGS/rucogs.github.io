@@ -1,5 +1,7 @@
-import { Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges } from '@angular/core';
+import { AfterViewInit, Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { ProcessMonitor } from '@src/app/classes/process-monitor';
+import { FilterHeaderComponent } from '@src/app/modules/filtering/filtering.module';
 import { BackendService } from '@src/app/services/backend.service';
 import { BreakpointManagerService } from '@src/app/services/breakpoint-manager.service';
 import { deepClone } from '@src/app/utils/utils';
@@ -8,6 +10,7 @@ import { gql } from 'apollo-angular';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { PartialDeep } from 'type-fest';
+import { InviteUserDialogComponent, InviteUserDialogData } from '../invite-user-dialog/invite-user-dialog.component';
 import { DefaultProjectOptions, ProjectOptions } from '../project-page/project-page.component';
 
 @Component({
@@ -15,13 +18,15 @@ import { DefaultProjectOptions, ProjectOptions } from '../project-page/project-p
   templateUrl: './invites-tab.component.html',
   styleUrls: ['./invites-tab.component.css']
 })
-export class InvitesTabComponent implements OnChanges, OnDestroy {
+export class InvitesTabComponent implements OnChanges, OnDestroy, AfterViewInit {
 
   @Output() edited = new EventEmitter();
 
   @Input() project: PartialDeep<Project> = {};
   @Input() projectOptions: ProjectOptions = DefaultProjectOptions;
 
+  @ViewChild(FilterHeaderComponent) filterHeader: FilterHeaderComponent | undefined
+  
   monitor = new ProcessMonitor();
   displayedColumns: string[] = ['user', 'type', 'buttons'];
   filteredInvites: PartialDeep<ProjectInvite>[] = [];
@@ -31,6 +36,7 @@ export class InvitesTabComponent implements OnChanges, OnDestroy {
   constructor(
     private backend: BackendService,
     private breakpointManager: BreakpointManagerService,
+    private dialog: MatDialog,
   ) { }
 
   ngOnDestroy(): void {
@@ -44,6 +50,15 @@ export class InvitesTabComponent implements OnChanges, OnDestroy {
       if (this.project.invites)
         this.filteredInvites = deepClone(this.project.invites) as PartialDeep<ProjectInvite>[];
     }
+  }
+
+  ngAfterViewInit(): void {
+    if (!this.filterHeader)
+      return;
+    
+    this.filterHeader.newSearchRequest$
+      .pipe(takeUntil(this.onDestroy$))
+      .subscribe(this.onNewSearchRequest.bind(this));
   }
   
   onNewSearchRequest(searchText: string) {
@@ -97,5 +112,17 @@ export class InvitesTabComponent implements OnChanges, OnDestroy {
     
     // Handled by subscription instead
     // this.edited.emit();
+  }
+
+  async invite() {
+    const result = await this.dialog.open(InviteUserDialogComponent, {
+      data: <InviteUserDialogData>{
+        project: this.project
+      },
+      width: "25em"
+    }).afterClosed().toPromise();
+    
+    if (result)
+      this.edited.emit();
   }
 }

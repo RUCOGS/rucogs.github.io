@@ -26,13 +26,13 @@
         width: var(--size);
         border-radius: 8em;
         overflow: hidden;
-        outline: white solid 0.25em;
-      ">
+        outline-style: solid;
+        outline-width: 0.25em;
+      " class="outline-color-card">
         <div style="
           width: 100%;
           height: 100%;
-          background-color: white;
-        ">
+        " class="background-color-card">
           <app-image-upload #avatarUpload fileSizeLimit="5 MB" class="app-edit-user-dialog avatar"></app-image-upload>
         </div>
       </div>

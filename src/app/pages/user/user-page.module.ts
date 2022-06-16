@@ -52,7 +52,8 @@ export { UserPageComponent };
     MatTabsModule,
     MatTableModule,
     FilteringModule,
-    MatDialogModule
+    MatDialogModule,
+    ProjectModule
   ],
   exports: [
     UserPageComponent

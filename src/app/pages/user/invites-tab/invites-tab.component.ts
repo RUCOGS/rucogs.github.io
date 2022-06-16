@@ -1,11 +1,13 @@
-import { Component, EventEmitter, Input, OnChanges, OnDestroy, Output, SimpleChanges } from '@angular/core';
+import { AfterViewInit, Component, EventEmitter, Input, OnChanges, OnDestroy, Output, SimpleChanges, ViewChild } from '@angular/core';
 import { ProcessMonitor } from '@src/app/classes/process-monitor';
+import { FilterHeaderComponent } from '@src/app/modules/filtering/filtering.module';
 import { BackendService } from '@src/app/services/backend.service';
 import { BreakpointManagerService } from '@src/app/services/breakpoint-manager.service';
 import { deepClone } from '@src/app/utils/utils';
 import { ProjectInvite, User } from '@src/generated/graphql-endpoint.types';
 import { gql } from 'apollo-angular';
 import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 import { PartialDeep } from 'type-fest';
 import { DefaultUserOptions, UserOptions } from '../user-page/user-page.component';
 
@@ -14,13 +16,15 @@ import { DefaultUserOptions, UserOptions } from '../user-page/user-page.componen
   templateUrl: './invites-tab.component.html',
   styleUrls: ['./invites-tab.component.css']
 })
-export class InvitesTabComponent implements OnChanges, OnDestroy {
+export class InvitesTabComponent implements OnChanges, OnDestroy, AfterViewInit {
 
   @Output() edited = new EventEmitter();
 
   @Input() user: PartialDeep<User> = {};
   @Input() userOptions: UserOptions = DefaultUserOptions;
 
+  @ViewChild(FilterHeaderComponent) filterHeader: FilterHeaderComponent | undefined
+  
   monitor = new ProcessMonitor();
   displayedColumns: string[] = ['project', 'type', 'buttons'];
   filteredInvites: PartialDeep<ProjectInvite>[] = [];
@@ -38,19 +42,28 @@ export class InvitesTabComponent implements OnChanges, OnDestroy {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes['project']) {
+    if (changes['user']) {
       this.monitor.removeProcess();
       if (this.user.projectInvites)
         this.filteredInvites = deepClone(this.user.projectInvites) as PartialDeep<ProjectInvite>[];
     }
   }
   
+  ngAfterViewInit(): void {
+    if (!this.filterHeader)
+      return;
+    
+    this.filterHeader.newSearchRequest$
+      .pipe(takeUntil(this.onDestroy$))
+      .subscribe(this.onNewSearchRequest.bind(this));
+  }
+  
   onNewSearchRequest(searchText: string) {
     if (searchText === "") {
       this.filteredInvites = deepClone(this.user.projectInvites) as PartialDeep<ProjectInvite>[];
     } else {
-      this.filteredInvites = (this.user.projectInvites as PartialDeep<ProjectInvite>[])!.filter(x => x.user!.username!.indexOf(searchText) > -1);
-      this.filteredInvites = this.filteredInvites.sort((a, b) => { return b.user!.username!.indexOf(searchText) - a.user!.username!.indexOf(searchText); });
+      this.filteredInvites = (this.user.projectInvites as PartialDeep<ProjectInvite>[])!.filter(x => x.project!.name!.indexOf(searchText) > -1);
+      this.filteredInvites = this.filteredInvites.sort((a, b) => { return b.project!.name!.indexOf(searchText) - a.project!.name!.indexOf(searchText); });
     }
   }
 

@@ -1,16 +1,15 @@
-<div style="margin-top: 2em;" *ngIf="user.projectInvites">
+<app-bg-container full-page>
   <app-filter-header #membersFilter searchBar style="flex: 1;"></app-filter-header>
   <div style="display: flex; flex-direction: column; gap: 0.25em;">
   </div>
-  <table mat-table [dataSource]="user.projectInvites" matSort class="mat-elevation-z8" style="width: 100%;">
+  <table mat-table [dataSource]="filteredInvites" matSort class="mat-elevation-z8" style="width: 100%;">
     <!-- User Column -->
     <ng-container matColumnDef="project">
       <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by project">
         Project
       </th>
-      <td mat-cell *matCellDef="let element" style="max-width: 100px; overflow: hidden;"> 
-        <!-- TODO: Make app-inline-project -->
-        <!-- <app-inline-profile [user]="element.user"></app-inline-profile> -->
+      <td mat-cell *matCellDef="let element" style="max-width: 100px; overflow: hidden;">
+        <app-inline-project-item [project]="element.project"></app-inline-project-item>
       </td>
     </ng-container>
 
@@ -28,15 +27,6 @@
     <!-- Buttons Column -->
     <ng-container matColumnDef="buttons">
       <th mat-header-cell *matHeaderCellDef>
-        <div style="
-          display: flex;
-          justify-content: right;
-        ">
-          <button mat-stroked-button pill class="text-foreground">
-            <mat-icon>add</mat-icon>
-            Invite User
-          </button>
-        </div>
       </th>
       <td mat-cell *matCellDef="let element">
         <div style="
@@ -56,4 +46,4 @@
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
   </table>
-</div>
+</app-bg-container>

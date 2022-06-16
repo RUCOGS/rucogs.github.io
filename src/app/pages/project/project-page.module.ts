@@ -32,6 +32,7 @@ import { RolesModule } from '@src/app/modules/roles/roles.module';
 import { InvitesTabComponent } from './invites-tab/invites-tab.component';
 import { MatTableModule } from '@angular/material/table';
 import { MatBadgeModule } from '@angular/material/badge';
+import { InviteUserDialogComponent } from './invite-user-dialog/invite-user-dialog.component';
 
 export { ProjectPageComponent };
 
@@ -44,7 +45,8 @@ export { ProjectPageComponent };
     OverviewTabComponent,
     EditProjectDialogComponent,
     EditMemberDialogComponent,
-    InvitesTabComponent
+    InvitesTabComponent,
+    InviteUserDialogComponent
   ],
   imports: [
     CommonModule,

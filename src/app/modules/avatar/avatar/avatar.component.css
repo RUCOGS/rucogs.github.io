@@ -51,3 +51,7 @@
 .input {
   --length: 2em;
 }
+
+.square {
+  border-radius: 20%;
+}

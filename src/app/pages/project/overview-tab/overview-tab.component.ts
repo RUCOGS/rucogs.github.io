@@ -63,7 +63,7 @@ export class OverviewTabComponent implements AfterViewChecked, OnChanges {
     if (this.setupBannerColorListener)
       return;
     
-    const img = document.querySelector<HTMLImageElement>('img.app-overview-tab.card-image')
+    const img = document.querySelector<HTMLImageElement>('img.project-page.overview-tab.card-image')
     if (img) {
       img.setAttribute('crossOrigin', '');
       const colorThief = new ColorThief();
