@@ -169,5 +169,7 @@
       }
     }
   },
-  "defaultProject": "rucogs-website"
+  "cli": {
+    "analytics": false
+  }
 }

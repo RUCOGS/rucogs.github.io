@@ -37,7 +37,7 @@ export class BackendService implements OnDestroy {
     operationDomain: OperationSecurityDomain | undefined;
   } = this.defaultOpSettings();
 
-  protected onDestroy$ = new Subject();
+  protected onDestroy$ = new Subject<void>();
   private graphQLWsClient!: GraphQLWsClient;
 
   constructor(

@@ -1,5 +1,5 @@
 import { AfterViewInit, ChangeDetectorRef, Component, EventEmitter, Inject, OnInit, Output, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { ImageUploadComponent } from '@src/app/modules/image-upload/image-upload.module';
 import { UIMessageService } from '@src/app/modules/ui-message/ui-message.module';
 import { BackendService, RolesService, SecurityService } from '@src/app/services/_services.module';
@@ -35,13 +35,13 @@ export class EditProjectDialogComponent implements AfterViewInit {
   monitor = new ProcessMonitor();
   accessOptions = AccessOptions;
 
-  form: FormGroup;
+  form: UntypedFormGroup;
 
   @ViewChild('cardImageUpload') cardImageUpload?: ImageUploadComponent;
   @ViewChild('bannerUpload') bannerUpload?: ImageUploadComponent;
   
   constructor( 
-    formBuilder: FormBuilder, 
+    formBuilder: UntypedFormBuilder, 
     private backend: BackendService,
     private cdnService: CdnService,
     private uiMessageService: UIMessageService,

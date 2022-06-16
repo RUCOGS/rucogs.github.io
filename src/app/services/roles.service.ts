@@ -3,7 +3,7 @@ import { RoleCode } from '@src/generated/graphql-endpoint.types';
 import { EBoardFilterInput, ProjectMemberFilterInput } from '@src/generated/model.types';
 import { getHighestRoles, getRolesBelowRoles, RoleData, RoleType } from '@src/shared/security';
 import { gql } from 'apollo-angular';
-import { Subject } from 'rxjs';
+import { firstValueFrom, Subject } from 'rxjs';
 import { first } from 'rxjs/operators';
 import { BackendService, SecurityService } from './_services.module';
 
@@ -12,7 +12,7 @@ import { BackendService, SecurityService } from './_services.module';
 })
 export class RolesService implements OnDestroy {
 
-  private onDestroy$ = new Subject<void>();
+  protected onDestroy$ = new Subject<void>();
   
   constructor(
     private securityService: SecurityService,
@@ -41,7 +41,7 @@ export class RolesService implements OnDestroy {
     if (!this.securityService.securityContext?.userId)
       return [];
     
-    const result = await this.backend.withAuth().query<{
+    const result = await firstValueFrom(this.backend.withAuth().query<{
       users: {
         roles: {
           roleCode: RoleCode
@@ -63,9 +63,7 @@ export class RolesService implements OnDestroy {
         }
       },
       fetchPolicy: 'no-cache'
-    })
-    .pipe(first())
-    .toPromise();
+    }));
 
     if (result.error || result.data.users.length === 0)
       return [];
@@ -97,7 +95,7 @@ export class RolesService implements OnDestroy {
     if (!this.securityService.securityContext?.userId)
       return [];
 
-    const result = await this.backend.withAuth().query<{
+    const result = await firstValueFrom(this.backend.withAuth().query<{
       projectMembers: {
         roles: {
           roleCode: RoleCode
@@ -120,9 +118,7 @@ export class RolesService implements OnDestroy {
         }
       },
       fetchPolicy: 'no-cache'
-    })
-    .pipe(first())
-    .toPromise();
+    }));
     
     if (result.error || result.data.projectMembers.length == 0)
       return [];
@@ -150,7 +146,7 @@ export class RolesService implements OnDestroy {
   }
 
   public async getEBoardRoles(eboardId: string) {
-    const result = await this.backend.withAuth().query<{
+    const result = await firstValueFrom(this.backend.withAuth().query<{
       eBoards: {
         roles: {
           roleCode: RoleCode
@@ -172,9 +168,7 @@ export class RolesService implements OnDestroy {
         }
       },
       fetchPolicy: 'no-cache'
-    })
-    .pipe(first())
-    .toPromise();
+    }));
 
     if (result.error || result.data.eBoards.length === 0)
       return [];

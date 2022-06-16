@@ -1,8 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { FlexLayoutModule } from '@angular/flex-layout';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDividerModule } from '@angular/material/divider';
+import { ServicesModule } from '@src/app/services/_services.module';
 import { IconModule } from '@visurel/iconify-angular';
 import { MarkdownModule } from 'ngx-markdown';
 
@@ -12,11 +12,11 @@ import { ScrollspyNavLayoutComponent } from './scrollspy-nav-layout.component';
 @NgModule({
   imports: [
     CommonModule,
-    FlexLayoutModule,
     MarkdownModule,
     MatButtonModule,
     MatDividerModule,
     ScrollspyNavModule,
+    ServicesModule,
     IconModule,
   ],
   declarations: [ScrollspyNavLayoutComponent],

@@ -8,7 +8,7 @@ import { BreakpointManagerService } from '@src/app/services/breakpoint-manager.s
 import { compare, deepClone } from '@src/app/utils/utils';
 import { Project, ProjectInvite, ProjectInviteSubscriptionFilter } from '@src/generated/graphql-endpoint.types';
 import { gql } from 'apollo-angular';
-import { Subject } from 'rxjs';
+import { firstValueFrom, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { PartialDeep } from 'type-fest';
 import { InviteUserDialogComponent, InviteUserDialogData } from '../invite-user-dialog/invite-user-dialog.component';
@@ -32,7 +32,7 @@ export class InvitesTabComponent implements OnChanges, OnDestroy, AfterViewInit 
   displayedColumns: string[] = ['user', 'type', 'buttons'];
   filteredInvites: PartialDeep<ProjectInvite>[] = [];
 
-  protected onDestroy$ = new Subject();
+  protected onDestroy$ = new Subject<void>();
 
   constructor(
     private backend: BackendService,
@@ -75,7 +75,7 @@ export class InvitesTabComponent implements OnChanges, OnDestroy, AfterViewInit 
     if (this.monitor.isProcessing)
       return;
     this.monitor.addProcess();
-    const result = await this.backend.withAuth().mutate<boolean>({
+    const result = await firstValueFrom(this.backend.withAuth().mutate<boolean>({
       mutation: gql`
         mutation AcceptProjectInvite($inviteId: ID!) {
           acceptProjectInvite(inviteId: $inviteId)
@@ -84,7 +84,7 @@ export class InvitesTabComponent implements OnChanges, OnDestroy, AfterViewInit 
       variables: {
         inviteId: invite.id
       }
-    }).toPromise();
+    }));
 
     if (result.errors)
       return;
@@ -97,7 +97,7 @@ export class InvitesTabComponent implements OnChanges, OnDestroy, AfterViewInit 
     if (this.monitor.isProcessing)
       return;
     this.monitor.addProcess();
-    const result = await this.backend.withAuth().mutate<boolean>({
+    const result = await firstValueFrom(this.backend.withAuth().mutate<boolean>({
       mutation: gql`
         mutation RejectProjectInvite($inviteId: ID!) {
           deleteProjectInvite(inviteId: $inviteId)
@@ -106,7 +106,7 @@ export class InvitesTabComponent implements OnChanges, OnDestroy, AfterViewInit 
       variables: {
         inviteId: invite.id
       }
-    }).toPromise();
+    }));
 
     if (result.errors)
       return;

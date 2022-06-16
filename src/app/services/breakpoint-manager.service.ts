@@ -18,7 +18,7 @@ export class BreakpointManagerService implements OnDestroy {
   }
 
   private breakpointsMatched: boolean[] = [];
-  private onDestroy$ = new Subject<void>();
+  protected onDestroy$ = new Subject<void>();
 
   constructor(private breakpointObserver: BreakpointObserver) {
     for (let i = 0; i < BreakpointsData.length - 1; i++) {

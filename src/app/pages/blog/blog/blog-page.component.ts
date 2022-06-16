@@ -25,7 +25,7 @@ export class BlogPageComponent implements AfterViewInit {
   lastPage: number = 10;
   articlesPerPage: number = 5;
 
-  private onDestroy$ = new Subject<void>();
+  protected onDestroy$ = new Subject<void>();
 
   constructor(private changeDetector: ChangeDetectorRef, public breakpointManager: BreakpointManagerService) {}
 

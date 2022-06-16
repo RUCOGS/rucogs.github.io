@@ -1,7 +1,7 @@
-import { FormGroup } from "@angular/forms";
+import { UntypedFormGroup } from "@angular/forms";
 
 export class FormConfigurer {
-  constructor(public formControl: FormGroup) {}
+  constructor(public formControl: UntypedFormGroup) {}
 
   initControl(name: string, initialValue: any, enable: boolean = true) {
     const control = this.formControl.get(name);

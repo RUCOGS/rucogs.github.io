@@ -3,7 +3,7 @@ import { Component, ElementRef, Input, OnInit, Output, ViewChild, EventEmitter }
 import { MatChipInputEvent } from '@angular/material/chips';
 import { RoleCode } from '@src/generated/graphql-endpoint.types';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
-import { FormControl } from '@angular/forms';
+import { UntypedFormControl } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 import { RoleData } from '@src/shared/security';
@@ -24,7 +24,7 @@ export class RoleCodesEditorComponent implements OnInit {
 
   separatorKeysCodes: number[] = [ENTER, COMMA];
   filteredRoles: Observable<RoleCode[]>;
-  roleControl = new FormControl();
+  roleControl = new UntypedFormControl();
 
   @ViewChild('roleInput') roleInput!: ElementRef<HTMLInputElement>;
 

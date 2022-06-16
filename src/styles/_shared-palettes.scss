@@ -237,7 +237,7 @@ $cogs-bright-red: mat.define-palette((
 	)
 ));
 
-$misc: mat.define-palette((
+$misc: (
 	discord: #5865F2,
 	form: #7248b9,
 	contrast: (
@@ -247,7 +247,7 @@ $misc: mat.define-palette((
 	),
 	light: $light-primary-text,
 	dark: $dark-primary-text
-));
+);
 
 $cogs-typography: mat.define-typography-config(
 	$font-family: 'Urbanist',

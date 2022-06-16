@@ -1,14 +1,14 @@
 import { FocusMonitor } from '@angular/cdk/a11y';
 import { coerceBooleanProperty } from '@angular/cdk/coercion';
 import { Component, ElementRef, HostBinding, Input, OnDestroy, OnInit, Optional, Self } from '@angular/core';
-import { ControlValueAccessor, FormControl, NgControl } from '@angular/forms';
+import { ControlValueAccessor, UntypedFormControl, NgControl } from '@angular/forms';
 import { MatFormFieldControl } from '@angular/material/form-field';
 import { BackendService } from '@src/app/services/backend.service';
 import { CdnService } from '@src/app/services/cdn.service';
 import { User } from '@src/generated/graphql-endpoint.types';
 import { UserFilterInput, UserSortInput } from '@src/generated/model.types';
 import { gql } from 'apollo-angular';
-import { Observable, ReplaySubject, Subject } from 'rxjs';
+import { firstValueFrom, Observable, ReplaySubject, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { PartialDeep } from 'type-fest';
 
@@ -91,13 +91,13 @@ export class UserInputComponent implements OnInit, ControlValueAccessor, MatForm
   private _value: PartialDeep<User> | null = null;
 
 //#region // ----- ORIGINAL VARS ----- //
-  inputControl = new FormControl();
+  inputControl = new UntypedFormControl();
   touched = false;
   filteredUsers$ = new ReplaySubject<PartialDeep<User>[]>();
   isEnteringNewUser = true;
   @HostBinding('attr.aria-describedby') describedBy = '';
 
-  private onDestroy$ = new Subject<void>();
+  protected onDestroy$ = new Subject<void>();
 //#endregion // -- ORIGINAL VARS ----- //
 
 
@@ -196,7 +196,7 @@ export class UserInputComponent implements OnInit, ControlValueAccessor, MatForm
   async fetchSearchedUsers(searchedUsername: string): Promise<PartialDeep<User>[]> {
     searchedUsername = searchedUsername.toLowerCase();
 
-    const startMatches = await this.backend.query<{
+    const startMatches = await firstValueFrom(this.backend.query<{
       users: {
         id: string,
         username: string,
@@ -230,7 +230,7 @@ export class UserInputComponent implements OnInit, ControlValueAccessor, MatForm
           }
         ]
       }
-    }).toPromise();
+    }));
     if (startMatches.error)
       return [];
 

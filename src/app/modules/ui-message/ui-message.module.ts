@@ -5,7 +5,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatDialogModule } from '@angular/material/dialog';
 import { ConfirmDialogComponent } from './confirm-dialog/confirm-dialog.component';
 import { MatButtonModule } from '@angular/material/button';
-import { CoreModule } from '@angular/flex-layout';
+import { CoreModule } from '@app/modules/_core/core.module';
 
 export { UIMessageService };
 

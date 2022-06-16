@@ -7,6 +7,7 @@ import { InviteType, NewProjectInviteInput, Project, ProjectMember } from '@src/
 import { SettingsService } from '@src/_settings';
 import { gql } from 'apollo-angular';
 import ColorThief from 'colorthief';
+import { firstValueFrom } from 'rxjs';
 import { first } from 'rxjs/operators';
 import { PartialDeep } from 'type-fest';
 import { EditProjectDialogComponent, EditProjectDialogData } from '../edit-project-dialog/edit-project-dialog.component';
@@ -86,7 +87,7 @@ export class OverviewTabComponent implements AfterViewChecked, OnChanges {
       return;
     
     this.monitor.addProcess();
-    const result = await this.backend.withAuth().mutate<{
+    const result = await firstValueFrom(this.backend.withAuth().mutate<{
       newProjectInvite: boolean
     }>({
       mutation: gql`
@@ -97,7 +98,7 @@ export class OverviewTabComponent implements AfterViewChecked, OnChanges {
       variables: {
         projectId: this.project.id,
       }
-    }).pipe(first()).toPromise();
+    }));
     this.monitor.removeProcess();
 
     if (result.errors)
@@ -113,7 +114,7 @@ export class OverviewTabComponent implements AfterViewChecked, OnChanges {
       return;
     
     this.monitor.addProcess();
-    const result = await this.backend.withAuth().mutate<{
+    const result = await firstValueFrom(this.backend.withAuth().mutate<{
       newProjectInvite: string
     }>({
       mutation: gql`
@@ -128,7 +129,7 @@ export class OverviewTabComponent implements AfterViewChecked, OnChanges {
           userId: this.security.securityContext?.userId,
         }
       }
-    }).pipe(first()).toPromise();
+    }));
     this.monitor.removeProcess();
 
     if (result.errors)
