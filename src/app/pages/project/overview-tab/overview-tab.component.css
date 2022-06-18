@@ -6,7 +6,7 @@
 .banner-container {
   display: block;
   box-sizing: content-box;
-  height: calc(20vh); 
+  height: calc(50vh); 
   width: 100%;
   display: flex;
   justify-content: center;

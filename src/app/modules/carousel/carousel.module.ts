@@ -6,6 +6,8 @@ import { ButtonStylesModule } from '../button-styles/button-styles.module';
 import { CarouselComponent } from './carousel/carousel.component';
 import { CarouselItemDirective } from './carousel-item/carousel-item.directive';
 import { MatIconModule } from '@angular/material/icon';
+import { UtilsModule } from '@src/app/utils/_utils.module';
+import { ServicesModule } from '@src/app/services/_services.module';
 
 
 
@@ -19,7 +21,9 @@ import { MatIconModule } from '@angular/material/icon';
     MatButtonModule,
     ButtonStylesModule,
     BrowserAnimationsModule,
-    MatIconModule
+    MatIconModule,
+    UtilsModule,
+    ServicesModule
   ],
   exports: [
     CarouselComponent,

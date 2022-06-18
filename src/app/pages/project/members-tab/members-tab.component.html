@@ -17,6 +17,11 @@
         justify-content: center;
         gap: 0.5em;
       " *ngIf="getPermsData(member) as permsData">
+        <div [matTooltip]="permsData.transferOwnershipTooltip">
+          <button mat-icon-button (click)="onTransferOwnership(member)" [disabled]="!permsData.canTransferOwnership">
+            <mat-icon>transfer_within_a_station</mat-icon>
+          </button>
+        </div>
         <div [matTooltip]="permsData.updateMemberTooltip">
           <button mat-icon-button (click)="onEdit(member)" [disabled]="!permsData.canUpdateMember">
             <mat-icon>edit</mat-icon>
@@ -58,6 +63,11 @@
                 display: flex;
                 justify-content: right;
               " *ngIf="getPermsData(element) as permsData">
+                <div [matTooltip]="permsData.transferOwnershipTooltip">
+                  <button mat-icon-button (click)="onTransferOwnership(element)" [disabled]="!permsData.canTransferOwnership">
+                    <mat-icon>transfer_within_a_station</mat-icon>
+                  </button>
+                </div>
                 <div [matTooltip]="permsData.updateMemberTooltip">
                   <button mat-icon-button (click)="onEdit(element)" [disabled]="!permsData.canUpdateMember">
                     <mat-icon>edit</mat-icon>

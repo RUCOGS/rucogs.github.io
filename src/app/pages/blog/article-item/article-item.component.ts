@@ -18,6 +18,6 @@ export class ArticleItemComponent implements OnInit {
   }
 
   onClick() {
-    this.router.navigate(["blog/" + this.article.filePath.split('.')[0]]);
+    this.router.navigateByUrl("blog/" + this.article.filePath.split('.')[0]);
   }
 }

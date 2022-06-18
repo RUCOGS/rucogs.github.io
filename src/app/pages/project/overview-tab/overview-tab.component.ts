@@ -3,7 +3,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { Color, ProcessMonitor } from '@src/app/classes/_classes.module';
 import { UIMessageService } from '@src/app/modules/ui-message/ui-message.module';
 import { SafePipe } from '@src/app/modules/_core/core.module';
-import { BackendService, CdnService, SecurityService } from '@src/app/services/_services.module';
+import { BackendService, BreakpointManagerService, CdnService, SecurityService } from '@src/app/services/_services.module';
+import { Breakpoint } from '@src/app/settings/breakpoints';
 import { InviteType, NewProjectInviteInput, Project, ProjectMember } from '@src/generated/graphql-endpoint.types';
 import { SettingsService } from '@src/_settings';
 import { gql } from 'apollo-angular';
@@ -38,12 +39,13 @@ export class OverviewTabComponent implements AfterViewChecked, OnChanges {
   private setupBannerColorListener = false;
 
   constructor(
-    private cdnService: CdnService,
+    public cdn: CdnService,
     private settings: SettingsService,
     private dialog: MatDialog,
     private backend: BackendService,
     private security: SecurityService,
-    private uiMessageService: UIMessageService
+    private uiMessageService: UIMessageService,
+    public breakpointManager: BreakpointManagerService
   ) {}
 
   // We can't use ngAfterViewInit because tab group triggers that despite not rendering the tab
@@ -53,13 +55,8 @@ export class OverviewTabComponent implements AfterViewChecked, OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['project']) {
-      this.bannerSrc = this.project.bannerLink ? this.cdnService.getFileLink(this.project.bannerLink) : "";
-      this.cardImageSrc = this.project.cardImageLink ? this.cdnService.getFileLink(this.project.cardImageLink) : this.settings.General.defaultCardImageSrc;
-
-      // TODO: Remove after finish
-      // if (this.project.id)
-      //   this.edit();
-      console.log(this.project.galleryImageLinks);
+      this.bannerSrc = this.project.bannerLink ? this.cdn.getFileLink(this.project.bannerLink) : "";
+      this.cardImageSrc = this.project.cardImageLink ? this.cdn.getFileLink(this.project.cardImageLink) : this.settings.General.defaultCardImageSrc;
     }
   }
   
@@ -205,5 +202,13 @@ export class OverviewTabComponent implements AfterViewChecked, OnChanges {
 
   getProjectYear() {
     return new Date(this.project.createdAt).getFullYear()
+  }
+
+  getVisibleSlides() {
+    if (this.breakpointManager.matchedBreakpointOrAbove(Breakpoint.Desktop))
+      return 3;
+    if (this.breakpointManager.matchedBreakpointOrAbove(Breakpoint.Mobile))
+      return 2;
+    return 1;
   }
 }

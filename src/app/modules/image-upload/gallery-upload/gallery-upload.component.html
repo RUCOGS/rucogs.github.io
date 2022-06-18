@@ -1,0 +1,58 @@
+<input
+style="display: none"
+type="file" accept="image/png, image/jpeg, image/gif" 
+(change)="onImageFileChanged($event)"
+#imageFileInput>
+<button mat-stroked-button pill (click)="imageFileInput.click()" [disabled]="monitor.isProcessing || disabled" style="margin-bottom: 0.5em;" [disabled]="limit > -1 && value && value.length >= limit">
+  <mat-icon>upload</mat-icon>
+  Add Image
+</button>
+<app-card-grid column-width="15em" style="width:100%" [auto-fit-columns]="true">
+  <div style="
+    position: relative;
+    border-radius: 0.5em;
+    padding: 1em;
+    border-style: solid;
+    border-width: 1px;
+    box-sizing: border-box;
+    display: flex;
+    gap: 0.5em;
+    flex-direction: column;
+  " class="border-color-divider" *ngFor="let file of value; let i = index">
+    <button mat-icon-button style="
+      position: absolute;
+      top: 0.2em;
+      right: 0.2em;
+    " (click)="deleteImageFile(i)">
+      <mat-icon>close</mat-icon>
+    </button>
+    <div style="
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    margin-right: 2em;
+    ">{{file.source}}</div>
+    <div style="
+      height: 0;
+      overflow: hidden;
+      padding-top: 100%;
+      box-sizing: border-box;
+      position: relative;
+    ">
+      <div style="        
+        width: 100%;
+        vertical-align: top;
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 100%;
+      ">
+        <img [src]="cdn.getFileLink(file.source)" style="
+          height: 100%;
+          width: 100%;
+          object-fit: cover;
+        ">
+      </div>
+    </div>
+  </div>
+</app-card-grid>

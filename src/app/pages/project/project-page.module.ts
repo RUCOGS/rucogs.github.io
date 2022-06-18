@@ -38,6 +38,7 @@ import { InvitesTabComponent } from './invites-tab/invites-tab.component';
 import { MembersTabComponent } from './members-tab/members-tab.component';
 import { OverviewTabComponent } from './overview-tab/overview-tab.component';
 import { ProjectPageComponent } from './project-page/project-page.component';
+import { SettingsTabComponent } from './settings-tab/settings-tab.component';
 
 export { ProjectPageComponent };
 
@@ -50,7 +51,8 @@ export { ProjectPageComponent };
     EditProjectDialogComponent,
     EditMemberDialogComponent,
     InvitesTabComponent,
-    InviteUserDialogComponent
+    InviteUserDialogComponent,
+    SettingsTabComponent
   ],
   imports: [
     CommonModule,

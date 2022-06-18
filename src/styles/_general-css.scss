@@ -30,6 +30,10 @@ ic-icon {
 }
 
 .mat-override-custom {
+	.mat-tooltip {
+		font-size: 0.8em;
+	}
+
 	.mat-button-toggle-button {
 		display: flex;
 		align-items: center;
@@ -42,6 +46,7 @@ ic-icon {
 		align-items: center;
 		justify-content: center;
 		gap: 0.5em;
+		padding: 0;
 	}
 
 	.mat-input-padding {

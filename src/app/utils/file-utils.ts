@@ -17,6 +17,23 @@ export class FileUtils {
       return `byteSize B`;
   }
 
+  static byteStringToBytes(byteString: string) {
+    const args = byteString.split(' ');
+    let amount = parseFloat(args[0]);
+    switch(args[1].toUpperCase()) {
+      case "GB":
+        amount *= 1_000_000_000;
+        break;
+      case "MB":
+        amount *= 1_000_000;
+        break; 
+      case "KB":
+        amount *= 1_000;
+        break;
+    }
+    return amount;
+  }
+
   static readAsBase64(file): Promise<any> {
     const reader = new FileReader();
     const fileValue = new Promise((resolve, reject) => {

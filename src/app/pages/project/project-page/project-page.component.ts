@@ -22,6 +22,7 @@ export function defaultProjectOptions() {
     inviteSent: false,
     isAuthenticated: false,
     loaded: false,
+    hasDeletePerms: false,
   };
 }
 
@@ -32,6 +33,7 @@ export type ProjectOptions = {
   inviteSent: boolean
   isAuthenticated: boolean
   loaded: boolean
+  hasDeletePerms: boolean
 }
 
 @Component({
@@ -125,6 +127,7 @@ export class ProjectPageComponent implements OnInit {
     }
     const permCalc = this.security.makePermCalc().withDomain(projectOpDomain);
     this.projectOptions.hasEditPerms = permCalc.hasPermission(Permission.UpdateProject);
+    this.projectOptions.hasDeletePerms = permCalc.hasPermission(Permission.DeleteProject);
     const projectQuery = firstValueFrom(this.backend.withAuth().withOpDomain({
       projectId: [ this.projectId ]
     }).query<{
