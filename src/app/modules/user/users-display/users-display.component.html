@@ -2,7 +2,31 @@
 
 <div #usersContainer class="app-users-display users-container">
   <app-profile-grid [users]="users"></app-profile-grid>
-  <div *ngIf="users.length === 0">
+  <app-profile-grid *ngIf="!loaded">
+    <div *ngFor="let item of [].constructor(21)">
+      <div style="
+        display: flex;
+        flex-direction: column;
+        gap: 0.5em;
+      ">
+        <div style="
+          height: 8em;
+          width: 8em;
+          border-radius: 50%;
+        " class="loading"></div>
+        <div style="
+          width: 8em;
+        " class="loading">_ _ _ </div>
+        <div style="
+          width: 8em;
+        " class="loading">_ _ _ </div>
+      </div>
+    </div>
+  </app-profile-grid>
+  <div style="
+    display: flex;
+  "></div>
+  <div *ngIf="loaded && users.length === 0">
     <h1 class="text-disabled">No results found...</h1>
   </div>
 </div>

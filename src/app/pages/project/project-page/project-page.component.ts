@@ -14,11 +14,15 @@ import { firstValueFrom, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { PartialDeep } from 'type-fest';
 
-export const DefaultProjectOptions = {
-  isMember: false, 
-  nonExistent: false,
-  hasEditPerms: false,
-  inviteSent: false,
+export function defaultProjectOptions() {
+  return {
+    isMember: false, 
+    nonExistent: false,
+    hasEditPerms: false,
+    inviteSent: false,
+    isAuthenticated: false,
+    loaded: false,
+  };
 }
 
 export type ProjectOptions = {
@@ -26,6 +30,8 @@ export type ProjectOptions = {
   nonExistent: boolean
   hasEditPerms: boolean
   inviteSent: boolean
+  isAuthenticated: boolean
+  loaded: boolean
 }
 
 @Component({
@@ -36,7 +42,7 @@ export type ProjectOptions = {
 export class ProjectPageComponent implements OnInit {
 
   project: PartialDeep<Project> = {};
-  projectOptions: ProjectOptions = DefaultProjectOptions;
+  projectOptions: ProjectOptions = defaultProjectOptions();
   
   private projectId: string = "";
   protected onDestroy$ = new Subject<void>();
@@ -51,8 +57,7 @@ export class ProjectPageComponent implements OnInit {
   ) {}
   
   ngOnInit() {
-    this.activatedRoute.paramMap.pipe(takeUntil(this.onDestroy$)).subscribe(async (params) => {
-      // TODO:      
+    this.activatedRoute.paramMap.pipe(takeUntil(this.onDestroy$)).subscribe(async (params) => {    
       this.projectId = params.get('projectId') as string;
 
       await this.security.waitUntilReady();
@@ -70,45 +75,50 @@ export class ProjectPageComponent implements OnInit {
   async fetchData(invalidateCache: boolean = false) {
     await this.security.fetchData();
 
-    const invitesOpDomain = this.security.getOpDomainFromPermission(
-      Permission.ManageProjectInvites, 
-      [ 'projectInviteId' ]
-    );
-    const invitesQuery = this.security.securityContext ? firstValueFrom(this.backend.withAuth()
-    .withOpDomain(invitesOpDomain)
-    .query<{
-      projectInvites: {
-        id: string
-        type: InviteType
-        user: {
+    this.projectOptions.isAuthenticated = this.security.securityContext?.userId != undefined;
+
+    let invitesQuery;
+    if (this.security.securityContext?.userId) {
+      const invitesOpDomain = this.security.getOpDomainFromPermission(
+        Permission.ManageProjectInvites, 
+        [ 'projectInviteId' ]
+      );
+      invitesQuery = this.security.securityContext ? firstValueFrom(this.backend.withAuth()
+      .withOpDomain(invitesOpDomain)
+      .query<{
+        projectInvites: {
           id: string
-          displayName: string
-          username: string
-          avatarLink: string
-        }
-      }[]
-    }>({
-      query: gql`
-        query FetchProjectPageInvites($filter: ProjectInviteFilterInput) {
-          projectInvites(filter: $filter) {
-            id
-            type
-            user {
+          type: InviteType
+          user: {
+            id: string
+            displayName: string
+            username: string
+            avatarLink: string
+          }
+        }[]
+      }>({
+        query: gql`
+          query FetchProjectPageInvites($filter: ProjectInviteFilterInput) {
+            projectInvites(filter: $filter) {
               id
-              displayName
-              username
-              avatarLink
+              type
+              user {
+                id
+                displayName
+                username
+                avatarLink
+              }
             }
           }
-        }
-      `,
-      variables: {
-        filter: <ProjectInviteFilterInput>{
-          projectId: { eq: this.projectId }
-        }
-      },
-      ...(invalidateCache && { fetchPolicy: 'no-cache' })
-    })) : undefined;
+        `,
+        variables: {
+          filter: <ProjectInviteFilterInput>{
+            projectId: { eq: this.projectId }
+          }
+        },
+        ...(invalidateCache && { fetchPolicy: 'no-cache' })
+      })) : undefined;
+    }
 
     const projectOpDomain = <OperationSecurityDomain>{
       projectId: [ this.projectId ]
@@ -129,6 +139,9 @@ export class ProjectPageComponent implements OnInit {
         access: Access
         pitch: string
         description: string
+        tags: string[]
+        galleryImageLinks: string[]
+        soundcloudEmbedSrc: string
         downloadLinks: string[]
         members: {
           id: string,
@@ -158,6 +171,9 @@ export class ProjectPageComponent implements OnInit {
             access
             pitch
             description
+            tags
+            galleryImageLinks
+            soundcloudEmbedSrc
             downloadLinks
             members {
               id
@@ -187,6 +203,7 @@ export class ProjectPageComponent implements OnInit {
 
     if (projectResult.data.projects.length == 0) {
       this.projectOptions.nonExistent = true;
+      this.projectOptions.loaded = true;
       return;
     }
 
@@ -203,6 +220,9 @@ export class ProjectPageComponent implements OnInit {
 
     if (this.authService.authenticated)
       this.projectOptions.isMember = this.project.members?.some(x => x?.user?.id === this.authService.getPayload()?.user.id) ?? false;
+    
+    // TODO: Set this to true after finishing loading page
+    this.projectOptions.loaded = true;
   }
 
   setupSubscribers() {

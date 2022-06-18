@@ -1,9 +1,7 @@
-import { Attribute, Component, EventEmitter, Input, OnInit, Optional, Output } from "@angular/core";
+import { Attribute, Directive, EventEmitter, Input, OnInit, Optional, Output } from "@angular/core";
 import { Router } from "@angular/router";
 
-@Component({
-  template: ''
-})
+@Directive()
 export class BaseButtonComponent implements OnInit {
 
   @Input() width: number = -1;

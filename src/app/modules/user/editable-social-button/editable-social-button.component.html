@@ -14,12 +14,14 @@
     <mat-form-field appearance="outline">
       <mat-label>Platform</mat-label>
       <mat-select formControlName="platform" style="min-height: 27px;">
-        <mat-select-trigger *ngIf="platform && platform.value" style="display:flex; align-items: center;">
-          <ic-icon [icon]="getSocialPlatformData(platform.value).icon" size="24px" style="margin-right:0.5em"></ic-icon>{{ getSocialPlatformData(platform.value).name }}
+        <mat-select-trigger *ngIf="platform && platform.value" style="display:flex; align-items: center; gap: 0.5em;">
+          <ic-icon [icon]="getSocialPlatformData(platform.value).icon" size="1.5em"></ic-icon>{{ getSocialPlatformData(platform.value).name }}
         </mat-select-trigger>
-        <mat-option *ngFor="let platform of getSocialPlatforms() | keyvalue" [value]="platform.key" style="display:flex; align-items: center;">
-          <ic-icon [icon]="platform.value.icon" size="16px"></ic-icon>
-          {{platform.value.name}}
+        <mat-option *ngFor="let platform of getSocialPlatforms() | keyvalue" [value]="platform.key">
+          <div style="display:flex; align-items: center; flex-direction: row; gap: 0.5em;">
+            <ic-icon [icon]="platform.value.icon" size="1.25em"></ic-icon>
+            {{platform.value.name}}
+          </div>
         </mat-option>
       </mat-select>
       <mat-error *ngIf="form.get('platform')?.hasError('required')">

@@ -68,7 +68,7 @@ export class AuthService implements OnDestroy {
       return;
     
     // Validate current auth
-    // TODO: Write a dedicated endpoint for verifying. Sending over entire
+    // TODO LATER: Write a dedicated endpoint for verifying. Sending over entire
     // security context is overkill.
     const result = await firstValueFrom(this.apollo.use("auth").query<{
         securityContext: SecurityContext

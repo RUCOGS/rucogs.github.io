@@ -16,7 +16,7 @@ import { ServicesModule } from './services/_services.module';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
   ],
   imports: [
     BrowserModule,

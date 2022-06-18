@@ -106,6 +106,19 @@
                 cdkAutosizeMinRows="5"
                 formControlName="description"></textarea>
     </mat-form-field>
+    <mat-form-field appearance="outline" style="width: 100%;">
+      <mat-label>Soundcloud Embed Source</mat-label>
+      <input matInput formControlName="soundcloudEmbedSrc">
+    </mat-form-field>
+    <mat-form-field appearance="outline" style="width: 100%;">
+      <mat-label>Download/Play Links</mat-label>
+      <app-string-array-input formControlName="downloadLinks" [limit]="5"></app-string-array-input>
+    </mat-form-field>
+    <mat-form-field appearance="outline" style="width: 100%;">
+      <mat-label>Tags</mat-label>
+      <app-tags-input formControlName="tags" [limit]="5"></app-tags-input>
+      <mat-hint align="end">{{ form.get('tags')?.value?.length || 0}}/5</mat-hint>
+    </mat-form-field>
   </form>
 </mat-dialog-content>
 <mat-dialog-actions>

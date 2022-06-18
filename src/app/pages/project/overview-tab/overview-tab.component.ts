@@ -2,6 +2,7 @@ import { AfterViewChecked, AfterViewInit, ChangeDetectorRef, Component, EventEmi
 import { MatDialog } from '@angular/material/dialog';
 import { Color, ProcessMonitor } from '@src/app/classes/_classes.module';
 import { UIMessageService } from '@src/app/modules/ui-message/ui-message.module';
+import { SafePipe } from '@src/app/modules/_core/core.module';
 import { BackendService, CdnService, SecurityService } from '@src/app/services/_services.module';
 import { InviteType, NewProjectInviteInput, Project, ProjectMember } from '@src/generated/graphql-endpoint.types';
 import { SettingsService } from '@src/_settings';
@@ -11,7 +12,7 @@ import { firstValueFrom } from 'rxjs';
 import { first } from 'rxjs/operators';
 import { PartialDeep } from 'type-fest';
 import { EditProjectDialogComponent, EditProjectDialogData } from '../edit-project-dialog/edit-project-dialog.component';
-import { DefaultProjectOptions, ProjectOptions } from '../project-page/project-page.component';
+import { defaultProjectOptions, ProjectOptions } from '../project-page/project-page.component';
 import { AccessOptions } from '../_classes/utils';
 
 @Component({
@@ -24,12 +25,13 @@ export class OverviewTabComponent implements AfterViewChecked, OnChanges {
   @Output() edited = new EventEmitter();
 
   @Input() project: PartialDeep<Project> = {};
-  @Input() projectOptions: ProjectOptions = DefaultProjectOptions;
+  @Input() projectOptions: ProjectOptions = defaultProjectOptions();
 
   cardImageSrc: string = "https://c.tenor.com/Tu0MCmJ4TJUAAAAC/load-loading.gif";
   bannerSrc: string = "https://c.tenor.com/Tu0MCmJ4TJUAAAAC/load-loading.gif";
   bannerColor: Color | undefined;
   accessOptions = AccessOptions;
+  soundCloudColor = "b3002d";
 
   monitor = new ProcessMonitor();
 
@@ -41,7 +43,7 @@ export class OverviewTabComponent implements AfterViewChecked, OnChanges {
     private dialog: MatDialog,
     private backend: BackendService,
     private security: SecurityService,
-    private uiMessageService: UIMessageService,
+    private uiMessageService: UIMessageService
   ) {}
 
   // We can't use ngAfterViewInit because tab group triggers that despite not rendering the tab
@@ -53,6 +55,11 @@ export class OverviewTabComponent implements AfterViewChecked, OnChanges {
     if (changes['project']) {
       this.bannerSrc = this.project.bannerLink ? this.cdnService.getFileLink(this.project.bannerLink) : "";
       this.cardImageSrc = this.project.cardImageLink ? this.cdnService.getFileLink(this.project.cardImageLink) : this.settings.General.defaultCardImageSrc;
+
+      // TODO: Remove after finish
+      // if (this.project.id)
+      //   this.edit();
+      console.log(this.project.galleryImageLinks);
     }
   }
   
@@ -105,7 +112,6 @@ export class OverviewTabComponent implements AfterViewChecked, OnChanges {
       return;
     
     this.edited.emit();
-
     this.uiMessageService.notifyConfirmed('Joined project!');
   }
   
@@ -144,7 +150,8 @@ export class OverviewTabComponent implements AfterViewChecked, OnChanges {
       data: <EditProjectDialogData>{
         project: this.project
       },
-      width: "37.5em"
+      width: "37.5em",
+      maxWidth: '90vw',
     });
     dialog.afterClosed()
       .pipe(first())
@@ -154,5 +161,49 @@ export class OverviewTabComponent implements AfterViewChecked, OnChanges {
             this.edited.emit();
         } 
       });
+  }
+
+  downloadLinkStaticData: {
+    domains: string[],
+    text: string,
+    icon: string,
+  }[] = [
+    {
+      domains: [ "store.steampowered.com" ],
+      text: "on Steam",
+      icon: "steam"
+    },
+    {
+      domains: [ "itch.io" ],
+      text: "on Itch",
+      icon: "itchdotio"
+    }
+  ]
+
+  defaultDownloadLinkStaticData = {
+    text: "here",
+    icon: "play"
+  }
+
+  getDownloadLinkStaticData(link: string | undefined) {
+    if (!link)
+      return this.defaultDownloadLinkStaticData;
+    const result = this.downloadLinkStaticData.find(x => x.domains.some(domain => link.includes(domain)));
+    if (result)
+      return result;
+    return this.defaultDownloadLinkStaticData
+  }
+
+  onDownloadLinkClick(link: string | undefined) {
+    if (link)
+      window.open(link, '_blank');
+  }
+
+  getDateString(date: number) {
+    return new Date(date).toLocaleString();
+  }
+
+  getProjectYear() {
+    return new Date(this.project.createdAt).getFullYear()
   }
 }

@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { User, UserLoginIdentity } from '@src/generated/graphql-endpoint.types';
 import { PartialDeep } from 'type-fest';
-import { DefaultUserOptions, UserOptions } from '../user-page/user-page.component';
+import { defaultUserOptions, UserOptions } from '../user-page/user-page.component';
 
 @Component({
   selector: 'app-settings-tab',
@@ -13,7 +13,7 @@ export class SettingsTabComponent implements OnInit {
   @Output() edited = new EventEmitter();
 
   @Input() user: PartialDeep<User> = {};
-  @Input() userOptions: UserOptions = DefaultUserOptions;
+  @Input() userOptions: UserOptions = defaultUserOptions();
 
   constructor() { }
 

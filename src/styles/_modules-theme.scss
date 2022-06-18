@@ -8,6 +8,7 @@
 @use '../app/pages/pages' as pages;
 @use '../app/modules/site-menus/site-menus' as site-menus;
 @use '../app/modules/project-member/project-member' as project-member;
+@use '../app/modules/carousel/carousel' as carousel;
 
 @mixin theme($theme) {
   @include ngx-markdown-nav.theme($theme);
@@ -20,4 +21,5 @@
   @include pages.theme($theme);
   @include site-menus.theme($theme);
   @include project-member.theme($theme);
+  @include carousel.theme($theme);
 }

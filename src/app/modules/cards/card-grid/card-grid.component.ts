@@ -8,7 +8,7 @@ import { CssLengthService } from '@src/app/services/css-length.service';
 })
 export class CardGridComponent implements AfterViewInit, OnDestroy {
   
-  @Input('column-width') columnWidth: string = "250px";
+  @Input('column-width') columnWidth: string = "20em";
   @Input() columns: string = "auto-fit";
   @Input('auto-fit-columns') autofitColumns: boolean = true
 

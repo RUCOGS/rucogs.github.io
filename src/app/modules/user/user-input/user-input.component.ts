@@ -1,14 +1,14 @@
 import { FocusMonitor } from '@angular/cdk/a11y';
-import { coerceBooleanProperty } from '@angular/cdk/coercion';
-import { Component, ElementRef, HostBinding, Input, OnDestroy, OnInit, Optional, Self } from '@angular/core';
-import { ControlValueAccessor, UntypedFormControl, NgControl } from '@angular/forms';
+import { Component, ElementRef, OnInit, Optional, Self } from '@angular/core';
+import { NgControl, UntypedFormControl } from '@angular/forms';
 import { MatFormFieldControl } from '@angular/material/form-field';
+import { BaseCustomInputComponent } from '@app/modules/base-custom-input/base-custom-input.module';
 import { BackendService } from '@src/app/services/backend.service';
 import { CdnService } from '@src/app/services/cdn.service';
 import { User } from '@src/generated/graphql-endpoint.types';
 import { UserFilterInput, UserSortInput } from '@src/generated/model.types';
 import { gql } from 'apollo-angular';
-import { firstValueFrom, Observable, ReplaySubject, Subject } from 'rxjs';
+import { firstValueFrom, ReplaySubject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { PartialDeep } from 'type-fest';
 
@@ -24,110 +24,49 @@ import { PartialDeep } from 'type-fest';
     }
   ]
 })
-export class UserInputComponent implements OnInit, ControlValueAccessor, MatFormFieldControl<PartialDeep<User>>, OnDestroy {
+export class UserInputComponent extends BaseCustomInputComponent<string> implements OnInit {
+
+  inputControl = new UntypedFormControl();
+  filteredUsers$ = new ReplaySubject<PartialDeep<User>[]>();
+  isEnteringNewUser = true;
+  
+  get user(): PartialDeep<User> | null {
+    return this._user;
+  }
+  set user(user: PartialDeep<User> | null) {
+    this._user = user;
+    this.value = user?.id ? user.id : null;
+  }
+  private _user: PartialDeep<User> | null = null;
+
+//#region // ----- BaseCustomInputComponent ----- //
   static nextId = 0;
-
-  stateChanges = new Subject<void>();
-  focused: boolean = false;
-  errorState: boolean = false;
-  controlType = 'app-user-input';
-  id: string = `app-user-input-${UserInputComponent.nextId++}`;
-  onChange: any = (_: any) => { };
-  onTouched: any = () => { };
-
   get empty() {
     return this.value === "";
   }
-  
-  get shouldLabelFloat() { 
-    return this.focused || !this.empty; 
-  }
-  
-  @Input()
-  get placeholder(): string { return this._placeholder; }
-  set placeholder(value: string) {
-    this._placeholder = value;
-    this.stateChanges.next();
-  }
-  private _placeholder: string = "";
 
-  @Input()
-  get required(): boolean { return this._required; }
-  set required(value: boolean) {
-    this._required = coerceBooleanProperty(value);
-    this.stateChanges.next();
-  }
-  private _required = false;
-
-  @Input()
-  get disabled(): boolean { return this._disabled; }
-  set disabled(value: boolean) {
-    this._disabled = coerceBooleanProperty(value);
-    this._disabled ? this.inputControl.disable() : this.inputControl.enable();
-    this.stateChanges.next();
-  }
-  private _disabled = false;
-
-  @Input()
-  get value() {
-    return this._value;
-  }
-  set value(value: PartialDeep<User> | null) {
-    const oldValue = this._value;
-    this._value = value;
-    if (
-      (!this._value && oldValue) ||
-      (this._value && !oldValue) ||
-      (
-        this.value 
-        && oldValue 
-        && oldValue?.id != this._value?.id
-      )
-    ) {
-      this.onChange(this.value?.id);
-      this.markAsTouched();
-    }
-  }
-  private _value: PartialDeep<User> | null = null;
-
-//#region // ----- ORIGINAL VARS ----- //
-  inputControl = new UntypedFormControl();
-  touched = false;
-  filteredUsers$ = new ReplaySubject<PartialDeep<User>[]>();
-  isEnteringNewUser = true;
-  @HostBinding('attr.aria-describedby') describedBy = '';
-
-  protected onDestroy$ = new Subject<void>();
-//#endregion // -- ORIGINAL VARS ----- //
-
+  public controlType: string = `app-user-input`;
+  public id: string = `${this.controlType}-${UserInputComponent.nextId++}`;
+//#engregion // -- BaseCustomInputComponent ----- //
 
   constructor(
     public cdn: CdnService,
     private backend: BackendService,
-    private _focusMonitor: FocusMonitor,
-    private _elementRef: ElementRef<HTMLElement>,
-    @Optional() @Self() public ngControl: NgControl,
+
+    focusMonitor: FocusMonitor,
+    elementRef: ElementRef<HTMLElement>,
+    @Optional() @Self() ngControl: NgControl,
   ) {
-    if (this.ngControl != null) {
-      this.ngControl.valueAccessor = this;
-    }
-
-    _focusMonitor.monitor(_elementRef, true).subscribe(origin => {
-      if (this.focused && !origin) {
-        this.onTouched();
-      }
-      this.focused = !!origin;
-      this.stateChanges.next();
-    });
-
-    if (this.ngControl != null) {
-      this.ngControl.valueAccessor = this;
-    }
+    super(
+      focusMonitor, 
+      elementRef, 
+      ngControl
+    );
   }
 
   ngOnInit(): void {
-    if (this.value != null) {
-      this.inputControl.setValue(this.value.username, {
+    if (this.user != null) {
+      this.inputControl.setValue(this.user.username, {
         emitEvent: false
       });
       this.isEnteringNewUser = false;
@@ -140,7 +79,7 @@ export class UserInputComponent implements OnInit, ControlValueAccessor, MatForm
           if (typeof value === 'string') {
             this.filteredUsers$.next(await this.fetchSearchedUsers(value));
 
-            this.value = null;
+            this.user = null;
 
             if (!this.isEnteringNewUser) {
               this.inputControl.setValue(value.replace("[object Object]", ""), { 
@@ -149,7 +88,7 @@ export class UserInputComponent implements OnInit, ControlValueAccessor, MatForm
               this.isEnteringNewUser = true;
             }
           } else {
-            this.value = value;
+            this.user = value;
             
             this.inputControl.setValue(value.username, {
               emitEvent: false
@@ -160,37 +99,6 @@ export class UserInputComponent implements OnInit, ControlValueAccessor, MatForm
           // we don't have to do anything.
         }
       });
-  }
-
-  ngOnDestroy(): void {
-    this.stateChanges.complete();
-    this._focusMonitor.stopMonitoring(this._elementRef);
-  }
-
-  setDescribedByIds(ids: string[]): void {
-    this.describedBy = ids.join(' '); 
-  }
-
-  onContainerClick(event: MouseEvent): void {
-    if ((event.target as Element).tagName.toLowerCase() != 'input') {
-      this._elementRef.nativeElement.querySelector('input')!.focus();
-    }
-  }
-
-  writeValue(value: PartialDeep<User> | null): void {
-    this.value = value;
-  }
-
-  registerOnChange(fn: any): void {
-    this.onChange = fn;
-  }
-
-  registerOnTouched(fn: any): void {
-    this.onTouched = fn;
-  }
-
-  setDisabledState(isDisabled: boolean): void {
-    this.disabled = isDisabled;
   }
 
   async fetchSearchedUsers(searchedUsername: string): Promise<PartialDeep<User>[]> {
@@ -239,12 +147,5 @@ export class UserInputComponent implements OnInit, ControlValueAccessor, MatForm
 
   onAutoCompleteOptionSelected() {
     this.isEnteringNewUser = false;
-  }
-
-  markAsTouched() {
-    if (!this.touched) {
-      this.onTouched();
-      this.touched = true;
-    }
   }
 }

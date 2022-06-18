@@ -1,0 +1,5 @@
+@use './carousel/carousel.component-theme' as carousel;
+
+@mixin theme($theme) {
+	@include carousel.theme($theme);
+}

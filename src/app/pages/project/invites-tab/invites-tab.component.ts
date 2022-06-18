@@ -12,7 +12,7 @@ import { firstValueFrom, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { PartialDeep } from 'type-fest';
 import { InviteUserDialogComponent, InviteUserDialogData } from '../invite-user-dialog/invite-user-dialog.component';
-import { DefaultProjectOptions, ProjectOptions } from '../project-page/project-page.component';
+import { defaultProjectOptions, ProjectOptions } from '../project-page/project-page.component';
 
 @Component({
   selector: 'app-invites-tab',
@@ -24,7 +24,7 @@ export class InvitesTabComponent implements OnChanges, OnDestroy, AfterViewInit 
   @Output() edited = new EventEmitter();
 
   @Input() project: PartialDeep<Project> = {};
-  @Input() projectOptions: ProjectOptions = DefaultProjectOptions;
+  @Input() projectOptions: ProjectOptions = defaultProjectOptions();
 
   @ViewChild(FilterHeaderComponent) filterHeader: FilterHeaderComponent | undefined
   

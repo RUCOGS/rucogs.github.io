@@ -14,7 +14,7 @@ import { assertNoDuplicates } from '@src/shared/validation';
 import { gql } from 'apollo-angular';
 import { finalize, first } from 'rxjs/operators';
 import { PartialDeep } from 'type-fest';
-import { DefaultUserOptions, UserOptions } from '../user-page/user-page.component';
+import { defaultUserOptions, UserOptions } from '../user-page/user-page.component';
 
 export interface EditUserDialogData {
   user: PartialDeep<User>
@@ -28,7 +28,7 @@ export interface EditUserDialogData {
 export class EditUserDialogComponent implements AfterViewInit {
 
   user: PartialDeep<User> = {};
-  // userOptions: UserOptions = DefaultUserOptions;
+  // userOptions: UserOptions = DefaultUserOptions();
 
   @ViewChild('avatarUpload') avatarUpload?: ImageUploadComponent;
   @ViewChild('bannerUpload') bannerUpload?: ImageUploadComponent;

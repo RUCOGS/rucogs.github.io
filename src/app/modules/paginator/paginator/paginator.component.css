@@ -8,12 +8,10 @@
 	justify-content: center;
 }
 
-.icon {
-	position: relative;
-	top: 6px;
-}
-
 .page-button {
 	min-width: 48px;
 	font-weight: 800;
+	display: flex;
+	align-items: center;
+	justify-content: center;
 }

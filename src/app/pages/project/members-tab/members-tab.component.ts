@@ -11,7 +11,7 @@ import { firstValueFrom, Subject } from 'rxjs';
 import { first, takeUntil } from 'rxjs/operators';
 import { PartialDeep } from 'type-fest';
 import { EditMemberDialogComponent, EditMemberDialogData } from '../edit-member-dialog/edit-member-dialog.component';
-import { DefaultProjectOptions, ProjectOptions } from '../project-page/project-page.component';
+import { defaultProjectOptions, ProjectOptions } from '../project-page/project-page.component';
 
 @Component({
   selector: 'app-members-tab',
@@ -23,7 +23,7 @@ export class MembersTabComponent implements AfterViewInit, OnDestroy, OnChanges 
   @Output() edited = new EventEmitter();
 
   @Input() project: PartialDeep<Project> = {};
-  @Input() projectOptions: ProjectOptions = DefaultProjectOptions;
+  @Input() projectOptions: ProjectOptions = defaultProjectOptions();
 
   @ViewChild('membersFilter') filterHeader: FilterHeaderComponent | undefined
 
@@ -83,7 +83,8 @@ export class MembersTabComponent implements AfterViewInit, OnDestroy, OnChanges 
         projectMember: member,
         projectId: this.project.id
       },
-      width: "600px"
+      width: "37.5em",
+      maxWidth: '90vw',
     }).afterClosed().toPromise();
     if (result)
       this.edited.emit();

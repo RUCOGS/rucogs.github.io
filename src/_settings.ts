@@ -31,6 +31,7 @@ import video from '@iconify/icons-dashicons/format-video';
 import tutorial from '@iconify/icons-ic/outline-integration-instructions'
 import google from '@iconify/icons-simple-icons/google';
 import form from '@iconify/icons-ant-design/form-outlined'
+import play from '@iconify/icons-ant-design/play-circle-filled'
 
 // Settings for the entire site.
 // Edit these if you need to make minor tweaks
@@ -65,6 +66,7 @@ export class SettingsService {
     public mailingListLink: string = "http://eepurl.com/cgDAk5";
 
     public icons = {
+      play,
       discord,
       twitter,
       github,
