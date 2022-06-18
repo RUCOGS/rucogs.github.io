@@ -23,7 +23,27 @@ b {
 	font-weight: 900;
 }
 
+ic-icon {
+	display: flex; 
+	align-items: center;
+	flex: 0;
+}
+
 .mat-override-custom {
+	.mat-button-toggle-button {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+
+	.mat-button-wrapper {
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		justify-content: center;
+		gap: 0.5em;
+	}
+
 	.mat-input-padding {
 		padding-bottom: 1.25em;
 	}

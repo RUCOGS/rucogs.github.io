@@ -9,7 +9,7 @@ import { gql } from 'apollo-angular';
 import { firstValueFrom, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { PartialDeep } from 'type-fest';
-import { DefaultUserOptions, UserOptions } from '../user-page/user-page.component';
+import { defaultUserOptions, UserOptions } from '../user-page/user-page.component';
 
 @Component({
   selector: 'app-invites-tab',
@@ -21,7 +21,7 @@ export class InvitesTabComponent implements OnChanges, OnDestroy, AfterViewInit 
   @Output() edited = new EventEmitter();
 
   @Input() user: PartialDeep<User> = {};
-  @Input() userOptions: UserOptions = DefaultUserOptions;
+  @Input() userOptions: UserOptions = defaultUserOptions();
 
   @ViewChild(FilterHeaderComponent) filterHeader: FilterHeaderComponent | undefined
   

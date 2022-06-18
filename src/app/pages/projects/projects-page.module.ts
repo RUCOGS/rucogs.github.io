@@ -15,7 +15,7 @@ export { ProjectsPageComponent };
   imports: [
     CommonModule,
     CoreModule,
-    ProjectModule,
+    ProjectModule
   ],
   exports: [
     ProjectsPageComponent

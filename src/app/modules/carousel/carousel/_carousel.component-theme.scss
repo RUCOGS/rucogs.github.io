@@ -1,0 +1,38 @@
+@use 'sass:map';
+@use 'sass:color';
+@use '@angular/material' as mat;
+
+@mixin color($config) {
+  $background: map.get($config, background);
+  $foreground: map.get($config, foreground);
+  $primary: map.get($config, primary);
+
+  $disabled-color: rgba(rgb(176, 176, 176), 0.8);
+  $enabled-color: white;
+
+  .app-carousel.carousel-button {
+    background-color: $disabled-color;
+
+    &.active {
+      background-color: $enabled-color,
+    }
+  }
+}
+
+@mixin typography($config) {
+  .app-text-button.button {
+    @include mat.typography-level($config, button);
+  }
+}
+
+@mixin theme($theme) {
+  $color-config: mat.get-color-config($theme);
+  @if $color-config != null {
+    @include color($color-config);
+  }
+
+  $typography-config: mat.get-typography-config($theme);
+  @if $typography-config != null {
+    @include typography($typography-config);
+  }
+}

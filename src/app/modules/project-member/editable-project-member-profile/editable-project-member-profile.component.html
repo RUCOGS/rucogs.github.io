@@ -24,7 +24,7 @@
         Contributions is required
       </mat-error>
     </mat-form-field>
-    <div *ngIf="hasManageRolesPerms">
+    <div>
       <app-role-codes-editor [roles]="projectMemberEdit.roles" [allRoles]="projectMemberEdit.acceptedRoles" (rolesEdited)="onEditRoles()" [disabledRoles]="['PROJECT_MEMBER']" label="Roles" [disabled]="disabled"></app-role-codes-editor>
     </div>
   </form>

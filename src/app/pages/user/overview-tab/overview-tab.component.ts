@@ -13,7 +13,7 @@ import ColorThief from 'colorthief';
 import { firstValueFrom } from 'rxjs';
 import { PartialDeep } from 'type-fest';
 import { EditUserDialogComponent, EditUserDialogData } from '../edit-user-dialog/edit-user-dialog.component';
-import { DefaultUserOptions, UserOptions } from '../user-page/user-page.component';
+import { defaultUserOptions, UserOptions } from '../user-page/user-page.component';
 
 @Component({
   selector: 'app-overview-tab',
@@ -25,7 +25,7 @@ export class OverviewTabComponent implements AfterViewChecked, OnChanges {
   @Output() edited = new EventEmitter();
 
   @Input() user: PartialDeep<User> = {};
-  @Input() userOptions: UserOptions = DefaultUserOptions;
+  @Input() userOptions: UserOptions = defaultUserOptions();
 
   @ViewChild(ProjectsDisplayComponent) projectsDisplay?: ProjectsDisplayComponent;
   
@@ -157,7 +157,8 @@ export class OverviewTabComponent implements AfterViewChecked, OnChanges {
       data: <EditUserDialogData>{
         user: this.user
       },
-      width: "37.5em"
+      width: "37.5em",
+      maxWidth: '90vw',
     }).afterClosed().toPromise();
     
     if (result)

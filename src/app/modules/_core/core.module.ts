@@ -19,7 +19,9 @@ import { TagsModule } from '../tags/tags.module';
 import { CardsModule } from '../cards/cards.module';
 import { ButtonStylesModule } from '../button-styles/button-styles.module';
 import { BreakableStylesDirective } from './breakable-styles/breakable-styles.directive';
+import { SafePipe } from './safe-pipe/safe.pipe';
 
+export { SafePipe };
 
 
 @NgModule({
@@ -35,6 +37,7 @@ import { BreakableStylesDirective } from './breakable-styles/breakable-styles.di
     SectionComponent,
     SubSectionComponent,
     BreakableStylesDirective,
+    SafePipe,
   ],
   imports: [
     CommonModule,
@@ -61,7 +64,8 @@ import { BreakableStylesDirective } from './breakable-styles/breakable-styles.di
     QuestionPanelComponent,
     SectionComponent,
     SubSectionComponent,
-    BreakableStylesDirective
+    BreakableStylesDirective,
+    SafePipe,
   ]
 })
 export class CoreModule { }

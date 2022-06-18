@@ -48,9 +48,6 @@ export class EditableProjectMemberProfileComponent implements OnInit, OnDestroy 
 
   @Input() projectMemberEdit: ProjectMemberEdit = new ProjectMemberEdit();
 
-  // TODO: Fetch this instead of keeping it as true
-  @Input() hasManageRolesPerms = true;
-
   form: UntypedFormGroup;
 
   get contributions() {

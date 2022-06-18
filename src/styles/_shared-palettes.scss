@@ -73,7 +73,7 @@ $light-theme-background-palette: (
 	status-bar: map.get($grey-palette, 300),
 	app-bar:    map.get($grey-palette, 100),
 	background: map.get($grey-palette, 50),
-	hover:      rgba(black, 0.04), // TODO(kara): check style with Material Design UX
+	hover:      rgba(black, 0.04),
 	card:       white,
 	dialog:     white,
 	disabled-button: rgba(black, 0.12),
@@ -85,6 +85,9 @@ $light-theme-background-palette: (
 	unselected-chip: map.get($grey-palette, 300),
 	disabled-list-option: map.get($grey-palette, 200),
 	tooltip: map.get($grey-palette, 700),
+
+	loading: map.get($grey-palette, 300),
+	loading-mid: map.get($grey-palette, 200),
 );
 
 // Foreground palette for light themes.
@@ -111,7 +114,7 @@ $dark-theme-background-palette: (
 	status-bar: black,
 	app-bar:    map.get($grey-palette, 900),
 	background: #303030,
-	hover:      rgba(white, 0.04), // TODO(kara): check style with Material Design UX
+	hover:      rgba(white, 0.04),
 	card:       map.get($grey-palette, 800),
 	dialog:     map.get($grey-palette, 800),
 	disabled-button: rgba(white, 0.12),
@@ -123,6 +126,9 @@ $dark-theme-background-palette: (
 	unselected-chip: map.get($grey-palette, 700),
 	disabled-list-option: black,
 	tooltip: map.get($grey-palette, 700),
+
+	loading: map.get($grey-palette, 800),
+	loading-mid: map.get($grey-palette, 700),
 );
 
 // Foreground palette for dark themes.

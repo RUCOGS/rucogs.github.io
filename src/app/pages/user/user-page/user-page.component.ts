@@ -13,16 +13,20 @@ import { firstValueFrom, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { PartialDeep } from 'type-fest';
 
-export const DefaultUserOptions = {
-  hasEditPerms: false,
-  nonExistent: false,
-  hasProjects: false,
+export function defaultUserOptions() {
+  return {
+    hasEditPerms: false,
+    nonExistent: false,
+    hasProjects: false,
+    loaded: false,
+  };
 }
 
 export type UserOptions = {
   hasEditPerms: boolean
   nonExistent: boolean
   hasProjects: boolean
+  loaded: boolean
 }
 
 @Component({
@@ -33,7 +37,7 @@ export type UserOptions = {
 export class UserPageComponent implements OnInit, OnDestroy {
   
   user: PartialDeep<User> = {};
-  userOptions: UserOptions = DefaultUserOptions;
+  userOptions: UserOptions = defaultUserOptions();
 
   tabLinks = [
     {
@@ -119,6 +123,7 @@ export class UserPageComponent implements OnInit, OnDestroy {
 
     if (userResult.data.users.length == 0) {
       this.userOptions.nonExistent = true;
+      this.userOptions.loaded = true;
       return;
     }
     let user: PartialDeep<User> = deepClone(userResult.data.users[0]);
@@ -163,48 +168,51 @@ export class UserPageComponent implements OnInit, OnDestroy {
       }
     }
 
-    const invitesOpDomain = this.security.getOpDomainFromPermission(
-      Permission.ManageProjectInvites, 
-      [ 'projectInviteId' ]
-    );
-    const invitesResult = (this.security.securityContext && this.userOptions.hasEditPerms) ? await this.backend.withAuth()
-    .withOpDomain(invitesOpDomain)
-    .query<{
-      projectInvites: {
-        id: string
-        type: InviteType
-        project: {
+    if (this.security.securityContext?.userId) {
+      const invitesOpDomain = this.security.getOpDomainFromPermission(
+        Permission.ManageProjectInvites, 
+        [ 'projectInviteId' ]
+      );
+      const invitesResult = (this.security.securityContext && this.userOptions.hasEditPerms) ? await firstValueFrom(this.backend.withAuth()
+      .withOpDomain(invitesOpDomain)
+      .query<{
+        projectInvites: {
           id: string
-          name: string
-          cardImageLink: string
-        }
-      }[]
-    }>({
-      query: gql`
-        query FetchUserPageInvites($filter: ProjectInviteFilterInput) {
-          projectInvites(filter: $filter) {
-            id
-            type
-            project {
+          type: InviteType
+          project: {
+            id: string
+            name: string
+            cardImageLink: string
+          }
+        }[]
+      }>({
+        query: gql`
+          query FetchUserPageInvites($filter: ProjectInviteFilterInput) {
+            projectInvites(filter: $filter) {
               id
-              name
-              cardImageLink
+              type
+              project {
+                id
+                name
+                cardImageLink
+              }
             }
           }
-        }
-      `,
-      variables: {
-        filter: <ProjectInviteFilterInput>{
-          userId: { eq: user.id }
-        }
-      },
-      ...(invalidateCache && { fetchPolicy: 'no-cache' })
-    }).toPromise() : undefined;
+        `,
+        variables: {
+          filter: <ProjectInviteFilterInput>{
+            userId: { eq: user.id }
+          }
+        },
+        ...(invalidateCache && { fetchPolicy: 'no-cache' })
+      })) : undefined;
 
-    if (invitesResult && !invitesResult.error) {
-      user.projectInvites = invitesResult.data.projectInvites;
+      if (invitesResult && !invitesResult.error) {
+        user.projectInvites = invitesResult.data.projectInvites;
+      }
     }
 
+    this.userOptions.loaded = true;
     // Set user last to let angular propagate it.
     this.user = user;
   }

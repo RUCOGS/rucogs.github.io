@@ -1,20 +1,20 @@
-import { AfterViewInit, ChangeDetectorRef, Component, EventEmitter, Inject, OnInit, Output, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, EventEmitter, Inject, Output, ViewChild } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { ProcessMonitor } from '@src/app/classes/_classes.module';
 import { ImageUploadComponent } from '@src/app/modules/image-upload/image-upload.module';
 import { UIMessageService } from '@src/app/modules/ui-message/ui-message.module';
-import { BackendService, RolesService, SecurityService } from '@src/app/services/_services.module';
 import { CdnService } from '@src/app/services/cdn.service';
+import { BackendService } from '@src/app/services/_services.module';
+import { arraysEqual } from '@src/app/utils/utils';
 import { Project, UpdateProjectInput, UploadOperation } from '@src/generated/graphql-endpoint.types';
-import { SettingsService } from '@src/_settings';
-import { PartialDeep } from 'type-fest';
-import { ProcessMonitor } from '@src/app/classes/_classes.module';
-import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { deepClone } from '@src/app/utils/utils';
-import { FormConfigurer } from '@src/app/utils/form-utils';
-import { finalize, first } from 'rxjs/operators';
 import { gql } from 'apollo-angular';
-import { DefaultProjectOptions, ProjectOptions } from '../project-page/project-page.component';
+import { first } from 'rxjs/operators';
+import { PartialDeep } from 'type-fest';
+import { defaultProjectOptions, ProjectOptions } from '../project-page/project-page.component';
 import { AccessOptions } from '../_classes/utils';
+
+const soundcloudEmbedRegex = new RegExp(/https%3A\/\/api\.soundcloud\.com\/.+\/[0-9]+/);
 
 export interface EditProjectDialogData {
   project: PartialDeep<Project>;
@@ -30,7 +30,7 @@ export class EditProjectDialogComponent implements AfterViewInit {
   @Output() edited = new EventEmitter<PartialDeep<Project>>();
 
   project: PartialDeep<Project> = {};
-  projectOptions: ProjectOptions = DefaultProjectOptions;
+  projectOptions: ProjectOptions = defaultProjectOptions();
 
   monitor = new ProcessMonitor();
   accessOptions = AccessOptions;
@@ -49,25 +49,24 @@ export class EditProjectDialogComponent implements AfterViewInit {
     public dialogRef: MatDialogRef<EditProjectDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: EditProjectDialogData,
   ) {
+    this.project = data.project;
     this.form = formBuilder.group({
-      name: [null, [Validators.required]],
-      access: [null, [Validators.required]],
-      pitch: [null, [Validators.required]],
-      description: [null, []],
+      name: [this.project.name, [Validators.required]],
+      access: [this.project.access, [Validators.required]],
+      galleryImageLinks: [this.project.galleryImageLinks],
+      // TODO: replace with this.project.downloadLinks
+      downloadLinks: [this.project.downloadLinks],
+      soundcloudEmbedSrc: [this.project.soundcloudEmbedSrc],
+      pitch: [this.project.pitch, [Validators.required]],
+      description: [this.project.description],
+      tags: [[...(this.project.tags as string[])], []],
     })
     dialogRef.disableClose = true;
-    this.project = data.project;
   }
 
   ngAfterViewInit(): void {
     if (!this.cardImageUpload || !this.bannerUpload || !this.project.id)
       return;
-
-    const formConfig = new FormConfigurer(this.form);
-    formConfig.initControl('access', this.project.access);
-    formConfig.initControl('name', this.project.name);
-    formConfig.initControl('pitch', this.project.pitch);
-    formConfig.initControl('description', this.project.description);
 
     this.cardImageUpload.init(this.cdnService.getFileLink(this.project.cardImageLink));
     this.bannerUpload.init(this.cdnService.getFileLink(this.project.bannerLink));
@@ -86,7 +85,21 @@ export class EditProjectDialogComponent implements AfterViewInit {
       if (!this.form.valid) {
         throw new Error("Some project information is missing!");
       }
-      
+
+      if (this.form.get("soundcloudEmbedSrc")?.value !== this.project.soundcloudEmbedSrc) {
+        const soundcloudEmbedSrc: string = this.form.get("soundcloudEmbedSrc")?.value ?? "";
+        console.log("testing against " + soundcloudEmbedSrc);
+        const match = soundcloudEmbedRegex.exec(soundcloudEmbedSrc);
+        console.log(match);
+        if (!match || match.length === 0) {
+          // Process the embed src to find the link
+          this.uiMessageService.error("Soundcloud embed source is not valid!");
+          return false;
+        } else {
+          this.form.get("soundcloudEmbedSrc")?.setValue(match[0]);
+        }
+      }
+
       return true;
     } catch(err: any) {
       this.uiMessageService.error(err);
@@ -120,6 +133,18 @@ export class EditProjectDialogComponent implements AfterViewInit {
       input.description = this.form.get("description")?.value;
     }
 
+    if (this.form.get("soundcloudEmbedSrc")?.value !== this.project.soundcloudEmbedSrc) {
+      input.soundcloudEmbedSrc = this.form.get("soundcloudEmbedSrc")?.value;
+    }
+
+    if (!arraysEqual(this.form.get("downloadLinks")?.value, this.project.downloadLinks as string[])) {
+      input.downloadLinks = this.form.get("downloadLinks")?.value;
+    }
+    
+    if (!arraysEqual(this.form.get("tags")?.value, this.project.tags as string[])) {
+      input.tags = this.form.get("tags")?.value;
+    }
+
     if (this.cardImageUpload.edited) {
       if (this.cardImageUpload.value)
         input.cardImage = {
@@ -150,7 +175,7 @@ export class EditProjectDialogComponent implements AfterViewInit {
         .withAuth()
         .mutate<boolean>({
           mutation: gql`
-            mutation($input: UpdateProjectInput!) {
+            mutation DialogUpdateProject($input: UpdateProjectInput!) {
               updateProject(input: $input)
             }
           `,

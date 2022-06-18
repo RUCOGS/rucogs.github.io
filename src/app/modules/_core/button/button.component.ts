@@ -2,8 +2,6 @@ import { Attribute, Component, Input, Optional } from '@angular/core';
 import { Router } from '@angular/router';
 import { BaseButtonComponent } from '@src/app/modules/_core/base-button/base-button';
 
-// TODO: Make button use scss for custom colors instead of directly passing in a color.
-
 @Component({
   selector: 'app-button',
   templateUrl: './button.component.html',

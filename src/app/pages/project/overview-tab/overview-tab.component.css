@@ -6,7 +6,7 @@
 .banner-container {
   display: block;
   box-sizing: content-box;
-  height: calc(50vh); 
+  height: calc(20vh); 
   width: 100%;
   display: flex;
   justify-content: center;
@@ -93,8 +93,4 @@
 	margin: auto;
   padding-top: 0px;
 	max-width: var(--content-width);
-}
-
-.core-content > * {
-  margin-top: 32px;
 }

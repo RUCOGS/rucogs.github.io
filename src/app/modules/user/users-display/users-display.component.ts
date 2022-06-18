@@ -20,9 +20,11 @@ export class UsersDisplayComponent implements AfterViewInit, OnDestroy {
   
 
   currentPage: number = 0;
-  usersPerPage: number = 40;
+  usersPerPage: number = 21;
   filter: UserFilterInput = {};
   fillingPage: boolean = false;
+  loaded: boolean = false;
+  loadedEverything: boolean = false;
 
   protected onDestroy$ = new Subject<void>();
 
@@ -55,7 +57,7 @@ export class UsersDisplayComponent implements AfterViewInit, OnDestroy {
   }
 
   async queryUntilFillPage(filter: UserFilterInput | undefined = undefined) {
-    if (this.fillingPage)
+    if (this.fillingPage || this.loadedEverything)
       return;
     this.fillingPage = true;
     let resultsLength: number = 0;
@@ -75,16 +77,24 @@ export class UsersDisplayComponent implements AfterViewInit, OnDestroy {
   }
 
   async addPage(filter: UserFilterInput | undefined = undefined) {
-    const result = await this.queryUsers(filter);
-    if (result.length == 0)
+    this.loaded = false;
+    const result = await this.queryUsers(filter, this.currentPage * this.usersPerPage, this.usersPerPage);
+    if (result.length == 0) {
+      this.loaded = true;
+      this.loadedEverything = true;
       return 0;
+    }
     
+    if (result.length < this.usersPerPage) {
+      this.loadedEverything = true;
+    }
     this.users = this.users.concat(result);
     this.currentPage++;
+    this.loaded = true;
     return result.length;
   }
 
-  async queryUsers(filter: UserFilterInput | undefined = undefined) {
+  async queryUsers(filter: UserFilterInput | undefined = undefined, skip: number, limit: number) {
     if (filter !== undefined)
       this.filter = filter;
     const results = await firstValueFrom(this.backend.withAuth().query<{
@@ -108,8 +118,8 @@ export class UsersDisplayComponent implements AfterViewInit, OnDestroy {
       variables: {
         // Pagination
         // TODO EVENTUALLY: Use cursor pagination once Typetta suppoorts that
-        skip: this.currentPage * this.usersPerPage,
-        limit: this.usersPerPage,
+        skip,
+        limit,
         filter: this.filter,
         sorts: [
           <UserSortInput>{
@@ -127,6 +137,8 @@ export class UsersDisplayComponent implements AfterViewInit, OnDestroy {
   resetPages() {
     this.users = [];
     this.currentPage = 0;
+    this.loaded = false;
+    this.loadedEverything = false;
   }
 
   async onNewSearchRequest(searchText: string) {

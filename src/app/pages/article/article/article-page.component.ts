@@ -29,11 +29,10 @@ export class ArticlePageComponent implements OnInit {
   ngOnInit(): void {
     var articleParam = this.activatedRoute.snapshot.paramMap.get('article');
     if (articleParam) {
-      // TODO: Change in future to not store .md in url in the first place
+      // TODO LATER: Change in future to not store .md in url in the first place
       const articleFilePath = decodeURIComponent(articleParam);
       this.article = this.articles.find(x => x.filePath == articleFilePath);
     }
-    console.log(`${this.articlesDir}${this.article?.filePath}.md`);
   }
 
   onLoad(): void {

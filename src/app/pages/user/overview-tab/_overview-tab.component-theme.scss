@@ -12,10 +12,6 @@
       border-color: mat.get-color-from-palette($background, background) !important;
     }
 
-    &.no-results-text {
-      color: mat.get-color-from-palette($foreground, disabled-button)
-    }
-
     &.avatar-container,
     &.banner-container {
       background-color: mat.get-color-from-palette($background, background)

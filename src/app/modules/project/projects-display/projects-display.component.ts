@@ -26,6 +26,9 @@ export class ProjectsDisplayComponent implements AfterViewInit, OnDestroy {
   projectsPerPage: number = 6;
   filter: ProjectFilterInput = {};
   fillingPage: boolean = false;
+  // Did we make our first load yet?
+  loaded: boolean = false;
+  loadedEverything: boolean = false;
 
   private onDestroy$: Subject<void> = new Subject<void>();
 
@@ -59,7 +62,7 @@ export class ProjectsDisplayComponent implements AfterViewInit, OnDestroy {
   }
 
   async queryUntilFillPage(filter: ProjectFilterInput | undefined = undefined) {
-    if (this.fillingPage)
+    if (this.fillingPage || this.loadedEverything)
       return;
 
     this.fillingPage = true;
@@ -80,12 +83,22 @@ export class ProjectsDisplayComponent implements AfterViewInit, OnDestroy {
   }
 
   async addPage(filter: ProjectFilterInput | undefined = undefined) {
+    this.loaded = false;
     const result = await this.queryProjects(filter);
-    if (result.length == 0)
+    if (result.length == 0) {
+      this.loaded = true;
+      this.loadedEverything = true;
       return 0;
+    }
     
+    if (result.length < this.projectsPerPage) {
+      this.loadedEverything = true;
+    }
     this.projects = this.projects.concat(result);
     this.currentPage++;
+
+    this.loaded = true;
+
     return result.length;
   }
 
@@ -157,6 +170,8 @@ export class ProjectsDisplayComponent implements AfterViewInit, OnDestroy {
   resetPages() {
     this.projects = [];
     this.currentPage = 0;
+    this.loaded = false;
+    this.loadedEverything = false;
   }
 
   async onNewSearchRequest(searchText: string) {

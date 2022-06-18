@@ -1,0 +1,82 @@
+<div style="
+  position: relative;
+  width: 100%;
+  height: 100%;
+">
+  <div style="
+    position: relative;
+    overflow: hidden;
+    height: 100%;
+    width: 100%;
+	  border-radius: 0.5em;
+  ">
+    <div style="
+      position: absolute;
+      width: 100%;
+    " #transitionAnimationRoot>
+      <div style="
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        " [ngStyle]="getOffsetStyle()"
+      >
+        <div *ngFor="let slide of currentSlides;" style="
+          display: inline;
+          position: relative;
+        ">
+          <div [ngStyle]="getItemStyle()">
+            <ng-template [ngTemplateOutlet]="slide.templateRef"></ng-template>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div style="
+    position: absolute;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+    top: 0;
+  ">
+    <button mat-fab color="blank" (click)="previous(true)" style="
+      position: absolute;
+      left: -2em;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    ">
+      <mat-icon style="
+        font-size: 2em;
+      ">keyboard_arrow_left</mat-icon> 
+    </button>
+    <button mat-fab color="blank" (click)="next(true)"  style="
+      position: absolute;
+      right: -2em;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    ">
+      <mat-icon style="
+        font-size: 2em;
+      ">keyboard_arrow_right</mat-icon>  
+    </button>
+  </div>
+  <div style="
+    position: absolute;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    bottom: 1em;
+    gap: 0.5em;
+  ">
+    <button mat-raised-button *ngFor="let slide of slides; let i = index" style="
+      border-radius: 1em;
+      height: 0.5em;
+      overflow: hidden;
+    " class="app-carousel carousel-button" [ngClass]="{'active': currentSlideIndex === i}"></button>
+  </div>
+</div>
