@@ -1,3 +1,16 @@
+export function positiveMod(n: number, mod: number) {
+  return ((n % mod) + mod) % mod;
+}
+
+export function spliceWrap(array: any[], index: number, count: number) {
+  const result: any[] = [];
+  for (let i = 0; i < count; i++) {
+    const wrappedIndex = positiveMod(index + i, array.length);
+    result.push(array[wrappedIndex]);
+  }
+  return result;
+}
+
 export function arraysEqual(a: any[], b: any[]) {
   if (a === b) return true;
   if (a == null || b == null) return false;

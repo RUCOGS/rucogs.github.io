@@ -8,6 +8,10 @@
 	justify-content: center;
 }
 
+mat-button-toggle-group {
+	margin-bottom: 1.5em;
+}
+
 .page-button {
 	min-width: 48px;
 	font-weight: 800;

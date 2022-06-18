@@ -8,6 +8,8 @@ import {
   HostBinding,
   Input, OnDestroy, QueryList, TemplateRef, ViewChild
 } from '@angular/core';
+import { CssLengthService } from '@src/app/services/css-length.service';
+import { positiveMod, spliceWrap } from '@src/app/utils/_utils.module';
 import { CarouselItemDirective } from '../carousel-item/carousel-item.directive';
 
 @Component({
@@ -19,55 +21,60 @@ import { CarouselItemDirective } from '../carousel-item/carousel-item.directive'
 export class CarouselComponent implements AfterViewInit, OnDestroy {
 
   @ContentChildren(CarouselItemDirective) slides?: QueryList<CarouselItemDirective>;
-  @ViewChild('transitionAnimationRoot') transAnimRoot!: ElementRef;
+  @ViewChild('transitionAnimationRoot') transAnimRoot?: ElementRef;
+  @ViewChild('fadeOutTransitionAnimationRoot') fadeOutTransAnimRoot?: ElementRef;
+  @ViewChild('carouselButtonsContainer') carouselButtonsContainer?: ElementRef;
   @Input() visibleSlides = 1;
   @Input() autoplay: boolean = false;
   @Input() autoplayDurationMS: number = 2000;
   @Input() timings = `250ms ease-out`;
+  @HostBinding('style.display') display = "inline-block";
 
   currentSlides: CarouselItemDirective[] = [];
+  fadeoutSlides: CarouselItemDirective[] = [];
 
-  gap = "1em";
-  slideState: string = 'current';
+  gap = "0.5em";
   currentSlideIndex: number = 0;
-  player!: AnimationPlayer;
+  slidePlayer?: AnimationPlayer;
+  fadeInPlayer?: AnimationPlayer;
+  fadeOutPlayer?: AnimationPlayer;
   autoPlayIntervalId?: any;
+  sidePadding = "2em";
 
   constructor(
     private elementRef: ElementRef,
     private changeDetector: ChangeDetectorRef,
-    private animBuilder: AnimationBuilder
+    private animBuilder: AnimationBuilder,
+    private cssLength: CssLengthService,
   ) { }
 
   ngOnDestroy(): void {
-    if (this.player)
-      this.player.destroy();
+    if (this.slidePlayer)
+      this.slidePlayer.destroy();
+    if (this.fadeOutPlayer)
+      this.fadeOutPlayer.destroy();
+    if (this.fadeInPlayer)
+      this.fadeInPlayer.destroy();
     this.stopAutoPlay();
   }
 
   ngAfterViewInit(): void {
-    this.updateCurrentSlide(0);
-    if (this.autoplay)
-      this.startAutoPlay();
-    this.changeDetector.detectChanges();
+    setTimeout(() => {
+      if (!this.slides || this.slides.length === 0) {
+        // Change detection complains if we update inside of ngAfterViewInit.
+        this.display = 'none';
+        return;
+      }
+      this.updateCurrentSlide(0);
+      if (this.autoplay)
+        this.startAutoPlay();
+      this.changeDetector.detectChanges();
+    });
   }
 
   updateCurrentSlide(index: number) {
     if (!this.slides)
       return;
-    
-    function positiveMod(n: number, mod: number) {
-      return ((n % mod) + mod) % mod;
-    }
-
-    function spliceWrap(array: any[], index: number, count: number) {
-      const result: any[] = [];
-      for (let i = 0; i < count; i++) {
-        const wrappedIndex = positiveMod(index + i, array.length);
-        result.push(array[wrappedIndex]);
-      }
-      return result;
-    }
 
     const slidesArray = this.slides.toArray();
     this.currentSlideIndex = positiveMod(index, slidesArray.length);
@@ -79,45 +86,77 @@ export class CarouselComponent implements AfterViewInit, OnDestroy {
     return 100.0 / this.visibleSlides;
   }
 
+  getAnimationTransform(direction: number = 1) {
+    return `translateX(calc(${direction} * ${this.getSlidePercentageWidth()}%)`;
+  }
+
+  getDefaultAnimationTransform() {
+    return `translateX(0)`;
+  }
+
   getNextAnimation(): AnimationMetadata[] {
     return [style({
-      transform: `translateX(${this.getSlidePercentageWidth()}%)` 
+      transform: this.getAnimationTransform(1) 
       }), animate(this.timings, style({ 
-        transform: 'translateX(0)' 
+        transform: this.getDefaultAnimationTransform()
       }))];
   }
 
   getPreviousAnimation(): AnimationMetadata[] {
     return [style({ 
-      transform: `translateX(-${this.getSlidePercentageWidth()}%)` 
+      transform: this.getAnimationTransform(-1)
       }), animate(this.timings, style({ 
-        transform: 'translateX(0)' 
+        transform: this.getDefaultAnimationTransform()
+      }))];
+  }
+
+  getFadeoutAnimation(): AnimationMetadata[] {
+    return [style({ 
+      transform: 'translateY(0)',
+      opacity: 1
+      }), animate(this.timings, style({ 
+        transform: 'translateY(100%)',
+        opacity: 0
+      }))];
+  }
+
+  getFadeinAnimation(): AnimationMetadata[] {
+    return [style({ 
+      transform: 'translateY(-100%)',
+      opacity: 0,
+      }), animate(this.timings, style({ 
+        transform: 'translateY(0)',
+        opacity: 1
       }))];
   }
 
   next(interruptAutoPlay: boolean = false) {
-    if (this.player) {
-      this.player.finish();
-      this.player.destroy();
+    if (!this.transAnimRoot)
+      return;
+    if (this.slidePlayer) {
+      this.slidePlayer.finish();
+      this.slidePlayer.destroy();
     }
     if (interruptAutoPlay)
       this.stopAutoPlay();
     
-    this.player = this.animBuilder.build(this.getNextAnimation()).create(this.transAnimRoot.nativeElement);
-    this.player.play();
+    this.slidePlayer = this.animBuilder.build(this.getNextAnimation()).create(this.transAnimRoot.nativeElement);
+    this.slidePlayer.play();
     this.updateCurrentSlide(this.currentSlideIndex + 1);
   }
   
   previous(interruptAutoPlay: boolean = false) {
-    if (this.player) {
-      this.player.finish();
-      this.player.destroy();
+    if (!this.transAnimRoot)
+      return;
+    if (this.slidePlayer) {
+      this.slidePlayer.finish();
+      this.slidePlayer.destroy();
     }
     if (interruptAutoPlay)
       this.stopAutoPlay();
     
-    this.player = this.animBuilder.build(this.getPreviousAnimation()).create(this.transAnimRoot.nativeElement);
-    this.player.play();
+    this.slidePlayer = this.animBuilder.build(this.getPreviousAnimation()).create(this.transAnimRoot.nativeElement);
+    this.slidePlayer.play();
     this.updateCurrentSlide(this.currentSlideIndex - 1);
   }
 
@@ -139,15 +178,81 @@ export class CarouselComponent implements AfterViewInit, OnDestroy {
 
   getOffsetStyle() {
     return {
-      'transform': `translateX(-${this.getSlidePercentageWidth()}%)`,
+      'transform': this.getDefaultAnimationTransform(),
       'gap': this.gap
     };
   }
 
+  getCarouselPxWidth() {
+    return this.elementRef.nativeElement.offsetWidth - 2 * this.cssLength.convertToNumber(this.sidePadding, 'px');
+  }
+
+  getPaddedCarouselPxWidth() {
+    return this.elementRef.nativeElement.offsetWidth - this.cssLength.convertToNumber(this.sidePadding, 'px');
+  }
+
   getItemStyle() {
     return {
-      'width': (this.elementRef.nativeElement.offsetWidth / this.visibleSlides) + "px",
+      'width': (this.getPaddedCarouselPxWidth() / this.visibleSlides - this.cssLength.convertToNumber(this.gap, 'px') * (this.visibleSlides - 1) * 0.5) + "px",
       'height': this.elementRef.nativeElement.offsetHeight + "px",
+    };
+  }
+
+  fadeToSlide(index: number, interruptAutoplay: boolean) {
+    if (!this.transAnimRoot || !this.fadeOutTransAnimRoot)
+      return;
+    if (this.fadeOutPlayer) {
+      this.fadeOutPlayer.finish();
+      this.fadeOutPlayer.destroy();
+    }
+    if (this.fadeInPlayer) {
+      this.fadeInPlayer.finish();
+      this.fadeInPlayer.destroy();
+    }
+
+    if (interruptAutoplay)
+      this.stopAutoPlay();
+
+    this.fadeoutSlides = this.currentSlides.slice(0);
+    this.updateCurrentSlide(index);
+    
+    this.fadeInPlayer = this.animBuilder.build(this.getFadeinAnimation()).create(this.transAnimRoot.nativeElement);
+    
+    this.fadeOutPlayer = this.animBuilder.build(this.getFadeoutAnimation()).create(this.fadeOutTransAnimRoot.nativeElement);
+
+    this.fadeInPlayer.play();
+    this.fadeOutPlayer.play();
+  }
+
+  gotoSlide(index: number) {
+    index = positiveMod(index, this.slides!.length)
+    if (this.currentSlideIndex === index)
+      return;
+    if (positiveMod(this.currentSlideIndex + 1, this.slides!.length) === index)
+      this.next();
+    else if (positiveMod(this.currentSlideIndex - 1, this.slides!.length) === index)
+      this.previous();
+    else
+      this.fadeToSlide(index, true);
+  }
+
+  areCarouselButtonsVisible() {
+    if (!this.carouselButtonsContainer)
+      return false;
+    
+    return this.getCarouselPxWidth() >= this.carouselButtonsContainer.nativeElement.offsetWidth;
+  }
+
+  getCarouselContainerStyle() {
+    return {
+      'padding-left': this.sidePadding,
+      'padding-right': this.sidePadding,
+    }
+  }
+
+  getCarouselButtonsContainerStyle() {
+    return {
+      'visibility': this.areCarouselButtonsVisible() ? 'visible' : 'hidden'
     };
   }
 }

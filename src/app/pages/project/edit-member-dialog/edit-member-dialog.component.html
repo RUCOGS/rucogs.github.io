@@ -9,7 +9,9 @@
         cdkTextareaAutosize
         cdkAutosizeMinRows="1"
         cdkAutosizeMaxRows="5"
-        formControlName="contributions"></textarea>
+        formControlName="contributions"
+        [maxlength]="450"></textarea>
+      <mat-hint align="end">{{ form.get('contributions')?.value?.length || 0}}/450</mat-hint>
     </mat-form-field>
     <app-role-codes-editor label="Roles" [roles]="roles" [allRoles]="acceptedRoles" (rolesEdited)="rolesEdited = true" [disabledRoles]="disabledRoles"></app-role-codes-editor>
   </form>

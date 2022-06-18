@@ -7,7 +7,7 @@ import { UIMessageService } from '@src/app/modules/ui-message/ui-message.module'
 import { CdnService } from '@src/app/services/cdn.service';
 import { BackendService } from '@src/app/services/_services.module';
 import { arraysEqual } from '@src/app/utils/utils';
-import { Project, UpdateProjectInput, UploadOperation } from '@src/generated/graphql-endpoint.types';
+import { Project, UpdateProjectInput, UploadOperation, UploadOrSource } from '@src/generated/graphql-endpoint.types';
 import { gql } from 'apollo-angular';
 import { first } from 'rxjs/operators';
 import { PartialDeep } from 'type-fest';
@@ -53,13 +53,15 @@ export class EditProjectDialogComponent implements AfterViewInit {
     this.form = formBuilder.group({
       name: [this.project.name, [Validators.required]],
       access: [this.project.access, [Validators.required]],
-      galleryImageLinks: [this.project.galleryImageLinks],
+      galleryImages: [this.project.galleryImageLinks?.map(x => <UploadOrSource>{
+        source: x
+      })],
       // TODO: replace with this.project.downloadLinks
       downloadLinks: [this.project.downloadLinks],
       soundcloudEmbedSrc: [this.project.soundcloudEmbedSrc],
       pitch: [this.project.pitch, [Validators.required]],
       description: [this.project.description],
-      tags: [[...(this.project.tags as string[])], []],
+      tags: [this.project.tags, []],
     })
     dialogRef.disableClose = true;
   }
@@ -86,11 +88,9 @@ export class EditProjectDialogComponent implements AfterViewInit {
         throw new Error("Some project information is missing!");
       }
 
-      if (this.form.get("soundcloudEmbedSrc")?.value !== this.project.soundcloudEmbedSrc) {
+      if (this.form.get("soundcloudEmbedSrc")?.value !== "" && this.form.get("soundcloudEmbedSrc")?.value !== this.project.soundcloudEmbedSrc) {
         const soundcloudEmbedSrc: string = this.form.get("soundcloudEmbedSrc")?.value ?? "";
-        console.log("testing against " + soundcloudEmbedSrc);
         const match = soundcloudEmbedRegex.exec(soundcloudEmbedSrc);
-        console.log(match);
         if (!match || match.length === 0) {
           // Process the embed src to find the link
           this.uiMessageService.error("Soundcloud embed source is not valid!");
@@ -143,6 +143,13 @@ export class EditProjectDialogComponent implements AfterViewInit {
     
     if (!arraysEqual(this.form.get("tags")?.value, this.project.tags as string[])) {
       input.tags = this.form.get("tags")?.value;
+    }
+
+    if (this.form.get("galleryImages")?.touched) {
+      input.galleryImages = this.form.get("galleryImages")?.value.map((x: UploadOrSource) => <UploadOrSource>{
+        ...(!x.source?.startsWith('data:') && { source: x.source }),
+        ...(x.upload && { upload: x.upload }),
+      });
     }
 
     if (this.cardImageUpload.edited) {

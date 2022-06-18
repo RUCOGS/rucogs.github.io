@@ -166,14 +166,6 @@
           </p>
         </div>
       </div>
-        <app-carousel style="
-          width: 100%;
-          height: 20em;
-        " [visibleSlides]="3" [autoplay]="true">
-          <ng-container *ngFor="let imageLink of project.galleryImageLinks">
-            <img *appCarouselItem style="position: relative; width: 100%; height: 100%; object-fit: cover;" [src]="imageLink">
-          </ng-container>
-        </app-carousel>
       <div style="
         display: flex;
         flex-direction: column;
@@ -203,6 +195,47 @@
               </div>
             </button>
           </div>
+        </div>
+        <div style="
+          display: flex;
+          flex-direction: column;
+          gap: 0.5em;
+        " *ngIf="project.galleryImageLinks && project.galleryImageLinks.length > 0">
+          <div style="
+            position: relative;
+            width: 100%;
+            padding-top: 56.25%;
+          " *ngIf="!breakpointManager.matchedBreakpointOrBelow('MEDIUM_MOBILE')">
+            <div style="
+              position:  absolute;
+              top: 0;
+              left: 0;
+              bottom: 0;
+              right: 0;
+            ">
+              <app-carousel style="
+                position: relative;
+                width: 100%;
+                height: 100%;
+              " [visibleSlides]="1" 
+              [autoplay]="true" 
+              [autoplayDurationMS]="6000">
+                <ng-container *ngFor="let imageLink of project.galleryImageLinks">
+                  <img *appCarouselItem style="position: relative; width: 100%; height: 100%; object-fit: cover;" [src]="cdn.getFileLink(imageLink)">
+                </ng-container>
+              </app-carousel>
+            </div>
+          </div>
+          <app-carousel style="
+            width: 100%;
+            height: 20em;
+          " [visibleSlides]="getVisibleSlides()" 
+            [autoplay]="true"
+            [autoplayDurationMS]="2000">
+            <ng-container *ngFor="let imageLink of project.galleryImageLinks">
+              <img *appCarouselItem style="position: relative; width: 100%; height: 100%; object-fit: cover;" [src]="cdn.getFileLink(imageLink)">
+            </ng-container>
+          </app-carousel>
         </div>
         <iframe *ngIf="this.project.soundcloudEmbedSrc" width="100%" height="450" scrolling="no" frameborder="no" allow="autoplay" [src]="'https://w.soundcloud.com/player/?url=' + project.soundcloudEmbedSrc + '&color=%23' + soundCloudColor + '&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true' | safe:'resourceUrl'"></iframe>
         <div class="text-disabled" style="

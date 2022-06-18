@@ -3,10 +3,18 @@ import { coerceBooleanProperty } from '@angular/cdk/coercion';
 import { Directive, ElementRef, Input, OnDestroy } from '@angular/core';
 import { ControlValueAccessor, NgControl } from '@angular/forms';
 import { MatFormFieldControl } from '@angular/material/form-field';
+import { WithDestroy } from '@src/app/classes/mixins';
 import { Subject } from 'rxjs';
+import mixin from 'ts-mixin-extended';
 
 @Directive()
-export class BaseCustomInputComponent<TValue> implements ControlValueAccessor, MatFormFieldControl<TValue>, OnDestroy {
+export class BaseCustomInputComponent<TValue> extends mixin(class {
+  constructor(
+    protected focusMonitor: FocusMonitor,
+    protected elementRef: ElementRef,
+    public ngControl: NgControl,
+  ) {}
+}, WithDestroy) implements ControlValueAccessor, MatFormFieldControl<TValue>, OnDestroy {
 
   onChange: any = (_: any) => {};
   onTouched: any = () => {};
@@ -76,13 +84,12 @@ export class BaseCustomInputComponent<TValue> implements ControlValueAccessor, M
   public controlType: string = "";
   public id: string = "";
 
-  
-  
   constructor(
-    protected focusMonitor: FocusMonitor,
-    protected elementRef: ElementRef,
-    public ngControl: NgControl,
-  ) { 
+    focusMonitor: FocusMonitor,
+    elementRef: ElementRef,
+    ngControl: NgControl,
+  ) {
+    super(focusMonitor, elementRef, ngControl);
     if (this.ngControl != null) {
       this.ngControl.valueAccessor = this;
     }
@@ -96,13 +103,10 @@ export class BaseCustomInputComponent<TValue> implements ControlValueAccessor, M
     })
   }
 
-
-
   ngOnDestroy(): void {
-    this.stateChanges.complete();
+    super.ngOnDestroy();
+
     this.focusMonitor.stopMonitoring(this.elementRef);
-    this.onDestroy$.next();
-    this.onDestroy$.complete();
   }
 
   setDescribedByIds(ids: string[]): void {
@@ -129,9 +133,6 @@ export class BaseCustomInputComponent<TValue> implements ControlValueAccessor, M
   }
 
   markAsTouched() {
-    if (!this.touched) {
-      this.onTouched();
-      this.touched = true;
-    }
+    this.onTouched();
   }
 }

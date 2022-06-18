@@ -6,7 +6,7 @@ import { CssLengthService } from '@src/app/services/css-length.service';
   templateUrl: './card-grid.component.html',
   styleUrls: ['./card-grid.component.css']
 })
-export class CardGridComponent implements AfterViewInit, OnDestroy {
+export class CardGridComponent implements OnInit, AfterViewInit, OnDestroy {
   
   @Input('column-width') columnWidth: string = "20em";
   @Input() columns: string = "auto-fit";
@@ -24,6 +24,9 @@ export class CardGridComponent implements AfterViewInit, OnDestroy {
     this.observer = new MutationObserver(mutations => {    
       this.updateGridTemplateColumns();
     });
+  }
+
+  ngOnInit(): void {
     this.updateGridTemplateColumns(true);
   }
 

@@ -29,6 +29,7 @@ export class MembersTabComponent implements AfterViewInit, OnDestroy, OnChanges 
 
   displayedColumns = ['member', 'buttons'];  
   filteredProjectMembers: PartialDeep<ProjectMember>[] = [];
+  currentProjectOwner?: PartialDeep<ProjectMember>;
 
   protected onDestroy$ = new Subject<void>();
 
@@ -56,6 +57,7 @@ export class MembersTabComponent implements AfterViewInit, OnDestroy, OnChanges 
     if (changes['project']) {
       if (this.project.members)
         this.filteredProjectMembers = deepClone(this.project.members) as PartialDeep<ProjectMember>[];
+      this.currentProjectOwner = this.project.members?.find(x => x?.roles?.some(x => x?.roleCode === RoleCode.ProjectOwner));
     }
   }
 
@@ -91,7 +93,10 @@ export class MembersTabComponent implements AfterViewInit, OnDestroy, OnChanges 
   }
 
   async onKick(member: PartialDeep<ProjectMember> | undefined) {
-    const confirmed = await this.uiMessage.confirmDialog(`Are you sure you want to kick "${member?.user?.displayName}" (@${member?.user?.username})?`)
+    let confirmText = `Are you sure you want to kick "${member?.user?.displayName}" (@${member?.user?.username})?`;
+    if (member?.user?.id === this.security.securityContext?.userId)
+      confirmText = `Are you sure you want to leave the project?`;
+    const confirmed = await this.uiMessage.confirmDialog(confirmText)
       .pipe(first())
       .toPromise();
     if (confirmed) {
@@ -117,21 +122,36 @@ export class MembersTabComponent implements AfterViewInit, OnDestroy, OnChanges 
       return {
         canKickMember: false,
         canUpdateMember: false,
+        canTransferOwnership: false,
         kickMemberTooltip: "",
-        updateMemberTooltip: ""
+        updateMemberTooltip: "",
+        transferOwnershipTooltip: "",
       }
     
+    const permsCalc = this.security.makePermCalc();
+
     let canUpdateMember = true;
     let updateMemberTooltip = "";
-
-    if (!this.security.makePermCalc()
-      .withDomain({
+    if (!permsCalc.withDomain({
         projectMemberId: [ member.id ]
-      })
-      .hasPermission(Permission.ManageProjectMember)
+      }).hasPermission(Permission.ManageProjectMember)
     ) {
       canUpdateMember = false;
       updateMemberTooltip = "Insufficient permissions"; 
+    }
+
+    let canTransferOwnership = true;
+    let transferOwnershipTooltip = "";
+    
+    if (member.id === this.currentProjectOwner?.id) {
+      canTransferOwnership = false;
+      transferOwnershipTooltip = "Cannot transfer ownership to the current project owner!";
+    }
+    if (!permsCalc.withDomain({
+      projectId: [ this.project.id ?? "" ]
+    }).hasPermission(Permission.TransferProjectOwnership)) {
+      canTransferOwnership = false;
+      transferOwnershipTooltip = "Insufficient permissions";
     }
 
     let canKickMember = true;
@@ -152,9 +172,38 @@ export class MembersTabComponent implements AfterViewInit, OnDestroy, OnChanges 
     return {
       canUpdateMember,
       canKickMember,
+      canTransferOwnership,
       kickMemberTooltip,
       updateMemberTooltip,
+      transferOwnershipTooltip
     }
+  }
+
+  async onTransferOwnership(member: PartialDeep<ProjectMember> | undefined) {
+    if (!member)
+      return;
+    const confirmed = await firstValueFrom(this.uiMessage.confirmDialog(`Are you sure you want to transfer ownership of "${this.project.name}" to "${member.user?.username}"?`));
+
+    if (!confirmed)
+      return;
+    
+    const result = await firstValueFrom(this.backend.withAuth().mutate({
+      mutation: gql`
+        mutation TransferProjectOwnership($projectId: ID!, $memberId: ID!) {
+          transferProjectOwnership(projectId: $projectId, memberId: $memberId)
+        }
+      `,
+      variables: {
+        projectId: this.project.id,
+        memberId: member.id
+      }
+    }));
+
+    if (result.errors)
+      return;
+    
+    this.edited.emit();
+    this.uiMessage.notifyConfirmed("Ownership transferred!");
   }
 
   onInvitesEdited() {
@@ -183,6 +232,8 @@ export class MembersTabComponent implements AfterViewInit, OnDestroy, OnChanges 
 type PermsData = {
   canUpdateMember: boolean
   canKickMember: boolean
+  canTransferOwnership: boolean
   kickMemberTooltip: string
   updateMemberTooltip: string
+  transferOwnershipTooltip: string
 }

@@ -27,6 +27,11 @@
         <mat-icon>settings</mat-icon>
         <div style="margin-left: 0.5em;" *ngIf="breakpointManager.matchedBreakpointOrAbove('MOBILE')">Settings</div>
       </ng-template>
+      <app-settings-tab
+        [project]="project"
+        [projectOptions]="projectOptions"
+        (edited)="fetchData(true)"
+      ></app-settings-tab>
     </mat-tab>
   </mat-tab-group>
 </div>
