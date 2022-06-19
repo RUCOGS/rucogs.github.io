@@ -7,7 +7,10 @@
     "build": "ng build --configuration production --aot --delete-output-path --build-optimizer",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "generate": "rimraf src/generated && rimraf src/shared && mkdirp src/generated src/shared && copyfiles -e \"../backend/src/generated/typetta.ts\" -f \"../backend/src/generated/**/*\" \"src/generated\" && copyfiles -u 4 \"../backend/src/shared/**/*\" \"src/shared\""
+    "generate": "rimraf src/generated && rimraf src/shared && mkdirp src/generated src/shared && copyfiles -e \"../backend/src/generated/typetta.ts\" -f \"../backend/src/generated/**/*\" \"src/generated\" && copyfiles -u 4 \"../backend/src/shared/**/*\" \"src/shared\"",
+    "selfhosted:build": "ng build --configuration production --aot --delete-output-path --build-optimizer --base-href /rucogs/frontend/",
+    "selfhosted:copybuild": "rm -rf /var/www/rucogs/* && cp -a ./dist/. /var/www/rucogs/",
+    "selfhosted:launch": "npm run selfhosted:build && npm run selfhosted:copybuild"
   },
   "private": true,
   "dependencies": {
