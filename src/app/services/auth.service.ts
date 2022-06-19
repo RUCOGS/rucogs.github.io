@@ -57,6 +57,8 @@ export class AuthService implements OnDestroy {
     });
     const serializedPayload = localStorage.getItem(AUTH_PAYLOAD_KEY);
     let payload = serializedPayload ? JSON.parse(serializedPayload) as AuthPayload : undefined;
+    console.log("read payload " + serializedPayload);
+    console.log(payload);
     this.payloadSubject = new BehaviorSubject<AuthPayload | undefined>(payload);
     this.payload$ = this.payloadSubject.asObservable();
 
@@ -182,15 +184,22 @@ export class AuthService implements OnDestroy {
     const socialLogin$ = new Observable<AuthPayload>((observer) => {
       const popup = window.open(authUrl, 'myWindow', 'location=1,status=1,scrollbars=1,width=800,height=900');
       let listener = window.addEventListener('message', (message) => {
+        console.log("got ")
+        console.log(message);
+        console.log("Check against " + ("https://" + this.settings.Backend.backendDomain))
         if (message.origin === ("https://" + this.settings.Backend.backendDomain)) {
-          observer.next(message.data);
+          if (message.data.accessToken && message.data.user) {
+            observer.next(message.data);
+            observer.complete();
+          }
         }
       });
     });
-    socialLogin$.pipe(takeUntil(this.onDestroy$)).subscribe({
+    socialLogin$.subscribe({ 
       next: (data: AuthPayload) => {
+        console.log("Setting payload to " + JSON.stringify(data));
         this.setPayload(data);
-      }
+      } 
     });
     return socialLogin$;
   }
