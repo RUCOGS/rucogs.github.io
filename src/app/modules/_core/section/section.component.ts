@@ -45,7 +45,7 @@ export class SectionComponent implements OnInit {
 //transparent-background-color
   getBgStyle(): Object {
     return { 
-      'background-image': 'linear-gradient(var(--background-color), #00000000, var(--background-color)), url(' + this.bgImage + ')',
+      ...(this.bgImage && { 'background-image': 'linear-gradient(var(--background-color), #00000000), url(' + this.bgImage + ')'}),
       ...(this.bgRepeatMode !== "" && {'background-repeat': this.bgRepeatMode, 'background-size': 'auto' }),
       ...(this.bgPosition !== "" && {'background-position': this.bgPosition})
     }
