@@ -31,6 +31,6 @@ export class CdnService {
 
   getSelfHostedFileLink(selfHostedFilePath: string) {
     const relativePath = this.selfHostedToRelativeFilePath(selfHostedFilePath);
-    return this.settings.Backend.backendHttpURL + this.settings.Backend.cdnRelativePath + "/" + relativePath;
+    return this.settings.Backend.backendHttpsURL + this.settings.Backend.cdnRelativePath + "/" + relativePath;
   }
 }

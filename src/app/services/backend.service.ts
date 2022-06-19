@@ -165,7 +165,7 @@ export class BackendService implements OnDestroy {
 
   private configureUrl(url: string) {
     if (url.startsWith('/'))
-      return this.settings.Backend.backendHttpURL + url;
+      return this.settings.Backend.backendHttpsURL + url;
     return url;
   }
 

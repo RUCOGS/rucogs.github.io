@@ -32,10 +32,10 @@ export class AuthService implements OnDestroy {
 
   private payloadSubject: BehaviorSubject<AuthPayload | undefined>;
   private get authLink() {
-    return this.settings.Backend.backendHttpURL + "/auth/";
+    return this.settings.Backend.backendHttpsURL + "/auth/";
   }
   private get oAuthLink() {
-    return this.settings.Backend.backendHttpURL + "/auth/thirdparty/";
+    return this.settings.Backend.backendHttpsURL + "/auth/thirdparty/";
   }
 
   protected onDestroy$ = new Subject<void>();
@@ -51,7 +51,7 @@ export class AuthService implements OnDestroy {
     // the backend service, else we create a cyclical dependency.
     this.apollo.createNamed("auth", {
       link: httpLink.create({
-        uri: this.settings.Backend.graphQLHttpURL
+        uri: this.settings.Backend.graphQLHttpsURL
       }),
       cache: new InMemoryCache(),
     });
@@ -181,7 +181,7 @@ export class AuthService implements OnDestroy {
     const socialLogin$ = new Observable<AuthPayload>((observer) => {
       const popup = window.open(authUrl, 'myWindow', 'location=1,status=1,scrollbars=1,width=800,height=900');
       let listener = window.addEventListener('message', (message) => {
-        if (message.origin === this.settings.Backend.backendHttpURL) {
+        if (message.origin === this.settings.Backend.backendHttpsURL) {
           observer.next(message.data);
         }
       });
