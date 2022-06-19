@@ -103,19 +103,24 @@ export class SettingsService {
     defaultCardImageSrc: string = "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png";
   }
   public Backend = new class {
-    public backendDomain: string = "atlinx.net/rucogs/backend";
+    public backendDomain = "atlinx.net";
+    public backendRelativeBaseUrl: string = "/rucogs/backend";
     public graphQLRelativePath = "/graphql";
 
+    public get backendDomainPlusBaseUrl() {
+      return this.backendDomain + this.backendRelativeBaseUrl;
+    }
+
     public get backendHttpsURL() {
-      return "https://" + this.backendDomain;
+      return "https://" + this.backendDomainPlusBaseUrl;
     }
 
     public get graphQLHttpsURL() {
-      return "https://" + this.backendDomain + this.graphQLRelativePath;
+      return "https://" + this.backendDomainPlusBaseUrl + this.graphQLRelativePath;
     }
     
-    public get graphQLWsURL() {
-      return "ws://" + this.backendDomain + this.graphQLRelativePath;
+    public get graphQLWssURL() {
+      return "wss://" + this.backendDomainPlusBaseUrl + this.graphQLRelativePath;
     }
 
     public selfHostedPrefix = "cdn://";
