@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, HostListener, Input } from '@angular/core';
+import { BreakpointManagerService } from '@src/app/services/breakpoint-manager.service';
 
 import { ZOOM_ANIMATION } from './scrollspy-nav-layout.animation';
 
@@ -16,6 +17,10 @@ export class ScrollspyNavLayoutComponent {
 
   showScrollUpButton = false;
 
+  constructor(
+    public breakpointManager: BreakpointManagerService
+  ) {}
+  
   @HostListener('window:scroll')
   onWindowScroll(): void {
     this.showScrollUpButton = Math.ceil(window.pageYOffset) > 64;

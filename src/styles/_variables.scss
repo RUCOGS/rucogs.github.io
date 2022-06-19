@@ -1,22 +1,39 @@
 :root {
-	--site-header-height: 64px;
-	--content-padding: 64px;
-	--dog-ear: 64px;
-	--dog-ear-padding: 64px;
-	--content-width: min(80%, 1480px);
+	--site-header-height: 4em;
+	--content-padding: 4em;
+	--dog-ear: 4em;
+	--dog-ear-padding: 4em;
+	--content-width: min(80%, 1080px);
+	--main-width: var(--content-width);
 	--markdown-content-width: 1080px;
 }
 
-// TODO: Depreciate this with some universal breakpoint system that jives with Angular's BreakpointObserver
 $mobile-width: 1180px;
+$medium-mobile-width: 700px;
+$tiny-mobile-width: 400px;
 
 /* Mobile values */
 @media screen and (max-width: $mobile-width) {
 	:root {
 		--content-width: 100%;
 		--markdown-content-width: 100%;
-		--content-padding: 32px;
-		--dog-ear-padding: 42px;
-		--dog-ear: 32px;
+		--content-padding: 2em;
+		--dog-ear-padding: 2.625em;
+		--dog-ear: 2em;
+	}
+}
+
+@media screen and (max-width: $medium-mobile-width) {
+	:root {
+		font-size: 90%;
+	}
+}
+
+
+/* Tiny mobile values */
+@media screen and (max-width: $tiny-mobile-width) {
+	:root { 
+		--content-padding: 1em;
+		font-size: 80%;
 	}
 }

@@ -1,0 +1,34 @@
+@use 'sass:map';
+@use 'sass:color';
+@use '@angular/material' as mat;
+@use 'styles/variables' as variables;
+
+@mixin color($config) {
+  $foreground: map.get($config, foreground);
+  $background: map.get($config, background);
+
+  .app-profile-grid.grid {
+  	grid-template-columns: repeat(auto-fit, minmax(8.25em, 1fr));
+    @media screen and (max-width: variables.$medium-mobile-width) {
+	    grid-template-columns: repeat(auto-fit, minmax(calc(8.25em * 0.8), 1fr));
+		}
+  }
+}
+
+@mixin typography($config) {
+  .app-social-button.social-button-name {
+    @include mat.typography-level($config, 'button');
+  }
+}
+
+@mixin theme($theme) {
+  $color-config: mat.get-color-config($theme);
+  @if $color-config != null {
+    @include color($color-config);
+  }
+
+  $typography-config: mat.get-typography-config($theme);
+  @if $typography-config != null {
+    @include typography($typography-config);
+  }
+}

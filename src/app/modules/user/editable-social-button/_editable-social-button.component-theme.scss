@@ -1,0 +1,29 @@
+@use 'sass:map';
+@use 'sass:color';
+@use '@angular/material' as mat;
+
+@mixin color($config) {
+  $foreground: map.get($config, foreground);
+  $background: map.get($config, background);
+
+  .app-editable-social-button.card {
+    border-color: mat.get-color-from-palette($foreground, divider) !important;
+    color: mat.get-color-from-palette($foreground, text);
+  }
+}
+
+@mixin typography($config) {
+
+}
+
+@mixin theme($theme) {
+  $color-config: mat.get-color-config($theme);
+  @if $color-config != null {
+    @include color($color-config);
+  }
+
+  $typography-config: mat.get-typography-config($theme);
+  @if $typography-config != null {
+    @include typography($typography-config);
+  }
+}

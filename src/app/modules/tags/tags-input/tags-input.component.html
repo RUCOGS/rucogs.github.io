@@ -1,0 +1,13 @@
+<mat-chip-list #chipList aria-label="Tags editor" style="width: 100%;">
+  <mat-chip *ngFor="let tag of value" (removed)="remove(tag)">
+    {{tag}}
+    <button matChipRemove>
+      <mat-icon>cancel</mat-icon>
+    </button>
+  </mat-chip>
+  <input placeholder="New tag..."
+          [matChipInputFor]="chipList"
+          [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+          [matChipInputAddOnBlur]="addOnBlur"
+          (matChipInputTokenEnd)="add($event)">
+</mat-chip-list>

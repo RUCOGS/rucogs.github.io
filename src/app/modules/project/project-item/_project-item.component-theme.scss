@@ -1,0 +1,51 @@
+@use 'sass:map';
+@use '@angular/material' as mat;
+@import 'variables';
+
+@mixin color($config) {
+  $background: map.get($config, background);
+  $foreground: map.get($config, foreground);
+  $primary: map.get($config, primary);
+
+  .app-project-item.card {
+    background-color: mat.get-color-from-palette($background, card);
+    color: mat.get-color-from-palette($foreground, text);
+    border-color: mat.get-color-from-palette($foreground, divider);
+    
+    // Zoom animation
+    overflow: hidden;
+	  transition: transform .1s ease-out;
+
+    .app-project-item.image {
+	    transition: transform .25s ease-out;
+    }
+
+    &:hover {
+      transform: scale(1.025);
+      z-index: 10;
+
+      .app-project-item.image {
+        transform: scale(1.1); 
+      }
+    }
+
+  }
+}
+
+@mixin typography($config) {
+  .app-project-item.card {
+    font-family: mat.font-family($config);
+  }
+}
+
+@mixin theme($theme) {
+  $color-config: mat.get-color-config($theme);
+  @if $color-config != null {
+    @include color($color-config);
+  }
+
+  $typography-config: mat.get-typography-config($theme);
+  @if $typography-config != null {
+    @include typography($typography-config);
+  }
+}

@@ -1,0 +1,7 @@
+@use './avatar/avatar.component-theme' as avatar;
+@use './avatar-group/avatar-group.component-theme' as avatar-group;
+
+@mixin theme($theme) {
+	@include avatar.theme($theme);
+	@include avatar-group.theme($theme);
+}

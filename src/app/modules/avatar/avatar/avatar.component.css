@@ -1,0 +1,57 @@
+:host {
+  --border-width: 4px;
+}
+
+.avatar-container {
+  width: calc(var(--length) + var(--border-width));
+  height: calc(var(--length) + var(--border-width));
+  position: relative;
+  box-sizing: content-box;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+}
+
+.avatar-container.clickable {
+	transition: transform .1s ease-out;
+}
+
+.avatar-container.clickable:hover {
+  transform: scale(1.1);
+}
+
+.avatar.clickable {
+  cursor: pointer;
+}
+
+.avatar {
+  position: absolute;
+  border-radius: 50%;
+  border-style: solid;
+  border-width: var(--border-width);
+  width: calc(100% - 2 * var(--border-width));
+  height: calc(100% - 2 * var(--border-width));
+  object-fit: cover;
+  border-color: transparent;
+}
+
+.large {
+  --length: 8em;
+}
+
+.medium {
+  --length: 4em;
+}
+
+.small {
+  --length: 2.625em;
+}
+
+.input {
+  --length: 2em;
+}
+
+.square {
+  border-radius: 20%;
+}

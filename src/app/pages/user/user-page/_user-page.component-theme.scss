@@ -1,0 +1,44 @@
+@use 'sass:map';
+@use 'sass:color';
+@use '@angular/material' as mat;
+
+@mixin color($config) {
+  $misc: map.get($config, misc);
+  $foreground: map.get($config, foreground);
+  $background: map.get($config, background);
+
+  .app-user-page.avatar {
+		border-color: mat.get-color-from-palette($background, background) !important;
+  }
+
+  .app-user-page.no-results-text {
+	  color: mat.get-color-from-palette($foreground, disabled-button)
+  }
+
+  .app-user-page.avatar-container,
+  .app-user-page.banner-container {
+    background-color: mat.get-color-from-palette($background, background)
+  }
+
+  .app-user-page.edit-avatar-button, 
+  .app-user-page.edit-banner-button {
+    border-color: mat.get-color-from-palette($misc, light) !important;
+    color: mat.get-color-from-palette($misc, light) !important;
+  }
+}
+
+@mixin typography($config) {
+
+}
+
+@mixin theme($theme) {
+  $color-config: mat.get-color-config($theme);
+  @if $color-config != null {
+    @include color($color-config);
+  }
+
+  $typography-config: mat.get-typography-config($theme);
+  @if $typography-config != null {
+    @include typography($typography-config);
+  }
+}

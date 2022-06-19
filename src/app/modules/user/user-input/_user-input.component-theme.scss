@@ -1,0 +1,30 @@
+@use 'sass:map';
+@use 'sass:color';
+@use '@angular/material' as mat;
+
+@mixin color($config) {
+  $foreground: map.get($config, foreground);
+ 
+  .app-user-input.disabled {
+    img {
+      opacity: 0.5;
+    }
+    color: mat.get-color-from-palette($foreground, disabled-text);
+  }
+}
+
+@mixin typography($config) {
+
+}
+
+@mixin theme($theme) {
+  $color-config: mat.get-color-config($theme);
+  @if $color-config != null {
+    @include color($color-config);
+  }
+
+  $typography-config: mat.get-typography-config($theme);
+  @if $typography-config != null {
+    @include typography($typography-config);
+  }
+}

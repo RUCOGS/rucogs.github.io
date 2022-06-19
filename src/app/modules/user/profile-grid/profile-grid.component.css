@@ -1,0 +1,7 @@
+.grid {
+	display: grid;
+	align-items: stretch;
+	gap: 1em;
+	justify-content: center;
+	width: 100%;
+}

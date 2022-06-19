@@ -1,0 +1,24 @@
+.container {
+	max-width: 8em;
+	color: inherit;
+	text-decoration: inherit;
+	display: block;
+	margin: auto;
+}
+
+.clickable {
+	transition: transform .1s ease-out;
+}
+
+.clickable:hover {
+	transform: scale(1.10);
+}
+
+.username {
+	text-overflow: ellipsis;
+	overflow: hidden;
+}
+
+.display-name {
+	word-wrap: break-word;
+}

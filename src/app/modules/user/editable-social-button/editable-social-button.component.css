@@ -1,0 +1,9 @@
+.card {
+  border: 2px solid;
+  border-radius: 8px;
+  align-content: center;
+  align-items: center;
+  padding: 1em;
+  padding-top: 3em;
+  position: relative;
+}

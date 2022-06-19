@@ -1,0 +1,12 @@
+<div style="
+  display: flex;
+  flex-wrap: wrap;
+  padding-left: 1em;
+">
+  <app-avatar *ngFor="let avatarSrc of limitedAvatarSrcs" [avatarSrc]="avatarSrc" size="small" style="
+	  margin-left: -1em;
+  "></app-avatar>
+  <div *ngIf="isLimiting" style="margin: 0px;" class="app-avatar-group limit-ellipsis" style="
+    font-size: 42px;
+  ">...</div>
+</div>

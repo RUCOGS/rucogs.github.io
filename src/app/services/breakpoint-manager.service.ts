@@ -1,24 +1,67 @@
 import { BreakpointObserver, BreakpointState } from '@angular/cdk/layout';
-import { Injectable } from '@angular/core';
-import { Breakpoints } from '@app/utils/breakpoints';
+import { Injectable, OnDestroy } from '@angular/core';
+import { Breakpoint, BreakpointsData } from '@app/settings/_settings.module';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
 })
-export class BreakpointManagerService {
+export class BreakpointManagerService implements OnDestroy {
 
-  currentBreakpoint: string;
+  get currentBreakpoint(): Breakpoint {
+    for (let i = 0; i < this.breakpointsMatched.length - 1; i++) {
+      if (this.breakpointsMatched[i])
+        return BreakpointsData[i].name;
+    }
+    return BreakpointsData[BreakpointsData.length - 1].name;
+  }
 
-  constructor(private breakpointObserver: BreakpointObserver) { 
-    if (this.breakpointObserver.isMatched(Breakpoints.Mobile))
-      this.currentBreakpoint = "mobile";
-    this.currentBreakpoint = "desktop";
-    
-    this.breakpointObserver.observe(Breakpoints.Desktop).subscribe((state: BreakpointState) => {
-      if (state.matches)
-        this.currentBreakpoint = "desktop";
-      else
-        this.currentBreakpoint = "mobile";
-    });
+  private breakpointsMatched: boolean[] = [];
+  protected onDestroy$ = new Subject<void>();
+
+  constructor(private breakpointObserver: BreakpointObserver) {
+    for (let i = 0; i < BreakpointsData.length - 1; i++) {
+      this.breakpointObserver.observe(`(max-width: ${BreakpointsData[i].maxWidth})`)
+        .pipe(takeUntil(this.onDestroy$))
+        .subscribe((state: BreakpointState) => {
+          this.breakpointsMatched[i] = state.matches;
+        });
+    }
+    // Last element is the default and will always be matched.
+    this.breakpointsMatched.push(true);
+  }
+
+  matchedBreakpointOrBelow(breakpoint: Breakpoint) {
+    const index = BreakpointsData.findIndex(x => x.name === breakpoint);
+    return this.breakpointsMatched[index];
+  }
+
+  matchedBreakpointRange(start: Breakpoint, end: Breakpoint) {
+    let startIndex = BreakpointsData.findIndex(x => x.name === start);
+    let endIndex = BreakpointsData.findIndex(x => x.name === end);
+    if (startIndex > endIndex) {
+      // Swap if they are mismatched
+      let temp = start;
+      start = end;
+      end = temp;
+    }
+    return this.matchedBreakpointOrAbove(start) && this.matchedBreakpointOrBelow(end);
+  }
+
+  matchedBreakpointOrAbove(breakpoint: Breakpoint, key: string = "") {
+    const index = BreakpointsData.findIndex(x => x.name === breakpoint);
+    // Make sure previous breakpoint hasne't triggered, because that would mean we're
+    // currently matching with something below this breakpoint.
+    if (index > 0 && this.breakpointsMatched[index - 1])
+      return false;
+    // Because the last element is always true, we know there must be a breakpoint above
+    // that has been triggered.
+    return true;
+  }
+
+  ngOnDestroy(): void {
+    this.onDestroy$.next();
+    this.onDestroy$.complete();
   }
 }

@@ -1,0 +1,102 @@
+@use 'sass:map';
+@use 'sass:color';
+@use '@angular/material' as mat;
+
+@mixin styles($color, $contrast) {
+  &.app-button.button {
+    background-color: $color;
+    color: $contrast;
+    cursor: pointer;
+
+    &:hover {
+      background-color: lighten($color, 5%);
+    }
+
+    &.outlined {
+      border-color: $color;
+      color: $color;
+
+      &:hover {
+        background-color: $color;
+        color: $contrast;
+      }
+
+      &.contrast {
+        border-color: $contrast;
+        color: $contrast;
+
+        &:hover {
+          background-color: $contrast;
+          color: $color;
+        }
+      }
+    }
+  }
+}
+
+@mixin palette-styles($palette) {
+  @include styles(
+    mat.get-color-from-palette($palette, 500),
+    mat.get-color-from-palette($palette, 500-contrast)
+  );
+}
+
+@mixin color($config) {
+  $misc: map.get($config, misc);
+  $primary: map.get($config, primary);
+  $accent: map.get($config, accent);
+  $warn: map.get($config, warn);
+
+  .app-button.button {
+		transition: 0.2s;
+    &:hover {
+			transition: 0.2s;
+    }
+  }
+
+  .primary {
+    @include palette-styles($primary);
+  }
+
+	.accent {
+    @include palette-styles($accent);
+  }
+
+  .warn {
+    @include palette-styles($warn);
+  }
+  
+  .discord {
+    @include styles(
+      mat.get-color-from-palette($misc, discord), 
+      mat.get-color-from-palette($misc, discord-contrast)
+    );
+  }
+
+  .form {
+    @include styles(
+      mat.get-color-from-palette($misc, form), 
+      mat.get-color-from-palette($misc, form-contrast)
+    );
+  }
+}
+
+@mixin typography($config) {
+  .app-button.button {
+    font-family: mat.font-family($config);
+		font-size: 1em;
+		font-weight: 800;
+  }
+}
+
+@mixin theme($theme) {
+  $color-config: mat.get-color-config($theme);
+  @if $color-config != null {
+    @include color($color-config);
+  }
+
+  $typography-config: mat.get-typography-config($theme);
+  @if $typography-config != null {
+    @include typography($typography-config);
+  }
+}

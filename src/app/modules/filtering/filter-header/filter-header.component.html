@@ -1,0 +1,35 @@
+
+<div>
+  <mat-form-field *ngIf="searchBar" style="width: 100%;" appearance="outline">
+    <mat-label>Search</mat-label>
+    <input #searchInput type="search" matInput [(ngModel)]="searchText" (keydown.enter)="emitNewSearchRequest(searchText)">
+    <button mat-icon-button matSuffix (click)="emitNewSearchRequest(searchText)">
+      <mat-icon>search</mat-icon>
+    </button>
+  </mat-form-field>
+
+  <div *ngIf="filterOptions">
+    <h3 class="mt-16">Filters</h3>
+    <section>
+      <mat-form-field appearance="outline">
+        <!-- The div below is used to temporarily store the mat-options that are passed into ng-content.
+              These mat-options will then be read by the component's typescript file and then
+              added underneath mat-select.
+              
+              For some reason mat-select just doesn't work when mat-options are pass into an ng-content that's
+              a child of the mat-select, therefore we need this workaround. 
+        -->
+        <div style="visibility: hidden;" *ngIf="!afterViewInitialized">
+          <ng-content select="mat-option"></ng-content>
+        </div>
+        <mat-label>Sort by</mat-label>
+        <mat-select #sortingModeSelect [(ngModel)]="sortingMode" placeholder="Mode" (ngModelChange)="emitSortingModeChange(sortingMode)">
+          <ng-container *ngIf="afterViewInitialized">
+            <mat-option *ngFor="let mode of sortingModes" [value]="mode.value">{{mode.viewValue}}</mat-option>
+          </ng-container>
+        </mat-select>
+      </mat-form-field>
+      <mat-checkbox *ngIf="ascendingToggle" #sortAscendingCheckbox [(ngModel)]="sortAscending" (ngModelChange)="emitSortAscendingChange(sortAscending)">Ascending</mat-checkbox>
+    </section>
+  </div>
+</div>

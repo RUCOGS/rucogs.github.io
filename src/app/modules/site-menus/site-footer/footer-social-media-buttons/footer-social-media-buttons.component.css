@@ -1,0 +1,9 @@
+:host {
+	display: flex;
+	flex-direction: column;
+}
+
+.icon {
+	position: relative;
+	top: 0.5em;
+}

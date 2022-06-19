@@ -1,5 +1,25 @@
 @use '../app/modules/markdown-nav/markdown-nav' as ngx-markdown-nav;
+@use '../app/modules/tags/tags' as tags;
+@use '../app/modules/avatar/avatar' as avatar;
+@use '../app/modules/user/user' as user;
+@use '../app/modules/project/project' as project;
+@use '../app/modules/cards/cards' as cards;
+@use '../app/modules/_core/core' as core;
+@use '../app/pages/pages' as pages;
+@use '../app/modules/site-menus/site-menus' as site-menus;
+@use '../app/modules/project-member/project-member' as project-member;
+@use '../app/modules/carousel/carousel' as carousel;
 
 @mixin theme($theme) {
   @include ngx-markdown-nav.theme($theme);
+  @include tags.theme($theme);
+  @include avatar.theme($theme);
+  @include user.theme($theme);
+  @include project.theme($theme);
+  @include cards.theme($theme);
+  @include core.theme($theme);
+  @include pages.theme($theme);
+  @include site-menus.theme($theme);
+  @include project-member.theme($theme);
+  @include carousel.theme($theme);
 }

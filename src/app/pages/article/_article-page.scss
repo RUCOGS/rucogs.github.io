@@ -1,0 +1,5 @@
+@use './article/article-page.component-theme' as articles;
+
+@mixin theme($theme) {
+	@include articles.theme($theme);
+}

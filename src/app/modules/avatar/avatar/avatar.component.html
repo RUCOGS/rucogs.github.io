@@ -1,0 +1,4 @@
+<div class="app-avatar avatar-container" [ngClass]="getContainerClass()">
+  <img *ngIf="!clickable || clickableStyle" [src]="getAvatarSrc()" class="app-avatar avatar" [ngClass]="getAvatarClass()">
+  <button *ngIf="clickable" [ngStyle]="getButtonStyle()" (click)="onClick()" class="app-avatar avatar" [ngClass]="getAvatarClass()"></button>
+</div>

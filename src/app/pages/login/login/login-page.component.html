@@ -1,0 +1,39 @@
+<app-section full-page>
+  <div class="app-login-page login-container">
+    <h1 class="mb-32">Log in</h1>
+    <!-- <form [formGroup]="form" (ngSubmit)="onLoginSubmit()" class="app-login-page login-form">
+      <mat-form-field appearance="fill">
+        <mat-label>Username</mat-label>
+        <input matInput formControlName="username">
+        <mat-error *ngIf="form.get('username')?.hasError('required')">
+          Username is required
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field appearance="fill">
+        <mat-label>Password</mat-label>
+        <input matInput [type]="hide ? 'password' : 'text'" formControlName="password">
+        <button type="button" mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+          <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+        </button>
+        <mat-error *ngIf="form.get('password')?.hasError('required')">
+          Password is required
+        </mat-error>
+        <mat-error *ngIf="isLoginFailed">
+          Login failed: {{errorMessage}}
+        </mat-error>
+      </mat-form-field>
+      <button mat-flat-button type="submit" color="primary" tall-button class="mt-16">Log in</button>
+    </form> -->
+
+    <div class="app-login-page social-login-container">
+      <!-- <button (click)="socialLogin('google')" mat-flat-button type="submit" color="primary" tall-button>
+        <ic-icon size="24px" class="app-button iconify icon" icon="google"></ic-icon>
+        Login with Google
+      </button> -->
+      <button (click)="socialLogin('discord')" mat-flat-button type="submit" color="#5865F2" text-color="#ffffff" tall-button>
+        <ic-icon size="24px" class="app-button iconify icon" icon="discord"></ic-icon>
+        Login with Discord
+      </button>
+    </div>
+  </div>
+</app-section>

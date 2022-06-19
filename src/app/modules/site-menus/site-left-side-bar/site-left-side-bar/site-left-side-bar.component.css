@@ -1,0 +1,13 @@
+:host {
+	position: sticky;
+	top: 0px;
+	z-index: 120;
+	height: calc(100vh - var(--site-header-height));
+	pointer-events: none;
+	padding-top: var(--site-header-height);
+}
+
+.bg {
+	height: 100%;
+	pointer-events: all;
+}
