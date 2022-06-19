@@ -8,13 +8,21 @@
 	--markdown-content-width: 1080px;
 }
 
+$small-desktop-width: 1280px;
 $mobile-width: 1180px;
 $medium-mobile-width: 700px;
 $tiny-mobile-width: 400px;
 
+@media screen and (max-width: $small-desktop-width) {
+	:root {
+		font-size: 90%
+	}
+}
+
 /* Mobile values */
 @media screen and (max-width: $mobile-width) {
 	:root {
+		font-size: 100%;
 		--content-width: 100%;
 		--markdown-content-width: 100%;
 		--content-padding: 2em;
@@ -28,7 +36,6 @@ $tiny-mobile-width: 400px;
 		font-size: 90%;
 	}
 }
-
 
 /* Tiny mobile values */
 @media screen and (max-width: $tiny-mobile-width) {
