@@ -103,15 +103,15 @@ export class SettingsService {
     defaultCardImageSrc: string = "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png";
   }
   public Backend = new class {
-    public backendDomain: string = "45.79.169.135:8080";
+    public backendDomain: string = "atlinx.net/rucogs/backend";
     public graphQLRelativePath = "/graphql";
 
-    public get backendHttpURL() {
-      return "http://" + this.backendDomain;
+    public get backendHttpsURL() {
+      return "https://" + this.backendDomain;
     }
 
-    public get graphQLHttpURL() {
-      return "http://" + this.backendDomain + this.graphQLRelativePath;
+    public get graphQLHttpsURL() {
+      return "https://" + this.backendDomain + this.graphQLRelativePath;
     }
     
     public get graphQLWsURL() {
