@@ -104,7 +104,7 @@ export class SettingsService {
   }
   public Backend = new class {
     public backendDomain: string = "45.79.169.135:8080";
-    public graphQLRelativePath = "/api/graphql";
+    public graphQLRelativePath = "/graphql";
 
     public get backendHttpURL() {
       return "http://" + this.backendDomain;
