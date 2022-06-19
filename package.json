@@ -4,7 +4,7 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build --configuration production --aot --delete-output-path --common-chunk --build-optimizer",
+    "build": "ng build --configuration production --aot --delete-output-path --build-optimizer",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "generate": "rimraf src/generated && rimraf src/shared && mkdirp src/generated src/shared && copyfiles -e \"../backend/src/generated/typetta.ts\" -f \"../backend/src/generated/**/*\" \"src/generated\" && copyfiles -u 4 \"../backend/src/shared/**/*\" \"src/shared\""
