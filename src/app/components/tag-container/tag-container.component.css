@@ -1,8 +1,0 @@
-:host {
-	display: flex;
-	flex-wrap: wrap;
-	flex-direction: row;
-	width: 100%;
-	height: fit-content;
-	gap: 5px;
-}

@@ -1,0 +1,46 @@
+<div class="app-editable-social-button card">
+  <button type="button" mat-icon-button (click)="onDelete()" style="
+    position: absolute;
+    right: 0.5em;
+    top: 0.5em;
+  ">
+    <mat-icon>close</mat-icon>
+  </button>
+  <form [formGroup]="form" style="
+    flex-grow: 1; 
+    display: flex; 
+    flex-direction: column;
+  ">
+    <mat-form-field appearance="outline">
+      <mat-label>Platform</mat-label>
+      <mat-select formControlName="platform" style="min-height: 27px;">
+        <mat-select-trigger *ngIf="platform && platform.value" style="display:flex; align-items: center; gap: 0.5em;">
+          <ic-icon [icon]="getSocialPlatformData(platform.value).icon" size="1.5em"></ic-icon>{{ getSocialPlatformData(platform.value).name }}
+        </mat-select-trigger>
+        <mat-option *ngFor="let platform of getSocialPlatforms() | keyvalue" [value]="platform.key">
+          <div style="display:flex; align-items: center; flex-direction: row; gap: 0.5em;">
+            <ic-icon [icon]="platform.value.icon" size="1.25em"></ic-icon>
+            {{platform.value.name}}
+          </div>
+        </mat-option>
+      </mat-select>
+      <mat-error *ngIf="form.get('platform')?.hasError('required')">
+        Platform is required
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>Username</mat-label>
+      <input matInput formControlName="username">
+      <mat-error *ngIf="form.get('username')?.hasError('required')">
+        Username is required
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field appearance="outline" style="padding-top: 4px;">
+      <mat-label>Link</mat-label>
+      <input matInput formControlName="link">
+      <mat-error *ngIf="form.get('link')?.hasError('required')">
+        Link is required
+      </mat-error>
+    </mat-form-field>
+  </form>
+</div>

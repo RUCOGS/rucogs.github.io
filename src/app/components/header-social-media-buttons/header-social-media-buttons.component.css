@@ -1,9 +1,0 @@
-:host {
-	display: flex;
-	flex-direction: row;
-}
-
-.icon {
-	position: relative;
-	top: -2px
-}

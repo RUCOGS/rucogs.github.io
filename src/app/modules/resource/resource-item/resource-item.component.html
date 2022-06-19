@@ -1,0 +1,6 @@
+<button mat-list-item (click)="onClick()" class="resource-item button">
+  <ic-icon size="24px" class="iconify icon mr-16" [icon]="getIcon()" style="min-width: 24px; max-width: 24px;"></ic-icon>
+  <p class="mb-0" style="line-height: 24px;">
+    <ng-content></ng-content>
+  </p>
+</button>

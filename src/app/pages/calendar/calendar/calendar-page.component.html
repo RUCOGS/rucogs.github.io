@@ -1,0 +1,7 @@
+<app-page-header title="Calendar"></app-page-header>
+<app-bg-container>
+  <div id="calendar" style="height: 77vh;">
+    <iframe src="https://calendar.google.com/calendar/embed?height=600&amp;wkst=1&amp;bgcolor=%23ffffff&amp;ctz=America%2FNew_York&amp;src=MHVsOTJsbWNybGhsNDhybXZxa2I3bm1icjhAZ3JvdXAuY2FsZW5kYXIuZ29vZ2xlLmNvbQ&amp;color=%237CB342&amp;showTitle=0&amp;showNav=1&amp;showDate=1&amp;showPrint=1&amp;showTabs=1&amp;showCalendars=1&amp;showTz=1" style="border:solid 1px #777" width="100%" height="100%" frameborder="0" scrolling="no" [hidden]="!breakpointManager.matchedBreakpointOrAbove('DESKTOP')"></iframe> 
+    <iframe src="https://calendar.google.com/calendar/u/0/embed?height=600&amp;wkst=1&amp;bgcolor=%23ffffff&amp;ctz=America/New_York&amp;src=MHVsOTJsbWNybGhsNDhybXZxa2I3bm1icjhAZ3JvdXAuY2FsZW5kYXIuZ29vZ2xlLmNvbQ&amp;color=%237CB342&amp;showTitle=0&amp;showNav=1&amp;showDate=1&amp;showPrint=1&amp;showTabs=1&amp;showCalendars=1&amp;showTz=1&amp;mode=AGENDA" style="border-width:0" width="100%" height="100%" frameborder="0" scrolling="no" [hidden]="!breakpointManager.matchedBreakpointOrBelow('MOBILE')"></iframe>
+  </div>
+</app-bg-container>

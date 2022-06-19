@@ -1,0 +1,7 @@
+<div style="
+  display: flex;
+  flex-direction: column;
+  gap: 48px;
+">
+  <app-project-member-profile *ngFor="let member of projectMembers" [projectMember]="member ?? {}"></app-project-member-profile>
+</div>

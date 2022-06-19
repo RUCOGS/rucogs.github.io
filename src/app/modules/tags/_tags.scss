@@ -1,0 +1,5 @@
+@use './tag/tag.component-theme' as tag;
+
+@mixin theme($theme) {
+	@include tag.theme($theme);
+}

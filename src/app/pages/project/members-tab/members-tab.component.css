@@ -1,0 +1,17 @@
+.content-width-padding {
+	padding: var(--content-padding);
+  padding-top: 0px;
+}
+
+.content {
+	display: block;
+  margin-top: 0px;
+	margin: auto;
+  padding-top: 0px;
+	max-width: var(--content-width);
+}
+
+.mat-tab-labels {
+	justify-content: space-around;
+	display: flex;
+}

@@ -1,0 +1,21 @@
+<div style="
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  gap: 0.5em;
+  align-items: center;
+  overflow: hidden;
+  text-overflow: ellipsis;
+">
+  <app-avatar [avatarSrc]="cdn.getFileLink(user.avatarLink)" size="medium"></app-avatar>
+  <div style="
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  ">
+    <div class="mat-title mb-0">{{user.displayName}}</div>
+    <div class="mat-caption">@{{user.username}}</div>  
+  </div>
+  <span style="flex: 1"></span>
+  <ng-content></ng-content>
+</div>

@@ -1,0 +1,18 @@
+<img *ngIf="imageSrc" class="app-image-upload image" [src]="imageSrc">
+<div class="app-image-upload tint"></div>
+<input
+style="display: none"
+type="file" accept="image/png, image/jpeg, image/gif" 
+(change)="onImageFileChanged($event)"
+#imageFileInput>
+<div style="
+  display: flex;
+  gap: 4px;
+">
+  <button mat-icon-button (click)="imageFileInput.click()" [disabled]="monitor.isProcessing || disabled" class="app-image-upload edit-button">
+    <mat-icon>edit</mat-icon>
+  </button>
+  <button mat-icon-button *ngIf="imageSrc" (click)="onDeleteClicked()" [disabled]="monitor.isProcessing || disabled" class="app-image-upload edit-button">
+    <mat-icon>delete</mat-icon>
+  </button>
+</div>

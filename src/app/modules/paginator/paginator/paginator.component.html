@@ -1,0 +1,21 @@
+<mat-button-toggle-group name="pageNumber" aria-label="Page Number">
+  <mat-button-toggle class="app-paginator page-button" (click)="onClick('first')" [disabled]="currentPage == 1">
+    <ic-icon class="icon" size="24px" icon="arrowExportLeft"></ic-icon>
+  </mat-button-toggle>
+  <mat-button-toggle class="app-paginator page-button" (click)="onClick('previous')" [disabled]="currentPage == 1">
+    <ic-icon class="icon" size="24px" icon="arrowLeft"></ic-icon>
+  </mat-button-toggle>
+  <mat-button-toggle *ngFor="let pageBehind of pagesBehind;" class="app-paginator page-button" (click)="onClick(pageBehind)">{{pageBehind}}</mat-button-toggle>
+  <mat-button-toggle #currentPageToggle class="app-paginator page-button" (click)="onClick('currentPage')">{{currentPage}}</mat-button-toggle>
+  <mat-button-toggle *ngFor="let pageAhead of pagesAhead;" class="app-paginator page-button" (click)="onClick(pageAhead)">{{pageAhead}}</mat-button-toggle>
+  <mat-button-toggle class="app-paginator page-button" (click)="onClick('next')" [disabled]="currentPage == lastPage">
+    <ic-icon class="icon" size="24px" icon="arrowRight"></ic-icon>
+  </mat-button-toggle>
+  <mat-button-toggle class="app-paginator page-button" (click)="onClick('last')" [disabled]="currentPage == lastPage">
+    <ic-icon class="icon" size="24px" icon="arrowExportRight"></ic-icon>
+  </mat-button-toggle>
+</mat-button-toggle-group>
+<mat-form-field *ngIf="pageNumberInput" class="page-number-input" appearance="outline">
+  <mat-label>Page Number</mat-label>
+  <input matInput type="number" value="0" min="1" [max]="lastPage" [(ngModel)]="currentPage">
+</mat-form-field>

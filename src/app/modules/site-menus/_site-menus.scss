@@ -1,0 +1,12 @@
+
+@use './site-footer/site-footer' as site-footer;
+@use './site-header/site-header' as site-header;
+@use './site-left-side-bar/site-left-side-bar' as site-left-side-bar;
+@use './site-right-side-bar/site-right-side-bar' as site-right-side-bar;
+
+@mixin theme($theme) {
+	@include site-footer.theme($theme);
+	@include site-header.theme($theme);
+	@include site-left-side-bar.theme($theme);
+	@include site-right-side-bar.theme($theme);
+}

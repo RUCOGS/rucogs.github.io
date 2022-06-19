@@ -1,6 +1,26 @@
 @use "sass:map" as map;
 @use '@angular/material' as mat;
 
+// Custom functions to define a basic palette. The define-palette function
+// provided by angular material has changed, so now we can't use it
+// to make our custom palettes that don't contain number levels (ie. 400, 200, 900, etc.).
+@function define-basic-palette($base-palette) {
+  $result: $base-palette;
+
+  // For each hue in the palette, add a "-contrast" color to the map.
+  @each $hue, $color in $base-palette {
+    $result: map.merge($result, (
+      '#{$hue}-contrast': get-contrast-color-from-palette($base-palette, $hue)
+    ));
+  }
+
+  @return $result;
+}
+
+@function get-contrast-color-from-palette($palette, $hue) {
+  @return map.get(map.get($palette, contrast), $hue);
+}
+
 // General Dark/Light Themining //
 
 $dark-primary-text: rgba(black, 0.87);
@@ -53,7 +73,7 @@ $light-theme-background-palette: (
 	status-bar: map.get($grey-palette, 300),
 	app-bar:    map.get($grey-palette, 100),
 	background: map.get($grey-palette, 50),
-	hover:      rgba(black, 0.04), // TODO(kara): check style with Material Design UX
+	hover:      rgba(black, 0.04),
 	card:       white,
 	dialog:     white,
 	disabled-button: rgba(black, 0.12),
@@ -65,6 +85,9 @@ $light-theme-background-palette: (
 	unselected-chip: map.get($grey-palette, 300),
 	disabled-list-option: map.get($grey-palette, 200),
 	tooltip: map.get($grey-palette, 700),
+
+	loading: map.get($grey-palette, 300),
+	loading-mid: map.get($grey-palette, 200),
 );
 
 // Foreground palette for light themes.
@@ -91,7 +114,7 @@ $dark-theme-background-palette: (
 	status-bar: black,
 	app-bar:    map.get($grey-palette, 900),
 	background: #303030,
-	hover:      rgba(white, 0.04), // TODO(kara): check style with Material Design UX
+	hover:      rgba(white, 0.04),
 	card:       map.get($grey-palette, 800),
 	dialog:     map.get($grey-palette, 800),
 	disabled-button: rgba(white, 0.12),
@@ -103,6 +126,9 @@ $dark-theme-background-palette: (
 	unselected-chip: map.get($grey-palette, 700),
 	disabled-list-option: black,
 	tooltip: map.get($grey-palette, 700),
+
+	loading: map.get($grey-palette, 800),
+	loading-mid: map.get($grey-palette, 700),
 );
 
 // Foreground palette for dark themes.
@@ -237,28 +263,33 @@ $cogs-bright-red: mat.define-palette((
 	)
 ));
 
-$misc: mat.define-palette((
+$misc: define-basic-palette((
 	discord: #5865F2,
 	form: #7248b9,
 	contrast: (
+		500: $dark-primary-text,
 		discord: $light-primary-text,
 		form: $light-primary-text,
-	)
+	),
+	light: $light-primary-text,
+	dark: $dark-primary-text
 ));
 
 $cogs-typography: mat.define-typography-config(
 	$font-family: 'Urbanist',
-	$display-4:   mat.define-typography-level(52px, 52px, 900),
-	$display-3:   mat.define-typography-level(48, 48, 900),
-	$display-2:   mat.define-typography-level(42px, 42px, 900),
-	$display-1:   mat.define-typography-level(36px, 36px, 900),
-	$headline:    mat.define-typography-level(32px, 32px, 800),
-	$title:       mat.define-typography-level(24px, 24px, 800),
-	$body-1:      mat.define-typography-level(16px, 28px, 600),
-	$body-2:      mat.define-typography-level(16px, 28px, 600),
-	$caption:     mat.define-typography-level(16px, 24px, 500),
-	$button:      mat.define-typography-level(18px, 32px, 800),
-	$input:		  mat.define-typography-level(16px, 1em, 600)
+	$display-4:    mat.define-typography-level(2.75em, 1em, 900),
+	$display-3:    mat.define-typography-level(2.5em, 1em, 900),
+	$display-2:    mat.define-typography-level(2.25em, 1em, 900),
+	$display-1:    mat.define-typography-level(2px, 1em, 900),
+	$headline:     mat.define-typography-level(2em, 1em, 800),
+	$title:        mat.define-typography-level(1.5em, 1em, 800),
+	$subheading-2: mat.define-typography-level(1em, 1em, 700),
+	$subheading-1: mat.define-typography-level(1em, 1em, 700),
+	$body-1:       mat.define-typography-level(1em, 1.5em, 600),
+	$body-2:       mat.define-typography-level(1em, 1.5em, 600),
+	$caption:      mat.define-typography-level(1em, 1.5em, 500),
+	$button:       mat.define-typography-level(1em, 1.5em, 800),
+	$input:		  	 mat.define-typography-level(1em, 1em, 600)
 );
 
 @include mat.core($cogs-typography);

@@ -1,0 +1,23 @@
+<a class="app-project-item card" [routerLink]="getProjectLink()">
+  <div class="app-project-item image-wrapper">
+    <img class="app-project-item image" [src]="getCardImage()">
+  </div>
+  <div class="app-project-item card-content">
+    <h2>{{project.name ?? ""}}</h2>
+    <p class="mb-24 app-project-item description" style="flex: 1;">{{ project.pitch }}</p>
+    <div style="
+      display: flex; 
+      flex-direction: row; 
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: auto;
+    ">
+      <app-tag-container style="flex: 1;">
+        <app-tag color="primary">{{ getProjectYear() }}</app-tag>
+        <app-tag color="accent" *ngIf="getProjectCompleted()">Completed</app-tag>
+        <app-tag color="accent" *ngIf="project.access">{{ accessOptions[project.access].name }}</app-tag>
+      </app-tag-container>
+      <app-avatar-group [avatarSrcs]="getAvatarLinks()" [limit]="8"></app-avatar-group>
+    </div>
+  </div>
+</a>

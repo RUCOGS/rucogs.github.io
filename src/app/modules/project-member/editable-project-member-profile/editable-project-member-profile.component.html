@@ -1,0 +1,31 @@
+<div class="app-editable-project-member-profile card" [ngClass]="{'disabled': disabled}">
+  <form [formGroup]="form">
+    <div style="
+      display: flex;
+      align-items: center;
+      margin-bottom: 1em;
+    ">
+      <app-inline-profile [user]="projectMemberEdit.projectMember.user ?? {}" style="
+        flex: 1;
+      "></app-inline-profile>
+      <button type="button" mat-icon-button (click)="onDelete()" [disabled]="disabled || projectMemberEdit.deleteDisabled">
+        <mat-icon>logout</mat-icon>
+      </button>
+    </div>
+    <mat-form-field appearance="outline" style="width: 100%; line-height: 1.5em">
+      <mat-label>Contributions</mat-label>
+      <textarea 
+        matInput
+        cdkTextareaAutosize
+        cdkAutosizeMinRows="5"
+        formControlName="contributions">
+      </textarea>
+      <mat-error *ngIf="form.get('contributions')?.hasError('required')">
+        Contributions is required
+      </mat-error>
+    </mat-form-field>
+    <div>
+      <app-role-codes-editor [roles]="projectMemberEdit.roles" [allRoles]="projectMemberEdit.acceptedRoles" (rolesEdited)="onEditRoles()" [disabledRoles]="['PROJECT_MEMBER']" label="Roles" [disabled]="disabled"></app-role-codes-editor>
+    </div>
+  </form>
+</div>

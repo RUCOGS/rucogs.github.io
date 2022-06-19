@@ -1,0 +1,7 @@
+@use './article-item/article-item.component-theme' as article-item;
+@use './blog/blog-page.component-theme' as blog;
+
+@mixin theme($theme) {
+	@include article-item.theme($theme);
+	@include blog.theme($theme);
+}

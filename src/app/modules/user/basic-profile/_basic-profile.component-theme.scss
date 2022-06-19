@@ -1,0 +1,32 @@
+@use 'sass:map';
+@use 'sass:color';
+@use '@angular/material' as mat;
+@use 'styles/variables' as variables;
+
+@mixin color($config) {
+  $misc: map.get($config, misc);
+  $foreground: map.get($config, foreground);
+  $background: map.get($config, background);
+
+  .app-basic-profile.container {
+		@media screen and (max-width: variables.$medium-mobile-width) {
+			font-size: 80%;
+		}
+  }
+}
+
+@mixin typography($config) {
+
+}
+
+@mixin theme($theme) {
+  $color-config: mat.get-color-config($theme);
+  @if $color-config != null {
+    @include color($color-config);
+  }
+
+  $typography-config: mat.get-typography-config($theme);
+  @if $typography-config != null {
+    @include typography($typography-config);
+  }
+}

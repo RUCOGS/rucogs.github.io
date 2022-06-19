@@ -1,0 +1,96 @@
+:host {
+  --card-image-size: 18.75em;
+  --card-offset: 6.25em;
+}
+
+.banner-container {
+  display: block;
+  box-sizing: content-box;
+  height: calc(50vh); 
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+.banner {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.card-offset {
+  height: calc(var(--card-image-size) - var(--card-offset));
+}
+
+.card-image-container {
+  outline-style: solid;
+  outline-width: 0.5em;
+  display: block;
+  position: relative;
+  bottom: var(--card-offset);
+  height: var(--card-image-size);
+  width: var(--card-image-size);
+  border-radius: 1em;
+}
+
+.card-image {
+  width: inherit;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 16px;
+}
+
+.pitch {
+  margin-top: 0; 
+  margin-bottom: 0;
+  overflow: hidden;
+  word-wrap: break-word;
+}
+
+.edit-banner-tint {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-color: black;
+  opacity: 0.5;
+}
+
+.edit-profile-picture-tint {
+  position: absolute;
+  width: calc(100% - 2 * var(--border-width));
+  height: calc(100% - 2 * var(--border-width));
+  border-radius: 50%;
+  background-color: black;
+  opacity: 0.5;
+}
+
+.main-bg {
+	position: relative;
+	box-sizing: border-box;
+}
+
+.content-width-padding {
+	padding: var(--content-padding);
+  padding-top: 0px;
+}
+
+.socials-button-container {
+	box-sizing: border-box;
+	display: grid;
+	align-items: stretch;
+	margin-left: auto;
+	margin-right: auto;
+	gap: 8px;
+  grid-template-columns: repeat(auto-fit, minmax(256px, 1fr));
+}
+
+.content {
+	display: block;
+  margin-top: 0px;
+	margin: auto;
+  padding-top: 0px;
+	max-width: var(--content-width);
+}
