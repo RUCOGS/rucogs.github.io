@@ -109,16 +109,18 @@ export class BackendService implements OnDestroy {
 
   private configureApolloClientOptions(authToken: string = "") {
     const baseGraphQLUri = this.settings.Backend.backendDomainPlusBaseUrl + this.settings.Backend.graphQLRelativePath;
+    const httpsPrefix = this.settings.Backend.httpsPrefix;
+    const wssPrefix = this.settings.Backend.wssPrefix;
 
     const uploadLink = createUploadLink({ 
-      uri: `https://${baseGraphQLUri}`,
+      uri: `${httpsPrefix}${baseGraphQLUri}`,
       headers: { 'Apollo-Require-Preflight': 'true' }
     });
 
     if (this.graphQLWsClient)
       this.graphQLWsClient.dispose();
     this.graphQLWsClient = createClient({
-      url: `wss://${baseGraphQLUri}`,
+      url: `${wssPrefix}${baseGraphQLUri}`,
       connectionParams: {
         authentication: `Bearer ${authToken}`
       }

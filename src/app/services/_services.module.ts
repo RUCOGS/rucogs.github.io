@@ -31,17 +31,6 @@ export { RolesService };
     CommonModule,
     ApolloModule
   ],
-  providers: [
-    AuthService,
-    BackendService,
-    BreakpointManagerService,
-    CdnService,
-    ScrollService,
-    SecurityService,
-    StyleManagerService,
-    ThemeManagerService,
-    TokenStorageService,
-    RolesService
-  ]
+  providers: []
 })
 export class ServicesModule { }

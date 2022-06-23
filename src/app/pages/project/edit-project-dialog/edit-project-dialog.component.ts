@@ -61,7 +61,8 @@ export class EditProjectDialogComponent implements AfterViewInit {
       soundcloudEmbedSrc: [this.project.soundcloudEmbedSrc],
       pitch: [this.project.pitch, [Validators.required]],
       description: [this.project.description],
-      tags: [this.project.tags, []],
+      tags: [this.project.tags],
+      completed: [this.project.completedAt]
     })
     dialogRef.disableClose = true;
   }
@@ -135,6 +136,12 @@ export class EditProjectDialogComponent implements AfterViewInit {
 
     if (this.form.get("soundcloudEmbedSrc")?.value !== this.project.soundcloudEmbedSrc) {
       input.soundcloudEmbedSrc = this.form.get("soundcloudEmbedSrc")?.value;
+    }
+
+    if ((this.form.get("completed")?.value === false && this.project.completedAt) || 
+      (this.form.get("completed")?.value === true && !this.project.completedAt)
+    ) {
+      input.completed = this.form.get("completed")?.value;
     }
 
     if (!arraysEqual(this.form.get("downloadLinks")?.value, this.project.downloadLinks as string[])) {
