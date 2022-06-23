@@ -15,8 +15,6 @@ export * from './social-platforms';
     CommonModule,
     ClassesModule
   ],
-  providers: [
-    SettingsService
-  ]
+  providers: []
 })
 export class SettingsModule { }

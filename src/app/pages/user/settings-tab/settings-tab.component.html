@@ -30,5 +30,16 @@
         </app-card-grid>
       </div>
     </div>
+    <div>
+      <h2>Danger Zone</h2>
+      <div [matTooltip]="userOptions.deleteUserTooltip" style="width: min-content;">
+        <button mat-flat-button pill tall-button color="primary" (click)="deleteUser()" [disabled]="!userOptions.canDeleteUser || monitor.isProcessing" style="
+          max-width: 20em;
+        ">
+          <mat-icon>delete</mat-icon>
+          Delete User
+        </button>
+      </div>
+    </div>
   </div>
 </app-bg-container>

@@ -14,10 +14,12 @@ import { takeUntil } from 'rxjs/operators';
 import { PartialDeep } from 'type-fest';
 
 export function defaultUserOptions() {
-  return {
+  return <UserOptions>{
     hasEditPerms: false,
     nonExistent: false,
     hasProjects: false,
+    deleteUserTooltip: "",
+    canDeleteUser: false,
     loaded: false,
   };
 }
@@ -26,6 +28,8 @@ export type UserOptions = {
   hasEditPerms: boolean
   nonExistent: boolean
   hasProjects: boolean
+  deleteUserTooltip: string
+  canDeleteUser: boolean
   loaded: boolean
 }
 
@@ -131,7 +135,16 @@ export class UserPageComponent implements OnInit, OnDestroy {
       userId: [ user.id ]
     }
     const permCalc = this.security.makePermCalc().withDomain(userOpDomain);
+    console.log(this.security.securityContext);
     this.userOptions.hasEditPerms = permCalc.hasPermission(Permission.UpdateUser);
+    this.userOptions.canDeleteUser = permCalc.hasPermission(Permission.DeleteUser);
+    if (!this.userOptions.canDeleteUser) {
+      this.userOptions.deleteUserTooltip = `Please ask an e-board officer if you'd like to delete your profile.`;
+    }
+    if ((user.projectMembers?.length ?? 0) > 0) {
+      this.userOptions.canDeleteUser = false;
+      this.userOptions.deleteUserTooltip = `Cannot delete user that is still in a project!`;
+    }
     this.userOptions.hasProjects = (user.projectMembers?.length ?? 0) > 0;
 
     if (this.security.makePermCalc()

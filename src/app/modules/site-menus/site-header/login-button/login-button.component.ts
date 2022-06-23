@@ -3,6 +3,7 @@ import { Router, RouterLink } from '@angular/router';
 import { UIMessageService } from '@src/app/modules/ui-message/ui-message.module';
 import { AuthService } from '@src/app/services/auth.service';
 import { CdnService } from '@src/app/services/cdn.service';
+import { User } from '@src/generated/graphql-endpoint.types';
 import { Observable, Subject } from 'rxjs';
 import { first, takeUntil } from 'rxjs/operators';
 
@@ -15,6 +16,7 @@ export class LoginButtonComponent implements OnInit, OnDestroy {
 
   onDestroy$ = new Subject<void>();
   isLoggedIn: boolean = false;
+  user: Partial<User> | undefined;
 
   constructor(
     public cdn: CdnService,
@@ -24,17 +26,12 @@ export class LoginButtonComponent implements OnInit, OnDestroy {
   ) {   
   }
 
-  get user() {
-    return this.authService.getPayload()?.user
-  }
-
   ngOnInit(): void {
     this.authService.payload$
       .pipe(takeUntil(this.onDestroy$))
-      .subscribe({
-        next: (payload) => {
-          this.isLoggedIn = payload !== undefined;
-        }
+      .subscribe((payload) => {
+        this.user = payload?.user;
+        this.isLoggedIn = payload !== undefined;
       });
   }
   

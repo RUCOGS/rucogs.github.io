@@ -12,7 +12,7 @@ import { IconModule } from '@visurel/iconify-angular';
 
 import { PagesModule } from './pages/pages.module';
 import { SiteMenusModule } from './modules/site-menus/site-menus.module';
-import { ServicesModule } from './services/_services.module';
+import { AuthService, ServicesModule } from './services/_services.module';
 
 @NgModule({
   declarations: [

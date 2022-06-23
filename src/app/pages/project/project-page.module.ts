@@ -31,6 +31,7 @@ import { SettingsModule } from '@src/app/settings/_settings.module';
 import { UtilsModule } from '@src/app/utils/_utils.module';
 import { IconModule } from '@visurel/iconify-angular';
 import { MarkdownModule } from 'ngx-markdown';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 import { EditMemberDialogComponent } from './edit-member-dialog/edit-member-dialog.component';
 import { EditProjectDialogComponent } from './edit-project-dialog/edit-project-dialog.component';
 import { InviteUserDialogComponent } from './invite-user-dialog/invite-user-dialog.component';
@@ -87,6 +88,7 @@ export { ProjectPageComponent };
     TagsModule,
     StringArrayInputModule,
     CarouselModule,
+    MatCheckboxModule
   ],
   exports: [
     ProjectPageComponent

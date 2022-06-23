@@ -23,6 +23,7 @@ import { MatTableModule } from '@angular/material/table';
 import { FilteringModule } from '@src/app/modules/filtering/filtering.module';
 import { MatDialogModule } from '@angular/material/dialog';
 import { SettingsTabComponent } from './settings-tab/settings-tab.component';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 export { UserPageComponent };
 
@@ -60,7 +61,8 @@ const ROUTES: Route[] = [
     MatTableModule,
     FilteringModule,
     MatDialogModule,
-    ProjectModule
+    ProjectModule,
+    MatTooltipModule,
   ],
   exports: [
     UserPageComponent

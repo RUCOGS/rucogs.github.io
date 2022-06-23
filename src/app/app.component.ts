@@ -20,18 +20,18 @@ export class AppComponent implements OnDestroy {
   constructor(
     private elementRef: ElementRef,
     iconService: IconService,
-    authService: AuthService,
+    // authService: AuthService,
     settings: SettingsService
   ) {
     iconService.registerAll(settings.General.icons);
     this.updateStyleVars();
-    authService.payload$
-      .pipe(takeUntil(this.onDestroy$))
-      .subscribe({
-        next: (value) => {
-          this.showSidebars = value !== undefined;
-        }
-      });
+    // authService.payload$
+    //   .pipe(takeUntil(this.onDestroy$))
+    //   .subscribe({
+    //     next: (value) => {
+    //       this.showSidebars = value !== undefined;
+    //     }
+    //   });
   }
 
   ngOnDestroy(): void {

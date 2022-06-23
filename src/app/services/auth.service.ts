@@ -165,6 +165,7 @@ export class AuthService implements OnDestroy {
       localStorage.setItem(AUTH_PAYLOAD_KEY, JSON.stringify(payload));
     }
     
+    console.log(payload);
     this.payloadSubject.next(payload);
   }
   
@@ -182,7 +183,7 @@ export class AuthService implements OnDestroy {
     const socialLogin$ = new Observable<AuthPayload>((observer) => {
       const popup = window.open(authUrl, 'myWindow', 'location=1,status=1,scrollbars=1,width=800,height=900');
       let listener = window.addEventListener('message', (message) => {
-        if (message.origin === ("https://" + this.settings.Backend.backendDomain)) {
+        if (message.origin === (this.settings.Backend.httpsPrefix + this.settings.Backend.backendDomain)) {
           if (message.data.accessToken && message.data.user) {
             observer.next(message.data);
             observer.complete();
