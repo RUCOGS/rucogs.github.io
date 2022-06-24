@@ -1,0 +1,5 @@
+@use './project-page/project-page' as project-page;
+
+@mixin theme($theme) {
+	@include project-page.theme($theme);
+}

@@ -13,7 +13,7 @@ import { InlineProjectItemComponent } from './inline-project-item/inline-project
 export { ProjectsDisplayComponent };
 export { ProjectItemComponent };
 export { InlineProjectItemComponent };
-
+export * from './_classes/access-options';
 
 
 @NgModule({

@@ -7,24 +7,27 @@ import { CardsModule } from '@src/app/modules/cards/cards.module';
 import { ResourceModule } from '@src/app/modules/resource/resource.module';
 import { MatButtonModule } from '@angular/material/button';
 import { IconModule } from '@visurel/iconify-angular';
+import { Route, RouterModule } from '@angular/router';
 
 export { ScarletGameJamPageComponent };
 
+
+const ROUTES: Route[] = [
+  { path: '', component: ScarletGameJamPageComponent }
+];
 
 @NgModule({
   declarations: [
     ScarletGameJamPageComponent
   ],
   imports: [
+    RouterModule.forChild(ROUTES),
     CommonModule,
     CoreModule,
     MatExpansionModule,
     CardsModule,
     MatButtonModule,
     IconModule,
-  ],
-  exports: [
-    ScarletGameJamPageComponent
   ]
 })
 export class ScarletGameJamPageModule { }

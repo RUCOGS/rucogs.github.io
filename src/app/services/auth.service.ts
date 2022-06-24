@@ -160,12 +160,10 @@ export class AuthService implements OnDestroy {
   public setPayload(payload: AuthPayload | undefined): void {
     localStorage.removeItem(AUTH_PAYLOAD_KEY);
 
-    // TODO NOW: Figure out why token is invalidating on page refresh, even though we store it locally
     if (payload) {
       localStorage.setItem(AUTH_PAYLOAD_KEY, JSON.stringify(payload));
     }
     
-    console.log(payload);
     this.payloadSubject.next(payload);
   }
   

@@ -16,7 +16,6 @@ import { BaseCustomInputComponent } from '@app/modules/base-custom-input/base-cu
   ]
 })
 export class TagsInputComponent extends BaseCustomInputComponent<string[]> {
-  // TODO NOW: Figure out the proper way to make abstract classes in angular
   @Input() limit: number = -1;
 
   readonly addOnBlur = true as const;
