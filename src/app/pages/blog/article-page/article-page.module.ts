@@ -11,20 +11,7 @@ import { ArticlePageComponent } from './article/article-page.component';
 export { ArticlePageComponent };
 
 const ROUTES: Route[] = [
-  { 
-    matcher: (url: UrlSegment[]) => {
-      if (url.length > 1 && url[0].path === "blog") {
-        return {
-          consumed: url,
-          posParams: {
-            article: new UrlSegment(url.slice(1).join("/"), {})
-          }
-        };
-      }
-      return null;
-    }, 
-    component: ArticlePageComponent 
-  },
+  { path: '', component: ArticlePageComponent },
 ];
 
 @NgModule({
