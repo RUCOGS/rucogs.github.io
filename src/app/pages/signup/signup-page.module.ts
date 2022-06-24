@@ -7,15 +7,18 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
+import { Route, RouterModule } from '@angular/router';
 
-export { SignupPageComponent };
-
+const ROUTES: Route[] = [
+  { path: '', component: SignupPageComponent }
+];
 
 @NgModule({
   declarations: [
     SignupPageComponent
   ],
   imports: [
+    RouterModule.forChild(ROUTES),
     CommonModule,
     CoreModule,
     IconModule,
@@ -23,9 +26,6 @@ export { SignupPageComponent };
     MatIconModule,
     ReactiveFormsModule,
     MatInputModule,
-  ],
-  exports: [
-    SignupPageComponent
   ]
 })
 export class SignupPageModule { }

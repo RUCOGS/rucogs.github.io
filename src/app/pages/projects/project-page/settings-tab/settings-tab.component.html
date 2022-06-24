@@ -1,0 +1,19 @@
+<app-bg-container full-page>
+  <div style="
+    display: flex;
+    flex-direction: column;
+    gap: 2em;
+  ">
+    <div>
+      <h2>Danger Zone</h2>
+      <div [matTooltip]="getDeleteProjectTooltip()" style="width: min-content;">
+        <button mat-flat-button pill tall-button color="primary" (click)="deleteProject()" [disabled]="!projectOptions.canDeleteProject || monitor.isProcessing" style="
+          max-width: 20em;
+        ">
+          <mat-icon>delete</mat-icon>
+          Delete Project
+        </button>
+      </div>
+    </div>
+  </div>
+</app-bg-container>

@@ -7,15 +7,18 @@ import { MatIconModule } from '@angular/material/icon';
 import { ReactiveFormsModule } from '@angular/forms';
 import { CoreModule } from '@src/app/modules/_core/core.module';
 import { MatInputModule } from '@angular/material/input';
+import { Route, RouterModule } from '@angular/router';
 
-export { LoginPageComponent };
-
+const ROUTES: Route[] = [
+  { path: '', component: LoginPageComponent }
+];
 
 @NgModule({
   declarations: [
     LoginPageComponent
   ],
   imports: [
+    RouterModule.forChild(ROUTES),
     CommonModule,
     CoreModule,
     IconModule,
@@ -23,9 +26,6 @@ export { LoginPageComponent };
     MatInputModule,
     MatIconModule,
     ReactiveFormsModule,
-  ],
-  exports: [
-    LoginPageComponent
   ]
 })
 export class LoginPageModule { }

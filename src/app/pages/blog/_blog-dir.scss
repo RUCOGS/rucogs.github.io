@@ -1,0 +1,7 @@
+@use './article-page/article-page' as article-page;
+@use './blog-page/blog-page' as blog-page;
+
+@mixin theme($theme) {
+	@include article-page.theme($theme);
+	@include blog-page.theme($theme);
+}
