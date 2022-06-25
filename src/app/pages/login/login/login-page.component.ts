@@ -43,7 +43,7 @@ export class LoginPageComponent implements OnDestroy {
     observable.pipe(first(), takeUntil(this.onDestroy$)).subscribe({
       next: data => {
         this.isLoginFailed = false;
-        this.router.navigateByUrl('/users/' + data.user.username);
+        this.router.navigateByUrl(`/members/${data.user.username}`);
       },
       error: err => {
         this.errorMessage = err.error.message;
