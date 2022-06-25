@@ -18,6 +18,6 @@ export class SiteLeftSideBarComponent implements OnInit {
   }
 
   onProfileClick() {
-    this.router.navigateByUrl(`/users/${this.authService.getPayload()?.user.username}`);
+    this.router.navigateByUrl(`/members/${this.authService.getPayload()?.user.username}`);
   }
 }

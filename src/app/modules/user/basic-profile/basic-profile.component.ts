@@ -25,6 +25,6 @@ export class BasicProfileComponent implements OnInit {
 
   ngOnInit(): void {
     if (this.link === "" && this.user.username)
-      this.link = `/users/${this.user.username}`;
+      this.link = `/members/${this.user.username}`;
   }
 }
