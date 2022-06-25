@@ -56,5 +56,9 @@ export const SOCIAL_PLATFORMS: {
   twitch: {
     name: "Twitch",
     icon: "twitch"
+  },
+  linkedIn: {
+    name: "LinkedIn",
+    icon: "linkedIn"
   }
 };

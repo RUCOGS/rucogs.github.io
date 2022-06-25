@@ -67,7 +67,7 @@ export class ImageUploadComponent extends BaseCustomInputComponent<File> impleme
       FileUtils.readAsBase64(file)
         .then(result => {
           // Limit file size
-          const filesize = FileUtils.base64ToByteSize(result);
+          const filesize = file.size;
           if (filesize < this.fileSizeLimitBytes) {
             this.value = file;
             this.imageSrc = result;
