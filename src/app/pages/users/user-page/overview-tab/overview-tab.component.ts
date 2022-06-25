@@ -66,6 +66,10 @@ export class OverviewTabComponent implements AfterViewChecked, OnChanges {
       this.projectsDisplay?.queryUntilFillPage();
     }
   }
+
+  getDateString(date: number) {
+    return new Date(date).toLocaleString();
+  }
   
   trySetupBannerColorListeners() {
     if (this.setupBannerColorListener)
@@ -168,5 +172,23 @@ export class OverviewTabComponent implements AfterViewChecked, OnChanges {
 
   onNewProjectClick() {
     this.router.navigateByUrl('/projects/new');
+  }
+
+  getClassYearString(classYear: number) {
+    const currYear = new Date().getFullYear();
+    const grade = classYear - currYear;
+    if (grade > 4) {
+      return "📨 Incoming"
+    } else if (grade === 1) {
+      return "🎆 Senior";
+    } else if (grade === 2) {
+      return "🌇 Junior";
+    } else if (grade === 3) {
+      return "🦜 Sophmore";
+    } else if (grade === 4) {
+      return "🔰 Freshman"
+    } else {
+      return "🎓 Alumni";
+    }
   }
 }

@@ -1,5 +1,5 @@
-import { AfterViewInit, Component, Inject, Input, OnInit, ViewChild } from '@angular/core';
-import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
+import { AfterViewInit, Component, Inject, ViewChild } from '@angular/core';
+import { FormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ProcessMonitor } from '@src/app/classes/process-monitor';
 import { ImageUploadComponent } from '@src/app/modules/image-upload/image-upload.module';
@@ -8,13 +8,12 @@ import { UserSocialEdit } from '@src/app/modules/user/editable-social-button/edi
 import { BackendService } from '@src/app/services/backend.service';
 import { CdnService } from '@src/app/services/cdn.service';
 import { RolesService } from '@src/app/services/roles.service';
-import { FormConfigurer } from '@src/app/utils/form-utils';
 import { RoleCode, UpdateUserInput, UploadOperation, User } from '@src/generated/graphql-endpoint.types';
 import { assertNoDuplicates } from '@src/shared/validation';
 import { gql } from 'apollo-angular';
-import { finalize, first } from 'rxjs/operators';
+import { firstValueFrom } from 'rxjs';
 import { PartialDeep } from 'type-fest';
-import { defaultUserOptions, UserOptions } from '../user-page/user-page.component';
+import { UserOptions } from '../user-page/user-page.component';
 
 export interface EditUserDialogData {
   user: PartialDeep<User>
@@ -27,9 +26,6 @@ export interface EditUserDialogData {
   styleUrls: ['./edit-user-dialog.component.css']
 })
 export class EditUserDialogComponent implements AfterViewInit {
-
-  user: PartialDeep<User>;
-  userOptions: UserOptions;
 
   @ViewChild('avatarUpload') avatarUpload?: ImageUploadComponent;
   @ViewChild('bannerUpload') bannerUpload?: ImageUploadComponent;
@@ -47,7 +43,7 @@ export class EditUserDialogComponent implements AfterViewInit {
   monitor = new ProcessMonitor();
 
   constructor(
-    formBuilder: UntypedFormBuilder,
+    formBuilder: FormBuilder,
     private cdn: CdnService,
     private backend: BackendService,
     private rolesService: RolesService,
@@ -56,37 +52,35 @@ export class EditUserDialogComponent implements AfterViewInit {
     @Inject(MAT_DIALOG_DATA) public data: EditUserDialogData,
   ) {
     this.form = formBuilder.group({
-      displayName: [null, [Validators.required]],
-      bio: [null, []]
+      displayName: [data.user.displayName, [Validators.required]],
+      bio: [data.user.bio, []],
+      classYear: [data.user.classYear, []]
     })
     dialogRef.disableClose = true;
-    this.user = data.user;
-    this.userOptions = data.userOptions;
   }
 
   async ngAfterViewInit() {
-    if (!this.avatarUpload || !this.bannerUpload || !this.user.roles || !this.user.id)
-      return;  
-    
-    const formConfig = new FormConfigurer(this.form);
-    formConfig.initControl('displayName', this.user.displayName);
-    formConfig.initControl('bio', this.user.bio);
-    
-    this.avatarUpload.init(this.cdn.getFileLink(this.user.avatarLink));
-    this.bannerUpload.init(this.cdn.getFileLink(this.user.bannerLink));
-    
-    this.socialsEdited = false;
-    if (this.user.socials)
-      this.userSocialEdits = this.user.socials.map(x => new UserSocialEdit({
-        link: x?.link ?? "",
-        platform: x?.platform ?? "",
-        username: x?.username ?? ""
-      }));
+    // Keep change detector happy by not running it on the same frame as AfterViewInit
+    setTimeout(async () => {
+      if (!this.avatarUpload || !this.bannerUpload || !this.data.user.roles || !this.data.user.id)
+        return;  
+      
+      this.avatarUpload.init(this.cdn.getFileLink(this.data.user.avatarLink));
+      this.bannerUpload.init(this.cdn.getFileLink(this.data.user.bannerLink));
+      
+      this.socialsEdited = false;
+      if (this.data.user.socials)
+        this.userSocialEdits = this.data.user.socials.map(x => new UserSocialEdit({
+          link: x?.link ?? "",
+          platform: x?.platform ?? "",
+          username: x?.username ?? ""
+        }));
 
-    this.rolesEdited = false;
-    this.roles = this.user.roles.map(x => x?.roleCode as RoleCode);
-    this.acceptedRoles = await this.rolesService.getAddableUserRoles();
-    this.disabledRoles = await this.rolesService.getDisabledUserRoles();
+      this.rolesEdited = false;
+      this.roles = this.data.user.roles.map(x => x?.roleCode as RoleCode);
+      this.acceptedRoles = await this.rolesService.getAddableUserRoles();
+      this.disabledRoles = await this.rolesService.getDisabledUserRoles();
+    }, 0);
   }
 
   onEditSocial() {
@@ -105,7 +99,6 @@ export class EditUserDialogComponent implements AfterViewInit {
     this.userSocialEdits.splice(index, 1);
   }
 
-  // Don't save, revert changes
   exit(success: boolean = false) {
     if (!this.monitor.isProcessing)
       this.dialogRef.close(success);
@@ -133,14 +126,14 @@ export class EditUserDialogComponent implements AfterViewInit {
     }
   }
 
-  save() {
+  async save() {
     if (this.monitor.isProcessing || !this.avatarUpload || !this.bannerUpload || 
         !this.validate()) {
       return;
     }
 
     const input = <UpdateUserInput>{
-      id: this.user.id
+      id: this.data.user.id
     }
 
     if (this.rolesEdited) {
@@ -151,12 +144,16 @@ export class EditUserDialogComponent implements AfterViewInit {
       input.socials = this.userSocialEdits.map(x => x.userSocial);
     }
 
-    if (this.form.get("displayName")?.value !== this.user.displayName) {
+    if (this.form.get("displayName")?.value !== this.data.user.displayName) {
       input.displayName = this.form.get("displayName")?.value;
     }
     
-    if (this.form.get("bio")?.value !== this.user.bio) {
+    if (this.form.get("bio")?.value !== this.data.user.bio) {
       input.bio = this.form.get("bio")?.value;
+    }
+
+    if (this.form.get("classYear")?.value !== this.data.user.classYear) {
+      input.classYear = this.form.get("classYear")?.value;
     }
 
     if (this.avatarUpload.edited) {
@@ -180,7 +177,7 @@ export class EditUserDialogComponent implements AfterViewInit {
     // If change data is not empty, meaning there were changes...
     if (Object.keys(input).length > 1) {
       this.monitor.addProcess();
-      this.backend
+      const result = await firstValueFrom(this.backend
         .withAuth()
         .mutate<{
           updateUser: boolean
@@ -193,20 +190,22 @@ export class EditUserDialogComponent implements AfterViewInit {
           variables: {
             input,
           }
-        })
-        .pipe(
-          first()
-        )
-        .subscribe({
-          next: (value) => {
-            this.monitor.removeProcess();
-            this.exit(true);
-          },
-          error: (error) => {
-            this.monitor.removeProcess();
-            this.uiMessageService.error("Error uploading data!");
-          }
-        });
+        }));
+      this.monitor.removeProcess();
+      if (result.errors) {
+        this.uiMessageService.error("Error uploading data!");
+        return;
+      }
+      this.exit(true);
     }
+  }
+
+  getAvailableYears() {
+    const currYear = new Date().getFullYear();
+    const availableYears: number[] = [];
+    for (let year = currYear + 8; year >= 2012; year--) {
+      availableYears.push(year);
+    }
+    return availableYears;
   }
 }

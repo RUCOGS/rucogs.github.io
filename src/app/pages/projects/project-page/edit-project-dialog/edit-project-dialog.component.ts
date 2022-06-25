@@ -29,9 +29,6 @@ export class EditProjectDialogComponent implements AfterViewInit {
 
   @Output() edited = new EventEmitter<PartialDeep<Project>>();
 
-  project: PartialDeep<Project> = {};
-  projectOptions: ProjectOptions = defaultProjectOptions();
-
   monitor = new ProcessMonitor();
   accessOptions = AccessOptions;
 
@@ -49,30 +46,29 @@ export class EditProjectDialogComponent implements AfterViewInit {
     public dialogRef: MatDialogRef<EditProjectDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: EditProjectDialogData,
   ) {
-    this.project = data.project;
     this.form = formBuilder.group({
-      name: [this.project.name, [Validators.required]],
-      access: [this.project.access, [Validators.required]],
-      galleryImages: [this.project.galleryImageLinks?.map(x => <UploadOrSource>{
+      name: [this.data.project.name, [Validators.required]],
+      access: [this.data.project.access, [Validators.required]],
+      galleryImages: [this.data.project.galleryImageLinks?.map(x => <UploadOrSource>{
         source: x
       })],
-      // TODO: replace with this.project.downloadLinks
-      downloadLinks: [this.project.downloadLinks],
-      soundcloudEmbedSrc: [this.project.soundcloudEmbedSrc],
-      pitch: [this.project.pitch, [Validators.required]],
-      description: [this.project.description],
-      tags: [this.project.tags],
-      completed: [this.project.completedAt]
+      // TODO: replace with this.data.project.downloadLinks
+      downloadLinks: [this.data.project.downloadLinks],
+      soundcloudEmbedSrc: [this.data.project.soundcloudEmbedSrc],
+      pitch: [this.data.project.pitch, [Validators.required]],
+      description: [this.data.project.description],
+      tags: [this.data.project.tags],
+      completed: [this.data.project.completedAt]
     })
     dialogRef.disableClose = true;
   }
 
   ngAfterViewInit(): void {
-    if (!this.cardImageUpload || !this.bannerUpload || !this.project.id)
+    if (!this.cardImageUpload || !this.bannerUpload || !this.data.project.id)
       return;
 
-    this.cardImageUpload.init(this.cdnService.getFileLink(this.project.cardImageLink));
-    this.bannerUpload.init(this.cdnService.getFileLink(this.project.bannerLink));
+    this.cardImageUpload.init(this.cdnService.getFileLink(this.data.project.cardImageLink));
+    this.bannerUpload.init(this.cdnService.getFileLink(this.data.project.bannerLink));
 
     this.changeDetector.detectChanges();
   }
@@ -89,7 +85,7 @@ export class EditProjectDialogComponent implements AfterViewInit {
         throw new Error("Some project information is missing!");
       }
 
-      if (this.form.get("soundcloudEmbedSrc")?.value !== "" && this.form.get("soundcloudEmbedSrc")?.value !== this.project.soundcloudEmbedSrc) {
+      if (this.form.get("soundcloudEmbedSrc")?.value !== "" && this.form.get("soundcloudEmbedSrc")?.value !== this.data.project.soundcloudEmbedSrc) {
         const soundcloudEmbedSrc: string = this.form.get("soundcloudEmbedSrc")?.value ?? "";
         const match = soundcloudEmbedRegex.exec(soundcloudEmbedSrc);
         if (!match || match.length === 0) {
@@ -115,40 +111,40 @@ export class EditProjectDialogComponent implements AfterViewInit {
 
     // Upload profile picture
     const input = <UpdateProjectInput>{
-      id: this.project.id
+      id: this.data.project.id
     };
 
-    if (this.form.get("access")?.value !== this.project.access) {
+    if (this.form.get("access")?.value !== this.data.project.access) {
       input.access = this.form.get("access")?.value;
     }
 
-    if (this.form.get("name")?.value !== this.project.name) {
+    if (this.form.get("name")?.value !== this.data.project.name) {
       input.name = this.form.get("name")?.value;
     }
     
-    if (this.form.get("pitch")?.value !== this.project.pitch) {
+    if (this.form.get("pitch")?.value !== this.data.project.pitch) {
       input.pitch = this.form.get("pitch")?.value;
     }
 
-    if (this.form.get("description")?.value !== this.project.description) {
+    if (this.form.get("description")?.value !== this.data.project.description) {
       input.description = this.form.get("description")?.value;
     }
 
-    if (this.form.get("soundcloudEmbedSrc")?.value !== this.project.soundcloudEmbedSrc) {
+    if (this.form.get("soundcloudEmbedSrc")?.value !== this.data.project.soundcloudEmbedSrc) {
       input.soundcloudEmbedSrc = this.form.get("soundcloudEmbedSrc")?.value;
     }
 
-    if ((this.form.get("completed")?.value === false && this.project.completedAt) || 
-      (this.form.get("completed")?.value === true && !this.project.completedAt)
+    if ((this.form.get("completed")?.value === false && this.data.project.completedAt) || 
+      (this.form.get("completed")?.value === true && !this.data.project.completedAt)
     ) {
       input.completed = this.form.get("completed")?.value;
     }
 
-    if (!arraysEqual(this.form.get("downloadLinks")?.value, this.project.downloadLinks as string[])) {
+    if (!arraysEqual(this.form.get("downloadLinks")?.value, this.data.project.downloadLinks as string[])) {
       input.downloadLinks = this.form.get("downloadLinks")?.value;
     }
     
-    if (!arraysEqual(this.form.get("tags")?.value, this.project.tags as string[])) {
+    if (!arraysEqual(this.form.get("tags")?.value, this.data.project.tags as string[])) {
       input.tags = this.form.get("tags")?.value;
     }
 

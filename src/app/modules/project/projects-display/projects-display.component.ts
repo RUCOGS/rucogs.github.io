@@ -1,12 +1,9 @@
-import { AfterViewInit, Component, Input, OnDestroy, ViewChild } from '@angular/core';
-import { FilterHeaderComponent } from '@src/app/modules/filtering/filter-header/filter-header.component';
-import { BackendService } from '@src/app/services/backend.service';
-import { ScrollService } from '@src/app/services/scroll.service';
+import { Component, Input } from '@angular/core';
+import { BaseFilteredHeaderScrollPaginationComponent } from '@app/modules/paginator/paginator.module';
 import { Access, Project } from '@src/generated/graphql-endpoint.types';
 import { ProjectFilterInput, ProjectSortInput } from '@src/generated/model.types';
 import { gql } from 'apollo-angular';
-import { firstValueFrom, Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { firstValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-projects-display',
@@ -16,100 +13,30 @@ import { takeUntil } from 'rxjs/operators';
     class: 'page'
   }
 })
-export class ProjectsDisplayComponent implements AfterViewInit, OnDestroy {
+export class ProjectsDisplayComponent extends BaseFilteredHeaderScrollPaginationComponent<Partial<Project>, ProjectFilterInput> {
 
-  @ViewChild(FilterHeaderComponent) filterHeader: FilterHeaderComponent | undefined;
-  @Input() projects: Partial<Project>[] = [];
-  @Input() projectsQuery: (filter: any, skip: number, limit: number) => Promise<Partial<Project>[]> = this.defaultQuery.bind(this);
+  get projects() { return this.values; }
+  @Input() set projects(values) { this.values = values; }
+
+  get projectsQuery() { return this.filteredValuesQuery; }
+  @Input() set projectsQuery(value) { this.filteredValuesQuery = value; }
   
-  currentPage: number = 0;
-  projectsPerPage: number = 6;
-  filter: ProjectFilterInput = {};
-  fillingPage: boolean = false;
-  // Did we make our first load yet?
-  loaded: boolean = false;
-  loadedEverything: boolean = false;
+  valuesPerPage: number = 6;
 
-  private onDestroy$: Subject<void> = new Subject<void>();
-
-
-  // TODO MAYBE: Find the exact amount of projects needed to fill
-  //             the viewer's page. This ofcourse is dependent on
-  //             a lot of factors, such as the current breakpoint, etc.
-
-  constructor(
-    private scrollService: ScrollService,
-    private backend: BackendService,
-  ) { 
-    scrollService.scrolledToBottom$.pipe(takeUntil(this.onDestroy$)).subscribe(this.onScrollToBottom.bind(this));
-  }
-
-  ngAfterViewInit(): void {
+  override getFilter(): ProjectFilterInput {
     if (!this.filterHeader)
-      return;
-    
-    // NOTE: This is really inefficient because we are regenerating the entire sortedSections array
-    //       whenever the project changes a filter option. We should consider only modifying parts of
-    //       of the sorted array that are needed (ie. only reversing the sortedSections if sortAscending 
-    //       changes).
-    this.filterHeader.newSearchRequest$.pipe(takeUntil(this.onDestroy$)).subscribe(this.onNewSearchRequest.bind(this));
-    this.queryUntilFillPage();
-  }
-  
-  ngOnDestroy(): void {
-    this.onDestroy$.next();
-    this.onDestroy$.complete();
-  }
-
-  async queryUntilFillPage(filter: ProjectFilterInput | undefined = undefined) {
-    if (this.fillingPage || this.loadedEverything)
-      return;
-
-    this.fillingPage = true;
-    let resultsLength: number = 0;
-    this.scrollService.updateScrollData();
-    const ogPos = this.scrollService.position;
-    do {
-      resultsLength = await this.addPage(filter);
-      // While we haven't filled up the page and there are more projects,
-      // then we continue querying to fill up the page
-      this.scrollService.updateScrollData();
-    } while (this.scrollService.maxPosition - ogPos < 300 && resultsLength > 0);
-    this.fillingPage = false;
-  }
-
-  async onScrollToBottom() {
-    await this.queryUntilFillPage();
-  }
-
-  async addPage(filter: ProjectFilterInput | undefined = undefined) {
-    this.loaded = false;
-    const result = await this.queryProjects(filter);
-    if (result.length == 0) {
-      this.loaded = true;
-      this.loadedEverything = true;
-      return 0;
+      return {};
+    return {
+      ...(this.filterHeader.searchText && {
+        name: { 
+          startsWith: this.filterHeader.searchText, 
+          mode: 'INSENSITIVE' 
+        }
+      })
     }
-    
-    if (result.length < this.projectsPerPage) {
-      this.loadedEverything = true;
-    }
-    this.projects = this.projects.concat(result);
-    this.currentPage++;
-
-    this.loaded = true;
-
-    return result.length;
   }
 
-  async queryProjects(filter: ProjectFilterInput | undefined = undefined) {
-    if (filter !== undefined)
-      this.filter = filter;
-    const results = await this.projectsQuery(this.filter, this.currentPage * this.projectsPerPage, this.projectsPerPage);
-    return results;
-  }
-
-  async defaultQuery(filter: any, skip: number, limit: number) {
+  _filteredValuesQuery = async (filter: ProjectFilterInput, skip: number, limit: number) => {
     const results = await firstValueFrom(this.backend.withAuth().query<{
       projects: {
         // Result type
@@ -130,7 +57,7 @@ export class ProjectsDisplayComponent implements AfterViewInit, OnDestroy {
       }[]
     }>({
       query: gql`
-        query($filter: ProjectFilterInput, $skip: Int, $limit: Int, $sorts: [ProjectSortInput!]) {
+        query DefaultProjectsDisplay($filter: ProjectFilterInput, $skip: Int, $limit: Int, $sorts: [ProjectSortInput!]) {
           projects(filter: $filter, skip: $skip, limit: $limit, sorts: $sorts) {
             id
             access
@@ -165,33 +92,5 @@ export class ProjectsDisplayComponent implements AfterViewInit, OnDestroy {
     if (results.error)
       return [];
     return <Partial<Project>[]>results.data.projects;
-  }
-
-  resetPages() {
-    this.projects = [];
-    this.currentPage = 0;
-    this.loaded = false;
-    this.loadedEverything = false;
-  }
-
-  async onNewSearchRequest(searchText: string) {
-    if (this.filterHeader === undefined)
-      return;
-    
-    searchText = searchText.toLowerCase();
-    
-    this.resetPages();
-
-    if (searchText === "") {
-      await this.queryUntilFillPage({});
-      return;
-    }
-
-    await this.queryUntilFillPage({
-      name: { 
-        startsWith: searchText, 
-        mode: 'INSENSITIVE' 
-      }
-    });
   }
 }

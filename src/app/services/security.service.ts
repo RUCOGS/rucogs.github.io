@@ -98,7 +98,23 @@ export class SecurityService implements OnDestroy {
     }
   }
 
-  public getOpDomainFromPermission<T extends keyof SecurityDomainTemplate>(permissionCode: Permission, fields: (keyof SecurityDomainTemplate)[]): OperationSecurityDomain {
+  public hasCompletePermission(permissionCode: Permission) {
+    const permissionsDomain = this.securityContext?.permissions[permissionCode];
+    if (isBaseSecurityDomain(permissionsDomain)) {
+      return permissionsDomain === true;
+    } else if (isExtendedSecurityDomain(permissionsDomain)) {
+      return permissionsDomain.baseDomain === true
+    }
+    // Return false by default. We can't tell if a custom domain has
+    // complete permissions or not, so we don't bother parsing it.
+    return false;
+  }
+
+  public getOpDomainFromPermission<T extends keyof SecurityDomainTemplate>(permissionCode: Permission, fields: (keyof SecurityDomainTemplate)[]): OperationSecurityDomain | undefined {
+    // Unset the operation domain if we have complete access
+    if (this.hasCompletePermission(permissionCode))
+      return undefined;
+    
     let domain: OperationSecurityDomain = {};
     for (const field of fields) {
       domain[field] = this.getOpDomainFieldFromPermission(permissionCode, field);

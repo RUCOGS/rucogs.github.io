@@ -1,4 +1,4 @@
-<app-tag-container>
+<app-tag-container [center]="center">
   <app-tag color="blank" *ngFor="let role of roles">
     {{getRoleData(role).name}}
   </app-tag>

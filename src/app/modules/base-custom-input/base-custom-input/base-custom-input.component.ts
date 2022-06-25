@@ -1,23 +1,17 @@
 import { FocusMonitor } from '@angular/cdk/a11y';
 import { coerceBooleanProperty } from '@angular/cdk/coercion';
-import { Directive, ElementRef, Input, OnDestroy } from '@angular/core';
+import { Directive, ElementRef, Input } from '@angular/core';
 import { ControlValueAccessor, NgControl } from '@angular/forms';
 import { MatFormFieldControl } from '@angular/material/form-field';
 import { WithDestroy } from '@src/app/classes/mixins';
 import { Subject } from 'rxjs';
-import mixin from 'ts-mixin-extended';
+import { Mixin } from 'ts-mixer';
 
 @Directive()
-export class BaseCustomInputComponent<TValue> extends mixin(class {
-  constructor(
-    protected focusMonitor: FocusMonitor,
-    protected elementRef: ElementRef,
-    public ngControl: NgControl,
-  ) {}
-}, WithDestroy) implements ControlValueAccessor, MatFormFieldControl<TValue>, OnDestroy {
+export class BaseCustomInputComponent<TValue> extends Mixin(WithDestroy) implements ControlValueAccessor, MatFormFieldControl<TValue> {
 
-  onChange: any = (_: any) => {};
-  onTouched: any = () => {};
+  onChange = (_: any) => {};
+  onTouched = () => {};
 
   protected _value: TValue | null = null;
   get value(): TValue | null {
@@ -27,7 +21,8 @@ export class BaseCustomInputComponent<TValue> extends mixin(class {
     const oldValue = this._value;
     this._value = value;
     if (!this.areValuesEqual(value, oldValue)) {
-      this.onChange(value);
+      if (this.onChange)
+        this.onChange(value);
       this.markAsTouched();
     }
   }
@@ -85,11 +80,11 @@ export class BaseCustomInputComponent<TValue> extends mixin(class {
   public id: string = "";
 
   constructor(
-    focusMonitor: FocusMonitor,
-    elementRef: ElementRef,
-    ngControl: NgControl,
+    protected focusMonitor: FocusMonitor,
+    protected elementRef: ElementRef,
+    public ngControl: NgControl,
   ) {
-    super(focusMonitor, elementRef, ngControl);
+    super();
     if (this.ngControl != null) {
       this.ngControl.valueAccessor = this;
     }
@@ -133,6 +128,7 @@ export class BaseCustomInputComponent<TValue> extends mixin(class {
   }
 
   markAsTouched() {
-    this.onTouched();
+    if (this.onTouched)
+      this.onTouched();
   }
 }

@@ -8,11 +8,15 @@ import { UsersTabComponent } from './users-tab/users-tab.component';
 import { EboardTabComponent } from './eboard-tab/eboard-tab.component';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTabsModule } from '@angular/material/tabs';
+import { MatTabStylesModule } from '@src/app/modules/mat-tab-styles/mat-tab-styles.module';
+import { AvatarModule } from '@src/app/modules/avatar/avatar.module';
+import { RolesModule } from '@src/app/modules/roles/roles.module';
+import { MatDividerModule } from '@angular/material/divider';
 
 export { UsersPageComponent };
 
 const ROUTES: Route[] = [
-  { path: "**", component: UsersPageComponent,
+  { path: '', component: UsersPageComponent,
     children: [
       { path: '', component: UsersTabComponent },
       { path: 'eboard', component: EboardTabComponent }
@@ -32,7 +36,11 @@ const ROUTES: Route[] = [
     CoreModule,
     UserModule,
     MatIconModule,
-    MatTabsModule
+    MatTabsModule,
+    MatTabStylesModule,
+    AvatarModule,
+    RolesModule,
+    MatDividerModule
   ],
   exports: [
     UsersPageComponent

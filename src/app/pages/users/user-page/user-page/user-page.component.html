@@ -1,17 +1,4 @@
 <div class="app-user-page main-bg">
-<!--   
-  <nav mat-tab-nav-bar [tabPanel]="tabPanel">
-    <a mat-tab-link *ngFor="let link of tabLinks"
-      [routerLink]="link.link"
-      routerLinkActive #rla="routerLinkActive"
-      [active]="rla.isActive">
-      <mat-icon>remove_red_eye</mat-icon>
-      <div style="margin-left: 0.5em;" *ngIf="breakpointManager.matchedBreakpointOrAbove('MOBILE', 'key')">Overview</div>
-    </a>
-    <a mat-tab-link disabled>Disabled Link</a>
-  </nav>
-  <mat-tab-nav-panel #tabPanel></mat-tab-nav-panel> -->
-
   <mat-tab-group mat-align-tabs="center" backgroundColor="primary" [selectedIndex]="0">
     <mat-tab>
       <ng-template mat-tab-label>
@@ -39,6 +26,19 @@
         </app-invites-tab>
       </ng-template>
     </mat-tab>
+    <mat-tab *ngIf="userOptions.canManageEBoard">
+      <ng-template mat-tab-label>
+        <mat-icon>assignment_ind</mat-icon>
+        <div style="margin-left: 0.5em;" *ngIf="breakpointManager.matchedBreakpointOrAbove('MOBILE')">E-Board</div>
+      </ng-template>
+      <ng-template matTabContent>
+        <app-eboard-tab
+          [user]="user"
+          [userOptions]="userOptions"
+          (edited)="fetchData(true)"
+        ></app-eboard-tab>
+      </ng-template>
+    </mat-tab>
     <mat-tab *ngIf="userOptions.canUpdateUser">
       <ng-template mat-tab-label>
         <mat-icon>settings</mat-icon>
@@ -54,3 +54,20 @@
     </mat-tab>
   </mat-tab-group>
 </div>
+
+<!-- <div style="display: flex; flex-direction: row; justify-content: center;" class="background-color-primary">
+  <nav mat-tab-nav-bar color="primary" mat-align-tabs="center" backgroundColor="primary" mat-stretch-tabs mat-tab-content-width>
+    <a mat-tab-link
+      *ngFor="let tab of usersTabs"
+      [routerLink]="tab.path"
+      routerLinkActive #rla="routerLinkActive"
+      [routerLinkActiveOptions]="{ exact: true }"
+      [active]="rla.isActive"
+    >
+      <mat-icon>{{tab.matIcon}}</mat-icon>
+      <div style="margin-left: 0.5em;">{{tab.label}}</div>
+    </a>
+  </nav>
+</div>
+
+<router-outlet></router-outlet> -->

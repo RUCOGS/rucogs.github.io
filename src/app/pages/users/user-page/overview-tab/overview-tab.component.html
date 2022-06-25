@@ -86,7 +86,9 @@
         align-items: flex-start;
         margin-top: 5em; 
         flex-wrap: wrap; 
-        gap: 4px;">
+        gap: 4px; 
+        margin-bottom: 1em;
+      ">
         <div style="flex-grow: 1;" *ngIf="!userOptions.nonExistent">
           <h1 class="user-page overview-tab display-name">{{ user.displayName }}</h1>
           <div class="user-page overview-tab username-tag">@{{ user.username }}</div>
@@ -95,12 +97,29 @@
           right: 0; 
           display: flex;
           flex-direction: row;
+          gap: 0.5em;
+          align-items: center;
         ">
+          <div *ngIf="user.classYear" style="
+            display: flex; 
+            flex-direction: row;
+            align-items: center;
+            gap: 0.5em;
+            margin-right: 1em;
+            flex-wrap: wrap;
+          ">
+            <div>Class of {{ user.classYear }}</div>
+            <app-tag color="blank">{{ getClassYearString(user.classYear) }}</app-tag>
+          </div>
           <button class="user-page overview-tab edit-button" mat-stroked-button color="basic" pill (click)="edit()" *ngIf="userOptions.canUpdateUser">Edit Profile
           </button>
         </div>
       </div>
-      <div class="user-page overview-tab core-content">
+      <div *ngIf="userOptions.nonExistent" class="text-disabled" style="margin-top: 2em;">
+        <h1>This account doesn't exist</h1>
+        <p>Try searching for another</p>
+      </div>
+      <div *ngIf="!userOptions.nonExistent" class="user-page overview-tab core-content">
         <p style="
           margin-top: 0; 
           margin-bottom: 0;
@@ -108,10 +127,6 @@
         ">
           {{ user.bio }}
         </p>
-        <div *ngIf="userOptions.nonExistent" class="text-disabled">
-          <h1>This account doesn't exist</h1>
-          <p>Try searching for another</p>
-        </div>
         <div class="user-page overview-tab socials-container">
           <div class="user-page overview-tab socials-button-container">
             <div *ngFor="let userSocial of user.socials">
@@ -122,8 +137,21 @@
         <div>
           <app-roles-display [roles]="roles"></app-roles-display>
         </div>
+        <div class="text-disabled" style="
+          display: flex;
+          flex-direction: row;
+          gap: 2em;
+        ">
+          <div>Created at {{ getDateString(user.createdAt) }}</div>
+          <div>Updated at {{ getDateString(user.updatedAt) }}</div>
+        </div>
         <div *ngIf="!userOptions.nonExistent">
-          <mat-divider style="margin-bottom: 32px;"></mat-divider>
+          <div *ngIf="user.eBoard" style="margin-bottom: 2em;">
+            <mat-divider style="margin-bottom: 2em;"></mat-divider>
+            <h2>E-Board</h2>
+            <app-eboard-profile [eBoard]="user.eBoard"></app-eboard-profile>
+          </div>
+          <mat-divider style="margin-bottom: 2em;"></mat-divider>
           <div style="
             display: flex;
             flex-direction: row;

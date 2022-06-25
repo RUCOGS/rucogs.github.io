@@ -5,6 +5,8 @@
   $color-config: mat.get-color-config($theme);
 
 	$primary: map.get($color-config, primary);
+	$accent: map.get($color-config, accent);
+	$warn: map.get($color-config, warn);
 	$background: map.get($color-config, background);
 	$foreground: map.get($color-config, foreground);
 	
@@ -34,6 +36,9 @@
 	@include colorStyles(background, mat.get-color-from-palette($background, background));
 	@include colorStyles(card, mat.get-color-from-palette($background, card));
 	@include colorStyles(divider, mat.get-color-from-palette($foreground, divider));
+	@include colorStyles(primary, mat.get-color-from-palette($primary, 500));
+	@include colorStyles(accent, mat.get-color-from-palette($accent, 500));
+	@include colorStyles(warn, mat.get-color-from-palette($warn, 500));
 
 	// Loading styles for skeletons
 	.loading {
@@ -63,6 +68,14 @@
 	}
 	.text-#{$selectorName},
 	.color-#{$selectorName} {
+		// Force color change in button. This is used primarily for buttons in table headers, 
+		// because by default they have a disabled text color.
+		&.mat-button,
+		&.mat-stroked-button,
+		&.mat-flat-button,
+		&.mat-raised-button {
+			color: $color;	
+		}
 		color: $color;
 	}
 	.outline-color-#{$selectorName} {

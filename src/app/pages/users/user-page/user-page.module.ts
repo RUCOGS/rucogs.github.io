@@ -24,6 +24,12 @@ import { FilteringModule } from '@src/app/modules/filtering/filtering.module';
 import { MatDialogModule } from '@angular/material/dialog';
 import { SettingsTabComponent } from './settings-tab/settings-tab.component';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { EboardTabComponent } from './eboard-tab/eboard-tab.component';
+import { EditEboardDialogComponent } from './edit-eboard-dialog/edit-eboard-dialog.component';
+import { EditEboardTermDialogComponent } from './edit-eboard-term-dialog/edit-eboard-term-dialog.component';
+import { AddEboardTermDialogComponent } from './add-eboard-term-dialog/add-eboard-term-dialog.component';
+import { MatSelectModule } from '@angular/material/select';
+import { TagsModule } from '@src/app/modules/tags/tags.module';
 
 const ROUTES: Route[] = [
   { path: '', component: UserPageComponent }
@@ -35,7 +41,11 @@ const ROUTES: Route[] = [
     OverviewTabComponent,
     EditUserDialogComponent,
     InvitesTabComponent,
-    SettingsTabComponent
+    SettingsTabComponent,
+    EboardTabComponent,
+    EditEboardDialogComponent,
+    EditEboardTermDialogComponent,
+    AddEboardTermDialogComponent
   ],
   imports: [
     RouterModule.forChild(ROUTES),
@@ -44,6 +54,7 @@ const ROUTES: Route[] = [
     ProjectModule,
     CardsModule,
     MatDividerModule,
+    MatSelectModule,
     RolesModule,
     UserModule,
     MatIconModule,
@@ -59,6 +70,7 @@ const ROUTES: Route[] = [
     FilteringModule,
     MatDialogModule,
     ProjectModule,
+    TagsModule,
     MatTooltipModule,
   ],
   exports: [

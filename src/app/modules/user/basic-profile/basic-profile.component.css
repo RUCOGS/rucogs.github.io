@@ -11,7 +11,11 @@
 }
 
 .clickable:hover {
-	transform: scale(1.10);
+	transform: scale(1.08);
+}
+
+.clickable:active {
+	transform: scale(1.04);
 }
 
 .username {
