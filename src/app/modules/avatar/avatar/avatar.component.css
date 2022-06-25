@@ -36,6 +36,10 @@
   border-color: transparent;
 }
 
+.huge {
+  --length: 10em;
+}
+
 .large {
   --length: 8em;
 }

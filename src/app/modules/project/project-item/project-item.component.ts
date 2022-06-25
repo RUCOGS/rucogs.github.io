@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { AccessOptions } from '@src/app/pages/project/_classes/utils';
+import { AccessOptions } from '../_classes/access-options';
 import { CdnService } from '@src/app/services/cdn.service';
 import { Maybe, Project } from '@src/generated/graphql-endpoint.types';
 import { SettingsService } from '@src/_settings';

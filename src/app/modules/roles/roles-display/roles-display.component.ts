@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, HostBinding, Input, OnInit } from '@angular/core';
 import { RoleCode } from '@src/generated/graphql-endpoint.types';
 import { RoleData } from '@src/shared/security';
 
@@ -7,13 +7,11 @@ import { RoleData } from '@src/shared/security';
   templateUrl: './roles-display.component.html',
   styleUrls: ['./roles-display.component.css']
 })
-export class RolesDisplayComponent implements OnInit {
+export class RolesDisplayComponent {
   @Input() roles: RoleCode[] = []
-  
-  constructor() { }
+  @Input() center: boolean = false;
 
-  ngOnInit(): void {
-  }
+  constructor() {}
 
   getRoleData(roleCode: RoleCode) {
     return RoleData[roleCode];

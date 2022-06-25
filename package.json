@@ -43,7 +43,7 @@
     "ngx-markdown": "^14.0.0",
     "prismjs": "^1.28.0",
     "rxjs": "~7.5.5",
-    "ts-mixin-extended": "^1.1.1",
+    "ts-mixer": "^6.0.1",
     "tslib": "^2.3.0",
     "type-fest": "^2.13.0",
     "zone.js": "~0.11.4"

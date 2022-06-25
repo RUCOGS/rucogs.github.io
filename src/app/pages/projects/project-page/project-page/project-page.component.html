@@ -1,0 +1,37 @@
+<div class="app-project-page main-bg">
+  <mat-tab-group mat-align-tabs="center" backgroundColor="primary" [selectedIndex]="0">
+    <mat-tab>
+      <ng-template mat-tab-label>
+        <mat-icon>remove_red_eye</mat-icon>
+        <div style="margin-left: 0.5em;" *ngIf="breakpointManager.matchedBreakpointOrAbove('MOBILE', 'key')">Overview</div>
+      </ng-template>
+      <app-overview-tab 
+        [project]="project"
+        [projectOptions]="projectOptions" 
+        (edited)="fetchData(true)">
+      </app-overview-tab>
+    </mat-tab>
+    <mat-tab *ngIf="projectOptions.manageSomeMembers">
+      <ng-template mat-tab-label>
+        <mat-icon>person</mat-icon>
+        <div style="margin-left: 0.5em;" *ngIf="breakpointManager.matchedBreakpointOrAbove('MOBILE')">Members</div>
+      </ng-template>
+      <app-members-tab
+        [project]="project"
+        [projectOptions]="projectOptions" 
+        (edited)="fetchData(true)">
+      </app-members-tab>
+    </mat-tab>
+    <mat-tab *ngIf="projectOptions.canUpdateProject">
+      <ng-template mat-tab-label>
+        <mat-icon>settings</mat-icon>
+        <div style="margin-left: 0.5em;" *ngIf="breakpointManager.matchedBreakpointOrAbove('MOBILE')">Settings</div>
+      </ng-template>
+      <app-settings-tab
+        [project]="project"
+        [projectOptions]="projectOptions"
+        (edited)="fetchData(true)"
+      ></app-settings-tab>
+    </mat-tab>
+  </mat-tab-group>
+</div>

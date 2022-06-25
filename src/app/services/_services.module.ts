@@ -12,6 +12,8 @@ import { ThemeManagerService } from './theme-manager.service';
 import { TokenStorageService } from './token-storage.service';
 import { RolesService } from './roles.service';
 import { ApolloModule } from 'apollo-angular';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatDialogModule } from '@angular/material/dialog';
 
 export { AuthService };
 export { BackendService };
@@ -29,19 +31,10 @@ export { RolesService };
   declarations: [],
   imports: [
     CommonModule,
-    ApolloModule
+    ApolloModule,
+    MatSnackBarModule,
+    MatDialogModule
   ],
-  providers: [
-    AuthService,
-    BackendService,
-    BreakpointManagerService,
-    CdnService,
-    ScrollService,
-    SecurityService,
-    StyleManagerService,
-    ThemeManagerService,
-    TokenStorageService,
-    RolesService
-  ]
+  providers: []
 })
 export class ServicesModule { }

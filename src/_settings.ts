@@ -1,6 +1,7 @@
 
 import { Injectable } from '@angular/core';
 import { PageLink } from "@src/app/classes/pagelink";
+import { isDevMode } from '@angular/core';
 import discord from '@iconify/icons-simple-icons/discord'
 import twitter from '@iconify/icons-simple-icons/twitter'
 import github from '@iconify/icons-simple-icons/github'
@@ -103,24 +104,28 @@ export class SettingsService {
     defaultCardImageSrc: string = "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png";
   }
   public Backend = new class {
-    public backendDomain = "atlinx.net";
-    public backendRelativeBaseUrl: string = "/rucogs/backend";
+    public backendDomain = isDevMode() ? "localhost:3000" : "atlinx.net";
+    public backendRelativeBaseUrl = isDevMode() ? "" : "/rucogs/backend";
     public graphQLRelativePath = "/graphql";
+
+    // Dev mode is unsecure
+    public httpsPrefix = isDevMode() ? "http://" : "https://";
+    public wssPrefix = isDevMode() ? "ws://" : "wss://";
 
     public get backendDomainPlusBaseUrl() {
       return this.backendDomain + this.backendRelativeBaseUrl;
     }
 
     public get backendHttpsURL() {
-      return "https://" + this.backendDomainPlusBaseUrl;
+      return this.httpsPrefix + this.backendDomainPlusBaseUrl;
     }
 
     public get graphQLHttpsURL() {
-      return "https://" + this.backendDomainPlusBaseUrl + this.graphQLRelativePath;
+      return this.httpsPrefix + this.backendDomainPlusBaseUrl + this.graphQLRelativePath;
     }
     
     public get graphQLWssURL() {
-      return "wss://" + this.backendDomainPlusBaseUrl + this.graphQLRelativePath;
+      return this.wssPrefix + this.backendDomainPlusBaseUrl + this.graphQLRelativePath;
     }
 
     public selfHostedPrefix = "cdn://";

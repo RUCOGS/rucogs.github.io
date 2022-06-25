@@ -1,0 +1,92 @@
+<app-bg-container full-page>
+  <div *ngIf="user.eBoard">
+    <div style="margin-bottom: 2em;">
+      <h2>E-Board</h2>
+      <div style="
+        display: flex;
+        flex-direction: row;
+        gap: 1em;
+      ">
+        <app-eboard-profile [eBoard]="user.eBoard" style="flex: 1;"></app-eboard-profile>
+        <div style="
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          gap: 0.5em;
+        ">
+          <button mat-icon-button (click)="onEditEBoard()">
+            <mat-icon>edit</mat-icon>
+          </button>
+        </div>
+      </div>
+    </div>
+    <h2>Terms</h2>
+    <table mat-table [dataSource]="getEBoardTerms()" matSort class="mat-elevation-z8" style="width: 100%; margin-bottom: 2em;">
+      <!-- User Column -->
+      <ng-container matColumnDef="year">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by year">
+          Year
+        </th>
+        <td mat-cell *matCellDef="let element" style="max-width: 100px; overflow: hidden;">
+          {{element.year}}
+        </td>
+      </ng-container>
+      
+      <ng-container matColumnDef="roles">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+          Roles
+        </th>
+        <td mat-cell *matCellDef="let element" style="max-width: 100px; overflow: hidden; padding: 1em">
+          <app-roles-display [roles]="getTermRoles(element)"></app-roles-display>
+        </td>
+      </ng-container>
+
+      <!-- Buttons Column -->
+      <ng-container matColumnDef="buttons">
+        <th mat-header-cell *matHeaderCellDef>
+          <div style="
+            display: flex;
+            justify-content: right;
+          ">
+            <button mat-stroked-button pill class="text-foreground" (click)="onAddTerm()">
+              <mat-icon>add</mat-icon>
+              Add Term
+            </button>
+          </div>
+        </th>
+        <td mat-cell *matCellDef="let element">
+          <div style="
+            display: flex;
+            justify-content: right;
+          ">
+            <button mat-icon-button (click)="onEditTerm(element)" [disabled]="monitor.isProcessing">
+              <mat-icon>edit</mat-icon>
+            </button>
+            <button mat-icon-button (click)="onDeleteTerm(element)" [disabled]="monitor.isProcessing" style="margin-left: 0.5em;">
+              <mat-icon>cancel</mat-icon>
+            </button>
+          </div>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+    <h2>Danger Zone</h2>
+    <button mat-flat-button pill tall-button color="primary" (click)="onDeleteEBoard()" [disabled]="!userOptions.canManageEBoard || monitor.isProcessing" style="
+      max-width: 20em;
+    ">
+      <mat-icon>delete</mat-icon>
+      Delete E-Board
+    </button>
+  </div>
+  <div *ngIf="!user.eBoard">
+    <h2>Actions</h2>
+    <button mat-flat-button pill tall-button color="primary" (click)="onCreateEBoard()" [disabled]="!userOptions.canManageEBoard || monitor.isProcessing" style="
+      max-width: 20em;
+    ">
+      <mat-icon>add</mat-icon>
+      Create E-Board
+    </button>
+  </div>
+</app-bg-container>
