@@ -1238,7 +1238,7 @@ ngx-markdown
 MIT
 MIT License
 
-Copyright (c) 2017-2021 Jean-Francois Cere
+Copyright (c) 2017-2022 Jean-Francois Cere
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -1690,11 +1690,11 @@ SOFTWARE.
 
 ts-invariant/process
 
-ts-mixin-extended
+ts-mixer
 MIT
 MIT License
 
-Copyright (c) 2021 Aram Becker
+Copyright (c) 2022 Tanner Nielsen
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -1713,6 +1713,7 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
+
 
 tslib
 0BSD
@@ -1834,7 +1835,7 @@ zone.js
 MIT
 The MIT License
 
-Copyright (c) 2010-2020 Google LLC. https://angular.io/license
+Copyright (c) 2010-2022 Google LLC. https://angular.io/license
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
