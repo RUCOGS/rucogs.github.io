@@ -1,14 +1,17 @@
 <app-page-header title="Users"></app-page-header>
-<nav mat-tab-nav-bar color="primary" mat-align-tabs="center">
-  <a mat-tab-link
-    *ngFor="let tab of usersTabs"
-    [routerLink]="tab.path"
-    routerLinkActive #rla="routerLinkActive"
-    [active]="rla.isActive"
-  >
-    <mat-icon>{{tab.matIcon}}</mat-icon>
-    {{tab.label}}
-  </a>
-</nav>
+<div style="display: flex; flex-direction: row; justify-content: center;" class="background-color-primary">
+  <nav mat-tab-nav-bar color="primary" mat-align-tabs="center" backgroundColor="primary" mat-stretch-tabs mat-tab-content-width>
+    <a mat-tab-link
+      *ngFor="let tab of usersTabs"
+      [routerLink]="tab.path"
+      routerLinkActive #rla="routerLinkActive"
+      [routerLinkActiveOptions]="{ exact: true }"
+      [active]="rla.isActive"
+    >
+      <mat-icon>{{tab.matIcon}}</mat-icon>
+      <div style="margin-left: 0.5em;">{{tab.label}}</div>
+    </a>
+  </nav>
+</div>
 
 <router-outlet></router-outlet>

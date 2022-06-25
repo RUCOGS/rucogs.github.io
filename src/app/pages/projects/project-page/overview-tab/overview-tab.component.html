@@ -243,9 +243,9 @@
           flex-direction: row;
           gap: 2em;
         ">
-          <div>Created at {{ getDateString(this.project.createdAt) }}</div>
-          <div>Updated at {{ getDateString(this.project.updatedAt) }}</div>
-          <div *ngIf="this.project.completedAt">Completed at {{ getDateString(this.project.completedAt) }}</div>
+          <div>Created at {{ getDateString(project.createdAt) }}</div>
+          <div>Updated at {{ getDateString(project.updatedAt) }}</div>
+          <div *ngIf="this.project.completedAt">Completed at {{ getDateString(project.completedAt) }}</div>
         </div>
         <mat-divider></mat-divider>
         <h2>Members</h2>

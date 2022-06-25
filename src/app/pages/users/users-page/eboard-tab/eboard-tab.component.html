@@ -1,1 +1,48 @@
-<p>eboard-tab works!</p>
+<app-section full-width>
+  <div *ngFor="let group of eBoardTermGroups" style="margin-bottom: 1em;">
+    <h1>{{group.year}} - {{group.year + 1}}</h1>  
+    <mat-divider style="margin-bottom: 1em;"></mat-divider>
+    <div style="
+      width: 100%;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(16em, 1fr));
+      align-items: stretch;
+      gap: 1em;
+      justify-content: center;
+      width: 100%;
+    ">
+      <div style="
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      " *ngFor="let term of group.terms">
+        <a style="
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          width: min-content;
+        " class="eboard-tab eboard-profile" routerLink="/users/{{term?.eBoard?.user?.username}}">
+          <div style="
+            position: relative;
+            width: min-content;
+            margin-bottom: 0.5em;
+          ">
+            <app-avatar [avatarSrc]="cdn.getFileLink(term?.eBoard?.avatarLink)" size="huge"></app-avatar>
+            <app-avatar [avatarSrc]="cdn.getFileLink(term?.eBoard?.user?.avatarLink)" size="small" style="
+              position: absolute;
+              bottom: 0em;
+              right: 0em;
+            "></app-avatar>
+          </div>
+          <h2 style="margin-bottom: 0;">{{term?.eBoard?.user?.displayName}}</h2>
+          <p style="
+            text-overflow: ellipsis;
+            overflow: hidden;
+            margin-bottom: 0.5em;
+          " class="text-disabled">@{{term?.eBoard?.user?.username}}</p>
+          <app-roles-display [roles]="getEBoardTermRoles(term)" [center]="true"></app-roles-display>
+        </a>
+      </div>
+    </div>
+  </div>
+</app-section>

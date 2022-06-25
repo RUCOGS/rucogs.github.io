@@ -116,12 +116,12 @@ export class InvitesTabComponent implements OnChanges, OnDestroy, AfterViewInit 
   }
 
   async invite() {
-    const result = await this.dialog.open(InviteUserDialogComponent, {
+    const result = await firstValueFrom(this.dialog.open(InviteUserDialogComponent, {
       data: <InviteUserDialogData>{
         project: this.project
       },
       width: "25em"
-    }).afterClosed().toPromise();
+    }).afterClosed());
     
     if (result)
       this.edited.emit();

@@ -70,7 +70,7 @@ export class OverviewTabComponent implements AfterViewChecked, OnChanges {
     
     const img = document.querySelector<HTMLImageElement>('img.project-page.overview-tab.card-image')
     if (img) {
-      img.setAttribute('crossOrigin', '');
+      img.setAttribute('crossOrigin', 'Anonymous');
       const colorThief = new ColorThief();
       img.addEventListener('load', () => {
         const [r, g, b] = colorThief.getColor(img);
@@ -142,22 +142,17 @@ export class OverviewTabComponent implements AfterViewChecked, OnChanges {
     this.uiMessageService.notifyConfirmed('Invite sent!');
   }
 
-  edit() {
-    const dialog = this.dialog.open(EditProjectDialogComponent, {
+  async edit() {
+    const value = await firstValueFrom(this.dialog.open(EditProjectDialogComponent, {
       data: <EditProjectDialogData>{
         project: this.project
       },
       width: "37.5em",
       maxWidth: '90vw',
-    });
-    dialog.afterClosed()
-      .pipe(first())
-      .subscribe({
-        next: (value) => {
-          if (value)
-            this.edited.emit();
-        } 
-      });
+    }).afterClosed());
+
+    if (value)
+      this.edited.emit();
   }
 
   downloadLinkStaticData: {

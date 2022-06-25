@@ -63,6 +63,14 @@
         </mat-form-field>
       </div>
     </div>
+    <mat-form-field appearance="outline" style="width: 100%">
+      <mat-label>Class Year</mat-label>
+      <mat-select formControlName="classYear">
+        <mat-option *ngFor="let year of getAvailableYears()" [value]="year">
+          {{year}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
     <mat-form-field appearance="outline" style="width: 100%; line-height: 1.5em" class="no-padding">
       <mat-label>Bio</mat-label>
       <textarea matInput
@@ -100,7 +108,7 @@
       </div>
     </div>
     <div>
-      <app-role-codes-editor [roles]="roles" [allRoles]="acceptedRoles" (rolesEdited)="onEditRoles()" [disabledRoles]="disabledRoles" label="Roles" [disabled]="!userOptions.canManageUserRoles"></app-role-codes-editor>
+      <app-role-codes-editor [roles]="roles" [allRoles]="acceptedRoles" (rolesEdited)="onEditRoles()" [disabledRoles]="disabledRoles" label="Roles" [disabled]="!data.userOptions.canManageUserRoles"></app-role-codes-editor>
     </div>
   </form>
 </mat-dialog-content>

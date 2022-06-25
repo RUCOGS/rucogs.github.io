@@ -91,7 +91,7 @@ const ROUTES: Route[] = [
     TagsModule,
     StringArrayInputModule,
     CarouselModule,
-    MatCheckboxModule
+    MatCheckboxModule,
   ]
 })
 export class ProjectPageModule { }

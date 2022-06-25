@@ -21,7 +21,7 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { InlineProfileComponent } from './inline-profile/inline-profile.component';
 import { InlineOptionsProfileComponent } from './inline-options-profile/inline-options-profile.component';
 import { ServicesModule } from '@src/app/services/_services.module';
-
+import { EboardProfileComponent } from './eboard-profile/eboard-profile.component';
 
 
 
@@ -34,7 +34,8 @@ import { ServicesModule } from '@src/app/services/_services.module';
     UsersDisplayComponent,
     UserInputComponent,
     InlineProfileComponent,
-    InlineOptionsProfileComponent
+    InlineOptionsProfileComponent,
+    EboardProfileComponent,
   ],
   imports: [
     CommonModule,
@@ -60,7 +61,8 @@ import { ServicesModule } from '@src/app/services/_services.module';
     UsersDisplayComponent,
     UserInputComponent,
     InlineProfileComponent,
-    InlineOptionsProfileComponent
+    InlineOptionsProfileComponent,
+    EboardProfileComponent
   ]
 })
 export class UserModule { }

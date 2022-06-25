@@ -21,6 +21,8 @@ export function defaultUserOptions() {
     deleteUserTooltip: "",
     canDeleteUser: false,
     canManageUserRoles: false,
+    canManageEBoardRoles: false,
+    canManageEBoard: false,
     loaded: false,
   };
 }
@@ -32,6 +34,8 @@ export type UserOptions = {
   deleteUserTooltip: string
   canDeleteUser: boolean
   canManageUserRoles: boolean
+  canManageEBoardRoles: boolean
+  canManageEBoard: boolean
   loaded: boolean
 }
 
@@ -44,22 +48,6 @@ export class UserPageComponent implements OnInit, OnDestroy {
   
   user: PartialDeep<User> = {};
   userOptions: UserOptions = defaultUserOptions();
-
-  tabLinks = [
-    {
-      matIcon: 'add',
-      label: 'First',
-      link: './first',
-    }, {
-      matIcon: 'add',
-      label: 'Second',
-      link: './second',
-    }, {
-      matIcon: 'add',
-      label: 'Third',
-      link: './third',
-    }, 
-  ];
 
   private username: string = "";
   protected onDestroy$ = new Subject<void>();
@@ -103,6 +91,9 @@ export class UserPageComponent implements OnInit, OnDestroy {
             avatarLink
             bannerLink
             bio
+            createdAt
+            updatedAt
+            classYear
             projectMembers {
               id
               projectId
@@ -115,6 +106,20 @@ export class UserPageComponent implements OnInit, OnDestroy {
             }
             roles {
               roleCode
+            }
+            eBoard {
+              id
+              createdAt
+              updatedAt
+              bio
+              avatarLink
+              terms {
+                id
+                year
+                roles {
+                  roleCode
+                }
+              }
             }
           }
         }
@@ -133,6 +138,7 @@ export class UserPageComponent implements OnInit, OnDestroy {
       return;
     }
     let user: PartialDeep<User> = deepClone(userResult.data.users[0]);
+    user.eBoard?.terms?.sort((a, b) => b!.year! - a!.year! );
     const userOpDomain = <OperationSecurityDomain>{
       userId: [ user.id ]
     }
@@ -140,6 +146,8 @@ export class UserPageComponent implements OnInit, OnDestroy {
     this.userOptions.canUpdateUser = permCalc.hasPermission(Permission.UpdateUser);
     this.userOptions.canDeleteUser = permCalc.hasPermission(Permission.DeleteUser);
     this.userOptions.canManageUserRoles = permCalc.hasPermission(Permission.ManageUserRoles);
+    this.userOptions.canManageEBoardRoles = permCalc.hasPermission(Permission.ManageEboardRoles);
+    this.userOptions.canManageEBoard = permCalc.hasPermission(Permission.ManageEboard);
     if (!this.userOptions.canDeleteUser) {
       this.userOptions.deleteUserTooltip = `Please ask an e-board officer if you'd like to delete your profile.`;
     }

@@ -83,53 +83,52 @@ export class ProjectPageComponent implements OnInit {
 
     let invitesQuery;
     if (this.security.securityContext?.userId) {
-      const invitesOpDomain = this.security.getOpDomainFromPermission(
+      let invitesOpDomain: OperationSecurityDomain | undefined = this.security.getOpDomainFromPermission(
         Permission.ManageProjectInvites, 
         [ 'projectInviteId' ]
       );
-      invitesQuery = this.security.securityContext ? firstValueFrom(this.backend.withAuth()
-      .withOpDomain(invitesOpDomain)
-      .query<{
-        projectInvites: {
-          id: string
-          type: InviteType
-          user: {
+
+      if (!invitesOpDomain || 
+        (invitesOpDomain && ((invitesOpDomain.projectInviteId?.length ?? 0) > 0))
+      ) {
+        invitesQuery = firstValueFrom(this.backend.withAuth()
+        .withOpDomain(invitesOpDomain)
+        .query<{
+          projectInvites: {
             id: string
-            displayName: string
-            username: string
-            avatarLink: string
-          }
-        }[]
-      }>({
-        query: gql`
-          query FetchProjectPageInvites($filter: ProjectInviteFilterInput) {
-            projectInvites(filter: $filter) {
-              id
-              type
-              user {
+            type: InviteType
+            user: {
+              id: string
+              displayName: string
+              username: string
+              avatarLink: string
+            }
+          }[]
+        }>({
+          query: gql`
+            query FetchProjectPageInvites($filter: ProjectInviteFilterInput) {
+              projectInvites(filter: $filter) {
                 id
-                displayName
-                username
-                avatarLink
+                type
+                user {
+                  id
+                  displayName
+                  username
+                  avatarLink
+                }
               }
             }
-          }
-        `,
-        variables: {
-          filter: <ProjectInviteFilterInput>{
-            projectId: { eq: this.projectId }
-          }
-        },
-        ...(invalidateCache && { fetchPolicy: 'no-cache' })
-      })) : undefined;
+          `,
+          variables: {
+            filter: <ProjectInviteFilterInput>{
+              projectId: { eq: this.projectId }
+            }
+          },
+          ...(invalidateCache && { fetchPolicy: 'no-cache' })
+        }));
+      }
     }
 
-    const projectOpDomain = <OperationSecurityDomain>{
-      projectId: [ this.projectId ]
-    }
-    const permCalc = this.security.makePermCalc().withDomain(projectOpDomain);
-    this.projectOptions.canUpdateProject = permCalc.hasPermission(Permission.UpdateProject);
-    this.projectOptions.canDeleteProject = permCalc.hasPermission(Permission.DeleteProject);
     const projectQuery = firstValueFrom(this.backend.withAuth().withOpDomain({
       projectId: [ this.projectId ]
     }).query<{
@@ -211,6 +210,13 @@ export class ProjectPageComponent implements OnInit {
       this.projectOptions.loaded = true;
       return;
     }
+
+    const projectOpDomain = <OperationSecurityDomain>{
+      projectId: [ this.projectId ]
+    }
+    const permCalc = this.security.makePermCalc().withDomain(projectOpDomain);
+    this.projectOptions.canUpdateProject = permCalc.hasPermission(Permission.UpdateProject);
+    this.projectOptions.canDeleteProject = permCalc.hasPermission(Permission.DeleteProject);
 
     this.project = deepClone(projectResult.data.projects[0]);
     if (invitesResult && !invitesResult.error) {

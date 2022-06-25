@@ -1,10 +1,9 @@
 import { Injectable, OnDestroy } from '@angular/core';
 import { RoleCode } from '@src/generated/graphql-endpoint.types';
-import { EBoardFilterInput, ProjectMemberFilterInput } from '@src/generated/model.types';
+import { EBoardTermFilterInput, ProjectMemberFilterInput, UserFilterInput } from '@src/generated/model.types';
 import { getHighestRoles, getRolesBelowRoles, RoleData, RoleType } from '@src/shared/security';
 import { gql } from 'apollo-angular';
 import { firstValueFrom, Subject } from 'rxjs';
-import { first } from 'rxjs/operators';
 import { BackendService, SecurityService } from './_services.module';
 
 @Injectable({
@@ -49,7 +48,7 @@ export class RolesService implements OnDestroy {
       }[]
     }>({
       query: gql`
-        query($filter: UserFilterInput) {
+        query GetUserRoles($filter: UserFilterInput!) {
           users(filter: $filter) {
             roles {
               roleCode
@@ -58,7 +57,7 @@ export class RolesService implements OnDestroy {
         }
       `,
       variables: {
-        filter: {
+        filter: <UserFilterInput>{
           id: { eq: this.securityService.securityContext.userId }
         }
       },
@@ -103,7 +102,7 @@ export class RolesService implements OnDestroy {
       }[]
     }>({
       query: gql`
-        query($filter: ProjectMemberFilterInput) {
+        query GetProjectRoles($filter: ProjectMemberFilterInput!) {
           projectMembers(filter: $filter) {
             roles {
               roleCode
@@ -127,17 +126,20 @@ export class RolesService implements OnDestroy {
     return roles;
   }
   
-  public async getAddableEBoardRoles(eboardId: string) {
+  public async getAddableEBoardTermRoles() {
     const [userRoles, eboardRoles] = await Promise.all([
-      this.getUserRoles(), 
-      this.getEBoardRoles(eboardId)]
-    );
+      this.getUserRoles(),
+      this.getEBoardTermRoles()
+    ]);
     const mergedRoles = [...userRoles, ...eboardRoles];
     return getRolesBelowRoles(mergedRoles).filter(x => RoleData[x].type.includes(RoleType.EBoard));
   }
 
-  public async getDisabledEBoardRoles(projectId: string) {
-    const [userRoles, eboardRoles] = await Promise.all([this.getUserRoles(), this.getEBoardRoles(projectId)]);
+  public async getDisabledEBoardTermRoles() {
+    const [userRoles, eboardRoles] = await Promise.all([
+      this.getUserRoles(),
+      this.getEBoardTermRoles()
+    ]);
     const merged = [...userRoles, ...eboardRoles];
     const disabledRoles = getHighestRoles(merged).filter(x => RoleData[x].type.includes(RoleType.EBoard));
     if (!disabledRoles.includes(RoleCode.Eboard))
@@ -145,35 +147,45 @@ export class RolesService implements OnDestroy {
     return disabledRoles;
   }
 
-  public async getEBoardRoles(eboardId: string) {
+  public async getEBoardTermRoles() {
     const result = await firstValueFrom(this.backend.withAuth().query<{
-      eBoards: {
-        roles: {
-          roleCode: RoleCode
-        }[]
+      users: {
+        eBoard: {
+          terms: {
+            roles: {
+              roleCode: RoleCode
+            }[]
+          }[]
+        }
       }[]
     }>({
       query: gql`
-        query($filter: ProjectMemberFilterInput) {
-          eBoards(filter: $filter) {
-            roles {
-              roleCode
+        query GetUserEBoardTermRoles($filter: UserFilterInput!) {
+          users(filter: $filter) {
+            eBoard {
+              terms {
+                roles {
+                  roleCode
+                }
+              }
             }
           }
         }
       `,
       variables: {
-        filter: <EBoardFilterInput>{
-          id: { eq: eboardId }
+        filter: <UserFilterInput>{
+          id: { eq: this.securityService.securityContext?.userId }
         }
       },
       fetchPolicy: 'no-cache'
     }));
 
-    if (result.error || result.data.eBoards.length === 0)
+    if (result.error || result.data.users.length === 0 || !result.data.users[0].eBoard)
       return [];
     
-    const roles = result.data.eBoards[0].roles.map(x => x.roleCode);
+    let roles: RoleCode[] = [];
+    for (const term of result.data.users[0].eBoard.terms)
+      roles = roles.concat(term.roles.map(x => x.roleCode as RoleCode)); 
     return roles;
   }
 }

@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { BreakpointManagerService } from '@src/app/services/breakpoint-manager.service';
 
 @Component({
   selector: 'app-users-page',
@@ -22,4 +23,8 @@ export class UsersPageComponent {
       path: './eboard' 
     }
   ];
+  
+  constructor(
+    public breakpointManager: BreakpointManagerService
+  ) {}
 }

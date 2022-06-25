@@ -1,0 +1,15 @@
+.eboard-profile {
+	transition: transform .1s ease-out;
+	transform: none;
+	color: inherit;
+	text-decoration: inherit;
+}
+
+.eboard-profile:hover {
+	transform: scale(1.05);
+}
+
+
+.eboard-profile:active {
+	transform: scale(1.025);
+}
