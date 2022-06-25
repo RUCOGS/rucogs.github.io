@@ -12,7 +12,7 @@ const routes: Route[] = [
   { path: 'blog', loadChildren: () => import('./blog/blog-dir.module').then(m => m.BlogDirModule) },
   { path: 'login', loadChildren: () => import('./login/login-page.module').then(m => m.LoginPageModule) },
   { path: 'signup', loadChildren: () => import('./signup/signup-page.module').then(m => m.SignupPageModule) },
-  { path: 'users', loadChildren: () => import('./users/users-dir.module').then(m => m.UsersDirModule) },
+  { path: 'members', loadChildren: () => import('./users/users-dir.module').then(m => m.UsersDirModule) },
   { path: 'test',  loadChildren: () => import('./test/test.module').then(m => m.TestPageModule) },
 
   { path: '', redirectTo: '/home', pathMatch: 'full' },

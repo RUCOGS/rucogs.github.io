@@ -17,7 +17,7 @@ export class ProfileGridComponent implements OnInit {
 
   getUserLink(user: Partial<User>) {
     if (user.username) {
-      return `/users/${user.username}`;
+      return `/members/${user.username}`;
     }
     return "";
   }

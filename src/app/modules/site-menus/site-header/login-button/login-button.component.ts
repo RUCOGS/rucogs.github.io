@@ -50,7 +50,7 @@ export class LoginButtonComponent implements OnInit, OnDestroy {
   }
 
   onProfileClick() {
-    this.router.navigateByUrl(`/users/${this.user?.username}`);
+    this.router.navigateByUrl(`/members/${this.user?.username}`);
   }
 
   onCreateProjectClick() {

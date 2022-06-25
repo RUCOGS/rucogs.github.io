@@ -14,7 +14,7 @@ export class UsersPageComponent {
   }[] = [
     { 
       matIcon: 'person',
-      label: 'Users', 
+      label: 'Members', 
       path: './' 
     },
     { 
