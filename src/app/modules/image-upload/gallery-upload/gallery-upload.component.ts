@@ -64,7 +64,7 @@ export class GalleryUploadComponent extends BaseCustomInputComponent<UploadOrSou
       FileUtils.readAsBase64(file)
         .then(result => {
           // Limit file size
-          const filesize = FileUtils.base64ToByteSize(result);
+          const filesize = file.size;
           if (filesize < this.fileSizeLimitBytes) {
             if (!this.value)
               this.value = [];
