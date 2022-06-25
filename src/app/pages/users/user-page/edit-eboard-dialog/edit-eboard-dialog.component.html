@@ -1,0 +1,56 @@
+<mat-dialog-content>
+  <form [formGroup]="form" style="
+    position: relative;
+  ">
+    <div style="
+      width: 100%;
+      height: 12.5em;
+      border-radius: 0.25em;
+      overflow: hidden;
+    " class="background-color-divider">
+    </div>
+    <div style="
+      --size: 8em;
+      --offset: calc(var(--size) / 2);
+      --offset-left-over: calc(var(--size) - var(--offset));
+      position: relative;
+      height: var(--offset-left-over);
+      margin-bottom: 1em;
+    ">
+      <div style="
+        left: 2em;
+        top: calc(-1 * var(--offset));
+        position: absolute;
+        height: var(--size);
+        width: var(--size);
+        border-radius: 8em;
+        overflow: hidden;
+        outline-style: solid;
+        outline-width: 0.25em;
+      " class="outline-color-card">
+        <div style="
+          width: 100%;
+          height: 100%;
+        " class="background-color-card">
+          <app-image-upload #avatarUpload fileSizeLimit="5 MB"></app-image-upload>
+        </div>
+      </div>
+    </div>
+    <mat-form-field appearance="outline" style="width: 100%; line-height: 1.5em" class="no-padding">
+      <mat-label>Bio</mat-label>
+      <textarea matInput
+                cdkTextareaAutosize
+                cdkAutosizeMinRows="1"
+                cdkAutosizeMaxRows="5"
+                formControlName="bio"
+                [maxLength]="600"></textarea>
+      <mat-hint align="end">{{form.get('bio')?.value?.length || 0}}/600</mat-hint>
+    </mat-form-field>
+  </form>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-stroked-button color="basic" pill (click)="exit()" [disabled]="monitor.isProcessing">Exit
+  </button>
+  <button mat-stroked-button color="basic" pill (click)="save()" [disabled]="monitor.isProcessing">Save
+  </button>
+</mat-dialog-actions>

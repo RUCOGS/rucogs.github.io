@@ -1,0 +1,141 @@
+<mat-dialog-content>
+  <form [formGroup]="form" style="
+    position: relative;
+  ">
+    <div style="
+      width: 100%;
+      height: 12.5em;
+      border-radius: 0.25em;
+      overflow: hidden;
+    ">
+      <app-image-upload #bannerUpload fileSizeLimit="10 MB"></app-image-upload>
+    </div>
+    <div style="
+      --size: 8em;
+      --offset: calc(var(--size) / 2);
+      --offset-left-over: calc(var(--size) - var(--offset));
+      position: relative;
+      height: var(--offset-left-over);
+      margin-bottom: 1em;
+    ">
+      <div style="
+        left: 2em;
+        top: calc(-1 * var(--offset));
+        position: absolute;
+        height: var(--size);
+        width: var(--size);
+        border-radius: 1em;
+        overflow: hidden;
+        outline-style: solid;
+        outline-width: 0.25em;
+      " class="outline-color-card">
+        <div style="
+          width: 100%;
+          height: 100%;
+        " class="background-color-card">
+          <app-image-upload #cardImageUpload fileSizeLimit="5 MB" class="app-edit-project-dialog card-image"></app-image-upload>
+        </div>
+      </div>
+    </div>
+    <div style="
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap-reverse;
+      justify-content: left;
+      align-items: flex-end;
+      margin-bottom: 16px;
+      gap: 24px;
+    ">
+      <div style="
+        flex: 1;
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: 12px;
+        align-items: center;
+      ">
+        <mat-form-field appearance="outline" style="width: 100%;">
+          <mat-label>Project Name</mat-label>
+          <input matInput formControlName="name">
+          <mat-error *ngIf="form.get('name')?.hasError('required')">
+            Project name is required
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field appearance="outline" style="flex: 1;">
+          <mat-label>Access</mat-label>
+          <mat-select formControlName="access">
+            <mat-select-trigger *ngIf="form.get('access')?.value as accessValue" style="
+              display: flex;
+              align-items: center;
+              gap: 1em;
+              height: 20px;
+            ">
+              <mat-icon>{{accessOptions[accessValue].matIcon}}</mat-icon>
+              {{accessOptions[accessValue].name}}
+            </mat-select-trigger>
+            <mat-option *ngFor="let option of accessOptions | keyvalue" [value]="option.key">
+              <div style="
+              display: flex;
+              align-items: center;
+              ">
+                <mat-icon>{{option.value.matIcon}}</mat-icon>
+                {{option.value.name}}
+              </div>
+            </mat-option>
+          </mat-select>
+          <mat-error *ngIf="form.get('access')?.hasError('required')">
+            Project name is required
+          </mat-error>
+        </mat-form-field>
+        <mat-checkbox formControlName="completed" style="flex: 1; margin: 0.5em;">Completed</mat-checkbox>
+      </div>
+    </div>
+    <mat-form-field appearance="outline" style="width: 100%; line-height: 1.5em" class="no-padding">
+      <mat-label>Pitch</mat-label>
+      <textarea matInput
+        cdkTextareaAutosize
+        cdkAutosizeMinRows="1"
+        cdkAutosizeMaxRows="5"
+        formControlName="pitch"
+        [maxLength]="300"></textarea>
+      <mat-hint align="end">{{ form.get('pitch')?.value?.length || 0}}/300</mat-hint>
+      <mat-error *ngIf="form.get('pitch')?.hasError('required')">
+        Pitch is required
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field appearance="outline" style="width: 100%; line-height: 1.5em">
+      <mat-label>Description</mat-label>
+      <textarea matInput
+        cdkTextareaAutosize
+        cdkAutosizeMinRows="5"
+        formControlName="description"
+        [maxLength]="2000"></textarea>
+      <mat-hint align="end">{{ form.get('description')?.value?.length || 0}}/2000</mat-hint>
+    </mat-form-field>
+    <mat-form-field appearance="outline" style="width: 100%;">
+      <mat-label>Gallery Images</mat-label>
+      <app-gallery-upload fileSizeLimit="5 MB" formControlName="galleryImages" [limit]="5"></app-gallery-upload>
+      <mat-hint align="end">{{ form.get('galleryImages')?.value?.length || 0}}/5</mat-hint>
+    </mat-form-field>
+    <mat-form-field appearance="outline" style="width: 100%;">
+      <mat-label>Soundcloud Embed Source</mat-label>
+      <input matInput formControlName="soundcloudEmbedSrc">
+    </mat-form-field>
+    <mat-form-field appearance="outline" style="width: 100%;">
+      <mat-label>Download/Play Links</mat-label>
+      <app-string-array-input formControlName="downloadLinks" [limit]="5"></app-string-array-input>
+      <mat-hint align="end">{{ form.get('downloadLinks')?.value?.length || 0}}/5</mat-hint>
+    </mat-form-field>
+    <mat-form-field appearance="outline" style="width: 100%;">
+      <mat-label>Tags</mat-label>
+      <app-tags-input formControlName="tags" [limit]="5"></app-tags-input>
+      <mat-hint align="end">{{ form.get('tags')?.value?.length || 0}}/5</mat-hint>
+    </mat-form-field>
+  </form>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-stroked-button color="basic" pill (click)="exit()" [disabled]="monitor.isProcessing">Exit
+  </button>
+  <button mat-stroked-button color="basic" pill (click)="save()" [disabled]="monitor.isProcessing">Save
+  </button>
+</mat-dialog-actions>

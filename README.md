@@ -19,6 +19,24 @@ The current website being used by the Creation of Game Society. This site is bui
 > npm install -g @angular/cli
 ```
 
+### Debugging
+
+1. Following this [video guide](https://www.youtube.com/watch?v=H-sMmxfNxBM) to get set up with debugging in VSCode
+> **NOTE**
+> 
+> Our "./client" folder is actually the entire repository.
+> Therefore for in `launch.json`, we use
+> ```
+> "webRoot": "${workspaceFolder}",
+> ```
+> And in `tasks.json`, we use
+> ```
+> "options": {
+>   "cwd": "${workspaceFolder}"
+> },
+> ```
+2. Make sure your nodejs version is one that's supported by our version of angular. As of writing, this [gist](https://gist.github.com/LayZeeDK/c822cc812f75bb07b7c55d07ba2719b3) contains an up-to-date list of supported nodejs versions.
+
 ## Running Site Locally
 
 To serve the site locally on your computer for testing purposes, run

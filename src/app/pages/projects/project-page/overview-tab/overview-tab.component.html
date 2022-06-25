@@ -1,0 +1,262 @@
+
+<div *ngIf="!projectOptions.loaded">
+  <div class="project-page overview-tab banner-container loading">
+  </div>
+  <div class="project-page overview-tab content-width-padding">
+    <div class="project-page overview-tab content">
+      <div breakable-styles 
+        style="
+          position: relative;
+          display: flex; 
+          margin-top: 2em; 
+          flex-wrap: wrap; 
+          width: 100%;
+          gap: 2em;
+        "
+        prebreak-style="
+          flex-direction: row; 
+        "
+        break-style="
+          flex-direction: column;
+        "
+        break-on="width < 840"
+      >
+        <div class="project-page overview-tab card-offset">
+          <div class="project-page overview-tab card-image-container loading">
+          </div>
+        </div>
+        <div style="
+          flex: 1 1 0;
+          display: flex;
+          flex-direction: column;
+          max-width: 100%;
+        ">
+          <div style="
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            justify-content: left;
+            align-items: flex-start;
+            margin-bottom: 16px;
+            gap: 0.5em;
+          ">
+            <h1 class="project-page overview-tab name loading" style="
+              margin-bottom: 0px;
+              flex: 1;
+            ">_</h1>
+            <div *ngFor="let item of [].constructor(2)" style="
+              width: 6em;
+              height: 2em;
+              border-radius: 3em;
+            " class="loading"></div>
+          </div>
+          <app-tag-container style="margin-bottom: 1em;">
+            <div *ngFor="let item of [].constructor(4)" style="
+              width: 5em;
+              height: 1.5em;
+              border-radius: 3em;
+            " class="loading"></div>
+          </app-tag-container>
+          <div>
+            <p style="display: inline;" class="project-page overview-tab pitch" class="loading">
+              _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+            </p>
+          </div>
+        </div>
+      </div>
+      <div style="
+        display: flex;
+        flex-direction: column;
+        gap: 2em;
+        margin-top: 2em;
+      ">
+        <div>
+          <p style="display: inline;" class="loading">_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div *ngIf="projectOptions.loaded">
+  <div class="project-page overview-tab banner-container" [ngStyle]="getBannerContainerStyle()">
+    <img *ngIf="bannerSrc" [src]="bannerSrc" class="project-page overview-tab banner">
+  </div>
+  <div class="project-page overview-tab content-width-padding">
+    <div class="project-page overview-tab content">
+      <div breakable-styles 
+        style="
+          position: relative;
+          display: flex; 
+          margin-top: 2em; 
+          flex-wrap: wrap; 
+          width: 100%;
+          gap: 2em;
+        "
+        prebreak-style="
+          flex-direction: row; 
+        "
+        break-style="
+          flex-direction: column;
+        "
+        break-on="width < 840"
+      >
+        <div class="project-page overview-tab card-offset">
+          <div class="project-page overview-tab card-image-container">
+            <img [src]="cardImageSrc" class="project-page overview-tab card-image">
+          </div>
+        </div>
+        <div style="
+          flex: 1 1 0;
+          display: flex;
+          flex-direction: column;
+          max-width: 100%;
+        " *ngIf="!projectOptions.nonExistent">
+          <div style="
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            justify-content: left;
+            align-items: flex-start;
+            margin-bottom: 16px;
+            gap: 8px;
+          ">
+            <h1 class="project-page overview-tab name" style="
+              margin-bottom: 0px;
+              flex: 1;
+            ">{{ project.name }}</h1>
+            <div *ngIf="accessOptions[project.access!] !== undefined" style="padding: 0.4em 0.5em 0 0.5em;">
+              <h4 class="mat-caption" style="
+                display: flex;
+                flex-direction: row;
+                gap: 1em;
+                margin-bottom: 0px;
+                align-items: center;
+              ">
+                <mat-icon>{{accessOptions[project.access!].matIcon}}</mat-icon>
+                {{accessOptions[project.access!].name}}
+              </h4>
+            </div>
+            <ng-template [ngIf]="!projectOptions.isMember && projectOptions.isAuthenticated">
+              <button *ngIf="project.access === 'OPEN'" class="project-page overview-tab edit-button" mat-stroked-button color="basic" pill (click)="join()">
+                <mat-icon>add</mat-icon>
+                Join
+              </button>
+              <button *ngIf="project.access === 'INVITE'" class="project-page overview-tab edit-button" mat-stroked-button color="basic" pill (click)="requestInvite()" [disabled]="projectOptions.inviteSent">
+                <mat-icon>mail</mat-icon>
+                {{projectOptions.inviteSent ? 'Invite requested' : 'Request to Join'}}
+              </button>
+              <button *ngIf="project.access === 'CLOSED'" class="project-page overview-tab edit-button" mat-stroked-button color="basic" pill disabled>
+                <mat-icon>close</mat-icon>
+                Closed
+              </button>
+            </ng-template>
+            <button *ngIf="projectOptions.canUpdateProject" class="project-page overview-tab edit-button" mat-stroked-button color="basic" pill (click)="edit()">Edit Project
+            </button>
+          </div>
+          <app-tag-container style="margin-bottom: 1em;">
+            <app-tag color="primary">{{getProjectYear()}}</app-tag>
+            <app-tag *ngFor="let tag of project.tags" color="blank">
+              {{tag}}
+            </app-tag>
+          </app-tag-container>
+          <p class="project-page overview-tab pitch">
+            {{ project.pitch }}
+          </p>
+        </div>
+      </div>
+      <div style="
+        display: flex;
+        flex-direction: column;
+        gap: 2em;
+        margin-top: 2em;
+      " *ngIf="!projectOptions.nonExistent">
+        <div class="margin-top: 16px">
+          <markdown lineNumbers [data]="project.description ?? ''"></markdown>
+        </div>
+        <div style="
+          display: flex;
+          flex-direction: row;
+          flex-wrap: wrap;
+          gap: 0.5em;
+        ">
+          <div *ngFor="let link of project.downloadLinks">
+            <button mat-flat-button pill tall-button color="primary" *ngIf="getDownloadLinkStaticData(link) as staticData" (click)="onDownloadLinkClick(link)">
+              <div style="
+                display: flex;  
+                align-items: center;
+                justify-content: center;
+                flex-direction: row;
+                gap: 0.5em;
+              ">
+                <ic-icon size="1.5em" [icon]="staticData.icon"></ic-icon>
+                Play {{ staticData.text }}
+              </div>
+            </button>
+          </div>
+        </div>
+        <div style="
+          display: flex;
+          flex-direction: column;
+          gap: 0.5em;
+        " *ngIf="project.galleryImageLinks && project.galleryImageLinks.length > 0">
+          <div style="
+            position: relative;
+            width: 100%;
+            padding-top: 56.25%;
+          " *ngIf="!breakpointManager.matchedBreakpointOrBelow('MEDIUM_MOBILE')">
+            <div style="
+              position:  absolute;
+              top: 0;
+              left: 0;
+              bottom: 0;
+              right: 0;
+            ">
+              <app-carousel style="
+                position: relative;
+                width: 100%;
+                height: 100%;
+              " [visibleSlides]="1" 
+              [autoplay]="true" 
+              [autoplayDurationMS]="6000">
+                <ng-container *ngFor="let imageLink of project.galleryImageLinks">
+                  <img *appCarouselItem style="position: relative; width: 100%; height: 100%; object-fit: cover;" [src]="cdn.getFileLink(imageLink)">
+                </ng-container>
+              </app-carousel>
+            </div>
+          </div>
+          <app-carousel style="
+            width: 100%;
+            height: 20em;
+          " [visibleSlides]="getVisibleSlides()" 
+            [autoplay]="true"
+            [autoplayDurationMS]="2000">
+            <ng-container *ngFor="let imageLink of project.galleryImageLinks">
+              <img *appCarouselItem style="position: relative; width: 100%; height: 100%; object-fit: cover;" [src]="cdn.getFileLink(imageLink)">
+            </ng-container>
+          </app-carousel>
+        </div>
+        <iframe *ngIf="this.project.soundcloudEmbedSrc" width="100%" height="450" scrolling="no" frameborder="no" allow="autoplay" [src]="'https://w.soundcloud.com/player/?url=' + project.soundcloudEmbedSrc + '&color=%23' + soundCloudColor + '&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true' | safe:'resourceUrl'"></iframe>
+        <div class="text-disabled" style="
+          display: flex;
+          flex-direction: row;
+          gap: 2em;
+        ">
+          <div>Created at {{ getDateString(project.createdAt) }}</div>
+          <div>Updated at {{ getDateString(project.updatedAt) }}</div>
+          <div *ngIf="this.project.completedAt">Completed at {{ getDateString(project.completedAt) }}</div>
+        </div>
+        <mat-divider></mat-divider>
+        <h2>Members</h2>
+        <app-project-members-display [projectMembers]="getProjectMembers()"></app-project-members-display>
+      </div>
+      <div *ngIf="projectOptions.nonExistent" style="
+        margin-top: 3em;
+      " class="text-disabled">
+        <h1>This project doesn't exist</h1>
+        <p class="project-page overview-tab no-results-text">Try searching for another</p>
+      </div>
+    </div>
+  </div>
+</div>

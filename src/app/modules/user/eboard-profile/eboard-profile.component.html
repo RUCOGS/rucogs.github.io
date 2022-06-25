@@ -1,0 +1,27 @@
+<div style="
+  display: flex;
+  flex-direction: row;
+  gap: 24px;
+">
+  <app-avatar size="large" [avatarSrc]="cdn.getFileLink(eBoard.avatarLink)"></app-avatar>
+  <div style="
+    display: flex;
+    flex-direction: column;
+    max-height: 100%;
+  ">
+    <h2>Bio</h2>
+    <p class="app-eboard-profile text-disabled" *ngIf="!eBoard.bio">Empty for now...</p>
+    <p style="
+      flex: 1;
+    ">{{ eBoard.bio }}</p>
+    <app-roles-display *ngIf="hasRoles()" [roles]="getRoles()"></app-roles-display>
+    <div *ngIf="!hasRoles()" style="
+      display: flex;
+      flex-direction: row;
+      gap: 0.5em;
+    ">
+      <app-tag color="blank">💫 EBoard Alumni</app-tag>
+      <app-tag color="blank">{{ getEBoardReign() }}</app-tag>
+    </div>
+  </div>
+</div>

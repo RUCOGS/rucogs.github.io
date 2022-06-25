@@ -22,10 +22,10 @@ export const RoleData: {
     childRoles: [
       RoleCode.Artist, 
       RoleCode.GameDesigner, 
-      RoleCode.Artist, 
       RoleCode.Musician, 
       RoleCode.SoundDesigner, 
-      RoleCode.Programmer
+      RoleCode.Programmer,
+      RoleCode.Writer
     ]
   },
   [RoleCode.Moderator]: {
@@ -39,13 +39,14 @@ export const RoleData: {
       RoleCode.User,
 
       // EBoard Roles
-      RoleCode.Eboard,
       RoleCode.President,
       RoleCode.VicePresident,
-      RoleCode.ClubGraphicArtist,
+      RoleCode.Eboard,
+      RoleCode.Webmaster,
+      RoleCode.Treasurer,
       RoleCode.Outreach,
       RoleCode.BotDeveloper,
-      RoleCode.Alumni,
+      RoleCode.ClubGraphicArtist,
 
       // Project Roles
       RoleCode.ProjectOwner,
@@ -55,7 +56,7 @@ export const RoleData: {
     type: [RoleType.User],
     name: "😎 Super Admin",
     inheritPerms: [
-      RoleCode.User,
+      RoleCode.Moderator,
     ],
     childRoles: [
       RoleCode.Moderator
@@ -114,10 +115,6 @@ export const RoleData: {
   [RoleCode.BotDeveloper]: {
     type: [RoleType.EBoard],
     name: "🤖 Bot Developer"
-  },
-  [RoleCode.Alumni]: {
-    type: [RoleType.EBoard],
-    name: "💫 EBoard Alumni"
   },
   [RoleCode.Treasurer]: {
     type: [RoleType.EBoard],
@@ -304,7 +301,7 @@ function getInheritedPermRolesForRolesExitEarly(targetRole: RoleCode, checkedRol
   const roleData = RoleData[targetRole];
   if (roleData && roleData.inheritPerms) {
     for (const child of roleData.inheritPerms) {
-      rolesBelow = rolesBelow.concat(getRolesBelowOrEqualExitEarly(child, checkedRoles));
+      rolesBelow = rolesBelow.concat(getInheritedPermRolesForRolesExitEarly(child, checkedRoles));
     }
   }
   rolesBelow.push(targetRole);

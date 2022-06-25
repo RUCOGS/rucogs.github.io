@@ -1,0 +1,5 @@
+@use './user-page/user-page' as user-page;
+
+@mixin theme($theme) {
+	@include user-page.theme($theme);
+}

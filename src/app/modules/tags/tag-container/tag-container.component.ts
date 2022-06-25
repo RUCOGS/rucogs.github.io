@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Attribute, Component, HostBinding, Input, OnInit, Optional } from '@angular/core';
 
 @Component({
   selector: 'app-tag-container',
@@ -7,9 +7,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class TagContainerComponent implements OnInit {
 
-  constructor() { }
+  @Input() center: boolean = false;
+
+  @HostBinding('style.justify-content') justifyContent;
 
   ngOnInit(): void {
+    if (this.center)
+      this.justifyContent = "center";
   }
-
 }

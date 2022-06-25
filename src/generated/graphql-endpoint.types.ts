@@ -26,24 +26,39 @@ export const Access = {
 export type Access = typeof Access[keyof typeof Access];
 export type EBoard = {
   __typename?: 'EBoard';
-  createdAt: Scalars['Date'];
-  graduatedAt?: Maybe<Scalars['Date']>;
+  avatarLink?: Maybe<Scalars['String']>;
+  bio?: Maybe<Scalars['String']>;
+  createdAt?: Maybe<Scalars['Date']>;
   id: Scalars['ID'];
-  roles: Array<EBoardRole>;
+  terms: Array<EBoardTerm>;
+  updatedAt?: Maybe<Scalars['Date']>;
   user: User;
   userId: Scalars['ID'];
 };
 
-export type EBoardRole = {
-  __typename?: 'EBoardRole';
+export type EBoardSubscriptionFilter = {
+  userId?: InputMaybe<Scalars['ID']>;
+};
+
+export type EBoardTerm = {
+  __typename?: 'EBoardTerm';
   eBoard: EBoard;
   eBoardId: Scalars['ID'];
   id: Scalars['ID'];
-  roleCode: RoleCode;
+  roles: Array<EBoardTermRole>;
+  year: Scalars['Int'];
 };
 
-export type EBoardSubscriptionFilter = {
-  userId?: InputMaybe<Scalars['ID']>;
+export type EBoardTermRole = {
+  __typename?: 'EBoardTermRole';
+  id: Scalars['ID'];
+  roleCode: RoleCode;
+  term: EBoardTerm;
+  termId: Scalars['ID'];
+};
+
+export type EBoardTermSubscriptionFilter = {
+  eBoardId?: InputMaybe<Scalars['ID']>;
 };
 
 export const InviteType = {
@@ -56,21 +71,19 @@ export type Mutation = {
   __typename?: 'Mutation';
   acceptProjectInvite?: Maybe<Scalars['Boolean']>;
   deleteEBoard?: Maybe<Scalars['Boolean']>;
-  deleteEBoardRole?: Maybe<Scalars['Boolean']>;
+  deleteEBoardTerm?: Maybe<Scalars['Boolean']>;
   deleteProject?: Maybe<Scalars['Boolean']>;
   deleteProjectInvite?: Maybe<Scalars['Boolean']>;
   deleteProjectMember?: Maybe<Scalars['Boolean']>;
-  deleteProjectMemberRole?: Maybe<Scalars['Boolean']>;
-  deleteUserRole?: Maybe<Scalars['Boolean']>;
+  deleteUser?: Maybe<Scalars['Boolean']>;
   joinOpenProject?: Maybe<Scalars['Boolean']>;
   newEBoard: Scalars['ID'];
-  newEBoardRole: Scalars['ID'];
+  newEBoardTerm: Scalars['ID'];
   newProject: Scalars['ID'];
   newProjectInvite: Scalars['ID'];
-  newProjectMemberRole: Scalars['ID'];
-  newUserRole: Scalars['ID'];
   transferProjectOwnership?: Maybe<Scalars['Boolean']>;
   updateEBoard?: Maybe<Scalars['Boolean']>;
+  updateEBoardTerm?: Maybe<Scalars['Boolean']>;
   updateProject?: Maybe<Scalars['Boolean']>;
   updateProjectMember?: Maybe<Scalars['Boolean']>;
   updateUser?: Maybe<Scalars['Boolean']>;
@@ -87,7 +100,7 @@ export type MutationDeleteEBoardArgs = {
 };
 
 
-export type MutationDeleteEBoardRoleArgs = {
+export type MutationDeleteEBoardTermArgs = {
   id: Scalars['ID'];
 };
 
@@ -107,12 +120,7 @@ export type MutationDeleteProjectMemberArgs = {
 };
 
 
-export type MutationDeleteProjectMemberRoleArgs = {
-  id: Scalars['ID'];
-};
-
-
-export type MutationDeleteUserRoleArgs = {
+export type MutationDeleteUserArgs = {
   id: Scalars['ID'];
 };
 
@@ -127,8 +135,8 @@ export type MutationNewEBoardArgs = {
 };
 
 
-export type MutationNewEBoardRoleArgs = {
-  input: NewEBoardRoleInput;
+export type MutationNewEBoardTermArgs = {
+  input: NewEBoardTermInput;
 };
 
 
@@ -142,16 +150,6 @@ export type MutationNewProjectInviteArgs = {
 };
 
 
-export type MutationNewProjectMemberRoleArgs = {
-  input: NewProjectMemberRoleInput;
-};
-
-
-export type MutationNewUserRoleArgs = {
-  input: NewUserRoleInput;
-};
-
-
 export type MutationTransferProjectOwnershipArgs = {
   memberId: Scalars['ID'];
   projectId: Scalars['ID'];
@@ -160,6 +158,11 @@ export type MutationTransferProjectOwnershipArgs = {
 
 export type MutationUpdateEBoardArgs = {
   input: UpdateEBoardInput;
+};
+
+
+export type MutationUpdateEBoardTermArgs = {
+  input: UpdateEBoardTermInput;
 };
 
 
@@ -181,9 +184,9 @@ export type NewEBoardInput = {
   userId: Scalars['ID'];
 };
 
-export type NewEBoardRoleInput = {
+export type NewEBoardTermInput = {
   eBoardId: Scalars['ID'];
-  roleCode: RoleCode;
+  year: Scalars['Int'];
 };
 
 export type NewProjectInput = {
@@ -304,7 +307,6 @@ export type QuerySecurityContextArgs = {
 };
 
 export const RoleCode = {
-  Alumni: 'ALUMNI',
   Artist: 'ARTIST',
   BotDeveloper: 'BOT_DEVELOPER',
   ClubGraphicArtist: 'CLUB_GRAPHIC_ARTIST',
@@ -332,6 +334,9 @@ export type Subscription = {
   __typename?: 'Subscription';
   eBoardCreated?: Maybe<Scalars['ID']>;
   eBoardDeleted?: Maybe<Scalars['ID']>;
+  eBoardTermCreated?: Maybe<Scalars['ID']>;
+  eBoardTermDeleted?: Maybe<Scalars['ID']>;
+  eBoardTermUpdated?: Maybe<Scalars['ID']>;
   eBoardUpdated?: Maybe<Scalars['ID']>;
   projectCreated?: Maybe<Scalars['ID']>;
   projectDeleted?: Maybe<Scalars['ID']>;
@@ -354,6 +359,21 @@ export type SubscriptionEBoardCreatedArgs = {
 
 export type SubscriptionEBoardDeletedArgs = {
   filter: EBoardSubscriptionFilter;
+};
+
+
+export type SubscriptionEBoardTermCreatedArgs = {
+  filter: EBoardTermSubscriptionFilter;
+};
+
+
+export type SubscriptionEBoardTermDeletedArgs = {
+  filter: EBoardTermSubscriptionFilter;
+};
+
+
+export type SubscriptionEBoardTermUpdatedArgs = {
+  filter: EBoardTermSubscriptionFilter;
 };
 
 
@@ -417,15 +437,22 @@ export type SubscriptionUserUpdatedArgs = {
 };
 
 export type UpdateEBoardInput = {
-  graduatedAt: Scalars['ID'];
+  avatar?: InputMaybe<UploadWithOperation>;
+  bio?: InputMaybe<Scalars['String']>;
+  id: Scalars['ID'];
+};
+
+export type UpdateEBoardTermInput = {
   id: Scalars['ID'];
   roles?: InputMaybe<Array<RoleCode>>;
+  year?: InputMaybe<Scalars['Int']>;
 };
 
 export type UpdateProjectInput = {
   access?: InputMaybe<Access>;
   banner?: InputMaybe<UploadWithOperation>;
   cardImage?: InputMaybe<UploadWithOperation>;
+  completed?: InputMaybe<Scalars['Boolean']>;
   description?: InputMaybe<Scalars['String']>;
   downloadLinks?: InputMaybe<Array<Scalars['String']>>;
   galleryImages?: InputMaybe<Array<UploadOrSource>>;
@@ -446,6 +473,7 @@ export type UpdateUserInput = {
   avatar?: InputMaybe<UploadWithOperation>;
   banner?: InputMaybe<UploadWithOperation>;
   bio?: InputMaybe<Scalars['String']>;
+  classYear?: InputMaybe<Scalars['Int']>;
   displayName?: InputMaybe<Scalars['String']>;
   id: Scalars['ID'];
   roles?: InputMaybe<Array<RoleCode>>;
@@ -479,6 +507,7 @@ export type User = {
   avatarLink?: Maybe<Scalars['String']>;
   bannerLink?: Maybe<Scalars['String']>;
   bio?: Maybe<Scalars['String']>;
+  classYear?: Maybe<Scalars['Int']>;
   createdAt?: Maybe<Scalars['Date']>;
   displayName?: Maybe<Scalars['String']>;
   eBoard?: Maybe<EBoard>;
@@ -598,14 +627,17 @@ export type ResolversTypes = {
   Boolean: ResolverTypeWrapper<Scalars['Boolean']>;
   Date: ResolverTypeWrapper<Scalars['Date']>;
   EBoard: ResolverTypeWrapper<EBoard>;
-  EBoardRole: ResolverTypeWrapper<EBoardRole>;
   EBoardSubscriptionFilter: EBoardSubscriptionFilter;
+  EBoardTerm: ResolverTypeWrapper<EBoardTerm>;
+  EBoardTermRole: ResolverTypeWrapper<EBoardTermRole>;
+  EBoardTermSubscriptionFilter: EBoardTermSubscriptionFilter;
   ID: ResolverTypeWrapper<Scalars['ID']>;
+  Int: ResolverTypeWrapper<Scalars['Int']>;
   InviteType: InviteType;
   Json: ResolverTypeWrapper<Scalars['Json']>;
   Mutation: ResolverTypeWrapper<{}>;
   NewEBoardInput: NewEBoardInput;
-  NewEBoardRoleInput: NewEBoardRoleInput;
+  NewEBoardTermInput: NewEBoardTermInput;
   NewProjectInput: NewProjectInput;
   NewProjectInviteInput: NewProjectInviteInput;
   NewProjectMemberRoleInput: NewProjectMemberRoleInput;
@@ -623,6 +655,7 @@ export type ResolversTypes = {
   String: ResolverTypeWrapper<Scalars['String']>;
   Subscription: ResolverTypeWrapper<{}>;
   UpdateEBoardInput: UpdateEBoardInput;
+  UpdateEBoardTermInput: UpdateEBoardTermInput;
   UpdateProjectInput: UpdateProjectInput;
   UpdateProjectMemberInput: UpdateProjectMemberInput;
   UpdateUserInput: UpdateUserInput;
@@ -643,13 +676,16 @@ export type ResolversParentTypes = {
   Boolean: Scalars['Boolean'];
   Date: Scalars['Date'];
   EBoard: EBoard;
-  EBoardRole: EBoardRole;
   EBoardSubscriptionFilter: EBoardSubscriptionFilter;
+  EBoardTerm: EBoardTerm;
+  EBoardTermRole: EBoardTermRole;
+  EBoardTermSubscriptionFilter: EBoardTermSubscriptionFilter;
   ID: Scalars['ID'];
+  Int: Scalars['Int'];
   Json: Scalars['Json'];
   Mutation: {};
   NewEBoardInput: NewEBoardInput;
-  NewEBoardRoleInput: NewEBoardRoleInput;
+  NewEBoardTermInput: NewEBoardTermInput;
   NewProjectInput: NewProjectInput;
   NewProjectInviteInput: NewProjectInviteInput;
   NewProjectMemberRoleInput: NewProjectMemberRoleInput;
@@ -665,6 +701,7 @@ export type ResolversParentTypes = {
   String: Scalars['String'];
   Subscription: {};
   UpdateEBoardInput: UpdateEBoardInput;
+  UpdateEBoardTermInput: UpdateEBoardTermInput;
   UpdateProjectInput: UpdateProjectInput;
   UpdateProjectMemberInput: UpdateProjectMemberInput;
   UpdateUserInput: UpdateUserInput;
@@ -684,20 +721,31 @@ export interface DateScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes
 }
 
 export type EBoardResolvers<ContextType = any, ParentType extends ResolversParentTypes['EBoard'] = ResolversParentTypes['EBoard']> = {
-  createdAt?: Resolver<ResolversTypes['Date'], ParentType, ContextType>;
-  graduatedAt?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
+  avatarLink?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  bio?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  createdAt?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
-  roles?: Resolver<Array<ResolversTypes['EBoardRole']>, ParentType, ContextType>;
+  terms?: Resolver<Array<ResolversTypes['EBoardTerm']>, ParentType, ContextType>;
+  updatedAt?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
   user?: Resolver<ResolversTypes['User'], ParentType, ContextType>;
   userId?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type EBoardRoleResolvers<ContextType = any, ParentType extends ResolversParentTypes['EBoardRole'] = ResolversParentTypes['EBoardRole']> = {
+export type EBoardTermResolvers<ContextType = any, ParentType extends ResolversParentTypes['EBoardTerm'] = ResolversParentTypes['EBoardTerm']> = {
   eBoard?: Resolver<ResolversTypes['EBoard'], ParentType, ContextType>;
   eBoardId?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  roles?: Resolver<Array<ResolversTypes['EBoardTermRole']>, ParentType, ContextType>;
+  year?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type EBoardTermRoleResolvers<ContextType = any, ParentType extends ResolversParentTypes['EBoardTermRole'] = ResolversParentTypes['EBoardTermRole']> = {
+  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   roleCode?: Resolver<ResolversTypes['RoleCode'], ParentType, ContextType>;
+  term?: Resolver<ResolversTypes['EBoardTerm'], ParentType, ContextType>;
+  termId?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -708,21 +756,19 @@ export interface JsonScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes
 export type MutationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
   acceptProjectInvite?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationAcceptProjectInviteArgs, 'inviteId'>>;
   deleteEBoard?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationDeleteEBoardArgs, 'id'>>;
-  deleteEBoardRole?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationDeleteEBoardRoleArgs, 'id'>>;
+  deleteEBoardTerm?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationDeleteEBoardTermArgs, 'id'>>;
   deleteProject?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationDeleteProjectArgs, 'id'>>;
   deleteProjectInvite?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationDeleteProjectInviteArgs, 'inviteId'>>;
   deleteProjectMember?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationDeleteProjectMemberArgs, 'id'>>;
-  deleteProjectMemberRole?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationDeleteProjectMemberRoleArgs, 'id'>>;
-  deleteUserRole?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationDeleteUserRoleArgs, 'id'>>;
+  deleteUser?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationDeleteUserArgs, 'id'>>;
   joinOpenProject?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationJoinOpenProjectArgs, 'projectId'>>;
   newEBoard?: Resolver<ResolversTypes['ID'], ParentType, ContextType, RequireFields<MutationNewEBoardArgs, 'input'>>;
-  newEBoardRole?: Resolver<ResolversTypes['ID'], ParentType, ContextType, RequireFields<MutationNewEBoardRoleArgs, 'input'>>;
+  newEBoardTerm?: Resolver<ResolversTypes['ID'], ParentType, ContextType, RequireFields<MutationNewEBoardTermArgs, 'input'>>;
   newProject?: Resolver<ResolversTypes['ID'], ParentType, ContextType, RequireFields<MutationNewProjectArgs, 'input'>>;
   newProjectInvite?: Resolver<ResolversTypes['ID'], ParentType, ContextType, RequireFields<MutationNewProjectInviteArgs, 'input'>>;
-  newProjectMemberRole?: Resolver<ResolversTypes['ID'], ParentType, ContextType, RequireFields<MutationNewProjectMemberRoleArgs, 'input'>>;
-  newUserRole?: Resolver<ResolversTypes['ID'], ParentType, ContextType, RequireFields<MutationNewUserRoleArgs, 'input'>>;
   transferProjectOwnership?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationTransferProjectOwnershipArgs, 'memberId' | 'projectId'>>;
   updateEBoard?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationUpdateEBoardArgs, 'input'>>;
+  updateEBoardTerm?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationUpdateEBoardTermArgs, 'input'>>;
   updateProject?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationUpdateProjectArgs, 'input'>>;
   updateProjectMember?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationUpdateProjectMemberArgs, 'input'>>;
   updateUser?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationUpdateUserArgs, 'input'>>;
@@ -789,6 +835,9 @@ export type QueryResolvers<ContextType = any, ParentType extends ResolversParent
 export type SubscriptionResolvers<ContextType = any, ParentType extends ResolversParentTypes['Subscription'] = ResolversParentTypes['Subscription']> = {
   eBoardCreated?: SubscriptionResolver<Maybe<ResolversTypes['ID']>, "eBoardCreated", ParentType, ContextType, RequireFields<SubscriptionEBoardCreatedArgs, 'filter'>>;
   eBoardDeleted?: SubscriptionResolver<Maybe<ResolversTypes['ID']>, "eBoardDeleted", ParentType, ContextType, RequireFields<SubscriptionEBoardDeletedArgs, 'filter'>>;
+  eBoardTermCreated?: SubscriptionResolver<Maybe<ResolversTypes['ID']>, "eBoardTermCreated", ParentType, ContextType, RequireFields<SubscriptionEBoardTermCreatedArgs, 'filter'>>;
+  eBoardTermDeleted?: SubscriptionResolver<Maybe<ResolversTypes['ID']>, "eBoardTermDeleted", ParentType, ContextType, RequireFields<SubscriptionEBoardTermDeletedArgs, 'filter'>>;
+  eBoardTermUpdated?: SubscriptionResolver<Maybe<ResolversTypes['ID']>, "eBoardTermUpdated", ParentType, ContextType, RequireFields<SubscriptionEBoardTermUpdatedArgs, 'filter'>>;
   eBoardUpdated?: SubscriptionResolver<Maybe<ResolversTypes['ID']>, "eBoardUpdated", ParentType, ContextType, RequireFields<SubscriptionEBoardUpdatedArgs, 'filter'>>;
   projectCreated?: SubscriptionResolver<Maybe<ResolversTypes['ID']>, "projectCreated", ParentType, ContextType, RequireFields<SubscriptionProjectCreatedArgs, 'filter'>>;
   projectDeleted?: SubscriptionResolver<Maybe<ResolversTypes['ID']>, "projectDeleted", ParentType, ContextType, RequireFields<SubscriptionProjectDeletedArgs, 'filter'>>;
@@ -811,6 +860,7 @@ export type UserResolvers<ContextType = any, ParentType extends ResolversParentT
   avatarLink?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   bannerLink?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   bio?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  classYear?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
   createdAt?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
   displayName?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   eBoard?: Resolver<Maybe<ResolversTypes['EBoard']>, ParentType, ContextType>;
@@ -857,7 +907,8 @@ export type UserSocialResolvers<ContextType = any, ParentType extends ResolversP
 export type Resolvers<ContextType = any> = {
   Date?: GraphQLScalarType;
   EBoard?: EBoardResolvers<ContextType>;
-  EBoardRole?: EBoardRoleResolvers<ContextType>;
+  EBoardTerm?: EBoardTermResolvers<ContextType>;
+  EBoardTermRole?: EBoardTermRoleResolvers<ContextType>;
   Json?: GraphQLScalarType;
   Mutation?: MutationResolvers<ContextType>;
   Project?: ProjectResolvers<ContextType>;
