@@ -36,7 +36,7 @@ export class EditEboardDialogComponent implements AfterViewInit {
     @Inject(MAT_DIALOG_DATA) public data: EditEBoardDialogData
   ) { 
     this.form = formBuilder.group({
-      bio: [data.eBoard.bio, [Validators.required]],
+      bio: [data.eBoard.bio, []],
     });
     this.dialogRef.disableClose = true;
   }
