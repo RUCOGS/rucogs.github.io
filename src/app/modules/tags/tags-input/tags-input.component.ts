@@ -26,7 +26,6 @@ export class TagsInputComponent extends BaseCustomInputComponent<string[]> {
 
     if (!this.value) this.value = [];
 
-    // Add our fruit
     if (value && !this.value.includes(value) && (this.limit < 0 || this.value.length < this.limit)) {
       this.value.push(value);
       this.onChange(this.value);
