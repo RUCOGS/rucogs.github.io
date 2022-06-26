@@ -1,6 +1,7 @@
 import { AfterViewInit, ChangeDetectorRef, Component, EventEmitter, Inject, Output, ViewChild } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { AccessOptions } from '@app/modules/project/project.module';
 import { ProcessMonitor } from '@src/app/classes/_classes.module';
 import { ImageUploadComponent } from '@src/app/modules/image-upload/image-upload.module';
 import { UIMessageService } from '@src/app/modules/ui-message/ui-message.module';
@@ -11,8 +12,6 @@ import { Project, UpdateProjectInput, UploadOperation, UploadOrSource } from '@s
 import { gql } from 'apollo-angular';
 import { first } from 'rxjs/operators';
 import { PartialDeep } from 'type-fest';
-import { defaultProjectOptions, ProjectOptions } from '../project-page/project-page.component';
-import { AccessOptions } from '@app/modules/project/project.module';
 
 const soundcloudEmbedRegex = new RegExp(/https%3A\/\/api\.soundcloud\.com\/.+\/[0-9]+/);
 
@@ -61,7 +60,7 @@ export class EditProjectDialogComponent implements AfterViewInit {
       soundcloudEmbedSrc: [this.data.project.soundcloudEmbedSrc],
       pitch: [this.data.project.pitch, [Validators.required]],
       description: [this.data.project.description],
-      tags: [this.data.project.tags],
+      tags: [this.data.project.tags?.slice()],
       completed: [this.data.project.completedAt],
     });
     dialogRef.disableClose = true;
