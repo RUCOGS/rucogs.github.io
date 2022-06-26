@@ -5,7 +5,6 @@ import {
   Input,
   OnChanges,
   OnDestroy,
-  OnInit,
   Output,
   SimpleChanges,
   ViewChild,
@@ -17,7 +16,7 @@ import { FilterHeaderComponent } from '@src/app/modules/filtering/filtering.modu
 import { BackendService } from '@src/app/services/backend.service';
 import { BreakpointManagerService } from '@src/app/services/breakpoint-manager.service';
 import { compare, deepClone } from '@src/app/utils/utils';
-import { Project, ProjectInvite, ProjectInviteSubscriptionFilter } from '@src/generated/graphql-endpoint.types';
+import { Project, ProjectInvite } from '@src/generated/graphql-endpoint.types';
 import { gql } from 'apollo-angular';
 import { firstValueFrom, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';

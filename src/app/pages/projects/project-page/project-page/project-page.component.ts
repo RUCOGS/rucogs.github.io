@@ -96,46 +96,44 @@ export class ProjectPageComponent implements OnInit {
         ['projectInviteId'],
       );
 
-      if (!invitesOpDomain || (invitesOpDomain && (invitesOpDomain.projectInviteId?.length ?? 0) > 0)) {
-        invitesQuery = firstValueFrom(
-          this.backend
-            .withAuth()
-            .withOpDomain(invitesOpDomain)
-            .query<{
-              projectInvites: {
+      invitesQuery = firstValueFrom(
+        this.backend
+          .withAuth()
+          .withOpDomain(invitesOpDomain)
+          .query<{
+            projectInvites: {
+              id: string;
+              type: InviteType;
+              user: {
                 id: string;
-                type: InviteType;
-                user: {
-                  id: string;
-                  displayName: string;
-                  username: string;
-                  avatarLink: string;
-                };
-              }[];
-            }>({
-              query: gql`
-                query FetchProjectPageInvites($filter: ProjectInviteFilterInput) {
-                  projectInvites(filter: $filter) {
+                displayName: string;
+                username: string;
+                avatarLink: string;
+              };
+            }[];
+          }>({
+            query: gql`
+              query FetchProjectPageInvites($filter: ProjectInviteFilterInput) {
+                projectInvites(filter: $filter) {
+                  id
+                  type
+                  user {
                     id
-                    type
-                    user {
-                      id
-                      displayName
-                      username
-                      avatarLink
-                    }
+                    displayName
+                    username
+                    avatarLink
                   }
                 }
-              `,
-              variables: {
-                filter: <ProjectInviteFilterInput>{
-                  projectId: { eq: this.projectId },
-                },
+              }
+            `,
+            variables: {
+              filter: <ProjectInviteFilterInput>{
+                projectId: { eq: this.projectId },
               },
-              ...(invalidateCache && { fetchPolicy: 'no-cache' }),
-            }),
-        );
-      }
+            },
+            ...(invalidateCache && { fetchPolicy: 'no-cache' }),
+          }),
+      );
     }
 
     const projectQuery = firstValueFrom(

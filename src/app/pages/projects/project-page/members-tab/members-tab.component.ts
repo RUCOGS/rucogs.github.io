@@ -59,10 +59,6 @@ export class MembersTabComponent implements AfterViewInit, OnDestroy, OnChanges 
   ngAfterViewInit(): void {
     if (!this.filterHeader) return;
 
-    // NOTE: This is really inefficient because we are regenerating the entire sortedSections array
-    //       whenever the project changes a filter option. We should consider only modifying parts of
-    //       of the sorted array that are needed (ie. only reversing the sortedSections if sortAscending
-    //       changes).
     this.filterHeader.newSearchRequest$.pipe(takeUntil(this.onDestroy$)).subscribe(this.onNewSearchRequest.bind(this));
   }
 
