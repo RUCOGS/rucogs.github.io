@@ -1,6 +1,6 @@
-import { AfterViewInit, ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
-import { BreakpointManagerService } from '@app/services/breakpoint-manager.service';
+import { AfterViewInit, ChangeDetectorRef, Component, ViewChild } from '@angular/core';
 import { ArticleInfo } from '@app/classes/_classes.module';
+import { BreakpointManagerService } from '@app/services/breakpoint-manager.service';
 import { BlogPageArticles } from '@app/settings/_settings.module';
 import { FilterHeaderComponent } from '@src/app/modules/filtering/filtering.module';
 import { PaginatorComponent } from '@src/app/modules/paginator/paginator.module';
@@ -31,10 +31,6 @@ export class BlogPageComponent implements AfterViewInit {
   ngAfterViewInit(): void {
     if (!this.filterHeader || !this.paginatorBottom || !this.paginatorTop) return;
 
-    // NOTE: This is really inefficient because we are regenerating the entire sortedSections array
-    //       whenever the user changes a filter option. We should consider only modifying parts of
-    //       of the sorted array that are needed (ie. only reversing the sortedSections if sortAscending
-    //       changes).
     this.filterHeader.newSearchRequest$.pipe(takeUntil(this.onDestroy$)).subscribe(this.onNewSearchRequest.bind(this));
     this.paginatorTop.currentPageChange.pipe(takeUntil(this.onDestroy$)).subscribe(this.onCurrentPageChange.bind(this));
     this.paginatorBottom.currentPageChange
