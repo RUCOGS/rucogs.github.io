@@ -1,18 +1,8 @@
-import {
-  AfterViewChecked,
-  AfterViewInit,
-  ChangeDetectorRef,
-  Component,
-  EventEmitter,
-  Input,
-  OnChanges,
-  Output,
-  SimpleChanges,
-} from '@angular/core';
+import { AfterViewChecked, Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { AccessOptions } from '@app/modules/project/project.module';
 import { Color, ProcessMonitor } from '@src/app/classes/_classes.module';
 import { UIMessageService } from '@src/app/modules/ui-message/ui-message.module';
-import { SafePipe } from '@src/app/modules/_core/core.module';
 import {
   BackendService,
   BreakpointManagerService,
@@ -25,14 +15,12 @@ import { SettingsService } from '@src/_settings';
 import { gql } from 'apollo-angular';
 import ColorThief from 'colorthief';
 import { firstValueFrom } from 'rxjs';
-import { first } from 'rxjs/operators';
 import { PartialDeep } from 'type-fest';
 import {
   EditProjectDialogComponent,
   EditProjectDialogData,
 } from '../edit-project-dialog/edit-project-dialog.component';
 import { defaultProjectOptions, ProjectOptions } from '../project-page/project-page.component';
-import { AccessOptions } from '@app/modules/project/project.module';
 
 @Component({
   selector: 'app-overview-tab',
@@ -113,7 +101,7 @@ export class OverviewTabComponent implements AfterViewChecked, OnChanges {
         newProjectInvite: boolean;
       }>({
         mutation: gql`
-          mutation ($projectId: ID!) {
+          mutation JoinOpenProject($projectId: ID!) {
             joinOpenProject(projectId: $projectId)
           }
         `,
@@ -134,12 +122,13 @@ export class OverviewTabComponent implements AfterViewChecked, OnChanges {
     if (this.monitor.isProcessing) return;
 
     this.monitor.addProcess();
+
     const result = await firstValueFrom(
       this.backend.withAuth().mutate<{
         newProjectInvite: string;
       }>({
         mutation: gql`
-          mutation ($input: NewProjectInviteInput!) {
+          mutation NewProjectInvite($input: NewProjectInviteInput!) {
             newProjectInvite(input: $input)
           }
         `,
