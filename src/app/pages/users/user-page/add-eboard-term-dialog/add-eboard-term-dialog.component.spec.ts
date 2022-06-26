@@ -8,9 +8,8 @@ describe('AddEboardTermDialogComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ AddEboardTermDialogComponent ]
-    })
-    .compileComponents();
+      declarations: [AddEboardTermDialogComponent],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(AddEboardTermDialogComponent);
     component = fixture.componentInstance;

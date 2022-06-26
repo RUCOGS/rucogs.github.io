@@ -8,9 +8,8 @@ describe('EditableSocialButtonComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ EditableSocialButtonComponent ]
-    })
-    .compileComponents();
+      declarations: [EditableSocialButtonComponent],
+    }).compileComponents();
   });
 
   beforeEach(() => {

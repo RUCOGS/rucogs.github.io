@@ -4,8 +4,6 @@ import { BaseButtonComponent } from '@src/app/modules/_core/base-button/base-but
 @Component({
   selector: 'app-text-button',
   templateUrl: './text-button.component.html',
-  styleUrls: ['./text-button.component.css']
+  styleUrls: ['./text-button.component.css'],
 })
-export class TextButtonComponent extends BaseButtonComponent {
-
-}
+export class TextButtonComponent extends BaseButtonComponent {}

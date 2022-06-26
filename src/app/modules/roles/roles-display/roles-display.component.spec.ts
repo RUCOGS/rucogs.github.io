@@ -8,9 +8,8 @@ describe('RolesDisplayComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ RolesDisplayComponent ]
-    })
-    .compileComponents();
+      declarations: [RolesDisplayComponent],
+    }).compileComponents();
   });
 
   beforeEach(() => {

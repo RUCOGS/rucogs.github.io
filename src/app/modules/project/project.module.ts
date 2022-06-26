@@ -15,26 +15,9 @@ export { ProjectItemComponent };
 export { InlineProjectItemComponent };
 export * from './_classes/access-options';
 
-
 @NgModule({
-  declarations: [
-    ProjectItemComponent,
-    ProjectsDisplayComponent,
-    InlineProjectItemComponent,
-  ],
-  imports: [
-    CommonModule,
-    FilteringModule,
-    CardsModule,
-    AvatarModule,
-    TagsModule,
-    RouterModule,
-    SettingsModule,
-  ],
-  exports: [
-    InlineProjectItemComponent,
-    ProjectItemComponent,
-    ProjectsDisplayComponent
-  ]
+  declarations: [ProjectItemComponent, ProjectsDisplayComponent, InlineProjectItemComponent],
+  imports: [CommonModule, FilteringModule, CardsModule, AvatarModule, TagsModule, RouterModule, SettingsModule],
+  exports: [InlineProjectItemComponent, ProjectItemComponent, ProjectsDisplayComponent],
 })
-export class ProjectModule { }
+export class ProjectModule {}

@@ -1,6 +1,17 @@
-import { AfterContentChecked, AfterContentInit, AfterViewChecked, AfterViewInit, Directive, DoCheck, OnChanges, OnDestroy, OnInit, SimpleChanges } from "@angular/core";
-import { Subject } from "rxjs";
-import { Mixin, settings } from "ts-mixer";
+import {
+  AfterContentChecked,
+  AfterContentInit,
+  AfterViewChecked,
+  AfterViewInit,
+  Directive,
+  DoCheck,
+  OnChanges,
+  OnDestroy,
+  OnInit,
+  SimpleChanges,
+} from '@angular/core';
+import { Subject } from 'rxjs';
+import { Mixin, settings } from 'ts-mixer';
 
 settings.initFunction = `init`;
 

@@ -12,10 +12,9 @@ import { defaultProjectOptions, ProjectOptions } from '../project-page/project-p
 @Component({
   selector: 'app-settings-tab',
   templateUrl: './settings-tab.component.html',
-  styleUrls: ['./settings-tab.component.css']
+  styleUrls: ['./settings-tab.component.css'],
 })
 export class SettingsTabComponent implements OnInit {
-
   @Output() edited = new EventEmitter();
 
   @Input() project: PartialDeep<Project> = {};
@@ -23,43 +22,42 @@ export class SettingsTabComponent implements OnInit {
 
   monitor = new ProcessMonitor();
 
-  constructor(
-    private uiMessageService: UIMessageService,
-    private backend: BackendService,
-    private router: Router
-  ) { }
+  constructor(private uiMessageService: UIMessageService, private backend: BackendService, private router: Router) {}
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
   async deleteProject() {
-    const confirmed = await firstValueFrom(this.uiMessageService.confirmDialog(`Are you sure you want to delete the project "${this.project.name}"? There's no going back!`));
-    
-    if (!confirmed)
-      return;
-    
+    const confirmed = await firstValueFrom(
+      this.uiMessageService.confirmDialog(
+        `Are you sure you want to delete the project "${this.project.name}"? There's no going back!`,
+      ),
+    );
+
+    if (!confirmed) return;
+
     this.monitor.addProcess();
-    const result = await firstValueFrom(this.backend.withAuth().mutate({
-      mutation: gql`
-        mutation DeleteProject($id: ID!) {
-          deleteProject(id: $id)
-        }
-      `,
-      variables: {
-        id: this.project.id
-      }
-    }));
+    const result = await firstValueFrom(
+      this.backend.withAuth().mutate({
+        mutation: gql`
+          mutation DeleteProject($id: ID!) {
+            deleteProject(id: $id)
+          }
+        `,
+        variables: {
+          id: this.project.id,
+        },
+      }),
+    );
     this.monitor.removeProcess();
 
-    if (result.errors)
-      return;
-    
+    if (result.errors) return;
+
     this.router.navigateByUrl('/projects');
   }
 
   getDeleteProjectTooltip() {
     if (!this.projectOptions.canDeleteProject) {
-      return "Please ask an e-board officer if you'd like to delete a project."
+      return "Please ask an e-board officer if you'd like to delete a project.";
     }
     return '';
   }

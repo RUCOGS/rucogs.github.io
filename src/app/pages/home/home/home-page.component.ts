@@ -4,14 +4,13 @@ import { SettingsService } from '@src/_settings';
 @Component({
   selector: 'app-home-page',
   templateUrl: './home-page.component.html',
-  styleUrls: ['./home-page.component.css' ],
+  styleUrls: ['./home-page.component.css'],
   host: {
-    class: 'page'
-  }
+    class: 'page',
+  },
 })
 export class HomePageComponent implements OnInit {
-
-  currentSemester: string = "";
+  currentSemester: string = '';
 
   constructor(public settings: SettingsService) {
     var now = new Date();
@@ -24,15 +23,10 @@ export class HomePageComponent implements OnInit {
     // two to three = Fall
     // three to four = Spring
 
-    if (markerOne <= now && now < markerTwo)
-      this.currentSemester = "Spring " + now.getFullYear();
-    else if (markerTwo <= now && now < markerThree)
-      this.currentSemester = "Fall " + now.getFullYear();
-    else if (markerThree <= now && now <= markerFour)
-      this.currentSemester = "Spring " + (now.getFullYear() + 1);
+    if (markerOne <= now && now < markerTwo) this.currentSemester = 'Spring ' + now.getFullYear();
+    else if (markerTwo <= now && now < markerThree) this.currentSemester = 'Fall ' + now.getFullYear();
+    else if (markerThree <= now && now <= markerFour) this.currentSemester = 'Spring ' + (now.getFullYear() + 1);
   }
 
-  ngOnInit(): void {
-  }
-
+  ngOnInit(): void {}
 }

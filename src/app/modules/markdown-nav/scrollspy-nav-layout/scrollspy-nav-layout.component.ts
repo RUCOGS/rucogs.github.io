@@ -11,16 +11,13 @@ import { ZOOM_ANIMATION } from './scrollspy-nav-layout.animation';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ScrollspyNavLayoutComponent {
-
   @Input()
   headings: Element[] | undefined;
 
   showScrollUpButton = false;
 
-  constructor(
-    public breakpointManager: BreakpointManagerService
-  ) {}
-  
+  constructor(public breakpointManager: BreakpointManagerService) {}
+
   @HostListener('window:scroll')
   onWindowScroll(): void {
     this.showScrollUpButton = Math.ceil(window.pageYOffset) > 64;

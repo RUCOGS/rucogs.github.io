@@ -6,22 +6,9 @@ import { SiteLeftSideBarModule } from './site-left-side-bar/site-left-side-bar.m
 import { SiteRightSideBarModule } from './site-right-side-bar/site-right-side-bar.module';
 import { AvatarModule } from '../avatar/avatar.module';
 
-
-
 @NgModule({
   declarations: [],
-  imports: [
-    CommonModule,
-    SiteHeaderModule,
-    SiteFooterModule,
-    SiteLeftSideBarModule,
-    SiteRightSideBarModule
-  ],
-  exports: [
-    SiteHeaderModule,
-    SiteFooterModule,
-    SiteLeftSideBarModule,
-    SiteRightSideBarModule,
-  ]
+  imports: [CommonModule, SiteHeaderModule, SiteFooterModule, SiteLeftSideBarModule, SiteRightSideBarModule],
+  exports: [SiteHeaderModule, SiteFooterModule, SiteLeftSideBarModule, SiteRightSideBarModule],
 })
-export class SiteMenusModule { }
+export class SiteMenusModule {}

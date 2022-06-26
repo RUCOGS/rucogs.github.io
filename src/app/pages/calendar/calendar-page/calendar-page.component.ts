@@ -6,15 +6,11 @@ import { BreakpointManagerService } from '@app/services/breakpoint-manager.servi
   templateUrl: './calendar-page.component.html',
   styleUrls: ['./calendar-page.component.css'],
   host: {
-    class: 'page'
-  }
+    class: 'page',
+  },
 })
 export class CalendarPageComponent implements OnInit {
+  constructor(public breakpointManager: BreakpointManagerService) {}
 
-  constructor(public breakpointManager: BreakpointManagerService) { }
-
-  ngOnInit(): void {
-    
-  }
-
+  ngOnInit(): void {}
 }

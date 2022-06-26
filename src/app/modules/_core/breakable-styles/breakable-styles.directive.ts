@@ -2,23 +2,19 @@ import { AfterViewInit, Directive, ElementRef, Input, OnDestroy } from '@angular
 import { DomSanitizer } from '@angular/platform-browser';
 
 @Directive({
-  selector: '[breakable-styles]'
+  selector: '[breakable-styles]',
 })
 export class BreakableStylesDirective implements AfterViewInit, OnDestroy {
-
-  @Input() style: string = "";
-  @Input('prebreak-style') preBreakStyle: string = "";
-  @Input('break-style') breakStyle: string = "";
-  @Input('break-on') breakOn: string = "";
+  @Input() style: string = '';
+  @Input('prebreak-style') preBreakStyle: string = '';
+  @Input('break-style') breakStyle: string = '';
+  @Input('break-on') breakOn: string = '';
 
   isBreaking: boolean = false;
 
-  resizeObserver?: ResizeObserver; 
+  resizeObserver?: ResizeObserver;
 
-  constructor(
-    private el: ElementRef,
-    private doms: DomSanitizer
-  ) {}
+  constructor(private el: ElementRef, private doms: DomSanitizer) {}
 
   ngOnDestroy(): void {
     this.resizeObserver?.disconnect();
@@ -26,8 +22,7 @@ export class BreakableStylesDirective implements AfterViewInit, OnDestroy {
 
   ngAfterViewInit(): void {
     const args = this.breakOn.split(' ');
-    if (args.length < 3)
-      return;
+    if (args.length < 3) return;
     const type = args[0];
     const operator = args[1];
     const targetValue = this.getValueFromString(args[2]);
@@ -35,25 +30,25 @@ export class BreakableStylesDirective implements AfterViewInit, OnDestroy {
     this.updateStyle();
 
     switch (type) {
-      case "bottom":
-      case "left":
-      case "top":
-      case "right":
-      case "width":
-      case "height":
-      case "x":
-      case "y":
+      case 'bottom':
+      case 'left':
+      case 'top':
+      case 'right':
+      case 'width':
+      case 'height':
+      case 'x':
+      case 'y':
         this.resizeObserver = new ResizeObserver((entries, observer) => {
           for (const entry of entries) {
             const comparedToValue = entry.contentRect[type];
             this.isBreaking = this.compareValues(comparedToValue, targetValue, operator);
-            
+
             this.updateStyle();
           }
         });
-        
+
         this.resizeObserver.observe(this.el.nativeElement);
-        
+
         return;
       default:
         return;
@@ -61,30 +56,28 @@ export class BreakableStylesDirective implements AfterViewInit, OnDestroy {
   }
 
   getValueFromString(value: string) {
-    if (value === "true")
-      return true;
-    if (value === "false")
-      return false;
+    if (value === 'true') return true;
+    if (value === 'false') return false;
     return Number(value);
   }
 
   compareValues(valueOne: any, valueTwo: any, operator: string) {
-    switch(operator) {
-      case ">":
+    switch (operator) {
+      case '>':
         return valueOne > valueTwo;
-      case ">=":
+      case '>=':
         return valueOne >= valueTwo;
-      case "<":
+      case '<':
         return valueOne < valueTwo;
-      case "<=":
+      case '<=':
         return valueOne <= valueTwo;
-      case "==":
+      case '==':
         return valueOne == valueTwo;
-      case "!=":
+      case '!=':
         return valueOne != valueTwo;
-      case "===":
+      case '===':
         return valueOne === valueTwo;
-      case "!==":
+      case '!==':
         return valueOne !== valueTwo;
       default:
         return false;
@@ -95,5 +88,4 @@ export class BreakableStylesDirective implements AfterViewInit, OnDestroy {
     const styleText = this.style + (this.isBreaking ? this.breakStyle : this.preBreakStyle);
     this.el.nativeElement.style.cssText = styleText;
   }
-
 }

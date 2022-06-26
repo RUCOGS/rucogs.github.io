@@ -4,18 +4,10 @@ import { TestPageComponent } from './test-page/test-page.component';
 import { ServicesModule } from '@src/app/services/_services.module';
 import { Route, RouterModule } from '@angular/router';
 
-const ROUTES: Route[] = [
- { path: '', component: TestPageComponent }
-];
+const ROUTES: Route[] = [{ path: '', component: TestPageComponent }];
 
 @NgModule({
-  declarations: [
-    TestPageComponent
-  ],
-  imports: [
-    RouterModule.forChild(ROUTES),
-    CommonModule,
-    ServicesModule
-  ],
+  declarations: [TestPageComponent],
+  imports: [RouterModule.forChild(ROUTES), CommonModule, ServicesModule],
 })
-export class TestPageModule { }
+export class TestPageModule {}

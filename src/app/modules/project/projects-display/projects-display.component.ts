@@ -10,87 +10,102 @@ import { firstValueFrom } from 'rxjs';
   templateUrl: './projects-display.component.html',
   styleUrls: ['./projects-display.component.css'],
   host: {
-    class: 'page'
-  }
+    class: 'page',
+  },
 })
-export class ProjectsDisplayComponent extends BaseFilteredHeaderScrollPaginationComponent<Partial<Project>, ProjectFilterInput> {
+export class ProjectsDisplayComponent extends BaseFilteredHeaderScrollPaginationComponent<
+  Partial<Project>,
+  ProjectFilterInput
+> {
+  get projects() {
+    return this.values;
+  }
+  @Input() set projects(values) {
+    this.values = values;
+  }
 
-  get projects() { return this.values; }
-  @Input() set projects(values) { this.values = values; }
+  get projectsQuery() {
+    return this.filteredValuesQuery;
+  }
+  @Input() set projectsQuery(value) {
+    this.filteredValuesQuery = value;
+  }
 
-  get projectsQuery() { return this.filteredValuesQuery; }
-  @Input() set projectsQuery(value) { this.filteredValuesQuery = value; }
-  
   valuesPerPage: number = 6;
 
   override getFilter(): ProjectFilterInput {
-    if (!this.filterHeader)
-      return {};
+    if (!this.filterHeader) return {};
     return {
       ...(this.filterHeader.searchText && {
-        name: { 
-          startsWith: this.filterHeader.searchText, 
-          mode: 'INSENSITIVE' 
-        }
-      })
-    }
+        name: {
+          startsWith: this.filterHeader.searchText,
+          mode: 'INSENSITIVE',
+        },
+      }),
+    };
   }
 
   _filteredValuesQuery = async (filter: ProjectFilterInput, skip: number, limit: number) => {
-    const results = await firstValueFrom(this.backend.withAuth().query<{
-      projects: {
-        // Result type
-        id: string,
-        access: Access,
-        cardImageLink: string,
-        completedAt: Date,
-        createdAt: Date,
-        updatedAt: Date,
-        name: string,
-        pitch: string,
-        downloadLinks: string[],
-        members: {
-          user: {
-            avatarLink: string
-          }
-        }[]
-      }[]
-    }>({
-      query: gql`
-        query DefaultProjectsDisplay($filter: ProjectFilterInput, $skip: Int, $limit: Int, $sorts: [ProjectSortInput!]) {
-          projects(filter: $filter, skip: $skip, limit: $limit, sorts: $sorts) {
-            id
-            access
-            cardImageLink
-            completedAt
-            createdAt
-            updatedAt
-            name
-            pitch
-            downloadLinks
-            members {
-              user {
-                avatarLink
+    const results = await firstValueFrom(
+      this.backend.withAuth().query<{
+        projects: {
+          // Result type
+          id: string;
+          access: Access;
+          cardImageLink: string;
+          completedAt: Date;
+          createdAt: Date;
+          updatedAt: Date;
+          name: string;
+          pitch: string;
+          downloadLinks: string[];
+          members: {
+            user: {
+              avatarLink: string;
+            };
+          }[];
+        }[];
+      }>({
+        query: gql`
+          query DefaultProjectsDisplay(
+            $filter: ProjectFilterInput
+            $skip: Int
+            $limit: Int
+            $sorts: [ProjectSortInput!]
+          ) {
+            projects(filter: $filter, skip: $skip, limit: $limit, sorts: $sorts) {
+              id
+              access
+              cardImageLink
+              completedAt
+              createdAt
+              updatedAt
+              name
+              pitch
+              downloadLinks
+              members {
+                user {
+                  avatarLink
+                }
               }
             }
           }
-        }
-      `,
-      variables: {
-        // Pagination
-        // TODO EVENTUALLY: Use cursor pagination once Typetta suppoorts that
-        skip,
-        limit,
-        filter,
-        sorts: [
-          <ProjectSortInput>{
-            name: 'asc'
-          }
-        ]
-      }
-    }));
-    if (results.error)
-      return [];
+        `,
+        variables: {
+          // Pagination
+          // TODO EVENTUALLY: Use cursor pagination once Typetta suppoorts that
+          skip,
+          limit,
+          filter,
+          sorts: [
+            <ProjectSortInput>{
+              name: 'asc',
+            },
+          ],
+        },
+      }),
+    );
+    if (results.error) return [];
     return <Partial<Project>[]>results.data.projects;
-  }
+  };
 }

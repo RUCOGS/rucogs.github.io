@@ -5,10 +5,7 @@ import { BaseCustomInputComponent } from './base-custom-input/base-custom-input.
 export { BaseCustomInputComponent };
 
 @NgModule({
-  declarations: [
-  ],
-  imports: [
-    CommonModule
-  ]
+  declarations: [],
+  imports: [CommonModule],
 })
-export class BaseCustomInputModule { }
+export class BaseCustomInputModule {}

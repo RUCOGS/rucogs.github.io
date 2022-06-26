@@ -8,22 +8,10 @@ import { CoreModule } from '@src/app/modules/_core/core.module';
 import { ArticleItemComponent } from './article-item/article-item.component';
 import { BlogPageComponent } from './blog/blog-page.component';
 
-const ROUTES: Route[] = [
-  { path: '', component: BlogPageComponent },
-];
+const ROUTES: Route[] = [{ path: '', component: BlogPageComponent }];
 
 @NgModule({
-  declarations: [
-    ArticleItemComponent,
-    BlogPageComponent,
-  ],
-  imports: [
-    RouterModule.forChild(ROUTES),
-    CommonModule,
-    CoreModule,
-    PaginatorModule,
-    FilteringModule,
-    TagsModule
-  ]
+  declarations: [ArticleItemComponent, BlogPageComponent],
+  imports: [RouterModule.forChild(ROUTES), CommonModule, CoreModule, PaginatorModule, FilteringModule, TagsModule],
 })
-export class BlogPageModule { }
+export class BlogPageModule {}

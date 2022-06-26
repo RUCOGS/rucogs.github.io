@@ -7,46 +7,40 @@ import { PageLink } from '@src/app/classes/pagelink';
   templateUrl: './hamburger-menu.component.html',
   styleUrls: ['./hamburger-menu.component.css'],
   animations: [
-    trigger("openClose", [
+    trigger('openClose', [
       // ...
       state(
-        "open",
+        'open',
         style({
           opacity: 1,
         }),
       ),
       state(
-        "closed",
+        'closed',
         style({
           opacity: 0,
-          pointerEvents: 'none'
-        })
+          pointerEvents: 'none',
+        }),
       ),
-      transition("open => closed", [
-        animate("100ms ease-in")
-      ]),
-      transition("closed => open", [
+      transition('open => closed', [animate('100ms ease-in')]),
+      transition('closed => open', [
         group([
-          animate("200ms ease-out"),
+          animate('200ms ease-out'),
           query('.dropdown-content>*', [
-            style({opacity: 0, transform: 'translateX(-100px)'}),
-            stagger(10, [
-              animate('500ms cubic-bezier(0.35, 0, 0.25, 1)',
-              style({ opacity: 1, transform: 'none' }))
-            ])
-          ])
-        ])
-      ])
-    ])
-  ]
+            style({ opacity: 0, transform: 'translateX(-100px)' }),
+            stagger(10, [animate('500ms cubic-bezier(0.35, 0, 0.25, 1)', style({ opacity: 1, transform: 'none' }))]),
+          ]),
+        ]),
+      ]),
+    ]),
+  ],
 })
 export class HamburgerMenuComponent {
-
   @Input() pageLinks: PageLink[] = [];
 
   expanded: boolean = false;
-  
+
   get openCloseTrigger() {
-    return this.expanded ? "open" : "closed";
+    return this.expanded ? 'open' : 'closed';
   }
 }

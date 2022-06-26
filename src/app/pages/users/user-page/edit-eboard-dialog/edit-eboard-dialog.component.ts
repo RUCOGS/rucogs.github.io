@@ -12,16 +12,15 @@ import { firstValueFrom } from 'rxjs';
 import { PartialDeep } from 'type-fest';
 
 export interface EditEBoardDialogData {
-  eBoard: PartialDeep<EBoard>
+  eBoard: PartialDeep<EBoard>;
 }
 
 @Component({
   selector: 'app-edit-eboard-dialog',
   templateUrl: './edit-eboard-dialog.component.html',
-  styleUrls: ['./edit-eboard-dialog.component.css']
+  styleUrls: ['./edit-eboard-dialog.component.css'],
 })
 export class EditEboardDialogComponent implements AfterViewInit {
-
   @ViewChild('avatarUpload') avatarUpload?: ImageUploadComponent;
 
   form: FormGroup;
@@ -33,8 +32,8 @@ export class EditEboardDialogComponent implements AfterViewInit {
     private backend: BackendService,
     private uiMessage: UIMessageService,
     private dialogRef: MatDialogRef<EditEboardDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: EditEBoardDialogData
-  ) { 
+    @Inject(MAT_DIALOG_DATA) public data: EditEBoardDialogData,
+  ) {
     this.form = formBuilder.group({
       bio: [data.eBoard.bio, []],
     });
@@ -43,66 +42,65 @@ export class EditEboardDialogComponent implements AfterViewInit {
 
   ngAfterViewInit(): void {
     setTimeout(() => {
-      if (!this.avatarUpload)
-        return;
+      if (!this.avatarUpload) return;
       this.avatarUpload.init(this.cdn.getFileLink(this.data.eBoard.avatarLink));
     }, 0);
   }
-  
+
   exit(success: boolean = false) {
-    if (!this.monitor.isProcessing)
-      this.dialogRef.close(success);
+    if (!this.monitor.isProcessing) this.dialogRef.close(success);
   }
 
   validate() {
     try {
       this.form.updateValueAndValidity();
-      if (!this.form.valid)
-        throw new Error("Missing info!");
+      if (!this.form.valid) throw new Error('Missing info!');
       return true;
-    } catch(err) {
-      if (err instanceof Error)
-        this.uiMessage.error(err.message);
+    } catch (err) {
+      if (err instanceof Error) this.uiMessage.error(err.message);
       return false;
     }
   }
 
   async save() {
-    if (!this.validate() || !this.avatarUpload)
-      return;
+    if (!this.validate() || !this.avatarUpload) return;
     this.monitor.addProcess();
 
     const input = <UpdateEBoardInput>{
-      id: this.data.eBoard.id
-    }
+      id: this.data.eBoard.id,
+    };
 
     if (this.form.get('bio') !== this.data.eBoard.bio) {
       input.bio = this.form.get('bio')?.value;
     }
 
     if (this.avatarUpload.edited) {
-      input.avatar = this.avatarUpload.value ? {
-        upload: this.avatarUpload.value,
-        operation: UploadOperation.Insert,
-      } : {
-        operation: UploadOperation.Delete,
-      };
+      input.avatar = this.avatarUpload.value
+        ? {
+            upload: this.avatarUpload.value,
+            operation: UploadOperation.Insert,
+          }
+        : {
+            operation: UploadOperation.Delete,
+          };
     }
 
     if (Object.keys(input).length > 1) {
-      const result = await firstValueFrom(this.backend.withAuth().mutate({
-        mutation: gql`
-          mutation UpdateEBoard($input: UpdateEBoardInput!) {
-            updateEBoard(input: $input)
-          }
-        `,
-        variables: {
-          input
-        }
-      }));
+      const result = await firstValueFrom(
+        this.backend.withAuth().mutate({
+          mutation: gql`
+            mutation UpdateEBoard($input: UpdateEBoardInput!) {
+              updateEBoard(input: $input)
+            }
+          `,
+          variables: {
+            input,
+          },
+        }),
+      );
       this.monitor.removeProcess();
       if (result.errors) {
-        this.uiMessage.error("Error uploading data!");
+        this.uiMessage.error('Error uploading data!');
         return;
       }
       this.exit(true);

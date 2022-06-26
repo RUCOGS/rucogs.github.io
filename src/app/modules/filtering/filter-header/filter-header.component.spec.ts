@@ -8,9 +8,8 @@ describe('FilterHeaderComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ FilterHeaderComponent ]
-    })
-    .compileComponents();
+      declarations: [FilterHeaderComponent],
+    }).compileComponents();
   });
 
   beforeEach(() => {

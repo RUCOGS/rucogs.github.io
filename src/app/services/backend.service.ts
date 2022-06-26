@@ -1,6 +1,14 @@
 import { HttpClient, HttpContext, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable, OnDestroy } from '@angular/core';
-import { ApolloQueryResult, FetchResult, InMemoryCache, QueryOptions, split, SubscriptionOptions, WatchQueryOptions } from '@apollo/client/core';
+import {
+  ApolloQueryResult,
+  FetchResult,
+  InMemoryCache,
+  QueryOptions,
+  split,
+  SubscriptionOptions,
+  WatchQueryOptions,
+} from '@apollo/client/core';
 import { EntityManagerMetadata, OperationSecurityDomain } from '@src/shared/security';
 import { SettingsService } from '@src/_settings';
 import { Apollo, QueryRef } from 'apollo-angular';
@@ -8,30 +16,33 @@ import { EmptyObject, ExtraSubscriptionOptions, MutationOptions, MutationResult 
 import { createUploadLink } from 'apollo-upload-client';
 import { Observable, Subject } from 'rxjs';
 import { AuthService } from './auth.service';
-import { GraphQLWsLink } from "@apollo/client/link/subscriptions";
-import { createClient, Client as GraphQLWsClient } from "graphql-ws";
+import { GraphQLWsLink } from '@apollo/client/link/subscriptions';
+import { createClient, Client as GraphQLWsClient } from 'graphql-ws';
 import { getMainDefinition } from '@apollo/client/utilities';
 import { takeUntil } from 'rxjs/operators';
 
 type HttpClientOptions = {
-  headers?: HttpHeaders | {
-    [header: string]: string | string[];
-  };
+  headers?:
+    | HttpHeaders
+    | {
+        [header: string]: string | string[];
+      };
   context?: HttpContext;
   observe?: 'body';
-  params?: HttpParams | {
-      [param: string]: string | number | boolean | ReadonlyArray<string | number | boolean>;
-  };
+  params?:
+    | HttpParams
+    | {
+        [param: string]: string | number | boolean | ReadonlyArray<string | number | boolean>;
+      };
   reportProgress?: boolean;
   responseType?: 'json';
   withCredentials?: boolean;
-}
+};
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class BackendService implements OnDestroy {
-
   private opSettings: {
     useAuth: boolean;
     operationDomain: OperationSecurityDomain | undefined;
@@ -41,19 +52,17 @@ export class BackendService implements OnDestroy {
   private graphQLWsClient!: GraphQLWsClient;
 
   constructor(
-    private apollo: Apollo, 
+    private apollo: Apollo,
     private authService: AuthService,
     private http: HttpClient,
     private settings: SettingsService,
   ) {
     this.rebuildClient();
-    this.authService.payload$
-      .pipe(takeUntil(this.onDestroy$))
-      .subscribe({
-        next: (value) => {
-          this.rebuildClient();
-        }
-      })
+    this.authService.payload$.pipe(takeUntil(this.onDestroy$)).subscribe({
+      next: (value) => {
+        this.rebuildClient();
+      },
+    });
   }
 
   ngOnDestroy(): void {
@@ -69,7 +78,7 @@ export class BackendService implements OnDestroy {
     if (this.apollo.default().client) {
       this.apollo.default().client.stop();
       this.apollo.default().client.clearStore();
-      this.apollo.removeClient("default");
+      this.apollo.removeClient('default');
     }
     this.apollo.createDefault(this.configureApolloClientOptions(this.authService.getToken()));
   }
@@ -77,18 +86,18 @@ export class BackendService implements OnDestroy {
   private defaultOpSettings() {
     return {
       useAuth: false,
-      operationDomain: undefined
+      operationDomain: undefined,
     };
   }
 
   private getHeaders() {
     return {
-      "Authorization": "Bearer " + this.authService.getToken(),
+      Authorization: 'Bearer ' + this.authService.getToken(),
       ...(this.opSettings.operationDomain && {
-        "Operation-Metadata": JSON.stringify(<EntityManagerMetadata>{
-          securityDomain: this.opSettings.operationDomain
-        })
-      })
+        'Operation-Metadata': JSON.stringify(<EntityManagerMetadata>{
+          securityDomain: this.opSettings.operationDomain,
+        }),
+      }),
     };
   }
 
@@ -100,45 +109,40 @@ export class BackendService implements OnDestroy {
           ...options.context,
           headers: {
             ...this.getHeaders(),
-            ...options.context?.headers
-          }
-        }
-      })
+            ...options.context?.headers,
+          },
+        },
+      }),
     };
   }
 
-  private configureApolloClientOptions(authToken: string = "") {
+  private configureApolloClientOptions(authToken: string = '') {
     const baseGraphQLUri = this.settings.Backend.backendDomainPlusBaseUrl + this.settings.Backend.graphQLRelativePath;
     const httpsPrefix = this.settings.Backend.httpsPrefix;
     const wssPrefix = this.settings.Backend.wssPrefix;
 
-    const uploadLink = createUploadLink({ 
+    const uploadLink = createUploadLink({
       uri: `${httpsPrefix}${baseGraphQLUri}`,
-      headers: { 'Apollo-Require-Preflight': 'true' }
+      headers: { 'Apollo-Require-Preflight': 'true' },
     });
 
-    if (this.graphQLWsClient)
-      this.graphQLWsClient.dispose();
+    if (this.graphQLWsClient) this.graphQLWsClient.dispose();
     this.graphQLWsClient = createClient({
       url: `${wssPrefix}${baseGraphQLUri}`,
       connectionParams: {
-        authentication: `Bearer ${authToken}`
-      }
+        authentication: `Bearer ${authToken}`,
+      },
     });
-    
-    const webSocketLink = new GraphQLWsLink(
-      this.graphQLWsClient
-    );
+
+    const webSocketLink = new GraphQLWsLink(this.graphQLWsClient);
 
     // using the ability to split links, you can send data to each link
     // depending on what kind of operation is being sent
     const splitLink = split(
       // split based on operation type
-      ({query}) => {
+      ({ query }) => {
         const definition = getMainDefinition(query);
-        return (
-          definition.kind === 'OperationDefinition' && definition.operation === 'subscription'
-        );
+        return definition.kind === 'OperationDefinition' && definition.operation === 'subscription';
       },
       webSocketLink,
       uploadLink,
@@ -151,23 +155,21 @@ export class BackendService implements OnDestroy {
   }
 
   private configureHttpOptions(options: HttpClientOptions | undefined) {
-    if (!options)
-      options = {};
+    if (!options) options = {};
     const result = <HttpClientOptions>{
       ...options,
-      ...(this.opSettings.useAuth && { 
+      ...(this.opSettings.useAuth && {
         headers: {
           ...this.getHeaders(),
-          ...options.headers
-        }
-      })
+          ...options.headers,
+        },
+      }),
     };
     return result;
   }
 
   private configureUrl(url: string) {
-    if (url.startsWith('/'))
-      return this.settings.Backend.backendHttpsURL + url;
+    if (url.startsWith('/')) return this.settings.Backend.backendHttpsURL + url;
     return url;
   }
 
@@ -178,14 +180,15 @@ export class BackendService implements OnDestroy {
   }
 
   withAuth() {
-    if (this.authService.authenticated)
-      this.opSettings.useAuth = true;
+    if (this.authService.authenticated) this.opSettings.useAuth = true;
     return this;
   }
   // #endregion // -- SETTINGS ----- //
 
   // #region // ----- GRAPHQL ----- //
-  watchQuery<TData, TVariables = EmptyObject>(options: WatchQueryOptions<TVariables, TData>): QueryRef<TData, TVariables> {
+  watchQuery<TData, TVariables = EmptyObject>(
+    options: WatchQueryOptions<TVariables, TData>,
+  ): QueryRef<TData, TVariables> {
     const result = this.apollo.default().watchQuery<TData, TVariables>(this.configureApolloOperationOptions(options));
     this.resetOpSettings();
     return result;
@@ -196,14 +199,17 @@ export class BackendService implements OnDestroy {
     this.resetOpSettings();
     return result;
   }
-  
+
   mutate<T, V = EmptyObject>(options: MutationOptions<T, V>): Observable<MutationResult<T>> {
     const result = this.apollo.default().mutate<T, V>(this.configureApolloOperationOptions(options));
     this.resetOpSettings();
     return result;
   }
 
-  subscribe<T, V = EmptyObject>(options: SubscriptionOptions<V, T>, extra?: ExtraSubscriptionOptions): Observable<FetchResult<T>> {
+  subscribe<T, V = EmptyObject>(
+    options: SubscriptionOptions<V, T>,
+    extra?: ExtraSubscriptionOptions,
+  ): Observable<FetchResult<T>> {
     const result = this.apollo.default().subscribe<T, V>(this.configureApolloOperationOptions(options));
     this.resetOpSettings();
     return result;
@@ -215,7 +221,7 @@ export class BackendService implements OnDestroy {
     const result = this.http.get<T>(this.configureUrl(url), this.configureHttpOptions(options));
     return result;
   }
-  
+
   head<T>(url: string, body: any | null, options?: HttpClientOptions): Observable<T> {
     const result = this.http.head<T>(this.configureUrl(url), this.configureHttpOptions(options));
     return result;
@@ -230,7 +236,7 @@ export class BackendService implements OnDestroy {
     const result = this.http.put<T>(this.configureUrl(url), body, this.configureHttpOptions(options));
     return result;
   }
-  
+
   delete<T>(url: string, options?: HttpClientOptions): Observable<T> {
     const result = this.http.delete<T>(this.configureUrl(url), this.configureHttpOptions(options));
     return result;

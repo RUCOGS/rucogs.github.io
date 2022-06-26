@@ -6,32 +6,31 @@ export const SafePipeType = {
   Style: 'style',
   Script: 'script',
   Url: 'url',
-  ResourceUrl: 'resourceUrl'
+  ResourceUrl: 'resourceUrl',
 } as const;
 export type SafePipeType = typeof SafePipeType[keyof typeof SafePipeType];
 
 /**
-  * Sanitize HTML
-  */
+ * Sanitize HTML
+ */
 @Pipe({
-  name: 'safe'
+  name: 'safe',
 })
 export class SafePipe implements PipeTransform {
   /**
-    * Pipe Constructor
-    *
-    * @param _sanitizer: DomSanitezer
-    */
+   * Pipe Constructor
+   *
+   * @param _sanitizer: DomSanitezer
+   */
   // tslint:disable-next-line
-  constructor(protected _sanitizer: DomSanitizer) {
-  }
+  constructor(protected _sanitizer: DomSanitizer) {}
 
   /**
-    * Transform
-    *
-    * @param value: string
-    * @param type: string
-    */
+   * Transform
+   *
+   * @param value: string
+   * @param type: string
+   */
   transform(value: string, type: SafePipeType): SafeHtml | SafeStyle | SafeScript | SafeUrl | SafeResourceUrl {
     switch (type) {
       case SafePipeType.Html:

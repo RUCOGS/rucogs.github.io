@@ -6,17 +6,16 @@ import { PartialDeep } from 'type-fest';
 @Component({
   selector: 'app-social-button',
   templateUrl: './social-button.component.html',
-  styleUrls: ['./social-button.component.css']
+  styleUrls: ['./social-button.component.css'],
 })
 export class SocialButtonComponent implements OnInit {
-
   @Input() userSocial: PartialDeep<UserSocial> | undefined;
 
-  @Input() icon: string = "";
-  @Input() username: string = "";
-  @Input() link: string = "";
+  @Input() icon: string = '';
+  @Input() username: string = '';
+  @Input() link: string = '';
 
-  constructor() { }
+  constructor() {}
 
   ngOnInit(): void {
     if (this.userSocial && this.userSocial.link && this.userSocial.username && this.userSocial.platform) {

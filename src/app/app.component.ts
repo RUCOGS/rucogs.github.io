@@ -8,20 +8,19 @@ import { AuthService } from './services/auth.service';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  styleUrls: ['./app.component.css'],
 })
 export class AppComponent implements OnDestroy {
-  
   title = 'cogs';
   showSidebars = false;
-  
+
   onDestroy$ = new Subject<void>();
 
   constructor(
     private elementRef: ElementRef,
     iconService: IconService,
     // authService: AuthService,
-    settings: SettingsService
+    settings: SettingsService,
   ) {
     iconService.registerAll(settings.General.icons);
     this.updateStyleVars();
@@ -38,7 +37,7 @@ export class AppComponent implements OnDestroy {
     this.onDestroy$.next();
     this.onDestroy$.complete();
   }
-  
+
   updateStyleVars() {
     if (this.showSidebars) {
       this.elementRef.nativeElement.style.setProperty('--main-width', `min(80%, 1080px)`);
@@ -52,10 +51,10 @@ export class AppComponent implements OnDestroy {
   getOutletContainerStyle() {
     if (this.showSidebars)
       return {
-        'flex-basis': 'var(--main-width)'
+        'flex-basis': 'var(--main-width)',
       };
     return {
-      'width': '100%'
+      width: '100%',
     };
   }
 }

@@ -9,20 +9,9 @@ import { CoreModule } from '@app/modules/_core/core.module';
 
 export { UIMessageService };
 
-
 @NgModule({
-  declarations: [
-    ConfirmDialogComponent
-  ],
-  imports: [
-    CommonModule,
-    MatSnackBarModule,
-    MatDialogModule,
-    MatButtonModule,
-    CoreModule,
-  ],
-  providers: [
-    UIMessageService
-  ]
+  declarations: [ConfirmDialogComponent],
+  imports: [CommonModule, MatSnackBarModule, MatDialogModule, MatButtonModule, CoreModule],
+  providers: [UIMessageService],
 })
-export class UIMessageModule { }
+export class UIMessageModule {}

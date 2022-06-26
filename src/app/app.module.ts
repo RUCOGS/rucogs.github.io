@@ -13,9 +13,7 @@ import { PagesModule } from './pages/pages.module';
 import { ServicesModule } from './services/_services.module';
 
 @NgModule({
-  declarations: [
-    AppComponent,
-  ],
+  declarations: [AppComponent],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
@@ -25,10 +23,10 @@ import { ServicesModule } from './services/_services.module';
     SiteMenusModule,
     ServicesModule,
     MarkdownModule.forRoot({
-      sanitize: SecurityContext.NONE
-    })
+      sanitize: SecurityContext.NONE,
+    }),
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

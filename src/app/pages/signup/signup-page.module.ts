@@ -9,14 +9,10 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { Route, RouterModule } from '@angular/router';
 
-const ROUTES: Route[] = [
-  { path: '', component: SignupPageComponent }
-];
+const ROUTES: Route[] = [{ path: '', component: SignupPageComponent }];
 
 @NgModule({
-  declarations: [
-    SignupPageComponent
-  ],
+  declarations: [SignupPageComponent],
   imports: [
     RouterModule.forChild(ROUTES),
     CommonModule,
@@ -26,6 +22,6 @@ const ROUTES: Route[] = [
     MatIconModule,
     ReactiveFormsModule,
     MatInputModule,
-  ]
+  ],
 })
-export class SignupPageModule { }
+export class SignupPageModule {}

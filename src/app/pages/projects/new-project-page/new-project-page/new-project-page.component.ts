@@ -11,10 +11,9 @@ import { finalize, first } from 'rxjs/operators';
 @Component({
   selector: 'app-new-project-page',
   templateUrl: './new-project-page.component.html',
-  styleUrls: ['./new-project-page.component.css']
+  styleUrls: ['./new-project-page.component.css'],
 })
 export class NewProjectPageComponent {
-
   form: UntypedFormGroup;
 
   monitor = new ProcessMonitor();
@@ -24,20 +23,19 @@ export class NewProjectPageComponent {
     private backend: BackendService,
     private router: Router,
     private security: SecurityService,
-  ) { 
+  ) {
     this.form = formBuilder.group({
       name: [null, [Validators.required]],
       access: [null, [Validators.required]],
       pitch: [null, [Validators.required]],
-    })
+    });
 
     this.form.get('access')?.setValue(Access.Open);
   }
 
   onSubmit() {
-    if (this.monitor.isProcessing || !this.form.valid)
-      return;
-    
+    if (this.monitor.isProcessing || !this.form.valid) return;
+
     this.monitor.addProcess();
 
     const input = <NewProjectInput>{
@@ -45,31 +43,31 @@ export class NewProjectPageComponent {
       access: this.form.get('access')?.value,
       pitch: this.form.get('pitch')?.value,
     };
-    
+
     this.backend
       .withAuth()
       .mutate<{
-        newProject: string
+        newProject: string;
       }>({
         mutation: gql`
-          mutation($input: NewProjectInput!) {
+          mutation ($input: NewProjectInput!) {
             newProject(input: $input)
           }
         `,
         variables: {
-          input
-        }
+          input,
+        },
       })
       .pipe(
-        first(), 
+        first(),
         finalize(() => {
           this.monitor.removeProcess();
-        })
-      ).subscribe({
-        next: async(value) => {
-          if (!value.data?.newProject)
-            return;
-          
+        }),
+      )
+      .subscribe({
+        next: async (value) => {
+          if (!value.data?.newProject) return;
+
           this.router.navigateByUrl(`/projects/${value.data.newProject}`);
         },
       });

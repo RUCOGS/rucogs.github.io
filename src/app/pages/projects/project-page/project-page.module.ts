@@ -42,9 +42,7 @@ import { ProjectPageComponent } from './project-page/project-page.component';
 import { SettingsTabComponent } from './settings-tab/settings-tab.component';
 import { Route, RouterModule } from '@angular/router';
 
-const ROUTES: Route[] = [
-  { path: '', component: ProjectPageComponent }
-];
+const ROUTES: Route[] = [{ path: '', component: ProjectPageComponent }];
 
 @NgModule({
   declarations: [
@@ -55,7 +53,7 @@ const ROUTES: Route[] = [
     EditMemberDialogComponent,
     InvitesTabComponent,
     InviteUserDialogComponent,
-    SettingsTabComponent
+    SettingsTabComponent,
   ],
   imports: [
     RouterModule.forChild(ROUTES),
@@ -92,6 +90,6 @@ const ROUTES: Route[] = [
     StringArrayInputModule,
     CarouselModule,
     MatCheckboxModule,
-  ]
+  ],
 })
-export class ProjectPageModule { }
+export class ProjectPageModule {}

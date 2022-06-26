@@ -9,26 +9,26 @@ import { first, takeUntil } from 'rxjs/operators';
 @Component({
   selector: 'app-signup-page',
   templateUrl: './signup-page.component.html',
-  styleUrls: ['./signup-page.component.css']
+  styleUrls: ['./signup-page.component.css'],
 })
 export class SignupPageComponent implements OnDestroy {
-
   form: UntypedFormGroup;
   hide: boolean = true;
-  errorMessage: string = "";
+  errorMessage: string = '';
   isSignupFailed: boolean = false;
 
   protected onDestroy$ = new Subject<void>();
 
   constructor(
-    formBuilder: UntypedFormBuilder, 
-    private tokenStorage: TokenStorageService, 
-    private authService: AuthService, 
-    private router: Router) {
+    formBuilder: UntypedFormBuilder,
+    private tokenStorage: TokenStorageService,
+    private authService: AuthService,
+    private router: Router,
+  ) {
     this.form = formBuilder.group({
       username: [null, [Validators.required]],
       email: [null, [Validators.required, Validators.email]],
-      password: [null, [Validators.required]]
+      password: [null, [Validators.required]],
     });
   }
 
@@ -43,14 +43,14 @@ export class SignupPageComponent implements OnDestroy {
 
   private performSignup(observable: Observable<any>) {
     observable.pipe(first(), takeUntil(this.onDestroy$)).subscribe({
-      next: data => { 
+      next: (data) => {
         this.isSignupFailed = false;
         this.router.navigateByUrl('/user/' + data.user.username);
       },
-      error: err => {
+      error: (err) => {
         this.errorMessage = err.error.message;
         this.isSignupFailed = true;
-      }
+      },
     });
   }
 
@@ -58,5 +58,4 @@ export class SignupPageComponent implements OnDestroy {
     const data = this.form.value;
     this.performSignup(this.authService.signup(data.username, data.email, data.password));
   }
-  
 }

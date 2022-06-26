@@ -6,20 +6,10 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { CardsModule } from '@src/app/modules/cards/cards.module';
 import { Route, RouterModule } from '@angular/router';
 
-const ROUTES: Route[] = [
-  { path: "**", component: HomePageComponent }
-];
+const ROUTES: Route[] = [{ path: '**', component: HomePageComponent }];
 
 @NgModule({
-  declarations: [
-    HomePageComponent
-  ],
-  imports: [
-    RouterModule.forChild(ROUTES),
-    CommonModule,
-    CoreModule,
-    MatExpansionModule,
-    CardsModule,
-  ]
+  declarations: [HomePageComponent],
+  imports: [RouterModule.forChild(ROUTES), CommonModule, CoreModule, MatExpansionModule, CardsModule],
 })
-export class HomePageModule { }
+export class HomePageModule {}

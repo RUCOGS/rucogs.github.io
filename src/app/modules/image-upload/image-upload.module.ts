@@ -17,12 +17,8 @@ import { ImageUploadComponent } from './image-upload/image-upload.component';
 
 export { ImageUploadComponent };
 
-
 @NgModule({
-  declarations: [
-    ImageUploadComponent,
-    GalleryUploadComponent
-  ],
+  declarations: [ImageUploadComponent, GalleryUploadComponent],
   imports: [
     CommonModule,
     UtilsModule,
@@ -38,9 +34,6 @@ export { ImageUploadComponent };
     MatFormFieldModule,
     FormsModule,
   ],
-  exports: [
-    ImageUploadComponent,
-    GalleryUploadComponent
-  ]
+  exports: [ImageUploadComponent, GalleryUploadComponent],
 })
-export class ImageUploadModule { }
+export class ImageUploadModule {}

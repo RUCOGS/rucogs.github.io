@@ -11,18 +11,17 @@ import { PartialDeep } from 'type-fest';
 import { UserOptions } from '../user-page/user-page.component';
 
 export interface EditEBoardTermDialogData {
-  term: PartialDeep<EBoardTerm>
-  takenYears: number[]
-  userOptions: UserOptions
+  term: PartialDeep<EBoardTerm>;
+  takenYears: number[];
+  userOptions: UserOptions;
 }
 
 @Component({
   selector: 'app-edit-eboard-term-dialog',
   templateUrl: './edit-eboard-term-dialog.component.html',
-  styleUrls: ['./edit-eboard-term-dialog.component.css']
+  styleUrls: ['./edit-eboard-term-dialog.component.css'],
 })
 export class EditEboardTermDialogComponent implements OnInit {
-  
   form: FormGroup;
   monitor = new ProcessMonitor();
 
@@ -37,8 +36,8 @@ export class EditEboardTermDialogComponent implements OnInit {
     private uiMessage: UIMessageService,
     private rolesService: RolesService,
     private dialogRef: MatDialogRef<EditEboardTermDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: EditEBoardTermDialogData
-  ) { 
+    @Inject(MAT_DIALOG_DATA) public data: EditEBoardTermDialogData,
+  ) {
     this.form = formBuilder.group({
       year: [data.term.year, [Validators.required]],
     });
@@ -47,7 +46,7 @@ export class EditEboardTermDialogComponent implements OnInit {
 
   async ngOnInit() {
     this.rolesEdited = false;
-    this.roles = this.data.term.roles?.map(x => x?.roleCode as RoleCode) ?? [];
+    this.roles = this.data.term.roles?.map((x) => x?.roleCode as RoleCode) ?? [];
     this.acceptedRoles = await this.rolesService.getAddableEBoardTermRoles();
     this.disabledRoles = await this.rolesService.getDisabledEBoardTermRoles();
   }
@@ -57,29 +56,26 @@ export class EditEboardTermDialogComponent implements OnInit {
   }
 
   exit(success: boolean = false) {
-    if (!this.monitor.isProcessing)
-      this.dialogRef.close(success);
+    if (!this.monitor.isProcessing) this.dialogRef.close(success);
   }
 
   validate() {
     try {
       this.form.updateValueAndValidity();
-      if (!this.form.valid)
-        throw new Error("Missing info!");
+      if (!this.form.valid) throw new Error('Missing info!');
       return true;
-    } catch(err: any) {
+    } catch (err: any) {
       this.uiMessage.error(err);
       return false;
     }
   }
 
   async save() {
-    if (!this.validate())
-      return;
-    
+    if (!this.validate()) return;
+
     const input = <UpdateEBoardTermInput>{
-      id: this.data.term.id
-    }
+      id: this.data.term.id,
+    };
 
     if (this.form.get('year')?.value !== this.data.term.year) {
       input.year = this.form.get('year')?.value;
@@ -89,18 +85,20 @@ export class EditEboardTermDialogComponent implements OnInit {
       input.roles = this.roles;
     }
 
-    const result = await firstValueFrom(this.backend.withAuth().mutate({
-      mutation: gql`
-        mutation UpdateEBoardTerm($input: UpdateEBoardTermInput!) {
-          updateEBoardTerm(input: $input)
-        }
-      `,
-      variables: {
-        input
-      }
-    }));
+    const result = await firstValueFrom(
+      this.backend.withAuth().mutate({
+        mutation: gql`
+          mutation UpdateEBoardTerm($input: UpdateEBoardTermInput!) {
+            updateEBoardTerm(input: $input)
+          }
+        `,
+        variables: {
+          input,
+        },
+      }),
+    );
     if (result.errors) {
-      this.uiMessage.error("Error uploading data!");
+      this.uiMessage.error('Error uploading data!');
       return;
     }
     this.exit(true);
@@ -108,10 +106,9 @@ export class EditEboardTermDialogComponent implements OnInit {
 
   getAvailableYears() {
     const currYear = new Date().getFullYear();
-    const availableYears: number[] = [ this.data.term.year! ];
+    const availableYears: number[] = [this.data.term.year!];
     for (let year = currYear + 3; year >= 2012; year--) {
-      if (!this.data.takenYears.includes(year))
-        availableYears.push(year);
+      if (!this.data.takenYears.includes(year)) availableYears.push(year);
     }
     return availableYears;
   }

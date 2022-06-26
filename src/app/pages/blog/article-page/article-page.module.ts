@@ -10,14 +10,10 @@ import { ArticlePageComponent } from './article/article-page.component';
 
 export { ArticlePageComponent };
 
-const ROUTES: Route[] = [
-  { path: '', component: ArticlePageComponent },
-];
+const ROUTES: Route[] = [{ path: '', component: ArticlePageComponent }];
 
 @NgModule({
-  declarations: [
-    ArticlePageComponent
-  ],
+  declarations: [ArticlePageComponent],
   imports: [
     RouterModule.forChild(ROUTES),
     CommonModule,
@@ -25,7 +21,7 @@ const ROUTES: Route[] = [
     MarkdownModule,
     MarkdownNavModule,
     CoreModule,
-    SettingsModule
-  ]
+    SettingsModule,
+  ],
 })
-export class ArticlePageModule { }
+export class ArticlePageModule {}

@@ -25,8 +25,6 @@ import { EboardProfileComponent } from './eboard-profile/eboard-profile.componen
 import { RolesModule } from '../roles/roles.module';
 import { TagsModule } from '../tags/tags.module';
 
-
-
 @NgModule({
   declarations: [
     BasicProfileComponent,
@@ -55,7 +53,7 @@ import { TagsModule } from '../tags/tags.module';
     MatAutocompleteModule,
     ServicesModule,
     RolesModule,
-    TagsModule
+    TagsModule,
   ],
   exports: [
     BasicProfileComponent,
@@ -66,7 +64,7 @@ import { TagsModule } from '../tags/tags.module';
     UserInputComponent,
     InlineProfileComponent,
     InlineOptionsProfileComponent,
-    EboardProfileComponent
-  ]
+    EboardProfileComponent,
+  ],
 })
-export class UserModule { }
+export class UserModule {}

@@ -8,9 +8,8 @@ describe('SiteLeftSideBarComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ SiteLeftSideBarComponent ]
-    })
-    .compileComponents();
+      declarations: [SiteLeftSideBarComponent],
+    }).compileComponents();
   });
 
   beforeEach(() => {

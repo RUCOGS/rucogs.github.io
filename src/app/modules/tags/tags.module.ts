@@ -11,11 +11,7 @@ import { MatInputModule } from '@angular/material/input';
 import { BaseCustomInputModule } from '../base-custom-input/base-custom-input.module';
 
 @NgModule({
-  declarations: [
-    TagContainerComponent,
-    TagComponent,
-    TagsInputComponent,
-  ],
+  declarations: [TagContainerComponent, TagComponent, TagsInputComponent],
   imports: [
     CommonModule,
     MatChipsModule,
@@ -26,10 +22,6 @@ import { BaseCustomInputModule } from '../base-custom-input/base-custom-input.mo
     MatInputModule,
     BaseCustomInputModule,
   ],
-  exports: [
-    TagContainerComponent,
-    TagComponent,
-    TagsInputComponent
-  ]
+  exports: [TagContainerComponent, TagComponent, TagsInputComponent],
 })
-export class TagsModule { }
+export class TagsModule {}

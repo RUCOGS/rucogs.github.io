@@ -10,14 +10,10 @@ import { ProjectModule } from '@src/app/modules/project/project.module';
 import { CoreModule } from '@src/app/modules/_core/core.module';
 import { ProjectsPageComponent } from './projects-page/projects-page.component';
 
-const ROUTES: Route[] = [
-  { path: '', component: ProjectsPageComponent },
-];
+const ROUTES: Route[] = [{ path: '', component: ProjectsPageComponent }];
 
 @NgModule({
-  declarations: [
-    ProjectsPageComponent
-  ],
+  declarations: [ProjectsPageComponent],
   imports: [
     RouterModule.forChild(ROUTES),
     CommonModule,
@@ -28,7 +24,7 @@ const ROUTES: Route[] = [
     MatInputModule,
     ReactiveFormsModule,
     MatRadioModule,
-    MatIconModule
-  ]
+    MatIconModule,
+  ],
 })
-export class ProjectsPageModule { }
+export class ProjectsPageModule {}

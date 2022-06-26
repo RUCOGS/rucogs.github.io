@@ -8,15 +8,13 @@ export interface ConfirmDialogData {
 @Component({
   selector: 'app-confirm-dialog',
   templateUrl: './confirm-dialog.component.html',
-  styleUrls: ['./confirm-dialog.component.css']
+  styleUrls: ['./confirm-dialog.component.css'],
 })
 export class ConfirmDialogComponent implements OnInit {
-
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: ConfirmDialogData,
-    public dialogRef: MatDialogRef<ConfirmDialogComponent>
+    public dialogRef: MatDialogRef<ConfirmDialogComponent>,
   ) {}
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 }

@@ -11,15 +11,10 @@ import { Route, RouterModule } from '@angular/router';
 
 export { ScarletGameJamPageComponent };
 
-
-const ROUTES: Route[] = [
-  { path: '', component: ScarletGameJamPageComponent }
-];
+const ROUTES: Route[] = [{ path: '', component: ScarletGameJamPageComponent }];
 
 @NgModule({
-  declarations: [
-    ScarletGameJamPageComponent
-  ],
+  declarations: [ScarletGameJamPageComponent],
   imports: [
     RouterModule.forChild(ROUTES),
     CommonModule,
@@ -28,6 +23,6 @@ const ROUTES: Route[] = [
     CardsModule,
     MatButtonModule,
     IconModule,
-  ]
+  ],
 })
-export class ScarletGameJamPageModule { }
+export class ScarletGameJamPageModule {}

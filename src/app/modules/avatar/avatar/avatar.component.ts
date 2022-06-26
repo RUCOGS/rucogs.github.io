@@ -4,15 +4,14 @@ import { SettingsService } from '@src/_settings';
 @Component({
   selector: 'app-avatar',
   templateUrl: './avatar.component.html',
-  styleUrls: ['./avatar.component.css']
+  styleUrls: ['./avatar.component.css'],
 })
 export class AvatarComponent implements OnInit {
-
   @Output() click = new EventEmitter();
 
-  @Input() color: string = "blank"
-  @Input() size: string = "large";
-  @Input() avatarSrc: string = "";
+  @Input() color: string = 'blank';
+  @Input() size: string = 'large';
+  @Input() avatarSrc: string = '';
 
   borderWidth: number;
   clickable: boolean;
@@ -26,8 +25,8 @@ export class AvatarComponent implements OnInit {
     @Optional() @Attribute('clickable') clickable: any,
     @Optional() @Attribute('clickable-style') clickableStyle: any,
     @Optional() @Attribute('square') square: any,
-  ) { 
-    this.borderWidth = borderWidth ?? "4px";
+  ) {
+    this.borderWidth = borderWidth ?? '4px';
     this.elementRef.nativeElement.style.setProperty('--border-width', this.borderWidth);
     this.clickable = clickable != undefined;
     this.clickableStyle = clickableStyle != undefined;
@@ -40,29 +39,28 @@ export class AvatarComponent implements OnInit {
     return {
       [this.color]: true,
       [this.size]: true,
-      'square': this.square,
-      'clickable': this.clickable || this.clickableStyle,
-    }
+      square: this.square,
+      clickable: this.clickable || this.clickableStyle,
+    };
   }
 
   getAvatarClass() {
     return {
-      'square': this.square,
-      'clickable': this.clickable || this.clickableStyle,
-    }
+      square: this.square,
+      clickable: this.clickable || this.clickableStyle,
+    };
   }
 
   getAvatarSrc() {
-    if (this.avatarSrc)
-      return this.avatarSrc;
+    if (this.avatarSrc) return this.avatarSrc;
     return this.settings.General.defaultAvatarSrc;
   }
 
   getButtonStyle() {
     return {
-      'background': `url(${this.getAvatarSrc()})`,
-      'background-size': 'cover'
-    }
+      background: `url(${this.getAvatarSrc()})`,
+      'background-size': 'cover',
+    };
   }
 
   onClick() {

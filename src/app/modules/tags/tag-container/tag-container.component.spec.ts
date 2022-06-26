@@ -8,9 +8,8 @@ describe('TagContainerComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ TagContainerComponent ]
-    })
-    .compileComponents();
+      declarations: [TagContainerComponent],
+    }).compileComponents();
   });
 
   beforeEach(() => {

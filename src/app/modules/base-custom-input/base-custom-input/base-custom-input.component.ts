@@ -8,8 +8,10 @@ import { Subject } from 'rxjs';
 import { Mixin } from 'ts-mixer';
 
 @Directive()
-export class BaseCustomInputComponent<TValue> extends Mixin(WithDestroy) implements ControlValueAccessor, MatFormFieldControl<TValue> {
-
+export class BaseCustomInputComponent<TValue>
+  extends Mixin(WithDestroy)
+  implements ControlValueAccessor, MatFormFieldControl<TValue>
+{
   onChange = (_: any) => {};
   onTouched = () => {};
 
@@ -21,8 +23,7 @@ export class BaseCustomInputComponent<TValue> extends Mixin(WithDestroy) impleme
     const oldValue = this._value;
     this._value = value;
     if (!this.areValuesEqual(value, oldValue)) {
-      if (this.onChange)
-        this.onChange(value);
+      if (this.onChange) this.onChange(value);
       this.markAsTouched();
     }
   }
@@ -34,15 +35,19 @@ export class BaseCustomInputComponent<TValue> extends Mixin(WithDestroy) impleme
   @Input('attr.aria-describedby') userAriaDescribedBy?: string | undefined;
 
   @Input()
-  get placeholder(): string { return this._placeholder; }
+  get placeholder(): string {
+    return this._placeholder;
+  }
   set placeholder(value: string) {
     this._placeholder = value;
     this.stateChanges.next();
   }
-  protected _placeholder: string = "";
+  protected _placeholder: string = '';
 
   @Input()
-  get required(): boolean { return this._required; }
+  get required(): boolean {
+    return this._required;
+  }
   set required(value: boolean) {
     this._required = coerceBooleanProperty(value);
     this.stateChanges.next();
@@ -50,21 +55,25 @@ export class BaseCustomInputComponent<TValue> extends Mixin(WithDestroy) impleme
   protected _required = false;
 
   @Input()
-  get disabled(): boolean { return this._disabled; }
+  get disabled(): boolean {
+    return this._disabled;
+  }
   set disabled(value: boolean) {
     this._disabled = coerceBooleanProperty(value);
     this._onDisabled(this._disabled);
     this.stateChanges.next();
   }
   protected _disabled = false;
-  protected _onDisabled(disable: boolean) {};
+  protected _onDisabled(disable: boolean) {}
 
   focused: boolean = false;
 
-  get empty(): boolean { return !this.value; };
+  get empty(): boolean {
+    return !this.value;
+  }
 
-  get shouldLabelFloat() { 
-    return this.focused || !this.empty; 
+  get shouldLabelFloat() {
+    return this.focused || !this.empty;
   }
 
   touched: boolean = false;
@@ -72,30 +81,26 @@ export class BaseCustomInputComponent<TValue> extends Mixin(WithDestroy) impleme
   errorState: boolean = false;
   get autofilled(): boolean {
     return false;
-  };
+  }
 
   protected onDestroy$ = new Subject<void>();
-  
-  public controlType: string = "";
-  public id: string = "";
 
-  constructor(
-    protected focusMonitor: FocusMonitor,
-    protected elementRef: ElementRef,
-    public ngControl: NgControl,
-  ) {
+  public controlType: string = '';
+  public id: string = '';
+
+  constructor(protected focusMonitor: FocusMonitor, protected elementRef: ElementRef, public ngControl: NgControl) {
     super();
     if (this.ngControl != null) {
       this.ngControl.valueAccessor = this;
     }
 
-    this.focusMonitor.monitor(elementRef, true).subscribe(origin => {
+    this.focusMonitor.monitor(elementRef, true).subscribe((origin) => {
       if (this.focused && !origin) {
         this.onTouched();
       }
       this.focused = !!origin;
       this.stateChanges.next();
-    })
+    });
   }
 
   ngOnDestroy(): void {
@@ -122,13 +127,12 @@ export class BaseCustomInputComponent<TValue> extends Mixin(WithDestroy) impleme
   registerOnChange(fn: any): void {
     this.onChange = fn;
   }
-  
+
   registerOnTouched(fn: any): void {
     this.onTouched = fn;
   }
 
   markAsTouched() {
-    if (this.onTouched)
-      this.onTouched();
+    if (this.onTouched) this.onTouched();
   }
 }

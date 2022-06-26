@@ -21,15 +21,14 @@ import { PartialDeep } from 'type-fest';
     {
       provide: MatFormFieldControl,
       useExisting: UserInputComponent,
-    }
-  ]
+    },
+  ],
 })
 export class UserInputComponent extends BaseCustomInputComponent<string> implements OnInit {
-
   inputControl = new UntypedFormControl();
   filteredUsers$ = new ReplaySubject<PartialDeep<User>[]>();
   isEnteringNewUser = true;
-  
+
   get user(): PartialDeep<User> | null {
     return this._user;
   }
@@ -39,15 +38,15 @@ export class UserInputComponent extends BaseCustomInputComponent<string> impleme
   }
   private _user: PartialDeep<User> | null = null;
 
-//#region // ----- BaseCustomInputComponent ----- //
+  //#region // ----- BaseCustomInputComponent ----- //
   static nextId = 0;
   get empty() {
-    return this.value === "";
+    return this.value === '';
   }
 
   public controlType: string = `app-user-input`;
   public id: string = `${this.controlType}-${UserInputComponent.nextId++}`;
-//#engregion // -- BaseCustomInputComponent ----- //
+  //#engregion // -- BaseCustomInputComponent ----- //
 
   constructor(
     public cdn: CdnService,
@@ -57,92 +56,89 @@ export class UserInputComponent extends BaseCustomInputComponent<string> impleme
     elementRef: ElementRef<HTMLElement>,
     @Optional() @Self() ngControl: NgControl,
   ) {
-    super(
-      focusMonitor, 
-      elementRef, 
-      ngControl
-    );
+    super(focusMonitor, elementRef, ngControl);
   }
 
   ngOnInit(): void {
     if (this.user != null) {
       this.inputControl.setValue(this.user.username, {
-        emitEvent: false
+        emitEvent: false,
       });
       this.isEnteringNewUser = false;
     }
-    
-    this.inputControl.valueChanges
-      .pipe(takeUntil(this.onDestroy$))
-      .subscribe({
-        next: async (value: string | User) => {
-          if (typeof value === 'string') {
-            this.filteredUsers$.next(await this.fetchSearchedUsers(value));
 
-            this.user = null;
+    this.inputControl.valueChanges.pipe(takeUntil(this.onDestroy$)).subscribe({
+      next: async (value: string | User) => {
+        if (typeof value === 'string') {
+          this.filteredUsers$.next(await this.fetchSearchedUsers(value));
 
-            if (!this.isEnteringNewUser) {
-              this.inputControl.setValue(value.replace("[object Object]", ""), { 
-                emitEvent: false 
-              });
-              this.isEnteringNewUser = true;
-            }
-          } else {
-            this.user = value;
-            
-            this.inputControl.setValue(value.username, {
-              emitEvent: false
-            })
+          this.user = null;
+
+          if (!this.isEnteringNewUser) {
+            this.inputControl.setValue(value.replace('[object Object]', ''), {
+              emitEvent: false,
+            });
+            this.isEnteringNewUser = true;
           }
-          // Else this is just the autocomplete
-          // changing the inputControl, therefore
-          // we don't have to do anything.
+        } else {
+          this.user = value;
+
+          this.inputControl.setValue(value.username, {
+            emitEvent: false,
+          });
         }
-      });
+        // Else this is just the autocomplete
+        // changing the inputControl, therefore
+        // we don't have to do anything.
+      },
+    });
   }
 
   async fetchSearchedUsers(searchedUsername: string): Promise<PartialDeep<User>[]> {
     searchedUsername = searchedUsername.toLowerCase();
 
-    const startMatches = await firstValueFrom(this.backend.query<{
-      users: {
-        id: string,
-        username: string,
-        displayName: string,
-        avatarLink: string,
-      }[]
-    }>({
-      query: gql`
-        query($filter: UserFilterInput, $sorts: [UserSortInput!], $limit: Int) {
-          users(filter: $filter, sorts: $sorts, limit: $limit) {
-            id
-            username
-            displayName
-            avatarLink
+    const startMatches = await firstValueFrom(
+      this.backend.query<{
+        users: {
+          id: string;
+          username: string;
+          displayName: string;
+          avatarLink: string;
+        }[];
+      }>({
+        query: gql`
+          query ($filter: UserFilterInput, $sorts: [UserSortInput!], $limit: Int) {
+            users(filter: $filter, sorts: $sorts, limit: $limit) {
+              id
+              username
+              displayName
+              avatarLink
+            }
           }
-        }
-      `,
-      variables: {
-        // Pagination
-        // TODO EVENTUALLY: Use cursor pagination once Typetta suppoorts that
-        limit: 10,
-        filter: searchedUsername ? <UserFilterInput>{
-          username: { 
-            startsWith: searchedUsername, 
-            mode: 'INSENSITIVE' 
-          }
-        } : {},
-        sorts: [
-          <UserSortInput>{
-            username: 'asc'
-          }
-        ]
-      }
-    }));
-    if (startMatches.error)
-      return [];
+        `,
+        variables: {
+          // Pagination
+          // TODO EVENTUALLY: Use cursor pagination once Typetta suppoorts that
+          limit: 10,
+          filter: searchedUsername
+            ? <UserFilterInput>{
+                username: {
+                  startsWith: searchedUsername,
+                  mode: 'INSENSITIVE',
+                },
+              }
+            : {},
+          sorts: [
+            <UserSortInput>{
+              username: 'asc',
+            },
+          ],
+        },
+      }),
+    );
+    if (startMatches.error) return [];
 
-    return startMatches.data.users; 
+    return startMatches.data.users;
   }
 
   onAutoCompleteOptionSelected() {

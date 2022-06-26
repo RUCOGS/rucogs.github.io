@@ -3,10 +3,9 @@ import { CookieService } from 'ngx-cookie-service';
 import { StyleManagerService } from './style-manager.service';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ThemeManagerService {
-
   private _currentTheme: string = 'light';
 
   constructor(private styleManagerService: StyleManagerService, private cookieService: CookieService) {

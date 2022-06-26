@@ -9,11 +9,8 @@ export * from './custom-validators';
 export * from './process-monitor';
 export * from './mixins';
 
-
 @NgModule({
   declarations: [],
-  imports: [
-    CommonModule
-  ]
+  imports: [CommonModule],
 })
-export class ClassesModule { }
+export class ClassesModule {}

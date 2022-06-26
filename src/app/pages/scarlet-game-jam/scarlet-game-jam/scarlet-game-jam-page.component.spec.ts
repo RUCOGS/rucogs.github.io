@@ -8,9 +8,8 @@ describe('ScarletGameJamComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ ScarletGameJamPageComponent ]
-    })
-    .compileComponents();
+      declarations: [ScarletGameJamPageComponent],
+    }).compileComponents();
   });
 
   beforeEach(() => {

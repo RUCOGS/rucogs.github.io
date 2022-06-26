@@ -26,15 +26,9 @@ export { ThemeManagerService };
 export { TokenStorageService };
 export { RolesService };
 
-
 @NgModule({
   declarations: [],
-  imports: [
-    CommonModule,
-    ApolloModule,
-    MatSnackBarModule,
-    MatDialogModule
-  ],
-  providers: []
+  imports: [CommonModule, ApolloModule, MatSnackBarModule, MatDialogModule],
+  providers: [],
 })
-export class ServicesModule { }
+export class ServicesModule {}
