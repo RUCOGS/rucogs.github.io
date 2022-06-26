@@ -8,9 +8,8 @@ describe('EditableProjectMemberProfileComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ EditableProjectMemberProfileComponent ]
-    })
-    .compileComponents();
+      declarations: [EditableProjectMemberProfileComponent],
+    }).compileComponents();
   });
 
   beforeEach(() => {

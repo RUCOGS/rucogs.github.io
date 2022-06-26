@@ -1,16 +1,28 @@
-import { AfterContentInit, AfterViewChecked, AfterViewInit, ChangeDetectorRef, Component, ContentChildren, ElementRef, HostBinding, Input, OnDestroy, OnInit, QueryList } from '@angular/core';
+import {
+  AfterContentInit,
+  AfterViewChecked,
+  AfterViewInit,
+  ChangeDetectorRef,
+  Component,
+  ContentChildren,
+  ElementRef,
+  HostBinding,
+  Input,
+  OnDestroy,
+  OnInit,
+  QueryList,
+} from '@angular/core';
 import { CssLengthService } from '@src/app/services/css-length.service';
 
 @Component({
   selector: 'app-card-grid',
   templateUrl: './card-grid.component.html',
-  styleUrls: ['./card-grid.component.css']
+  styleUrls: ['./card-grid.component.css'],
 })
 export class CardGridComponent implements OnInit, AfterViewInit, OnDestroy {
-  
-  @Input('column-width') columnWidth: string = "20em";
-  @Input() columns: string = "auto-fit";
-  @Input('auto-fit-columns') autofitColumns: boolean = true
+  @Input('column-width') columnWidth: string = '20em';
+  @Input() columns: string = 'auto-fit';
+  @Input('auto-fit-columns') autofitColumns: boolean = true;
 
   @HostBinding('style.grid-template-columns')
   gridTemplateColumns: string = '';
@@ -20,8 +32,8 @@ export class CardGridComponent implements OnInit, AfterViewInit, OnDestroy {
     private elementRef: ElementRef,
     private cssLength: CssLengthService,
     private changeDetector: ChangeDetectorRef,
-  ) { 
-    this.observer = new MutationObserver(mutations => {    
+  ) {
+    this.observer = new MutationObserver((mutations) => {
       this.updateGridTemplateColumns();
     });
   }
@@ -32,7 +44,7 @@ export class CardGridComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngAfterViewInit(): void {
     this.observer.observe(this.elementRef.nativeElement, {
-      childList: true
+      childList: true,
     });
   }
 
@@ -52,9 +64,9 @@ export class CardGridComponent implements OnInit, AfterViewInit, OnDestroy {
       smallFit = element.offsetWidth <= pixelColumnWidth;
     }
 
-    if (smallFit)
-      this.gridTemplateColumns = `repeat( ${this.columns} )`;
+    if (smallFit) this.gridTemplateColumns = `repeat( ${this.columns} )`;
     else
-      this.gridTemplateColumns = `repeat( ${this.columns}, ` + (autofit ? `minmax(${this.columnWidth}, 1fr)` : this.columnWidth) + ` )`;
+      this.gridTemplateColumns =
+        `repeat( ${this.columns}, ` + (autofit ? `minmax(${this.columnWidth}, 1fr)` : this.columnWidth) + ` )`;
   }
 }

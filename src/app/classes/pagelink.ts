@@ -1,7 +1,3 @@
 export class PageLink {
-  constructor(
-    public name: string,
-    public link: string,
-  ) {
-  }
+  constructor(public name: string, public link: string) {}
 }

@@ -6,19 +6,14 @@ import { PartialDeep } from 'type-fest';
 @Component({
   selector: 'app-inline-profile',
   templateUrl: './inline-profile.component.html',
-  styleUrls: ['./inline-profile.component.css']
+  styleUrls: ['./inline-profile.component.css'],
 })
 export class InlineProfileComponent implements OnInit {
-
   @Input() user: PartialDeep<User> = {};
   @Input() clickable: boolean = false;
-  @Input() link = "";
+  @Input() link = '';
 
-  constructor(
-    public cdn: CdnService,
-  ) { }
+  constructor(public cdn: CdnService) {}
 
-  ngOnInit(): void {
-  }
-
+  ngOnInit(): void {}
 }

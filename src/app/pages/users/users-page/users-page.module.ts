@@ -16,20 +16,18 @@ import { MatDividerModule } from '@angular/material/divider';
 export { UsersPageComponent };
 
 const ROUTES: Route[] = [
-  { path: '', component: UsersPageComponent,
+  {
+    path: '',
+    component: UsersPageComponent,
     children: [
       { path: '', component: UsersTabComponent },
-      { path: 'eboard', component: EboardTabComponent }
-    ]
-  }
+      { path: 'eboard', component: EboardTabComponent },
+    ],
+  },
 ];
 
 @NgModule({
-  declarations: [
-    UsersPageComponent,
-    UsersTabComponent,
-    EboardTabComponent,
-  ],
+  declarations: [UsersPageComponent, UsersTabComponent, EboardTabComponent],
   imports: [
     RouterModule.forChild(ROUTES),
     CommonModule,
@@ -40,10 +38,8 @@ const ROUTES: Route[] = [
     MatTabStylesModule,
     AvatarModule,
     RolesModule,
-    MatDividerModule
+    MatDividerModule,
   ],
-  exports: [
-    UsersPageComponent
-  ]
+  exports: [UsersPageComponent],
 })
-export class UsersPageModule { }
+export class UsersPageModule {}

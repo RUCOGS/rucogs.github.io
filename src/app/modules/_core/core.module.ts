@@ -23,7 +23,6 @@ import { SafePipe } from './safe-pipe/safe.pipe';
 
 export { SafePipe };
 
-
 @NgModule({
   declarations: [
     BgContainerComponent,
@@ -66,6 +65,6 @@ export { SafePipe };
     SubSectionComponent,
     BreakableStylesDirective,
     SafePipe,
-  ]
+  ],
 })
-export class CoreModule { }
+export class CoreModule {}

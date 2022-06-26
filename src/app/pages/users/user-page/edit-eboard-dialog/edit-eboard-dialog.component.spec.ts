@@ -8,9 +8,8 @@ describe('EditEboardDialogComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ EditEboardDialogComponent ]
-    })
-    .compileComponents();
+      declarations: [EditEboardDialogComponent],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(EditEboardDialogComponent);
     component = fixture.componentInstance;

@@ -16,25 +16,24 @@ import { PartialDeep } from 'type-fest';
 import { UserOptions } from '../user-page/user-page.component';
 
 export interface EditUserDialogData {
-  user: PartialDeep<User>
-  userOptions: UserOptions
+  user: PartialDeep<User>;
+  userOptions: UserOptions;
 }
 
 @Component({
   selector: 'app-edit-user-dialog',
   templateUrl: './edit-user-dialog.component.html',
-  styleUrls: ['./edit-user-dialog.component.css']
+  styleUrls: ['./edit-user-dialog.component.css'],
 })
 export class EditUserDialogComponent implements AfterViewInit {
-
   @ViewChild('avatarUpload') avatarUpload?: ImageUploadComponent;
   @ViewChild('bannerUpload') bannerUpload?: ImageUploadComponent;
-  
+
   form: UntypedFormGroup;
 
   userSocialEdits: UserSocialEdit[] = [];
   socialsEdited = false;
-  
+
   roles: RoleCode[] = [];
   disabledRoles: RoleCode[] = [];
   acceptedRoles: RoleCode[] = [];
@@ -54,30 +53,32 @@ export class EditUserDialogComponent implements AfterViewInit {
     this.form = formBuilder.group({
       displayName: [data.user.displayName, [Validators.required]],
       bio: [data.user.bio, []],
-      classYear: [data.user.classYear, []]
-    })
+      classYear: [data.user.classYear, []],
+    });
     dialogRef.disableClose = true;
   }
 
   async ngAfterViewInit() {
     // Keep change detector happy by not running it on the same frame as AfterViewInit
     setTimeout(async () => {
-      if (!this.avatarUpload || !this.bannerUpload || !this.data.user.roles || !this.data.user.id)
-        return;  
-      
+      if (!this.avatarUpload || !this.bannerUpload || !this.data.user.roles || !this.data.user.id) return;
+
       this.avatarUpload.init(this.cdn.getFileLink(this.data.user.avatarLink));
       this.bannerUpload.init(this.cdn.getFileLink(this.data.user.bannerLink));
-      
+
       this.socialsEdited = false;
       if (this.data.user.socials)
-        this.userSocialEdits = this.data.user.socials.map(x => new UserSocialEdit({
-          link: x?.link ?? "",
-          platform: x?.platform ?? "",
-          username: x?.username ?? ""
-        }));
+        this.userSocialEdits = this.data.user.socials.map(
+          (x) =>
+            new UserSocialEdit({
+              link: x?.link ?? '',
+              platform: x?.platform ?? '',
+              username: x?.username ?? '',
+            }),
+        );
 
       this.rolesEdited = false;
-      this.roles = this.data.user.roles.map(x => x?.roleCode as RoleCode);
+      this.roles = this.data.user.roles.map((x) => x?.roleCode as RoleCode);
       this.acceptedRoles = await this.rolesService.getAddableUserRoles();
       this.disabledRoles = await this.rolesService.getDisabledUserRoles();
     }, 0);
@@ -100,100 +101,101 @@ export class EditUserDialogComponent implements AfterViewInit {
   }
 
   exit(success: boolean = false) {
-    if (!this.monitor.isProcessing)
-      this.dialogRef.close(success);
+    if (!this.monitor.isProcessing) this.dialogRef.close(success);
   }
 
   validate() {
     try {
       for (const userSocialEdit of this.userSocialEdits) {
-        if (!userSocialEdit.validate())
-          throw new Error("A user social is incomplete!");
+        if (!userSocialEdit.validate()) throw new Error('A user social is incomplete!');
       }
-      
+
       assertNoDuplicates(
-        this.userSocialEdits.map(x => x.userSocial), 
+        this.userSocialEdits.map((x) => x.userSocial),
         (a, b) => {
-          return a.username === b.username && a.platform === b.platform
+          return a.username === b.username && a.platform === b.platform;
         },
-        "Cannot have duplicate user socials with identical usernames and platforms!"
+        'Cannot have duplicate user socials with identical usernames and platforms!',
       );
 
       return true;
-    } catch(err: any) {
+    } catch (err: any) {
       this.uiMessageService.error(err);
       return false;
     }
   }
 
   async save() {
-    if (this.monitor.isProcessing || !this.avatarUpload || !this.bannerUpload || 
-        !this.validate()) {
+    if (this.monitor.isProcessing || !this.avatarUpload || !this.bannerUpload || !this.validate()) {
       return;
     }
 
     const input = <UpdateUserInput>{
-      id: this.data.user.id
-    }
+      id: this.data.user.id,
+    };
 
     if (this.rolesEdited) {
       input.roles = this.roles;
     }
 
     if (this.socialsEdited) {
-      input.socials = this.userSocialEdits.map(x => x.userSocial);
+      input.socials = this.userSocialEdits.map((x) => x.userSocial);
     }
 
-    if (this.form.get("displayName")?.value !== this.data.user.displayName) {
-      input.displayName = this.form.get("displayName")?.value;
-    }
-    
-    if (this.form.get("bio")?.value !== this.data.user.bio) {
-      input.bio = this.form.get("bio")?.value;
+    if (this.form.get('displayName')?.value !== this.data.user.displayName) {
+      input.displayName = this.form.get('displayName')?.value;
     }
 
-    if (this.form.get("classYear")?.value !== this.data.user.classYear) {
-      input.classYear = this.form.get("classYear")?.value;
+    if (this.form.get('bio')?.value !== this.data.user.bio) {
+      input.bio = this.form.get('bio')?.value;
+    }
+
+    if (this.form.get('classYear')?.value !== this.data.user.classYear) {
+      input.classYear = this.form.get('classYear')?.value;
     }
 
     if (this.avatarUpload.edited) {
-      input.avatar = this.avatarUpload.value ? {
-        upload: this.avatarUpload.value,
-        operation: UploadOperation.Insert,
-      } : {
-        operation: UploadOperation.Delete,
-      };
+      input.avatar = this.avatarUpload.value
+        ? {
+            upload: this.avatarUpload.value,
+            operation: UploadOperation.Insert,
+          }
+        : {
+            operation: UploadOperation.Delete,
+          };
     }
 
     if (this.bannerUpload.edited) {
-      input.banner = this.bannerUpload.value ? {
-        upload: this.bannerUpload.value,
-        operation: UploadOperation.Insert,
-      } : {
-        operation: UploadOperation.Delete,
-      };
+      input.banner = this.bannerUpload.value
+        ? {
+            upload: this.bannerUpload.value,
+            operation: UploadOperation.Insert,
+          }
+        : {
+            operation: UploadOperation.Delete,
+          };
     }
 
     // If change data is not empty, meaning there were changes...
     if (Object.keys(input).length > 1) {
       this.monitor.addProcess();
-      const result = await firstValueFrom(this.backend
-        .withAuth()
-        .mutate<{
-          updateUser: boolean
+      const result = await firstValueFrom(
+        this.backend.withAuth().mutate<{
+          updateUser: boolean;
         }>({
           mutation: gql`
-            mutation($input: UpdateUserInput!) {
+            mutation ($input: UpdateUserInput!) {
               updateUser(input: $input)
             }
           `,
           variables: {
             input,
-          }
-        }));
+          },
+        }),
+      );
       this.monitor.removeProcess();
       if (result.errors) {
-        this.uiMessageService.error("Error uploading data!");
+        this.uiMessageService.error('Error uploading data!');
         return;
       }
       this.exit(true);

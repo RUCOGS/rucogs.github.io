@@ -8,9 +8,8 @@ describe('StringArrayInputComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ StringArrayInputComponent ]
-    })
-    .compileComponents();
+      declarations: [StringArrayInputComponent],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(StringArrayInputComponent);
     component = fixture.componentInstance;

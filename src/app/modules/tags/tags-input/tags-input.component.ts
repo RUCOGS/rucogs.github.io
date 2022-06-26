@@ -12,8 +12,8 @@ import { BaseCustomInputComponent } from '@app/modules/base-custom-input/base-cu
     {
       provide: MatFormFieldControl,
       useExisting: TagsInputComponent,
-    }
-  ]
+    },
+  ],
 })
 export class TagsInputComponent extends BaseCustomInputComponent<string[]> {
   @Input() limit: number = -1;
@@ -24,9 +24,8 @@ export class TagsInputComponent extends BaseCustomInputComponent<string[]> {
   add(event: MatChipInputEvent): void {
     const value = (event.value || '').trim();
 
-    if (!this.value)
-      this.value = [];
-    
+    if (!this.value) this.value = [];
+
     // Add our fruit
     if (value && !this.value.includes(value) && (this.limit < 0 || this.value.length < this.limit)) {
       this.value.push(value);
@@ -38,9 +37,8 @@ export class TagsInputComponent extends BaseCustomInputComponent<string[]> {
   }
 
   remove(tag: string): void {
-    if (!this.value)
-      return;
-    
+    if (!this.value) return;
+
     const index = this.value.indexOf(tag);
 
     if (index >= 0) {
@@ -48,8 +46,8 @@ export class TagsInputComponent extends BaseCustomInputComponent<string[]> {
       this.onChange(this.value);
     }
   }
-  
-//#region // ----- BaseCustomInputComponent ----- //
+
+  //#region // ----- BaseCustomInputComponent ----- //
   static nextId = 0;
   get empty() {
     return !this.value || this.value.length === 0;
@@ -57,5 +55,5 @@ export class TagsInputComponent extends BaseCustomInputComponent<string[]> {
 
   public controlType: string = `app-user-input`;
   public id: string = `${this.controlType}-${TagsInputComponent.nextId++}`;
-//#engregion // -- BaseCustomInputComponent ----- //
+  //#engregion // -- BaseCustomInputComponent ----- //
 }

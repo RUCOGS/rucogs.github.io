@@ -4,13 +4,7 @@ import { ScrollspyNavLayoutModule } from './scrollspy-nav-layout/scrollspy-nav-l
 import { ScrollspyNavModule } from './scrollspy-nav/scrollspy-nav.module';
 
 @NgModule({
-  imports: [
-    CommonModule,
-  ],
-  exports: [
-    CommonModule,
-    ScrollspyNavModule,
-    ScrollspyNavLayoutModule
-  ],
+  imports: [CommonModule],
+  exports: [CommonModule, ScrollspyNavModule, ScrollspyNavLayoutModule],
 })
-export class MarkdownNavModule { }
+export class MarkdownNavModule {}

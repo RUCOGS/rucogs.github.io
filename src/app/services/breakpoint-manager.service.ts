@@ -5,14 +5,12 @@ import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class BreakpointManagerService implements OnDestroy {
-
   get currentBreakpoint(): Breakpoint {
     for (let i = 0; i < this.breakpointsMatched.length - 1; i++) {
-      if (this.breakpointsMatched[i])
-        return BreakpointsData[i].name;
+      if (this.breakpointsMatched[i]) return BreakpointsData[i].name;
     }
     return BreakpointsData[BreakpointsData.length - 1].name;
   }
@@ -22,7 +20,8 @@ export class BreakpointManagerService implements OnDestroy {
 
   constructor(private breakpointObserver: BreakpointObserver) {
     for (let i = 0; i < BreakpointsData.length - 1; i++) {
-      this.breakpointObserver.observe(`(max-width: ${BreakpointsData[i].maxWidth})`)
+      this.breakpointObserver
+        .observe(`(max-width: ${BreakpointsData[i].maxWidth})`)
         .pipe(takeUntil(this.onDestroy$))
         .subscribe((state: BreakpointState) => {
           this.breakpointsMatched[i] = state.matches;
@@ -33,13 +32,13 @@ export class BreakpointManagerService implements OnDestroy {
   }
 
   matchedBreakpointOrBelow(breakpoint: Breakpoint) {
-    const index = BreakpointsData.findIndex(x => x.name === breakpoint);
+    const index = BreakpointsData.findIndex((x) => x.name === breakpoint);
     return this.breakpointsMatched[index];
   }
 
   matchedBreakpointRange(start: Breakpoint, end: Breakpoint) {
-    let startIndex = BreakpointsData.findIndex(x => x.name === start);
-    let endIndex = BreakpointsData.findIndex(x => x.name === end);
+    let startIndex = BreakpointsData.findIndex((x) => x.name === start);
+    let endIndex = BreakpointsData.findIndex((x) => x.name === end);
     if (startIndex > endIndex) {
       // Swap if they are mismatched
       let temp = start;
@@ -49,12 +48,11 @@ export class BreakpointManagerService implements OnDestroy {
     return this.matchedBreakpointOrAbove(start) && this.matchedBreakpointOrBelow(end);
   }
 
-  matchedBreakpointOrAbove(breakpoint: Breakpoint, key: string = "") {
-    const index = BreakpointsData.findIndex(x => x.name === breakpoint);
+  matchedBreakpointOrAbove(breakpoint: Breakpoint, key: string = '') {
+    const index = BreakpointsData.findIndex((x) => x.name === breakpoint);
     // Make sure previous breakpoint hasne't triggered, because that would mean we're
     // currently matching with something below this breakpoint.
-    if (index > 0 && this.breakpointsMatched[index - 1])
-      return false;
+    if (index > 0 && this.breakpointsMatched[index - 1]) return false;
     // Because the last element is always true, we know there must be a breakpoint above
     // that has been triggered.
     return true;

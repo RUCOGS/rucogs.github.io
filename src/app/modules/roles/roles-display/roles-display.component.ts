@@ -5,10 +5,10 @@ import { RoleData } from '@src/shared/security';
 @Component({
   selector: 'app-roles-display',
   templateUrl: './roles-display.component.html',
-  styleUrls: ['./roles-display.component.css']
+  styleUrls: ['./roles-display.component.css'],
 })
 export class RolesDisplayComponent {
-  @Input() roles: RoleCode[] = []
+  @Input() roles: RoleCode[] = [];
   @Input() center: boolean = false;
 
   constructor() {}

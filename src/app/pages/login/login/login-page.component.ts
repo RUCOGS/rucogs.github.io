@@ -9,24 +9,20 @@ import { first, takeUntil } from 'rxjs/operators';
 @Component({
   selector: 'app-login-page',
   templateUrl: './login-page.component.html',
-  styleUrls: ['./login-page.component.css']
+  styleUrls: ['./login-page.component.css'],
 })
 export class LoginPageComponent implements OnDestroy {
-
   form: UntypedFormGroup;
   hide: boolean = true;
-  errorMessage: string = "";
+  errorMessage: string = '';
   isLoginFailed: boolean = false;
 
   protected onDestroy$ = new Subject<void>();
 
-  constructor(
-    formBuilder: UntypedFormBuilder, 
-    private authService: AuthService, 
-    private router: Router) {
+  constructor(formBuilder: UntypedFormBuilder, private authService: AuthService, private router: Router) {
     this.form = formBuilder.group({
       username: [null, [Validators.required]],
-      password: [null, [Validators.required]]
+      password: [null, [Validators.required]],
     });
   }
 
@@ -41,14 +37,14 @@ export class LoginPageComponent implements OnDestroy {
 
   private performLogin(observable: Observable<any>) {
     observable.pipe(first(), takeUntil(this.onDestroy$)).subscribe({
-      next: data => {
+      next: (data) => {
         this.isLoginFailed = false;
         this.router.navigateByUrl(`/members/${data.user.username}`);
       },
-      error: err => {
+      error: (err) => {
         this.errorMessage = err.error.message;
         this.isLoginFailed = true;
-      }
+      },
     });
   }
 

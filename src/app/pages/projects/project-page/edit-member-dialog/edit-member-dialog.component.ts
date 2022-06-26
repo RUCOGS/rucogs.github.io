@@ -12,18 +12,17 @@ import { PartialDeep } from 'type-fest';
 import { ProjectMemberOptions } from '../members-tab/members-tab.component';
 
 export interface EditMemberDialogData {
-  projectMember: PartialDeep<ProjectMember>
-  projectId: string
-  projectMemberOptions: ProjectMemberOptions
+  projectMember: PartialDeep<ProjectMember>;
+  projectId: string;
+  projectMemberOptions: ProjectMemberOptions;
 }
 
 @Component({
   selector: 'app-edit-member-dialog',
   templateUrl: './edit-member-dialog.component.html',
-  styleUrls: ['./edit-member-dialog.component.css']
+  styleUrls: ['./edit-member-dialog.component.css'],
 })
 export class EditMemberDialogComponent implements OnInit {
-
   projectMember: PartialDeep<ProjectMember>;
   projectId: string;
   projectMemberOptions: ProjectMemberOptions;
@@ -37,8 +36,8 @@ export class EditMemberDialogComponent implements OnInit {
 
   monitor = new ProcessMonitor();
 
-  constructor( 
-    formBuilder: UntypedFormBuilder, 
+  constructor(
+    formBuilder: UntypedFormBuilder,
     private backend: BackendService,
     private uiMessageService: UIMessageService,
     private rolesService: RolesService,
@@ -47,7 +46,7 @@ export class EditMemberDialogComponent implements OnInit {
   ) {
     this.form = formBuilder.group({
       contributions: [null, []],
-    })
+    });
     dialogRef.disableClose = true;
     this.projectMember = data.projectMember;
     this.projectId = data.projectId;
@@ -55,48 +54,44 @@ export class EditMemberDialogComponent implements OnInit {
   }
 
   async ngOnInit() {
-    if (!this.projectMember.roles)
-      return;  
-    
+    if (!this.projectMember.roles) return;
+
     const formConfig = new FormConfigurer(this.form);
     formConfig.initControl('contributions', this.projectMember.contributions);
 
-    this.roles = this.projectMember.roles.map(x => x?.roleCode as RoleCode);
+    this.roles = this.projectMember.roles.map((x) => x?.roleCode as RoleCode);
     this.acceptedRoles = await this.rolesService.getAddableProjectRoles(this.projectId);
     this.disabledRoles = await this.rolesService.getDisabledProjectRoles(this.projectId);
   }
 
   exit(success: boolean = false) {
-    if (!this.monitor.isProcessing)
-      this.dialogRef.close(success);
+    if (!this.monitor.isProcessing) this.dialogRef.close(success);
   }
 
   validate() {
     try {
       this.form.updateValueAndValidity();
       if (!this.form.valid) {
-        throw new Error("Some project member information is missing!");
+        throw new Error('Some project member information is missing!');
       }
-      
+
       return true;
-    } catch(err: any) {
+    } catch (err: any) {
       this.uiMessageService.error(err);
       return false;
     }
   }
 
   save() {
-    if (this.monitor.isProcessing ||
-        !this.validate())
-      return;
+    if (this.monitor.isProcessing || !this.validate()) return;
 
     // Upload profile picture
     const input = <UpdateProjectMemberInput>{
-      id: this.projectMember.id
+      id: this.projectMember.id,
     };
 
-    if (this.form.get("contributions")?.value !== this.projectMember.contributions) {
-      input.contributions = this.form.get("contributions")?.value;
+    if (this.form.get('contributions')?.value !== this.projectMember.contributions) {
+      input.contributions = this.form.get('contributions')?.value;
     }
 
     if (this.rolesEdited) {
@@ -109,13 +104,13 @@ export class EditMemberDialogComponent implements OnInit {
         .withAuth()
         .mutate<boolean>({
           mutation: gql`
-            mutation($input: UpdateProjectMemberInput!) {
+            mutation ($input: UpdateProjectMemberInput!) {
               updateProjectMember(input: $input)
             }
           `,
           variables: {
-            input
-          }
+            input,
+          },
         })
         .pipe(first())
         .subscribe({
@@ -126,7 +121,7 @@ export class EditMemberDialogComponent implements OnInit {
           error: (value) => {
             this.monitor.removeProcess();
             this.exit(false);
-          }
+          },
         });
     }
   }

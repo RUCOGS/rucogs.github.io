@@ -5,16 +5,12 @@ import { PartialDeep } from 'type-fest';
 @Component({
   selector: 'app-project-members-display',
   templateUrl: './project-members-display.component.html',
-  styleUrls: ['./project-members-display.component.css']
+  styleUrls: ['./project-members-display.component.css'],
 })
 export class ProjectMembersDisplayComponent implements OnInit {
-
   @Input() projectMembers: PartialDeep<ProjectMember>[] = [];
 
-  constructor() { }
+  constructor() {}
 
-  ngOnInit(): void {
-    
-  }
-
+  ngOnInit(): void {}
 }

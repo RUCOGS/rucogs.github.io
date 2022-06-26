@@ -6,25 +6,21 @@ import { PartialDeep } from 'type-fest';
 @Component({
   selector: 'app-basic-profile',
   templateUrl: './basic-profile.component.html',
-  styleUrls: ['./basic-profile.component.css']
+  styleUrls: ['./basic-profile.component.css'],
 })
 export class BasicProfileComponent implements OnInit {
-
-  @Input() link: string = "";
+  @Input() link: string = '';
   @Input() user: PartialDeep<User> = {
-    avatarLink: "https://pfps.gg/assets/pfps/6721-rimuru-tempest.png",
-    username: "Atlinx",
-    displayName: "At Lynx"
-  }
+    avatarLink: 'https://pfps.gg/assets/pfps/6721-rimuru-tempest.png',
+    username: 'Atlinx',
+    displayName: 'At Lynx',
+  };
   @Input() clickable: boolean = true;
-  @Input() size = "medium";
+  @Input() size = 'medium';
 
-  constructor(
-    public cdnService: CdnService
-  ) { }
+  constructor(public cdnService: CdnService) {}
 
   ngOnInit(): void {
-    if (this.link === "" && this.user.username)
-      this.link = `/members/${this.user.username}`;
+    if (this.link === '' && this.user.username) this.link = `/members/${this.user.username}`;
   }
 }

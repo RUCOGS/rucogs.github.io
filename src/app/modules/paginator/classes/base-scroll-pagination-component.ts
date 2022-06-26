@@ -1,26 +1,26 @@
-import { Directive, Input } from "@angular/core";
-import { WithDestroy, WithInit } from "@src/app/classes/_classes.module";
-import { BackendService, CdnService, ScrollService } from "@src/app/services/_services.module";
-import { takeUntil } from "rxjs";
-import { Mixin } from "ts-mixer";
+import { Directive, Input } from '@angular/core';
+import { WithDestroy, WithInit } from '@src/app/classes/_classes.module';
+import { BackendService, CdnService, ScrollService } from '@src/app/services/_services.module';
+import { takeUntil } from 'rxjs';
+import { Mixin } from 'ts-mixer';
 
 @Directive()
 export abstract class BaseScrollPaginationComponent<TValue> extends Mixin(WithDestroy, WithInit) {
   protected _values: TValue[] = [];
-  get values() { return this._values; }
-  set values(values) { this._values = values; }
-  
+  get values() {
+    return this._values;
+  }
+  set values(values) {
+    this._values = values;
+  }
+
   currentPage: number = 0;
   valuesPerPage: number = 5;
   fillingPage: boolean = false;
   loaded: boolean = false;
   loadedEverything: boolean = false;
 
-  constructor(
-    public cdn: CdnService,
-    protected backend: BackendService,
-    protected scrollService: ScrollService
-  ) {
+  constructor(public cdn: CdnService, protected backend: BackendService, protected scrollService: ScrollService) {
     super();
   }
 
@@ -29,7 +29,7 @@ export abstract class BaseScrollPaginationComponent<TValue> extends Mixin(WithDe
     this.scrollService.scrolledToBottom$.pipe(takeUntil(this.onDestroy$)).subscribe(this.onScrollToBottom.bind(this));
     this.queryUntilFillPage();
   }
-  
+
   async onScrollToBottom() {
     await this.queryUntilFillPage();
   }
@@ -42,8 +42,7 @@ export abstract class BaseScrollPaginationComponent<TValue> extends Mixin(WithDe
   }
 
   async queryUntilFillPage() {
-    if (this.fillingPage || this.loadedEverything)
-      return;
+    if (this.fillingPage || this.loadedEverything) return;
 
     this.fillingPage = true;
     let resultsLength: number = 0;
@@ -66,7 +65,7 @@ export abstract class BaseScrollPaginationComponent<TValue> extends Mixin(WithDe
       this.loadedEverything = true;
       return 0;
     }
-    
+
     if (result.length < this.valuesPerPage) {
       this.loadedEverything = true;
     }
@@ -76,8 +75,12 @@ export abstract class BaseScrollPaginationComponent<TValue> extends Mixin(WithDe
     return result.length;
   }
 
-  get valuesQuery() { return this._valuesQuery; }
-  set valuesQuery(value) { this._valuesQuery = value; }
+  get valuesQuery() {
+    return this._valuesQuery;
+  }
+  set valuesQuery(value) {
+    this._valuesQuery = value;
+  }
   protected _valuesQuery: (skip: number, limit: number) => Promise<TValue[]> = async (skip, limit) => {
     return [];
   };

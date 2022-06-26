@@ -1,5 +1,4 @@
 export class ProcessMonitor {
-
   processes: string[] = [];
 
   get isProcessing() {
@@ -8,11 +7,11 @@ export class ProcessMonitor {
 
   constructor() {}
 
-  addProcess(name: string = "") {
+  addProcess(name: string = '') {
     this.processes.push(name);
   }
 
-  removeProcess(name: string = "") {
+  removeProcess(name: string = '') {
     if (name) {
       const index = this.processes.indexOf(name);
       if (index > -1) {

@@ -3,13 +3,10 @@ import { Component, OnInit } from '@angular/core';
 @Component({
   selector: 'app-site-right-side-bar',
   templateUrl: './site-right-side-bar.component.html',
-  styleUrls: ['./site-right-side-bar.component.css']
+  styleUrls: ['./site-right-side-bar.component.css'],
 })
 export class SiteRightSideBarComponent implements OnInit {
+  constructor() {}
 
-  constructor() { }
-
-  ngOnInit(): void {
-  }
-
+  ngOnInit(): void {}
 }

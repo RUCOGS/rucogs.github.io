@@ -22,4 +22,4 @@ import { ScrollspyNavLayoutComponent } from './scrollspy-nav-layout.component';
   declarations: [ScrollspyNavLayoutComponent],
   exports: [ScrollspyNavLayoutComponent],
 })
-export class ScrollspyNavLayoutModule { }
+export class ScrollspyNavLayoutModule {}

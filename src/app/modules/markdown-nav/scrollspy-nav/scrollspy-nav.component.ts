@@ -1,4 +1,13 @@
-import { ChangeDetectionStrategy, Component, ElementRef, Input, NgZone, OnChanges, OnDestroy, SimpleChanges } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  ElementRef,
+  Input,
+  NgZone,
+  OnChanges,
+  OnDestroy,
+  SimpleChanges,
+} from '@angular/core';
 import * as Gumshoe from 'gumshoejs';
 import { first } from 'rxjs/operators';
 
@@ -9,22 +18,17 @@ import { first } from 'rxjs/operators';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ScrollspyNavComponent implements OnChanges, OnDestroy {
-
   @Input()
   headings: Element[] | undefined;
 
   private scrollSpy: Gumshoe | undefined;
 
-  constructor(
-    private elementRef: ElementRef<HTMLElement>,
-    private zone: NgZone,
-  ) { }
+  constructor(private elementRef: ElementRef<HTMLElement>, private zone: NgZone) {}
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['headings']) {
       // We only need scroll spy for markdown with headings
-      if (this.headings && this.headings?.length > 0)
-        this.setScrollSpy();
+      if (this.headings && this.headings?.length > 0) this.setScrollSpy();
     }
   }
 
@@ -43,12 +47,10 @@ export class ScrollspyNavComponent implements OnChanges, OnDestroy {
       this.scrollSpy.setup();
       return;
     }
-    this.zone.onStable
-      .pipe(first())
-      .subscribe(() => {
-        const hostElement = this.elementRef.nativeElement;
-        const linkSelector = `${hostElement.tagName}.${hostElement.className} a`;
-        this.scrollSpy = new Gumshoe(linkSelector, { offset: 64, reflow: true });
+    this.zone.onStable.pipe(first()).subscribe(() => {
+      const hostElement = this.elementRef.nativeElement;
+      const linkSelector = `${hostElement.tagName}.${hostElement.className} a`;
+      this.scrollSpy = new Gumshoe(linkSelector, { offset: 64, reflow: true });
     });
   }
 }

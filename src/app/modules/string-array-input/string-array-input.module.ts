@@ -9,12 +9,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { ButtonStylesModule } from '../button-styles/button-styles.module';
 
-
-
 @NgModule({
-  declarations: [
-    StringArrayInputComponent
-  ],
+  declarations: [StringArrayInputComponent],
   imports: [
     CommonModule,
     DragDropModule,
@@ -25,8 +21,6 @@ import { ButtonStylesModule } from '../button-styles/button-styles.module';
     MatButtonModule,
     ButtonStylesModule,
   ],
-  exports: [
-    StringArrayInputComponent
-  ]
+  exports: [StringArrayInputComponent],
 })
-export class StringArrayInputModule { }
+export class StringArrayInputModule {}

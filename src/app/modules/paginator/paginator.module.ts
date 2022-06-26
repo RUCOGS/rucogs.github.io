@@ -13,21 +13,9 @@ export * from './classes/base-filtered-scroll-pagination-component';
 export * from './classes/base-scroll-pagination-component';
 export * from './classes/base-filtered-header-scroll-pagination-component';
 
-
 @NgModule({
-  declarations: [
-    PaginatorComponent
-  ],
-  imports: [
-    CommonModule,
-    FormsModule,
-    IconModule,
-    MatButtonToggleModule,
-    MatInputModule,
-    FilteringModule,
-  ],
-  exports: [
-    PaginatorComponent
-  ]
+  declarations: [PaginatorComponent],
+  imports: [CommonModule, FormsModule, IconModule, MatButtonToggleModule, MatInputModule, FilteringModule],
+  exports: [PaginatorComponent],
 })
-export class PaginatorModule { }
+export class PaginatorModule {}

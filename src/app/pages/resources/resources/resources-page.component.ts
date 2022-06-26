@@ -5,14 +5,11 @@ import { Component, OnInit } from '@angular/core';
   templateUrl: './resources-page.component.html',
   styleUrls: ['./resources-page.component.css'],
   host: {
-    class: 'page'
-  }
+    class: 'page',
+  },
 })
 export class ResourcesPageComponent implements OnInit {
+  constructor() {}
 
-  constructor() { }
-
-  ngOnInit(): void {
-  }
-
+  ngOnInit(): void {}
 }

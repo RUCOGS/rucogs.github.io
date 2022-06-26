@@ -6,18 +6,16 @@ import { ArticleInfo } from '@app/classes/_classes.module';
 @Component({
   selector: 'app-article-item',
   templateUrl: './article-item.component.html',
-  styleUrls: ['./article-item.component.css']
+  styleUrls: ['./article-item.component.css'],
 })
 export class ArticleItemComponent implements OnInit {
-
-  @Input() article: ArticleInfo = new ArticleInfo("N/A", "N/A", "N/A", "N/A", "N/A", [], []);
+  @Input() article: ArticleInfo = new ArticleInfo('N/A', 'N/A', 'N/A', 'N/A', 'N/A', [], []);
 
   constructor(private router: Router, public breakpointManager: BreakpointManagerService) {}
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
   onClick() {
-    this.router.navigateByUrl("blog/" + this.article.filePath.split('.')[0]);
+    this.router.navigateByUrl('blog/' + this.article.filePath.split('.')[0]);
   }
 }

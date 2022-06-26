@@ -14,14 +14,12 @@ import { CardsModule } from '../cards/cards.module';
 import { MatIconModule } from '@angular/material/icon';
 import { UtilsModule } from '@src/app/utils/_utils.module';
 
-
-
 @NgModule({
   declarations: [
     ProjectMemberProfileComponent,
     ProjectMembersDisplayComponent,
     EditableProjectMemberProfileComponent,
-    ProjectMembersInputComponent
+    ProjectMembersInputComponent,
   ],
   imports: [
     CommonModule,
@@ -34,13 +32,13 @@ import { UtilsModule } from '@src/app/utils/_utils.module';
     UserModule,
     CardsModule,
     MatIconModule,
-    UtilsModule
+    UtilsModule,
   ],
   exports: [
     ProjectMemberProfileComponent,
     ProjectMembersDisplayComponent,
     EditableProjectMemberProfileComponent,
     ProjectMembersInputComponent,
-  ]
+  ],
 })
-export class ProjectMemberModule { }
+export class ProjectMemberModule {}

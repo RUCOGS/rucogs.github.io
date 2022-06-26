@@ -10,13 +10,12 @@ import { takeUntil } from 'rxjs/operators';
 @Component({
   selector: 'app-blog-page',
   templateUrl: './blog-page.component.html',
-  styleUrls: ['./blog-page.component.css']
+  styleUrls: ['./blog-page.component.css'],
 })
 export class BlogPageComponent implements AfterViewInit {
-
   @ViewChild(FilterHeaderComponent) filterHeader: FilterHeaderComponent | undefined;
-  @ViewChild("paginatorTop") paginatorTop: PaginatorComponent | undefined;
-  @ViewChild("paginatorBottom") paginatorBottom: PaginatorComponent | undefined;
+  @ViewChild('paginatorTop') paginatorTop: PaginatorComponent | undefined;
+  @ViewChild('paginatorBottom') paginatorBottom: PaginatorComponent | undefined;
 
   currentPage: number = 1;
   articles: ArticleInfo[] = BlogPageArticles;
@@ -30,35 +29,33 @@ export class BlogPageComponent implements AfterViewInit {
   constructor(private changeDetector: ChangeDetectorRef, public breakpointManager: BreakpointManagerService) {}
 
   ngAfterViewInit(): void {
-    if (!this.filterHeader || !this.paginatorBottom || !this.paginatorTop)
-      return;
-    
+    if (!this.filterHeader || !this.paginatorBottom || !this.paginatorTop) return;
+
     // NOTE: This is really inefficient because we are regenerating the entire sortedSections array
     //       whenever the user changes a filter option. We should consider only modifying parts of
-    //       of the sorted array that are needed (ie. only reversing the sortedSections if sortAscending 
+    //       of the sorted array that are needed (ie. only reversing the sortedSections if sortAscending
     //       changes).
     this.filterHeader.newSearchRequest$.pipe(takeUntil(this.onDestroy$)).subscribe(this.onNewSearchRequest.bind(this));
     this.paginatorTop.currentPageChange.pipe(takeUntil(this.onDestroy$)).subscribe(this.onCurrentPageChange.bind(this));
-    this.paginatorBottom.currentPageChange.pipe(takeUntil(this.onDestroy$)).subscribe(this.onCurrentPageChange.bind(this));
+    this.paginatorBottom.currentPageChange
+      .pipe(takeUntil(this.onDestroy$))
+      .subscribe(this.onCurrentPageChange.bind(this));
 
     this.filteredArticles = [...this.articles];
 
     // Manually invoke to update the page
     this.updateLastPage();
-    this.onNewSearchRequest("");
+    this.onNewSearchRequest('');
     this.onCurrentPageChange(1);
     this.changeDetector.detectChanges();
   }
 
   onCurrentPageChange(value: number) {
-    if (!this.paginatorBottom || !this.paginatorTop)
-      return;
-    
-    if (this.paginatorTop.currentPage != value)
-      this.paginatorTop.setCurrentPageEventless(value);
-    if (this.paginatorBottom.currentPage != value)
-      this.paginatorBottom.setCurrentPageEventless(value);
-    
+    if (!this.paginatorBottom || !this.paginatorTop) return;
+
+    if (this.paginatorTop.currentPage != value) this.paginatorTop.setCurrentPageEventless(value);
+    if (this.paginatorBottom.currentPage != value) this.paginatorBottom.setCurrentPageEventless(value);
+
     this.currentPage = value;
     this.updateArticleEntries();
   }
@@ -69,42 +66,36 @@ export class BlogPageComponent implements AfterViewInit {
       // Actual pages are stored in an array,
       // which is zero indexed.
       const pageIndex = (this.currentPage - 1) * this.articlesPerPage + i;
-      if (pageIndex >= this.filteredArticles.length)
-        break;
+      if (pageIndex >= this.filteredArticles.length) break;
       this.activeArticles.push(this.filteredArticles[pageIndex]);
     }
   }
 
   onNewSearchRequest(searchText: string) {
-    if (this.filterHeader === undefined)
-      return;
+    if (this.filterHeader === undefined) return;
 
     searchText = searchText.toLowerCase();
 
-    if (searchText === "") {
+    if (searchText === '') {
       this.filteredArticles = [...this.articles];
       this.filteredArticles.sort((a: ArticleInfo, b: ArticleInfo) => {
         const dateA = new Date(a.date);
         const dateB = new Date(b.date);
-        if (dateA < dateB)
-          return 1;
-        else if (dateA > dateB)
-          return -1;
-        else
-          return 0;
+        if (dateA < dateB) return 1;
+        else if (dateA > dateB) return -1;
+        else return 0;
       });
     } else {
       this.filteredArticles = [];
       let articlesWithRankings: ArticleWithRanking[] = [];
       for (let article of this.articles) {
         const searchRanking = this.getArticleText(article).indexOf(searchText);
-        if (searchRanking >= 0)
-          articlesWithRankings.push(new ArticleWithRanking(article, searchRanking));
+        if (searchRanking >= 0) articlesWithRankings.push(new ArticleWithRanking(article, searchRanking));
       }
       articlesWithRankings.sort((a: ArticleWithRanking, b: ArticleWithRanking) => {
         return b.ranking - a.ranking;
       });
-      this.filteredArticles = articlesWithRankings.map(x => x.article);
+      this.filteredArticles = articlesWithRankings.map((x) => x.article);
     }
 
     this.updateLastPage();
@@ -117,7 +108,17 @@ export class BlogPageComponent implements AfterViewInit {
 
   // Text representation of an article
   getArticleText(article: ArticleInfo): string {
-    return (article.title + " " + article.description + " " + article.date + " " + article.authors.join(" ") + " " + article.tags.join(" ")).toLowerCase();
+    return (
+      article.title +
+      ' ' +
+      article.description +
+      ' ' +
+      article.date +
+      ' ' +
+      article.authors.join(' ') +
+      ' ' +
+      article.tags.join(' ')
+    ).toLowerCase();
   }
 }
 

@@ -13,11 +13,10 @@ import { BaseCustomInputComponent } from '../../base-custom-input/base-custom-in
     {
       provide: MatFormFieldControl,
       useExisting: StringArrayInputComponent,
-    }
-  ]
+    },
+  ],
 })
 export class StringArrayInputComponent extends BaseCustomInputComponent<string[]> {
-  
   @Input() limit: number = -1;
 
   stringElementArray: { string: string }[] = [];
@@ -27,15 +26,15 @@ export class StringArrayInputComponent extends BaseCustomInputComponent<string[]
   }
 
   get value(): string[] | null {
-    return this.stringElementArray.map(x => x.string);
-  } 
+    return this.stringElementArray.map((x) => x.string);
+  }
 
   set value(value: string[] | null) {
     if (value) {
-      this.stringElementArray = value.map(x => ({ string: x })); 
+      this.stringElementArray = value.map((x) => ({ string: x }));
     }
   }
-  
+
   constructor(
     protected changeDetector: ChangeDetectorRef,
 
@@ -43,19 +42,14 @@ export class StringArrayInputComponent extends BaseCustomInputComponent<string[]
     elementRef: ElementRef<HTMLElement>,
     @Optional() @Self() ngControl: NgControl,
   ) {
-    super(
-      focusMonitor, 
-      elementRef, 
-      ngControl
-    );
+    super(focusMonitor, elementRef, ngControl);
   }
 
   drop(event: CdkDragDrop<string[]>) {
-    if (!this.stringElementArray || event.previousIndex === event.currentIndex)
-      return;
-    
+    if (!this.stringElementArray || event.previousIndex === event.currentIndex) return;
+
     moveItemInArray(this.stringElementArray, event.previousIndex, event.currentIndex);
-    
+
     this.edited();
   }
 
@@ -66,7 +60,7 @@ export class StringArrayInputComponent extends BaseCustomInputComponent<string[]
 
   addString() {
     this.stringElementArray.unshift({
-      string: ""
+      string: '',
     });
     this.edited();
   }

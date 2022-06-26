@@ -6,20 +6,10 @@ import { ClassesModule } from '@src/app/classes/_classes.module';
 import { ImageGalleryModule } from '@src/app/modules/image-gallery/image-gallery.module';
 import { Route, RouterModule } from '@angular/router';
 
-const ROUTES: Route[] = [
-  { path: '', component: PicturesPageComponent }
-];
+const ROUTES: Route[] = [{ path: '', component: PicturesPageComponent }];
 
 @NgModule({
-  declarations: [
-    PicturesPageComponent
-  ],
-  imports: [
-    RouterModule.forChild(ROUTES),
-    CommonModule,
-    CoreModule,
-    ClassesModule,
-    ImageGalleryModule
-  ]
+  declarations: [PicturesPageComponent],
+  imports: [RouterModule.forChild(ROUTES), CommonModule, CoreModule, ClassesModule, ImageGalleryModule],
 })
-export class PicturesPageModule { }
+export class PicturesPageModule {}

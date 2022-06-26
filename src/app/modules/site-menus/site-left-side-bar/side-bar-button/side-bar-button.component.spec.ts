@@ -8,9 +8,8 @@ describe('SideBarButtonComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ SideBarButtonComponent ]
-    })
-    .compileComponents();
+      declarations: [SideBarButtonComponent],
+    }).compileComponents();
   });
 
   beforeEach(() => {

@@ -8,9 +8,8 @@ describe('DarkModeToggleComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ DarkModeToggleComponent ]
-    })
-    .compileComponents();
+      declarations: [DarkModeToggleComponent],
+    }).compileComponents();
   });
 
   beforeEach(() => {

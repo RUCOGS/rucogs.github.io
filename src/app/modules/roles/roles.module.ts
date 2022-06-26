@@ -11,10 +11,7 @@ import { RolesDisplayComponent } from './roles-display/roles-display.component';
 import { TagsModule } from '@app/modules/tags/tags.module';
 
 @NgModule({
-  declarations: [
-    RoleCodesEditorComponent,
-    RolesDisplayComponent,
-  ],
+  declarations: [RoleCodesEditorComponent, RolesDisplayComponent],
   imports: [
     CommonModule,
     MatChipsModule,
@@ -25,9 +22,6 @@ import { TagsModule } from '@app/modules/tags/tags.module';
     MatIconModule,
     TagsModule,
   ],
-  exports: [
-    RoleCodesEditorComponent,
-    RolesDisplayComponent
-  ]
+  exports: [RoleCodesEditorComponent, RolesDisplayComponent],
 })
-export class RolesModule { }
+export class RolesModule {}

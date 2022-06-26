@@ -11,87 +11,84 @@ import { first } from 'rxjs/operators';
 import { PartialDeep } from 'type-fest';
 
 export interface InviteUserDialogData {
-  project: PartialDeep<Project>
+  project: PartialDeep<Project>;
 }
 
 @Component({
   selector: 'app-invite-user-dialog',
   templateUrl: './invite-user-dialog.component.html',
-  styleUrls: ['./invite-user-dialog.component.css']
+  styleUrls: ['./invite-user-dialog.component.css'],
 })
 export class InviteUserDialogComponent implements OnInit {
-
   project: PartialDeep<Project> = {};
   form: UntypedFormGroup;
 
   monitor = new ProcessMonitor();
 
   constructor(
-    formBuilder: UntypedFormBuilder, 
+    formBuilder: UntypedFormBuilder,
     private backend: BackendService,
     private uiMessageService: UIMessageService,
     public dialogRef: MatDialogRef<InviteUserDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: InviteUserDialogData,
-  ) { 
+  ) {
     this.form = formBuilder.group({
-      user: [null, [Validators.required]]
-    })
+      user: [null, [Validators.required]],
+    });
     this.project = data.project;
   }
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
   exit(success: boolean = false) {
-    if (!this.monitor.isProcessing)
-      this.dialogRef.close(success);
+    if (!this.monitor.isProcessing) this.dialogRef.close(success);
   }
 
   validate() {
     this.form.updateValueAndValidity();
     if (!this.form.valid) {
-      this.uiMessageService.error("Form is incomplete!");
+      this.uiMessageService.error('Form is incomplete!');
       return false;
     }
 
     const userId = this.form.get('user')?.value;
-    if (this.project.invites?.some(x => x?.user?.id === userId && x?.type === InviteType.Outgoing)) {
-      this.uiMessageService.error("User already has an outgoing invite from this project!");
+    if (this.project.invites?.some((x) => x?.user?.id === userId && x?.type === InviteType.Outgoing)) {
+      this.uiMessageService.error('User already has an outgoing invite from this project!');
       return false;
     }
-    if (this.project.members?.some(x => x?.user?.id === userId)) {
-      this.uiMessageService.error("User is already in the project!");
+    if (this.project.members?.some((x) => x?.user?.id === userId)) {
+      this.uiMessageService.error('User is already in the project!');
       return false;
     }
     return true;
   }
 
   async invite() {
-    if (this.monitor.isProcessing || !this.validate())
-      return;
-    
+    if (this.monitor.isProcessing || !this.validate()) return;
+
     this.monitor.addProcess();
 
     const userId = this.form.get('user')?.value;
 
-    const result = await firstValueFrom(this.backend.withAuth().mutate({
-      mutation: gql`
-        mutation InviteUserToProject($input: NewProjectInviteInput!) {
-          newProjectInvite(input: $input)
-        }
-      `,
-      variables: {
-        input: <NewProjectInviteInput>{
-          type: InviteType.Outgoing,
-          projectId: this.project.id,
-          userId: userId
-        }
-      }
-    }));
+    const result = await firstValueFrom(
+      this.backend.withAuth().mutate({
+        mutation: gql`
+          mutation InviteUserToProject($input: NewProjectInviteInput!) {
+            newProjectInvite(input: $input)
+          }
+        `,
+        variables: {
+          input: <NewProjectInviteInput>{
+            type: InviteType.Outgoing,
+            projectId: this.project.id,
+            userId: userId,
+          },
+        },
+      }),
+    );
 
-    if (result.errors)
-      return;
-    
+    if (result.errors) return;
+
     this.monitor.removeProcess();
     return this.exit(true);
   }

@@ -8,13 +8,9 @@ export * from './breakpoints';
 export * from './pictures-page-images';
 export * from './social-platforms';
 
-
 @NgModule({
   declarations: [],
-  imports: [
-    CommonModule,
-    ClassesModule
-  ],
-  providers: []
+  imports: [CommonModule, ClassesModule],
+  providers: [],
 })
-export class SettingsModule { }
+export class SettingsModule {}

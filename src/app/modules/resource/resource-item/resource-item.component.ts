@@ -3,28 +3,26 @@ import { Component, Input, OnInit } from '@angular/core';
 @Component({
   selector: 'app-resource-item',
   templateUrl: './resource-item.component.html',
-  styleUrls: ['./resource-item.component.css']
+  styleUrls: ['./resource-item.component.css'],
 })
 export class ResourceItemComponent implements OnInit {
+  constructor() {}
 
-  constructor() { }
+  @Input() type: string = 'article';
+  @Input() href: string = '';
 
-  @Input() type: string = "article";
-  @Input() href: string = "";
-
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
   getIcon(): string {
     switch (this.type) {
-      case "article":
-        return "article";
-      case "video":
-        return "video";
-      case "tutorial":
-        return "tutorial";
+      case 'article':
+        return 'article';
+      case 'video':
+        return 'video';
+      case 'tutorial':
+        return 'tutorial';
       default:
-        return "";
+        return '';
     }
   }
 

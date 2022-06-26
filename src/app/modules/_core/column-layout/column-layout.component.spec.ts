@@ -8,9 +8,8 @@ describe('ColumnLayoutComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ ColumnLayoutComponent ]
-    })
-    .compileComponents();
+      declarations: [ColumnLayoutComponent],
+    }).compileComponents();
   });
 
   beforeEach(() => {

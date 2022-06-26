@@ -4,27 +4,25 @@ import { BreakpointManagerService } from '@src/app/services/breakpoint-manager.s
 @Component({
   selector: 'app-users-page',
   templateUrl: './users-page.component.html',
-  styleUrls: ['./users-page.component.css']
+  styleUrls: ['./users-page.component.css'],
 })
 export class UsersPageComponent {
   usersTabs: {
-    matIcon: string, 
-    label: string, 
-    path: string 
+    matIcon: string;
+    label: string;
+    path: string;
   }[] = [
-    { 
+    {
       matIcon: 'person',
-      label: 'Members', 
-      path: './' 
+      label: 'Members',
+      path: './',
     },
-    { 
+    {
       matIcon: 'assignment_ind',
-      label: 'E-Board', 
-      path: './eboard' 
-    }
+      label: 'E-Board',
+      path: './eboard',
+    },
   ];
-  
-  constructor(
-    public breakpointManager: BreakpointManagerService
-  ) {}
+
+  constructor(public breakpointManager: BreakpointManagerService) {}
 }

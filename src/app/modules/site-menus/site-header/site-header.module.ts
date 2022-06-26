@@ -20,8 +20,6 @@ import { LoginButtonComponent } from './login-button/login-button.component';
 import { SiteHeaderComponent } from './site-header/site-header.component';
 import { TextButtonComponent } from './text-button/text-button.component';
 
-
-
 @NgModule({
   declarations: [
     CogsLogoTextButtonComponent,
@@ -47,8 +45,6 @@ import { TextButtonComponent } from './text-button/text-button.component';
     MatDividerModule,
     MatBadgeModule,
   ],
-  exports: [
-    SiteHeaderComponent,
-  ]
+  exports: [SiteHeaderComponent],
 })
-export class SiteHeaderModule { }
+export class SiteHeaderModule {}

@@ -8,9 +8,8 @@ describe('InlineProfileComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ InlineProfileComponent ]
-    })
-    .compileComponents();
+      declarations: [InlineProfileComponent],
+    }).compileComponents();
   });
 
   beforeEach(() => {

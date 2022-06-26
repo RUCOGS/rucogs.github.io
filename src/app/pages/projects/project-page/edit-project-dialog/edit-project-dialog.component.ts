@@ -23,10 +23,9 @@ export interface EditProjectDialogData {
 @Component({
   selector: 'app-edit-project-dialog',
   templateUrl: './edit-project-dialog.component.html',
-  styleUrls: ['./edit-project-dialog.component.css']
+  styleUrls: ['./edit-project-dialog.component.css'],
 })
 export class EditProjectDialogComponent implements AfterViewInit {
-
   @Output() edited = new EventEmitter<PartialDeep<Project>>();
 
   monitor = new ProcessMonitor();
@@ -36,9 +35,9 @@ export class EditProjectDialogComponent implements AfterViewInit {
 
   @ViewChild('cardImageUpload') cardImageUpload?: ImageUploadComponent;
   @ViewChild('bannerUpload') bannerUpload?: ImageUploadComponent;
-  
-  constructor( 
-    formBuilder: UntypedFormBuilder, 
+
+  constructor(
+    formBuilder: UntypedFormBuilder,
     private backend: BackendService,
     private cdnService: CdnService,
     private uiMessageService: UIMessageService,
@@ -49,23 +48,27 @@ export class EditProjectDialogComponent implements AfterViewInit {
     this.form = formBuilder.group({
       name: [this.data.project.name, [Validators.required]],
       access: [this.data.project.access, [Validators.required]],
-      galleryImages: [this.data.project.galleryImageLinks?.map(x => <UploadOrSource>{
-        source: x
-      })],
+      galleryImages: [
+        this.data.project.galleryImageLinks?.map(
+          (x) =>
+            <UploadOrSource>{
+              source: x,
+            },
+        ),
+      ],
       // TODO: replace with this.data.project.downloadLinks
       downloadLinks: [this.data.project.downloadLinks],
       soundcloudEmbedSrc: [this.data.project.soundcloudEmbedSrc],
       pitch: [this.data.project.pitch, [Validators.required]],
       description: [this.data.project.description],
       tags: [this.data.project.tags],
-      completed: [this.data.project.completedAt]
-    })
+      completed: [this.data.project.completedAt],
+    });
     dialogRef.disableClose = true;
   }
 
   ngAfterViewInit(): void {
-    if (!this.cardImageUpload || !this.bannerUpload || !this.data.project.id)
-      return;
+    if (!this.cardImageUpload || !this.bannerUpload || !this.data.project.id) return;
 
     this.cardImageUpload.init(this.cdnService.getFileLink(this.data.project.cardImageLink));
     this.bannerUpload.init(this.cdnService.getFileLink(this.data.project.bannerLink));
@@ -74,108 +77,112 @@ export class EditProjectDialogComponent implements AfterViewInit {
   }
 
   exit(success: boolean = false) {
-    if (!this.monitor.isProcessing)
-      this.dialogRef.close(success);
+    if (!this.monitor.isProcessing) this.dialogRef.close(success);
   }
 
   validate() {
     try {
       this.form.updateValueAndValidity();
       if (!this.form.valid) {
-        throw new Error("Some project information is missing!");
+        throw new Error('Some project information is missing!');
       }
 
-      if (this.form.get("soundcloudEmbedSrc")?.value !== "" && this.form.get("soundcloudEmbedSrc")?.value !== this.data.project.soundcloudEmbedSrc) {
-        const soundcloudEmbedSrc: string = this.form.get("soundcloudEmbedSrc")?.value ?? "";
+      if (
+        this.form.get('soundcloudEmbedSrc')?.value !== '' &&
+        this.form.get('soundcloudEmbedSrc')?.value !== this.data.project.soundcloudEmbedSrc
+      ) {
+        const soundcloudEmbedSrc: string = this.form.get('soundcloudEmbedSrc')?.value ?? '';
         const match = soundcloudEmbedRegex.exec(soundcloudEmbedSrc);
         if (!match || match.length === 0) {
           // Process the embed src to find the link
-          this.uiMessageService.error("Soundcloud embed source is not valid!");
+          this.uiMessageService.error('Soundcloud embed source is not valid!');
           return false;
         } else {
-          this.form.get("soundcloudEmbedSrc")?.setValue(match[0]);
+          this.form.get('soundcloudEmbedSrc')?.setValue(match[0]);
         }
       }
 
       return true;
-    } catch(err: any) {
+    } catch (err: any) {
       this.uiMessageService.error(err);
       return false;
     }
   }
 
   save() {
-    if (this.monitor.isProcessing || !this.cardImageUpload || !this.bannerUpload ||
-        !this.validate())
-      return;
+    if (this.monitor.isProcessing || !this.cardImageUpload || !this.bannerUpload || !this.validate()) return;
 
     // Upload profile picture
     const input = <UpdateProjectInput>{
-      id: this.data.project.id
+      id: this.data.project.id,
     };
 
-    if (this.form.get("access")?.value !== this.data.project.access) {
-      input.access = this.form.get("access")?.value;
+    if (this.form.get('access')?.value !== this.data.project.access) {
+      input.access = this.form.get('access')?.value;
     }
 
-    if (this.form.get("name")?.value !== this.data.project.name) {
-      input.name = this.form.get("name")?.value;
-    }
-    
-    if (this.form.get("pitch")?.value !== this.data.project.pitch) {
-      input.pitch = this.form.get("pitch")?.value;
+    if (this.form.get('name')?.value !== this.data.project.name) {
+      input.name = this.form.get('name')?.value;
     }
 
-    if (this.form.get("description")?.value !== this.data.project.description) {
-      input.description = this.form.get("description")?.value;
+    if (this.form.get('pitch')?.value !== this.data.project.pitch) {
+      input.pitch = this.form.get('pitch')?.value;
     }
 
-    if (this.form.get("soundcloudEmbedSrc")?.value !== this.data.project.soundcloudEmbedSrc) {
-      input.soundcloudEmbedSrc = this.form.get("soundcloudEmbedSrc")?.value;
+    if (this.form.get('description')?.value !== this.data.project.description) {
+      input.description = this.form.get('description')?.value;
     }
 
-    if ((this.form.get("completed")?.value === false && this.data.project.completedAt) || 
-      (this.form.get("completed")?.value === true && !this.data.project.completedAt)
+    if (this.form.get('soundcloudEmbedSrc')?.value !== this.data.project.soundcloudEmbedSrc) {
+      input.soundcloudEmbedSrc = this.form.get('soundcloudEmbedSrc')?.value;
+    }
+
+    if (
+      (this.form.get('completed')?.value === false && this.data.project.completedAt) ||
+      (this.form.get('completed')?.value === true && !this.data.project.completedAt)
     ) {
-      input.completed = this.form.get("completed")?.value;
+      input.completed = this.form.get('completed')?.value;
     }
 
-    if (!arraysEqual(this.form.get("downloadLinks")?.value, this.data.project.downloadLinks as string[])) {
-      input.downloadLinks = this.form.get("downloadLinks")?.value;
-    }
-    
-    if (!arraysEqual(this.form.get("tags")?.value, this.data.project.tags as string[])) {
-      input.tags = this.form.get("tags")?.value;
+    if (!arraysEqual(this.form.get('downloadLinks')?.value, this.data.project.downloadLinks as string[])) {
+      input.downloadLinks = this.form.get('downloadLinks')?.value;
     }
 
-    if (this.form.get("galleryImages")?.touched) {
-      input.galleryImages = this.form.get("galleryImages")?.value.map((x: UploadOrSource) => <UploadOrSource>{
-        ...(!x.source?.startsWith('data:') && { source: x.source }),
-        ...(x.upload && { upload: x.upload }),
-      });
+    if (!arraysEqual(this.form.get('tags')?.value, this.data.project.tags as string[])) {
+      input.tags = this.form.get('tags')?.value;
+    }
+
+    if (this.form.get('galleryImages')?.touched) {
+      input.galleryImages = this.form.get('galleryImages')?.value.map(
+        (x: UploadOrSource) =>
+          <UploadOrSource>{
+            ...(!x.source?.startsWith('data:') && { source: x.source }),
+            ...(x.upload && { upload: x.upload }),
+          },
+      );
     }
 
     if (this.cardImageUpload.edited) {
       if (this.cardImageUpload.value)
         input.cardImage = {
           upload: this.cardImageUpload.value,
-          operation: UploadOperation.Insert
+          operation: UploadOperation.Insert,
         };
       else
         input.cardImage = {
-          operation: UploadOperation.Delete
+          operation: UploadOperation.Delete,
         };
     }
-    
+
     if (this.bannerUpload.edited) {
       if (this.bannerUpload.value)
         input.banner = {
           upload: this.bannerUpload.value,
-          operation: UploadOperation.Insert
+          operation: UploadOperation.Insert,
         };
       else
         input.banner = {
-          operation: UploadOperation.Delete
+          operation: UploadOperation.Delete,
         };
     }
 
@@ -190,8 +197,8 @@ export class EditProjectDialogComponent implements AfterViewInit {
             }
           `,
           variables: {
-            input
-          }
+            input,
+          },
         })
         .pipe(first())
         .subscribe({
@@ -201,8 +208,8 @@ export class EditProjectDialogComponent implements AfterViewInit {
           },
           error: (value) => {
             this.monitor.removeProcess();
-            this.uiMessageService.error("Error uploading data!");
-          }
+            this.uiMessageService.error('Error uploading data!');
+          },
         });
     }
   }

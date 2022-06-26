@@ -8,9 +8,8 @@ describe('AvatarGroupComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ AvatarGroupComponent ]
-    })
-    .compileComponents();
+      declarations: [AvatarGroupComponent],
+    }).compileComponents();
   });
 
   beforeEach(() => {

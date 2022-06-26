@@ -8,9 +8,8 @@ describe('ProjectMembersInputComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ ProjectMembersInputComponent ]
-    })
-    .compileComponents();
+      declarations: [ProjectMembersInputComponent],
+    }).compileComponents();
   });
 
   beforeEach(() => {

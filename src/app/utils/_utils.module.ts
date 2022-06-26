@@ -7,8 +7,6 @@ export * from './form-utils';
 
 @NgModule({
   declarations: [],
-  imports: [
-    CommonModule,
-  ],
+  imports: [CommonModule],
 })
-export class UtilsModule { }
+export class UtilsModule {}

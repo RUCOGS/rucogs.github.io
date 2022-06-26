@@ -8,9 +8,8 @@ describe('CogsLogoTextButtonComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ CogsLogoTextButtonComponent ]
-    })
-    .compileComponents();
+      declarations: [CogsLogoTextButtonComponent],
+    }).compileComponents();
   });
 
   beforeEach(() => {

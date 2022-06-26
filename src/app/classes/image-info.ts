@@ -3,7 +3,7 @@ export class ImageInfo {
   public description: string;
   public tags: string[];
 
-  public constructor(filePath: string, description: string = "", tags: string[] = []) {
+  public constructor(filePath: string, description: string = '', tags: string[] = []) {
     this.filePath = filePath;
     this.description = description;
     this.tags = tags;

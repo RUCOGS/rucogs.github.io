@@ -8,9 +8,8 @@ describe('EboardProfileComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ EboardProfileComponent ]
-    })
-    .compileComponents();
+      declarations: [EboardProfileComponent],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(EboardProfileComponent);
     component = fixture.componentInstance;

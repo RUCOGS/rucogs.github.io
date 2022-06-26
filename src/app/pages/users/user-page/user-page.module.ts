@@ -31,9 +31,7 @@ import { AddEboardTermDialogComponent } from './add-eboard-term-dialog/add-eboar
 import { MatSelectModule } from '@angular/material/select';
 import { TagsModule } from '@src/app/modules/tags/tags.module';
 
-const ROUTES: Route[] = [
-  { path: '', component: UserPageComponent }
-];
+const ROUTES: Route[] = [{ path: '', component: UserPageComponent }];
 
 @NgModule({
   declarations: [
@@ -45,7 +43,7 @@ const ROUTES: Route[] = [
     EboardTabComponent,
     EditEboardDialogComponent,
     EditEboardTermDialogComponent,
-    AddEboardTermDialogComponent
+    AddEboardTermDialogComponent,
   ],
   imports: [
     RouterModule.forChild(ROUTES),
@@ -73,8 +71,6 @@ const ROUTES: Route[] = [
     TagsModule,
     MatTooltipModule,
   ],
-  exports: [
-    UserPageComponent
-  ]
+  exports: [UserPageComponent],
 })
-export class UserPageModule { }
+export class UserPageModule {}

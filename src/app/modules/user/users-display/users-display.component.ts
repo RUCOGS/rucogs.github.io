@@ -8,16 +8,19 @@ import { firstValueFrom } from 'rxjs';
 @Component({
   selector: 'app-users-display',
   templateUrl: './users-display.component.html',
-  styleUrls: ['./users-display.component.css']
+  styleUrls: ['./users-display.component.css'],
 })
 export class UsersDisplayComponent extends BaseFilteredHeaderScrollPaginationComponent<Partial<User>, UserFilterInput> {
-
-  get users() { return this.values; }
+  get users() {
+    return this.values;
+  }
   @Input() set users(values) {
     this.values = values;
   }
 
-  get usersQuery() { return this.filteredValuesQuery; }
+  get usersQuery() {
+    return this.filteredValuesQuery;
+  }
   @Input() set usersQuery(value) {
     this.filteredValuesQuery = value;
   }
@@ -25,64 +28,64 @@ export class UsersDisplayComponent extends BaseFilteredHeaderScrollPaginationCom
   valuesPerPage: number = 21;
 
   getFilter(): UserFilterInput {
-    if (!this.filterHeader)
-      return {};
-    
+    if (!this.filterHeader) return {};
+
     return {
       ...(this.filterHeader.searchText && {
         or_: [
           {
-            username: { 
-              startsWith: this.filterHeader.searchText, 
-              mode: 'INSENSITIVE' 
-            }
+            username: {
+              startsWith: this.filterHeader.searchText,
+              mode: 'INSENSITIVE',
+            },
           },
           {
             displayName: {
               startsWith: this.filterHeader.searchText,
-              mode: 'INSENSITIVE'
-            }
-          }
+              mode: 'INSENSITIVE',
+            },
+          },
         ],
-      })
-    }
+      }),
+    };
   }
 
   _filteredValuesQuery = async (filter: UserFilterInput, skip: number, limit: number) => {
-    const results = await firstValueFrom(this.backend.withAuth().query<{
-      users: {
-        // Result type
-        avatarLink: string, 
-        displayName: string,
-        username: string,
-        bio: string,
-      }[]
-    }>({
-      query: gql`
-        query DisplayUsers($filter: UserFilterInput, $limit: Int, $skip: Int, $sorts: [UserSortInput!]) {
-          users(filter: $filter, limit: $limit, skip: $skip, sorts: $sorts) {
-            avatarLink
-            displayName
-            username
+    const results = await firstValueFrom(
+      this.backend.withAuth().query<{
+        users: {
+          // Result type
+          avatarLink: string;
+          displayName: string;
+          username: string;
+          bio: string;
+        }[];
+      }>({
+        query: gql`
+          query DisplayUsers($filter: UserFilterInput, $limit: Int, $skip: Int, $sorts: [UserSortInput!]) {
+            users(filter: $filter, limit: $limit, skip: $skip, sorts: $sorts) {
+              avatarLink
+              displayName
+              username
+            }
           }
-        }
-      `,
-      variables: {
-        // Pagination
-        // TODO EVENTUALLY: Use cursor pagination once Typetta suppoorts that
-        skip,
-        limit,
-        filter,
-        sorts: [
-          <UserSortInput>{
-            username: 'asc'
-          }
-        ]
-      }
-    }));
-    
-    if (results.error)
-      return [];
+        `,
+        variables: {
+          // Pagination
+          // TODO EVENTUALLY: Use cursor pagination once Typetta suppoorts that
+          skip,
+          limit,
+          filter,
+          sorts: [
+            <UserSortInput>{
+              username: 'asc',
+            },
+          ],
+        },
+      }),
+    );
+
+    if (results.error) return [];
     return results.data.users;
-  }
+  };
 }

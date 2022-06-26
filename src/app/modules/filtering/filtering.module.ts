@@ -10,11 +10,8 @@ import { MatButtonModule } from '@angular/material/button';
 
 export { FilterHeaderComponent };
 
-
 @NgModule({
-  declarations: [
-    FilterHeaderComponent,
-  ],
+  declarations: [FilterHeaderComponent],
   imports: [
     CommonModule,
     FormsModule,
@@ -24,8 +21,6 @@ export { FilterHeaderComponent };
     MatInputModule,
     MatButtonModule,
   ],
-  exports: [
-    FilterHeaderComponent,
-  ]
+  exports: [FilterHeaderComponent],
 })
-export class FilteringModule { }
+export class FilteringModule {}

@@ -4,13 +4,10 @@ import { SettingsService } from '@src/_settings';
 @Component({
   selector: 'app-header-social-media-buttons',
   templateUrl: './header-social-media-buttons.component.html',
-  styleUrls: ['./header-social-media-buttons.component.css']
+  styleUrls: ['./header-social-media-buttons.component.css'],
 })
 export class HeaderSocialMediaButtonsComponent implements OnInit {
+  constructor(public settings: SettingsService) {}
 
-  constructor(public settings: SettingsService) { }
-
-  ngOnInit(): void {
-  }
-
+  ngOnInit(): void {}
 }

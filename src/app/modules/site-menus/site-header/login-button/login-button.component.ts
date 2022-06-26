@@ -10,10 +10,9 @@ import { first, takeUntil } from 'rxjs/operators';
 @Component({
   selector: 'app-login-button',
   templateUrl: './login-button.component.html',
-  styleUrls: ['./login-button.component.css']
+  styleUrls: ['./login-button.component.css'],
 })
 export class LoginButtonComponent implements OnInit, OnDestroy {
-
   onDestroy$ = new Subject<void>();
   isLoggedIn: boolean = false;
   user: Partial<User> | undefined;
@@ -22,19 +21,16 @@ export class LoginButtonComponent implements OnInit, OnDestroy {
     public cdn: CdnService,
     private authService: AuthService,
     private router: Router,
-    private uiMessageService: UIMessageService
-  ) {   
-  }
+    private uiMessageService: UIMessageService,
+  ) {}
 
   ngOnInit(): void {
-    this.authService.payload$
-      .pipe(takeUntil(this.onDestroy$))
-      .subscribe((payload) => {
-        this.user = payload?.user;
-        this.isLoggedIn = payload !== undefined;
-      });
+    this.authService.payload$.pipe(takeUntil(this.onDestroy$)).subscribe((payload) => {
+      this.user = payload?.user;
+      this.isLoggedIn = payload !== undefined;
+    });
   }
-  
+
   ngOnDestroy(): void {
     this.onDestroy$.next();
     this.onDestroy$.complete();

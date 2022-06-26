@@ -9,24 +9,9 @@ import { ServicesModule } from '@src/app/services/_services.module';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { RouterModule } from '@angular/router';
 
-
-
 @NgModule({
-  declarations: [
-    SiteLeftSideBarComponent,
-    SideBarButtonComponent
-  ],
-  imports: [
-    CommonModule,
-    MatButtonModule,
-    CoreModule,
-    MatIconModule,
-    ServicesModule,
-    MatTooltipModule,
-    RouterModule
-  ],
-  exports: [
-    SiteLeftSideBarComponent
-  ]
+  declarations: [SiteLeftSideBarComponent, SideBarButtonComponent],
+  imports: [CommonModule, MatButtonModule, CoreModule, MatIconModule, ServicesModule, MatTooltipModule, RouterModule],
+  exports: [SiteLeftSideBarComponent],
 })
-export class SiteLeftSideBarModule { }
+export class SiteLeftSideBarModule {}

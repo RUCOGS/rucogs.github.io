@@ -4,19 +4,17 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'app-cogs-logo-text-button',
   templateUrl: './cogs-logo-text-button.component.html',
-  styleUrls: ['./cogs-logo-text-button.component.css']
+  styleUrls: ['./cogs-logo-text-button.component.css'],
 })
 export class CogsLogoTextButtonComponent implements OnInit {
-
   hover: boolean = false;
   active: boolean = false;
 
-  constructor(private router: Router) { }
+  constructor(private router: Router) {}
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
   onClick() {
-    this.router.navigateByUrl("home");
+    this.router.navigateByUrl('home');
   }
 }

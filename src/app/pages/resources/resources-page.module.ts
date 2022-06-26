@@ -6,20 +6,10 @@ import { ResourceModule } from '@src/app/modules/resource/resource.module';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { Route, RouterModule } from '@angular/router';
 
-const ROUTES: Route[] = [
-  { path: '', component: ResourcesPageComponent }
-];
+const ROUTES: Route[] = [{ path: '', component: ResourcesPageComponent }];
 
 @NgModule({
-  declarations: [
-    ResourcesPageComponent
-  ],
-  imports: [
-    RouterModule.forChild(ROUTES),
-    CommonModule,
-    CoreModule,
-    ResourceModule,
-    MatExpansionModule
-  ]
+  declarations: [ResourcesPageComponent],
+  imports: [RouterModule.forChild(ROUTES), CommonModule, CoreModule, ResourceModule, MatExpansionModule],
 })
-export class ResourcesPageModule { }
+export class ResourcesPageModule {}

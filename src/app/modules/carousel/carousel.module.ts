@@ -8,24 +8,9 @@ import { MatIconModule } from '@angular/material/icon';
 import { UtilsModule } from '@src/app/utils/_utils.module';
 import { ServicesModule } from '@src/app/services/_services.module';
 
-
-
 @NgModule({
-  declarations: [
-    CarouselComponent,
-    CarouselItemDirective
-  ],
-  imports: [
-    CommonModule,
-    MatButtonModule,
-    ButtonStylesModule,
-    MatIconModule,
-    UtilsModule,
-    ServicesModule
-  ],
-  exports: [
-    CarouselComponent,
-    CarouselItemDirective
-  ]
+  declarations: [CarouselComponent, CarouselItemDirective],
+  imports: [CommonModule, MatButtonModule, ButtonStylesModule, MatIconModule, UtilsModule, ServicesModule],
+  exports: [CarouselComponent, CarouselItemDirective],
 })
-export class CarouselModule { }
+export class CarouselModule {}

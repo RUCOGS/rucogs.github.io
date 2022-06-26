@@ -18,8 +18,7 @@ export class ProjectMemberEdit {
     public editor?: EditableProjectMemberProfileComponent,
   ) {
     this.projectMember = deepClone(projectMember);
-    if (projectMember.roles)
-      this.roles = projectMember.roles.map(x => x!.roleCode!);
+    if (projectMember.roles) this.roles = projectMember.roles.map((x) => x!.roleCode!);
     this.projectMember.roles = undefined;
   }
 
@@ -29,10 +28,12 @@ export class ProjectMemberEdit {
 
   public compositeValue() {
     const composite = deepClone(this.projectMember);
-    composite.roles = this.roles
-      .map(x => <ProjectMemberRole>{
-        roleCode: x
-      });
+    composite.roles = this.roles.map(
+      (x) =>
+        <ProjectMemberRole>{
+          roleCode: x,
+        },
+    );
     return composite;
   }
 }
@@ -40,7 +41,7 @@ export class ProjectMemberEdit {
 @Component({
   selector: 'app-editable-project-member-profile',
   templateUrl: './editable-project-member-profile.component.html',
-  styleUrls: ['./editable-project-member-profile.component.css']
+  styleUrls: ['./editable-project-member-profile.component.css'],
 })
 export class EditableProjectMemberProfileComponent implements OnInit, OnDestroy {
   @Output() delete = new EventEmitter();
@@ -59,11 +60,11 @@ export class EditableProjectMemberProfileComponent implements OnInit, OnDestroy 
   }
 
   protected onDestroy$ = new Subject<void>();
-  
-  constructor(private formBuilder: UntypedFormBuilder) { 
+
+  constructor(private formBuilder: UntypedFormBuilder) {
     this.form = formBuilder.group({
       contributions: [null, []],
-      user: [null, [Validators.required]]
+      user: [null, [Validators.required]],
     });
   }
 
@@ -75,26 +76,35 @@ export class EditableProjectMemberProfileComponent implements OnInit, OnDestroy 
     this.form.get('user')?.setValue(this.projectMemberEdit.projectMember.user);
     this.form.get('contributions')?.setValue(this.projectMemberEdit.projectMember.contributions);
     this.form.get('roles')?.setValue(this.projectMemberEdit.projectMember.roles);
-    this.form.get('user')?.valueChanges.pipe(takeUntil(this.onDestroy$)).subscribe({
-      next: (value: PartialDeep<User> | null) => {
-        this.projectMemberEdit.projectMember.user = value ?? undefined;
-        this.edit.emit();
-      }
-    });
-    this.form.get('contributions')?.valueChanges.pipe(takeUntil(this.onDestroy$)).subscribe({
-      next: (value: string) => {
-        this.projectMemberEdit.projectMember.contributions = value;
-        this.edit.emit();
-      }
-    });
-    this.form.get('roles')?.valueChanges.pipe(takeUntil(this.onDestroy$)).subscribe({
-      next: (value: RoleCode[]) => {
-        this.projectMemberEdit.roles = value;
-        this.edit.emit();
-      }
-    });
+    this.form
+      .get('user')
+      ?.valueChanges.pipe(takeUntil(this.onDestroy$))
+      .subscribe({
+        next: (value: PartialDeep<User> | null) => {
+          this.projectMemberEdit.projectMember.user = value ?? undefined;
+          this.edit.emit();
+        },
+      });
+    this.form
+      .get('contributions')
+      ?.valueChanges.pipe(takeUntil(this.onDestroy$))
+      .subscribe({
+        next: (value: string) => {
+          this.projectMemberEdit.projectMember.contributions = value;
+          this.edit.emit();
+        },
+      });
+    this.form
+      .get('roles')
+      ?.valueChanges.pipe(takeUntil(this.onDestroy$))
+      .subscribe({
+        next: (value: RoleCode[]) => {
+          this.projectMemberEdit.roles = value;
+          this.edit.emit();
+        },
+      });
   }
-  
+
   ngOnDestroy() {
     this.onDestroy$.next();
     this.onDestroy$.complete();
@@ -102,7 +112,7 @@ export class EditableProjectMemberProfileComponent implements OnInit, OnDestroy 
 
   validate() {
     this.form.updateValueAndValidity({
-      emitEvent: true
+      emitEvent: true,
     });
     return this.form.valid;
   }

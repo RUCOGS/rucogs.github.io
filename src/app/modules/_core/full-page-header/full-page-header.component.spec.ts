@@ -8,9 +8,8 @@ describe('FullPageHeaderComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ FullPageHeaderComponent ]
-    })
-    .compileComponents();
+      declarations: [FullPageHeaderComponent],
+    }).compileComponents();
   });
 
   beforeEach(() => {

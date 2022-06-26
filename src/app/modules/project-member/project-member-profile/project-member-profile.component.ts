@@ -6,19 +6,16 @@ import { PartialDeep } from 'type-fest';
 @Component({
   selector: 'app-project-member-profile',
   templateUrl: './project-member-profile.component.html',
-  styleUrls: ['./project-member-profile.component.css']
+  styleUrls: ['./project-member-profile.component.css'],
 })
 export class ProjectMemberProfileComponent implements OnInit {
   @Input() projectMember: PartialDeep<ProjectMember> = {};
 
-  constructor(
-    public cdn: CdnService
-  ) { }
+  constructor(public cdn: CdnService) {}
 
-  ngOnInit(): void {
-  }
-  
+  ngOnInit(): void {}
+
   getRoles() {
-    return this.projectMember.roles?.map(x => x!.roleCode!) ?? [];
+    return this.projectMember.roles?.map((x) => x!.roleCode!) ?? [];
   }
 }

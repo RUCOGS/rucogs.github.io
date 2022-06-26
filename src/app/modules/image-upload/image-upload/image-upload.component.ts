@@ -1,5 +1,15 @@
 import { FocusMonitor } from '@angular/cdk/a11y';
-import { ChangeDetectorRef, Component, ElementRef, EventEmitter, Input, OnInit, Optional, Output, Self } from '@angular/core';
+import {
+  ChangeDetectorRef,
+  Component,
+  ElementRef,
+  EventEmitter,
+  Input,
+  OnInit,
+  Optional,
+  Output,
+  Self,
+} from '@angular/core';
 import { NgControl } from '@angular/forms';
 import { MatFormFieldControl } from '@angular/material/form-field';
 import { ProcessMonitor } from '@src/app/classes/process-monitor';
@@ -15,12 +25,12 @@ import { UIMessageService } from '../../ui-message/ui-message.module';
     {
       provide: MatFormFieldControl,
       useExisting: ImageUploadComponent,
-    }
-  ]
+    },
+  ],
 })
 export class ImageUploadComponent extends BaseCustomInputComponent<File> implements OnInit {
-  @Input() fileSizeLimit: string = "10 MB";
-  @Input() imageSrc: string = "";
+  @Input() fileSizeLimit: string = '10 MB';
+  @Input() imageSrc: string = '';
   @Input() edited = false;
 
   monitor = new ProcessMonitor();
@@ -33,19 +43,15 @@ export class ImageUploadComponent extends BaseCustomInputComponent<File> impleme
     focusMonitor: FocusMonitor,
     elementRef: ElementRef,
     @Optional() @Self() ngControl: NgControl,
-  ) { 
-    super(
-      focusMonitor,
-      elementRef,
-      ngControl
-    )
+  ) {
+    super(focusMonitor, elementRef, ngControl);
   }
 
   ngOnInit(): void {
     const args = this.fileSizeLimit.split(' ');
     this.fileSizeLimitBytes = FileUtils.byteStringToBytes(this.fileSizeLimit);
   }
-  
+
   init(imageSrc: string) {
     this.imageSrc = imageSrc;
     this.edited = false;
@@ -55,17 +61,17 @@ export class ImageUploadComponent extends BaseCustomInputComponent<File> impleme
   onDeleteClicked() {
     this.value = null;
     this.edited = true;
-    this.imageSrc = "";
+    this.imageSrc = '';
   }
 
   onImageFileChanged(event: any) {
     const file: File = event.target.files[0];
-    
+
     if (file) {
       this.monitor.addProcess();
       this.changeDetector.detectChanges();
       FileUtils.readAsBase64(file)
-        .then(result => {
+        .then((result) => {
           // Limit file size
           const filesize = file.size;
           if (filesize < this.fileSizeLimitBytes) {
@@ -73,10 +79,14 @@ export class ImageUploadComponent extends BaseCustomInputComponent<File> impleme
             this.imageSrc = result;
             this.edited = true;
           } else {
-            this.uiMessageService.error(`File size is too big! ${FileUtils.byteSizeToString(filesize)} > ${FileUtils.byteSizeToString(this.fileSizeLimitBytes)}`);
+            this.uiMessageService.error(
+              `File size is too big! ${FileUtils.byteSizeToString(filesize)} > ${FileUtils.byteSizeToString(
+                this.fileSizeLimitBytes,
+              )}`,
+            );
           }
         })
-        .catch(err => {
+        .catch((err) => {
           console.log(err);
         })
         .finally(() => {

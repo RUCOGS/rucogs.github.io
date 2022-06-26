@@ -3,17 +3,14 @@ import { Component, HostBinding, Input, OnInit } from '@angular/core';
 @Component({
   selector: 'app-resource-panel',
   templateUrl: './resource-panel.component.html',
-  styleUrls: ['./resource-panel.component.css']
+  styleUrls: ['./resource-panel.component.css'],
 })
 export class ResourcePanelComponent implements OnInit {
-
-  constructor() { }
+  constructor() {}
 
   @HostBinding('class.mat-expansion-panel') isExpansionPanel;
-  @Input() iconifyIcon: string = "";
-  @Input() title: string = "";
+  @Input() iconifyIcon: string = '';
+  @Input() title: string = '';
 
-  ngOnInit(): void {
-  }
-
+  ngOnInit(): void {}
 }
