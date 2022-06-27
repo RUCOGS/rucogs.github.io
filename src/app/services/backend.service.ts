@@ -9,17 +9,17 @@ import {
   SubscriptionOptions,
   WatchQueryOptions,
 } from '@apollo/client/core';
+import { GraphQLWsLink } from '@apollo/client/link/subscriptions';
+import { getMainDefinition } from '@apollo/client/utilities';
 import { EntityManagerMetadata, OperationSecurityDomain } from '@src/shared/security';
 import { SettingsService } from '@src/_settings';
 import { Apollo, QueryRef } from 'apollo-angular';
 import { EmptyObject, ExtraSubscriptionOptions, MutationOptions, MutationResult } from 'apollo-angular/types';
 import { createUploadLink } from 'apollo-upload-client';
+import { Client as GraphQLWsClient, createClient } from 'graphql-ws';
 import { Observable, Subject } from 'rxjs';
-import { AuthService } from './auth.service';
-import { GraphQLWsLink } from '@apollo/client/link/subscriptions';
-import { createClient, Client as GraphQLWsClient } from 'graphql-ws';
-import { getMainDefinition } from '@apollo/client/utilities';
 import { takeUntil } from 'rxjs/operators';
+import { AuthService } from './auth.service';
 
 type HttpClientOptions = {
   headers?:
@@ -190,18 +190,27 @@ export class BackendService implements OnDestroy {
     options: WatchQueryOptions<TVariables, TData>,
   ): QueryRef<TData, TVariables> {
     const result = this.apollo.default().watchQuery<TData, TVariables>(this.configureApolloOperationOptions(options));
+    result.valueChanges.pipe(takeUntil(this.onDestroy$)).subscribe((result) => {
+      if (result.errors && result.errors[0].message.includes('Token unauthorized')) this.authService.logout();
+    });
     this.resetOpSettings();
     return result;
   }
 
   query<T, V = EmptyObject>(options: QueryOptions<V, T>): Observable<ApolloQueryResult<T>> {
     const result = this.apollo.default().query<T, V>(this.configureApolloOperationOptions(options));
+    result.pipe(takeUntil(this.onDestroy$)).subscribe((result) => {
+      if (result.errors && result.errors[0].message.includes('Token unauthorized')) this.authService.logout();
+    });
     this.resetOpSettings();
     return result;
   }
 
   mutate<T, V = EmptyObject>(options: MutationOptions<T, V>): Observable<MutationResult<T>> {
     const result = this.apollo.default().mutate<T, V>(this.configureApolloOperationOptions(options));
+    result.pipe(takeUntil(this.onDestroy$)).subscribe((result) => {
+      if (result.errors && result.errors[0].message.includes('Token unauthorized')) this.authService.logout();
+    });
     this.resetOpSettings();
     return result;
   }
@@ -210,11 +219,14 @@ export class BackendService implements OnDestroy {
     options: SubscriptionOptions<V, T>,
     extra?: ExtraSubscriptionOptions,
   ): Observable<FetchResult<T>> {
-    const result = this.apollo.default().subscribe<T, V>(this.configureApolloOperationOptions(options));
+    const result = this.apollo.default().subscribe<T, V>(this.configureApolloOperationOptions(options), extra);
+    result.pipe(takeUntil(this.onDestroy$)).subscribe((result) => {
+      if (result.errors && result.errors[0].message.includes('Token unauthorized')) this.authService.logout();
+    });
     this.resetOpSettings();
     return result;
   }
-  // #endregion // -- SETTINGS ----- //
+  // #endregion // -- GRAPHQL ----- //
 
   // #region // ----- REST ----- //
   get<T>(url: string, body: any | null, options?: HttpClientOptions): Observable<T> {
