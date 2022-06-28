@@ -33,7 +33,7 @@
           width: 100%;
           height: 100%;
         " class="background-color-card">
-          <app-image-upload #avatarUpload fileSizeLimit="5 MB" class="app-edit-user-dialog avatar"></app-image-upload>
+          <app-image-upload #avatarUpload fileSizeLimit="5 MB" class="app-edit-user-private-dialog avatar"></app-image-upload>
         </div>
       </div>
     </div>
@@ -51,7 +51,6 @@
         display: flex;
         flex-direction: row;
         flex-wrap: wrap;
-        gap: 12px
       ">
         <mat-form-field appearance="outline" style="flex: 1;">
           <mat-label>Display Name</mat-label>
@@ -91,7 +90,7 @@
         margin-bottom: 0.5em;
       ">
         <div style="margin-bottom: 0; flex-grow: 1;">Socials</div>
-        <button type="button" mat-stroked-button pill class="app-edit-user-dialog add-socials-button" (click)="onAddSocial()">
+        <button type="button" mat-stroked-button pill class="app-edit-user-private-dialog add-socials-button" (click)="onAddSocial()">
           <mat-icon>add</mat-icon>
           Add Social
         </button>

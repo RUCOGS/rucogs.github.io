@@ -1,17 +1,4 @@
-import {
-  AfterContentInit,
-  AfterViewChecked,
-  AfterViewInit,
-  ChangeDetectorRef,
-  Component,
-  ContentChildren,
-  ElementRef,
-  HostBinding,
-  Input,
-  OnDestroy,
-  OnInit,
-  QueryList,
-} from '@angular/core';
+import { AfterViewInit, Component, ElementRef, HostBinding, Input, OnDestroy, OnInit } from '@angular/core';
 import { CssLengthService } from '@src/app/services/css-length.service';
 
 @Component({
@@ -28,11 +15,7 @@ export class CardGridComponent implements OnInit, AfterViewInit, OnDestroy {
   gridTemplateColumns: string = '';
   observer: MutationObserver;
 
-  constructor(
-    private elementRef: ElementRef,
-    private cssLength: CssLengthService,
-    private changeDetector: ChangeDetectorRef,
-  ) {
+  constructor(private elementRef: ElementRef, private cssLength: CssLengthService) {
     this.observer = new MutationObserver((mutations) => {
       this.updateGridTemplateColumns();
     });
