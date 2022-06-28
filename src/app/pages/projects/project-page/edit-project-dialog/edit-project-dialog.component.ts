@@ -12,11 +12,13 @@ import { Project, UpdateProjectInput, UploadOperation, UploadOrSource } from '@s
 import { gql } from 'apollo-angular';
 import { first } from 'rxjs/operators';
 import { PartialDeep } from 'type-fest';
+import { ProjectOptions } from '../project-page/project-page.component';
 
 const soundcloudEmbedRegex = new RegExp(/https%3A\/\/api\.soundcloud\.com\/.+\/[0-9]+/);
 
 export interface EditProjectDialogData {
   project: PartialDeep<Project>;
+  projectOptions: ProjectOptions;
 }
 
 @Component({
@@ -47,21 +49,20 @@ export class EditProjectDialogComponent implements AfterViewInit {
     this.form = formBuilder.group({
       name: [this.data.project.name, [Validators.required]],
       access: [this.data.project.access, [Validators.required]],
-      galleryImages: [
-        this.data.project.galleryImageLinks?.map(
-          (x) =>
-            <UploadOrSource>{
-              source: x,
-            },
-        ),
-      ],
-      // TODO: replace with this.data.project.downloadLinks
+      galleryImages: [this.data.project.galleryImageLinks?.map((x) => <UploadOrSource>{ source: x })],
       downloadLinks: [this.data.project.downloadLinks],
       soundcloudEmbedSrc: [this.data.project.soundcloudEmbedSrc],
       pitch: [this.data.project.pitch, [Validators.required]],
       description: [this.data.project.description],
       tags: [this.data.project.tags?.slice()],
       completed: [this.data.project.completedAt],
+      createdAt: [new Date(this.data.project.createdAt)],
+      completedAt: [
+        {
+          value: this.data.project.completedAt ? new Date(this.data.project.completedAt) : null,
+          disabled: !this.data.project.completedAt,
+        },
+      ],
     });
     dialogRef.disableClose = true;
   }
@@ -149,6 +150,18 @@ export class EditProjectDialogComponent implements AfterViewInit {
 
     if (!arraysEqual(this.form.get('tags')?.value, this.data.project.tags as string[])) {
       input.tags = this.form.get('tags')?.value;
+    }
+
+    if (this.data.projectOptions.canManageMetadata) {
+      const completedAtDateTime = (this.form.get('completedAt')?.value as Date | undefined)?.getTime();
+      if (this.data.project.completedAt && completedAtDateTime !== this.data.project.completedAt) {
+        input.completedAt = completedAtDateTime;
+      }
+
+      const createdAtDateTime = (this.form.get('createdAt')?.value as Date | undefined)?.getTime();
+      if (createdAtDateTime !== this.data.project.createdAt) {
+        input.createdAt = createdAtDateTime;
+      }
     }
 
     if (this.form.get('galleryImages')?.touched) {

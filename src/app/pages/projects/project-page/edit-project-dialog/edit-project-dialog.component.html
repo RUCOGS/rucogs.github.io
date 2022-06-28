@@ -131,6 +131,23 @@
       <app-tags-input formControlName="tags" [limit]="5"></app-tags-input>
       <mat-hint align="end">{{ form.get('tags')?.value?.length || 0}}/5</mat-hint>
     </mat-form-field>
+    <div *ngIf="data.projectOptions.canManageMetadata">
+      <h2>Metadata</h2>
+      <mat-form-field appearance="outline" style="width: 100%;">
+        <mat-label>Created At</mat-label>
+        <input matInput [matDatepicker]="createdAt" formControlName="createdAt">
+        <mat-hint>MM/DD/YYYY</mat-hint>
+        <mat-datepicker-toggle matSuffix [for]="createdAt"></mat-datepicker-toggle>
+        <mat-datepicker #createdAt></mat-datepicker>
+      </mat-form-field>
+      <mat-form-field appearance="outline" style="width: 100%;">
+        <mat-label>Completed At</mat-label>
+        <input matInput [matDatepicker]="completedAt" formControlName="completedAt">
+        <mat-hint>MM/DD/YYYY</mat-hint>
+        <mat-datepicker-toggle matSuffix [for]="completedAt"></mat-datepicker-toggle>
+        <mat-datepicker #completedAt></mat-datepicker>
+      </mat-form-field>
+    </div>
   </form>
 </mat-dialog-content>
 <mat-dialog-actions>

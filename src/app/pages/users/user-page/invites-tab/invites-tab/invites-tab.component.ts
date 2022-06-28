@@ -9,6 +9,7 @@ import {
   SimpleChanges,
   ViewChild,
 } from '@angular/core';
+import { defaultUserOptions, UserOptions } from '@pages/users/user-page/classes';
 import { ProcessMonitor } from '@src/app/classes/process-monitor';
 import { FilterHeaderComponent } from '@src/app/modules/filtering/filtering.module';
 import { BackendService } from '@src/app/services/backend.service';
@@ -19,7 +20,6 @@ import { gql } from 'apollo-angular';
 import { firstValueFrom, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { PartialDeep } from 'type-fest';
-import { defaultUserOptions, UserOptions } from '../user-page/user-page.component';
 
 @Component({
   selector: 'app-invites-tab',

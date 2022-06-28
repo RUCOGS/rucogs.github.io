@@ -18,7 +18,7 @@ export type Scalars = {
 export const Access = {
   Closed: 'CLOSED',
   Invite: 'INVITE',
-  Open: 'OPEN',
+  Open: 'OPEN'
 } as const;
 
 export type Access = typeof Access[keyof typeof Access];
@@ -246,7 +246,7 @@ export type IntFilterInput = {
 
 export const InviteType = {
   Incoming: 'INCOMING',
-  Outgoing: 'OUTGOING',
+  Outgoing: 'OUTGOING'
 } as const;
 
 export type InviteType = typeof InviteType[keyof typeof InviteType];
@@ -277,6 +277,7 @@ export type Mutation = {
   createEBoardTerm: EBoardTerm;
   createEBoardTermRole: EBoardTermRole;
   createProject: Project;
+  createProjectDiscordSettings: ProjectDiscordSettings;
   createProjectInvite: ProjectInvite;
   createProjectMember: ProjectMember;
   createProjectMemberRole: ProjectMemberRole;
@@ -290,6 +291,7 @@ export type Mutation = {
   deleteEBoardTerms?: Maybe<Scalars['Boolean']>;
   deleteEBoards?: Maybe<Scalars['Boolean']>;
   deleteProject?: Maybe<Scalars['Boolean']>;
+  deleteProjectDiscordSettingss?: Maybe<Scalars['Boolean']>;
   deleteProjectInvite?: Maybe<Scalars['Boolean']>;
   deleteProjectInvites?: Maybe<Scalars['Boolean']>;
   deleteProjectMember?: Maybe<Scalars['Boolean']>;
@@ -297,6 +299,7 @@ export type Mutation = {
   deleteProjectMembers?: Maybe<Scalars['Boolean']>;
   deleteProjects?: Maybe<Scalars['Boolean']>;
   deleteUser?: Maybe<Scalars['Boolean']>;
+  deleteUserLoginIdentity?: Maybe<Scalars['Boolean']>;
   deleteUserLoginIdentitys?: Maybe<Scalars['Boolean']>;
   deleteUserRoles?: Maybe<Scalars['Boolean']>;
   deleteUserSocials?: Maybe<Scalars['Boolean']>;
@@ -305,7 +308,11 @@ export type Mutation = {
   newEBoard: Scalars['ID'];
   newEBoardTerm: Scalars['ID'];
   newProject: Scalars['ID'];
-  newProjectInvite: Scalars['ID'];
+  newProjectInvite?: Maybe<Scalars['ID']>;
+  newProjectMember?: Maybe<Scalars['ID']>;
+  newUser?: Maybe<Scalars['ID']>;
+  newUserLoginIdentity?: Maybe<Scalars['ID']>;
+  requestProjectDiscord?: Maybe<Scalars['Boolean']>;
   transferProjectOwnership?: Maybe<Scalars['Boolean']>;
   updateEBoard?: Maybe<Scalars['Boolean']>;
   updateEBoardTerm?: Maybe<Scalars['Boolean']>;
@@ -313,228 +320,327 @@ export type Mutation = {
   updateEBoardTerms?: Maybe<Scalars['Boolean']>;
   updateEBoards?: Maybe<Scalars['Boolean']>;
   updateProject?: Maybe<Scalars['Boolean']>;
+  updateProjectDiscordSettingss?: Maybe<Scalars['Boolean']>;
   updateProjectInvites?: Maybe<Scalars['Boolean']>;
   updateProjectMember?: Maybe<Scalars['Boolean']>;
   updateProjectMemberRoles?: Maybe<Scalars['Boolean']>;
   updateProjectMembers?: Maybe<Scalars['Boolean']>;
   updateProjects?: Maybe<Scalars['Boolean']>;
   updateUser?: Maybe<Scalars['Boolean']>;
+  updateUserLoginIdentity?: Maybe<Scalars['Boolean']>;
   updateUserLoginIdentitys?: Maybe<Scalars['Boolean']>;
   updateUserRoles?: Maybe<Scalars['Boolean']>;
   updateUserSocials?: Maybe<Scalars['Boolean']>;
   updateUsers?: Maybe<Scalars['Boolean']>;
 };
 
+
 export type MutationAcceptProjectInviteArgs = {
   inviteId: Scalars['ID'];
 };
+
 
 export type MutationCreateEBoardArgs = {
   record: EBoardInsertInput;
 };
 
+
 export type MutationCreateEBoardTermArgs = {
   record: EBoardTermInsertInput;
 };
+
 
 export type MutationCreateEBoardTermRoleArgs = {
   record: EBoardTermRoleInsertInput;
 };
 
+
 export type MutationCreateProjectArgs = {
   record: ProjectInsertInput;
 };
+
+
+export type MutationCreateProjectDiscordSettingsArgs = {
+  record: ProjectDiscordSettingsInsertInput;
+};
+
 
 export type MutationCreateProjectInviteArgs = {
   record: ProjectInviteInsertInput;
 };
 
+
 export type MutationCreateProjectMemberArgs = {
   record: ProjectMemberInsertInput;
 };
+
 
 export type MutationCreateProjectMemberRoleArgs = {
   record: ProjectMemberRoleInsertInput;
 };
 
+
 export type MutationCreateUserArgs = {
   record: UserInsertInput;
 };
+
 
 export type MutationCreateUserLoginIdentityArgs = {
   record: UserLoginIdentityInsertInput;
 };
 
+
 export type MutationCreateUserRoleArgs = {
   record: UserRoleInsertInput;
 };
+
 
 export type MutationCreateUserSocialArgs = {
   record: UserSocialInsertInput;
 };
 
+
 export type MutationDeleteEBoardArgs = {
   id: Scalars['ID'];
 };
+
 
 export type MutationDeleteEBoardTermArgs = {
   id: Scalars['ID'];
 };
 
+
 export type MutationDeleteEBoardTermRolesArgs = {
   filter: EBoardTermRoleFilterInput;
 };
+
 
 export type MutationDeleteEBoardTermsArgs = {
   filter: EBoardTermFilterInput;
 };
 
+
 export type MutationDeleteEBoardsArgs = {
   filter: EBoardFilterInput;
 };
+
 
 export type MutationDeleteProjectArgs = {
   id: Scalars['ID'];
 };
 
+
+export type MutationDeleteProjectDiscordSettingssArgs = {
+  filter: ProjectDiscordSettingsFilterInput;
+};
+
+
 export type MutationDeleteProjectInviteArgs = {
   inviteId: Scalars['ID'];
 };
+
 
 export type MutationDeleteProjectInvitesArgs = {
   filter: ProjectInviteFilterInput;
 };
 
+
 export type MutationDeleteProjectMemberArgs = {
   id: Scalars['ID'];
 };
+
 
 export type MutationDeleteProjectMemberRolesArgs = {
   filter: ProjectMemberRoleFilterInput;
 };
 
+
 export type MutationDeleteProjectMembersArgs = {
   filter: ProjectMemberFilterInput;
 };
+
 
 export type MutationDeleteProjectsArgs = {
   filter: ProjectFilterInput;
 };
 
+
 export type MutationDeleteUserArgs = {
   id: Scalars['ID'];
 };
+
+
+export type MutationDeleteUserLoginIdentityArgs = {
+  id: Scalars['ID'];
+};
+
 
 export type MutationDeleteUserLoginIdentitysArgs = {
   filter: UserLoginIdentityFilterInput;
 };
 
+
 export type MutationDeleteUserRolesArgs = {
   filter: UserRoleFilterInput;
 };
+
 
 export type MutationDeleteUserSocialsArgs = {
   filter: UserSocialFilterInput;
 };
 
+
 export type MutationDeleteUsersArgs = {
   filter: UserFilterInput;
 };
+
 
 export type MutationJoinOpenProjectArgs = {
   projectId: Scalars['ID'];
 };
 
+
 export type MutationNewEBoardArgs = {
   input: NewEBoardInput;
 };
+
 
 export type MutationNewEBoardTermArgs = {
   input: NewEBoardTermInput;
 };
 
+
 export type MutationNewProjectArgs = {
   input: NewProjectInput;
 };
 
+
 export type MutationNewProjectInviteArgs = {
   input: NewProjectInviteInput;
 };
+
+
+export type MutationNewProjectMemberArgs = {
+  input: NewProjectMemberInput;
+};
+
+
+export type MutationNewUserArgs = {
+  input: NewUserInput;
+};
+
+
+export type MutationNewUserLoginIdentityArgs = {
+  input: NewUserLoginIdentityInput;
+};
+
+
+export type MutationRequestProjectDiscordArgs = {
+  projectId: Scalars['ID'];
+};
+
 
 export type MutationTransferProjectOwnershipArgs = {
   memberId: Scalars['ID'];
   projectId: Scalars['ID'];
 };
 
+
 export type MutationUpdateEBoardArgs = {
   input: UpdateEBoardInput;
 };
 
+
 export type MutationUpdateEBoardTermArgs = {
   input: UpdateEBoardTermInput;
 };
+
 
 export type MutationUpdateEBoardTermRolesArgs = {
   changes: EBoardTermRoleUpdateInput;
   filter: EBoardTermRoleFilterInput;
 };
 
+
 export type MutationUpdateEBoardTermsArgs = {
   changes: EBoardTermUpdateInput;
   filter: EBoardTermFilterInput;
 };
+
 
 export type MutationUpdateEBoardsArgs = {
   changes: EBoardUpdateInput;
   filter: EBoardFilterInput;
 };
 
+
 export type MutationUpdateProjectArgs = {
   input: UpdateProjectInput;
 };
+
+
+export type MutationUpdateProjectDiscordSettingssArgs = {
+  changes: ProjectDiscordSettingsUpdateInput;
+  filter: ProjectDiscordSettingsFilterInput;
+};
+
 
 export type MutationUpdateProjectInvitesArgs = {
   changes: ProjectInviteUpdateInput;
   filter: ProjectInviteFilterInput;
 };
 
+
 export type MutationUpdateProjectMemberArgs = {
   input: UpdateProjectMemberInput;
 };
+
 
 export type MutationUpdateProjectMemberRolesArgs = {
   changes: ProjectMemberRoleUpdateInput;
   filter: ProjectMemberRoleFilterInput;
 };
 
+
 export type MutationUpdateProjectMembersArgs = {
   changes: ProjectMemberUpdateInput;
   filter: ProjectMemberFilterInput;
 };
+
 
 export type MutationUpdateProjectsArgs = {
   changes: ProjectUpdateInput;
   filter: ProjectFilterInput;
 };
 
+
 export type MutationUpdateUserArgs = {
   input: UpdateUserInput;
 };
+
+
+export type MutationUpdateUserLoginIdentityArgs = {
+  input: UpdateUserLoginIdentityInput;
+};
+
 
 export type MutationUpdateUserLoginIdentitysArgs = {
   changes: UserLoginIdentityUpdateInput;
   filter: UserLoginIdentityFilterInput;
 };
 
+
 export type MutationUpdateUserRolesArgs = {
   changes: UserRoleUpdateInput;
   filter: UserRoleFilterInput;
 };
 
+
 export type MutationUpdateUserSocialsArgs = {
   changes: UserSocialUpdateInput;
   filter: UserSocialFilterInput;
 };
+
 
 export type MutationUpdateUsersArgs = {
   changes: UserUpdateInput;
@@ -562,9 +668,26 @@ export type NewProjectInviteInput = {
   userId: Scalars['ID'];
 };
 
+export type NewProjectMemberInput = {
+  projectId: Scalars['ID'];
+  userId: Scalars['ID'];
+};
+
 export type NewProjectMemberRoleInput = {
   projectMemberId: Scalars['ID'];
   roleCode: RoleCode;
+};
+
+export type NewUserInput = {
+  displayName: Scalars['String'];
+  email?: InputMaybe<Scalars['String']>;
+  username: Scalars['String'];
+};
+
+export type NewUserLoginIdentityInput = {
+  identityId: Scalars['ID'];
+  name: Scalars['String'];
+  userId: Scalars['ID'];
 };
 
 export type NewUserRoleInput = {
@@ -574,10 +697,13 @@ export type NewUserRoleInput = {
 
 export const Permission = {
   CreateProject: 'CREATE_PROJECT',
+  CreateProjectMember: 'CREATE_PROJECT_MEMBER',
+  CreateUser: 'CREATE_USER',
   DeleteProject: 'DELETE_PROJECT',
   DeleteUser: 'DELETE_USER',
   ManageEboard: 'MANAGE_EBOARD',
   ManageEboardRoles: 'MANAGE_EBOARD_ROLES',
+  ManageMetadata: 'MANAGE_METADATA',
   ManageProjectInvites: 'MANAGE_PROJECT_INVITES',
   ManageProjectMember: 'MANAGE_PROJECT_MEMBER',
   ManageProjectMemberRoles: 'MANAGE_PROJECT_MEMBER_ROLES',
@@ -586,6 +712,7 @@ export const Permission = {
   TransferProjectOwnership: 'TRANSFER_PROJECT_OWNERSHIP',
   UpdateProject: 'UPDATE_PROJECT',
   UpdateUser: 'UPDATE_USER',
+  UpdateUserPrivate: 'UPDATE_USER_PRIVATE'
 } as const;
 
 export type Permission = typeof Permission[keyof typeof Permission];
@@ -609,6 +736,7 @@ export type Project = {
   completedAt?: Maybe<Scalars['Date']>;
   createdAt?: Maybe<Scalars['Date']>;
   description?: Maybe<Scalars['String']>;
+  discordSettings?: Maybe<ProjectDiscordSettings>;
   downloadLinks?: Maybe<Array<Scalars['String']>>;
   galleryImageLinks?: Maybe<Array<Scalars['String']>>;
   id: Scalars['ID'];
@@ -619,6 +747,71 @@ export type Project = {
   soundcloudEmbedSrc?: Maybe<Scalars['String']>;
   tags?: Maybe<Array<Scalars['String']>>;
   updatedAt?: Maybe<Scalars['Date']>;
+};
+
+export type ProjectDiscordSettings = {
+  __typename?: 'ProjectDiscordSettings';
+  categoryId?: Maybe<Scalars['String']>;
+  createdAt?: Maybe<Scalars['Date']>;
+  id: Scalars['ID'];
+  project: Project;
+  projectId: Scalars['ID'];
+  textChannelIds?: Maybe<Array<Scalars['String']>>;
+  updatedAt?: Maybe<Scalars['Date']>;
+  voiceChannelIds?: Maybe<Array<Scalars['String']>>;
+};
+
+export type ProjectDiscordSettingsFilterInput = {
+  and_?: InputMaybe<Array<ProjectDiscordSettingsFilterInput>>;
+  categoryId?: InputMaybe<StringFilterInput>;
+  createdAt?: InputMaybe<DateFilterInput>;
+  id?: InputMaybe<IdFilterInput>;
+  nor_?: InputMaybe<Array<ProjectDiscordSettingsFilterInput>>;
+  or_?: InputMaybe<Array<ProjectDiscordSettingsFilterInput>>;
+  projectId?: InputMaybe<IdFilterInput>;
+  textChannelIds?: InputMaybe<StringFilterInput>;
+  updatedAt?: InputMaybe<DateFilterInput>;
+  voiceChannelIds?: InputMaybe<StringFilterInput>;
+};
+
+export type ProjectDiscordSettingsFindInput = {
+  filter?: InputMaybe<ProjectDiscordSettingsFilterInput>;
+  limit?: InputMaybe<Scalars['Int']>;
+  relations?: InputMaybe<ProjectDiscordSettingsRelationsFilterInput>;
+  skip?: InputMaybe<Scalars['Int']>;
+  sorts?: InputMaybe<Array<ProjectDiscordSettingsSortInput>>;
+};
+
+export type ProjectDiscordSettingsInsertInput = {
+  categoryId?: InputMaybe<Scalars['String']>;
+  createdAt?: InputMaybe<Scalars['Date']>;
+  projectId: Scalars['ID'];
+  textChannelIds?: InputMaybe<Array<Scalars['String']>>;
+  updatedAt?: InputMaybe<Scalars['Date']>;
+  voiceChannelIds?: InputMaybe<Array<Scalars['String']>>;
+};
+
+export type ProjectDiscordSettingsRelationsFilterInput = {
+  project?: InputMaybe<ProjectFindInput>;
+};
+
+export type ProjectDiscordSettingsSortInput = {
+  categoryId?: InputMaybe<SortDirection>;
+  createdAt?: InputMaybe<SortDirection>;
+  id?: InputMaybe<SortDirection>;
+  projectId?: InputMaybe<SortDirection>;
+  textChannelIds?: InputMaybe<SortDirection>;
+  updatedAt?: InputMaybe<SortDirection>;
+  voiceChannelIds?: InputMaybe<SortDirection>;
+};
+
+export type ProjectDiscordSettingsUpdateInput = {
+  categoryId?: InputMaybe<Scalars['String']>;
+  createdAt?: InputMaybe<Scalars['Date']>;
+  projectId?: InputMaybe<Scalars['ID']>;
+  textChannelIds?: InputMaybe<Array<Scalars['String']>>;
+  updatedAt?: InputMaybe<Scalars['Date']>;
+  voiceChannelIds?: InputMaybe<Array<Scalars['String']>>;
 };
 
 export type ProjectFilterInput = {
@@ -842,6 +1035,7 @@ export type ProjectMemberUpdateInput = {
 };
 
 export type ProjectRelationsFilterInput = {
+  discordSettings?: InputMaybe<ProjectDiscordSettingsFindInput>;
   invites?: InputMaybe<ProjectInviteFindInput>;
   members?: InputMaybe<ProjectMemberFindInput>;
 };
@@ -889,6 +1083,7 @@ export type Query = {
   eBoardTerms: Array<EBoardTerm>;
   eBoards: Array<EBoard>;
   isAuthTokenValid?: Maybe<Scalars['Boolean']>;
+  projectDiscordSettingss: Array<ProjectDiscordSettings>;
   projectInvites: Array<ProjectInvite>;
   projectMemberRoles: Array<ProjectMemberRole>;
   projectMembers: Array<ProjectMember>;
@@ -901,6 +1096,7 @@ export type Query = {
   users: Array<User>;
 };
 
+
 export type QueryEBoardTermRolesArgs = {
   filter?: InputMaybe<EBoardTermRoleFilterInput>;
   limit?: InputMaybe<Scalars['Int']>;
@@ -908,6 +1104,7 @@ export type QueryEBoardTermRolesArgs = {
   skip?: InputMaybe<Scalars['Int']>;
   sorts?: InputMaybe<Array<EBoardTermRoleSortInput>>;
 };
+
 
 export type QueryEBoardTermsArgs = {
   filter?: InputMaybe<EBoardTermFilterInput>;
@@ -917,6 +1114,7 @@ export type QueryEBoardTermsArgs = {
   sorts?: InputMaybe<Array<EBoardTermSortInput>>;
 };
 
+
 export type QueryEBoardsArgs = {
   filter?: InputMaybe<EBoardFilterInput>;
   limit?: InputMaybe<Scalars['Int']>;
@@ -924,6 +1122,16 @@ export type QueryEBoardsArgs = {
   skip?: InputMaybe<Scalars['Int']>;
   sorts?: InputMaybe<Array<EBoardSortInput>>;
 };
+
+
+export type QueryProjectDiscordSettingssArgs = {
+  filter?: InputMaybe<ProjectDiscordSettingsFilterInput>;
+  limit?: InputMaybe<Scalars['Int']>;
+  relations?: InputMaybe<ProjectDiscordSettingsRelationsFilterInput>;
+  skip?: InputMaybe<Scalars['Int']>;
+  sorts?: InputMaybe<Array<ProjectDiscordSettingsSortInput>>;
+};
+
 
 export type QueryProjectInvitesArgs = {
   filter?: InputMaybe<ProjectInviteFilterInput>;
@@ -933,6 +1141,7 @@ export type QueryProjectInvitesArgs = {
   sorts?: InputMaybe<Array<ProjectInviteSortInput>>;
 };
 
+
 export type QueryProjectMemberRolesArgs = {
   filter?: InputMaybe<ProjectMemberRoleFilterInput>;
   limit?: InputMaybe<Scalars['Int']>;
@@ -940,6 +1149,7 @@ export type QueryProjectMemberRolesArgs = {
   skip?: InputMaybe<Scalars['Int']>;
   sorts?: InputMaybe<Array<ProjectMemberRoleSortInput>>;
 };
+
 
 export type QueryProjectMembersArgs = {
   filter?: InputMaybe<ProjectMemberFilterInput>;
@@ -949,6 +1159,7 @@ export type QueryProjectMembersArgs = {
   sorts?: InputMaybe<Array<ProjectMemberSortInput>>;
 };
 
+
 export type QueryProjectsArgs = {
   filter?: InputMaybe<ProjectFilterInput>;
   limit?: InputMaybe<Scalars['Int']>;
@@ -957,9 +1168,11 @@ export type QueryProjectsArgs = {
   sorts?: InputMaybe<Array<ProjectSortInput>>;
 };
 
+
 export type QuerySecurityContextArgs = {
   userId?: InputMaybe<Scalars['ID']>;
 };
+
 
 export type QueryUserLoginIdentitysArgs = {
   filter?: InputMaybe<UserLoginIdentityFilterInput>;
@@ -969,6 +1182,7 @@ export type QueryUserLoginIdentitysArgs = {
   sorts?: InputMaybe<Array<UserLoginIdentitySortInput>>;
 };
 
+
 export type QueryUserRolesArgs = {
   filter?: InputMaybe<UserRoleFilterInput>;
   limit?: InputMaybe<Scalars['Int']>;
@@ -977,6 +1191,7 @@ export type QueryUserRolesArgs = {
   sorts?: InputMaybe<Array<UserRoleSortInput>>;
 };
 
+
 export type QueryUserSocialsArgs = {
   filter?: InputMaybe<UserSocialFilterInput>;
   limit?: InputMaybe<Scalars['Int']>;
@@ -984,6 +1199,7 @@ export type QueryUserSocialsArgs = {
   skip?: InputMaybe<Scalars['Int']>;
   sorts?: InputMaybe<Array<UserSocialSortInput>>;
 };
+
 
 export type QueryUsersArgs = {
   filter?: InputMaybe<UserFilterInput>;
@@ -1014,7 +1230,7 @@ export const RoleCode = {
   User: 'USER',
   VicePresident: 'VICE_PRESIDENT',
   Webmaster: 'WEBMASTER',
-  Writer: 'WRITER',
+  Writer: 'WRITER'
 } as const;
 
 export type RoleCode = typeof RoleCode[keyof typeof RoleCode];
@@ -1032,7 +1248,7 @@ export type RoleCodeFilterInput = {
 
 export const SortDirection = {
   Asc: 'asc',
-  Desc: 'desc',
+  Desc: 'desc'
 } as const;
 
 export type SortDirection = typeof SortDirection[keyof typeof SortDirection];
@@ -1050,7 +1266,7 @@ export type StringFilterInput = {
 
 export const StringFilterMode = {
   Insensitive: 'INSENSITIVE',
-  Sensitive: 'SENSITIVE',
+  Sensitive: 'SENSITIVE'
 } as const;
 
 export type StringFilterMode = typeof StringFilterMode[keyof typeof StringFilterMode];
@@ -1064,6 +1280,7 @@ export type Subscription = {
   eBoardUpdated?: Maybe<Scalars['ID']>;
   projectCreated?: Maybe<Scalars['ID']>;
   projectDeleted?: Maybe<Scalars['ID']>;
+  projectDiscordRequested?: Maybe<Scalars['ID']>;
   projectInviteCreated?: Maybe<Scalars['ID']>;
   projectInviteDeleted?: Maybe<Scalars['ID']>;
   projectMemberCreated?: Maybe<Scalars['ID']>;
@@ -1072,72 +1289,112 @@ export type Subscription = {
   projectUpdated?: Maybe<Scalars['ID']>;
   userCreated?: Maybe<Scalars['ID']>;
   userDeleted?: Maybe<Scalars['ID']>;
+  userLoginIdentityCreated?: Maybe<Scalars['ID']>;
+  userLoginIdentityDeleted?: Maybe<Scalars['ID']>;
+  userLoginIdentityUpdated?: Maybe<Scalars['ID']>;
   userUpdated?: Maybe<Scalars['ID']>;
 };
+
 
 export type SubscriptionEBoardCreatedArgs = {
   filter: EBoardSubscriptionFilter;
 };
 
+
 export type SubscriptionEBoardDeletedArgs = {
   filter: EBoardSubscriptionFilter;
 };
+
 
 export type SubscriptionEBoardTermCreatedArgs = {
   filter: EBoardTermSubscriptionFilter;
 };
 
+
 export type SubscriptionEBoardTermDeletedArgs = {
   filter: EBoardTermSubscriptionFilter;
 };
+
 
 export type SubscriptionEBoardTermUpdatedArgs = {
   filter: EBoardTermSubscriptionFilter;
 };
 
+
 export type SubscriptionEBoardUpdatedArgs = {
   filter: EBoardSubscriptionFilter;
 };
+
 
 export type SubscriptionProjectCreatedArgs = {
   filter: ProjectSubscriptionFilter;
 };
 
+
 export type SubscriptionProjectDeletedArgs = {
   filter: ProjectSubscriptionFilter;
 };
+
+
+export type SubscriptionProjectDiscordRequestedArgs = {
+  filter: ProjectSubscriptionFilter;
+};
+
 
 export type SubscriptionProjectInviteCreatedArgs = {
   filter: ProjectInviteSubscriptionFilter;
 };
 
+
 export type SubscriptionProjectInviteDeletedArgs = {
   filter: ProjectInviteSubscriptionFilter;
 };
+
 
 export type SubscriptionProjectMemberCreatedArgs = {
   filter: ProjectMemberSubscriptionFilter;
 };
 
+
 export type SubscriptionProjectMemberDeletedArgs = {
   filter: ProjectMemberSubscriptionFilter;
 };
+
 
 export type SubscriptionProjectMemberUpdatedArgs = {
   filter: ProjectMemberSubscriptionFilter;
 };
 
+
 export type SubscriptionProjectUpdatedArgs = {
   filter: ProjectSubscriptionFilter;
 };
+
 
 export type SubscriptionUserCreatedArgs = {
   filter: UserSubscriptionFilter;
 };
 
+
 export type SubscriptionUserDeletedArgs = {
   filter: UserSubscriptionFilter;
 };
+
+
+export type SubscriptionUserLoginIdentityCreatedArgs = {
+  filter: UserLoginIdentitySubscriptionFilter;
+};
+
+
+export type SubscriptionUserLoginIdentityDeletedArgs = {
+  filter: UserLoginIdentitySubscriptionFilter;
+};
+
+
+export type SubscriptionUserLoginIdentityUpdatedArgs = {
+  filter: UserLoginIdentitySubscriptionFilter;
+};
+
 
 export type SubscriptionUserUpdatedArgs = {
   filter: UserSubscriptionFilter;
@@ -1152,6 +1409,7 @@ export type SubscriptionInsertInput = {
   eBoardUpdated?: InputMaybe<Scalars['ID']>;
   projectCreated?: InputMaybe<Scalars['ID']>;
   projectDeleted?: InputMaybe<Scalars['ID']>;
+  projectDiscordRequested?: InputMaybe<Scalars['ID']>;
   projectInviteCreated?: InputMaybe<Scalars['ID']>;
   projectInviteDeleted?: InputMaybe<Scalars['ID']>;
   projectMemberCreated?: InputMaybe<Scalars['ID']>;
@@ -1160,6 +1418,9 @@ export type SubscriptionInsertInput = {
   projectUpdated?: InputMaybe<Scalars['ID']>;
   userCreated?: InputMaybe<Scalars['ID']>;
   userDeleted?: InputMaybe<Scalars['ID']>;
+  userLoginIdentityCreated?: InputMaybe<Scalars['ID']>;
+  userLoginIdentityDeleted?: InputMaybe<Scalars['ID']>;
+  userLoginIdentityUpdated?: InputMaybe<Scalars['ID']>;
   userUpdated?: InputMaybe<Scalars['ID']>;
 };
 
@@ -1172,6 +1433,7 @@ export type SubscriptionSortInput = {
   eBoardUpdated?: InputMaybe<SortDirection>;
   projectCreated?: InputMaybe<SortDirection>;
   projectDeleted?: InputMaybe<SortDirection>;
+  projectDiscordRequested?: InputMaybe<SortDirection>;
   projectInviteCreated?: InputMaybe<SortDirection>;
   projectInviteDeleted?: InputMaybe<SortDirection>;
   projectMemberCreated?: InputMaybe<SortDirection>;
@@ -1180,6 +1442,9 @@ export type SubscriptionSortInput = {
   projectUpdated?: InputMaybe<SortDirection>;
   userCreated?: InputMaybe<SortDirection>;
   userDeleted?: InputMaybe<SortDirection>;
+  userLoginIdentityCreated?: InputMaybe<SortDirection>;
+  userLoginIdentityDeleted?: InputMaybe<SortDirection>;
+  userLoginIdentityUpdated?: InputMaybe<SortDirection>;
   userUpdated?: InputMaybe<SortDirection>;
 };
 
@@ -1192,6 +1457,7 @@ export type SubscriptionUpdateInput = {
   eBoardUpdated?: InputMaybe<Scalars['ID']>;
   projectCreated?: InputMaybe<Scalars['ID']>;
   projectDeleted?: InputMaybe<Scalars['ID']>;
+  projectDiscordRequested?: InputMaybe<Scalars['ID']>;
   projectInviteCreated?: InputMaybe<Scalars['ID']>;
   projectInviteDeleted?: InputMaybe<Scalars['ID']>;
   projectMemberCreated?: InputMaybe<Scalars['ID']>;
@@ -1200,6 +1466,9 @@ export type SubscriptionUpdateInput = {
   projectUpdated?: InputMaybe<Scalars['ID']>;
   userCreated?: InputMaybe<Scalars['ID']>;
   userDeleted?: InputMaybe<Scalars['ID']>;
+  userLoginIdentityCreated?: InputMaybe<Scalars['ID']>;
+  userLoginIdentityDeleted?: InputMaybe<Scalars['ID']>;
+  userLoginIdentityUpdated?: InputMaybe<Scalars['ID']>;
   userUpdated?: InputMaybe<Scalars['ID']>;
 };
 
@@ -1220,6 +1489,8 @@ export type UpdateProjectInput = {
   banner?: InputMaybe<UploadWithOperation>;
   cardImage?: InputMaybe<UploadWithOperation>;
   completed?: InputMaybe<Scalars['Boolean']>;
+  completedAt?: InputMaybe<Scalars['Date']>;
+  createdAt?: InputMaybe<Scalars['Date']>;
   description?: InputMaybe<Scalars['String']>;
   downloadLinks?: InputMaybe<Array<Scalars['String']>>;
   galleryImages?: InputMaybe<Array<UploadOrSource>>;
@@ -1241,10 +1512,19 @@ export type UpdateUserInput = {
   banner?: InputMaybe<UploadWithOperation>;
   bio?: InputMaybe<Scalars['String']>;
   classYear?: InputMaybe<Scalars['Int']>;
+  createdAt?: InputMaybe<Scalars['Date']>;
   displayName?: InputMaybe<Scalars['String']>;
+  email?: InputMaybe<Scalars['String']>;
   id: Scalars['ID'];
   roles?: InputMaybe<Array<RoleCode>>;
   socials?: InputMaybe<Array<UpdateUserSocialInput>>;
+};
+
+export type UpdateUserLoginIdentityInput = {
+  data?: InputMaybe<Scalars['Json']>;
+  id: Scalars['ID'];
+  identityId?: InputMaybe<Scalars['ID']>;
+  name?: InputMaybe<Scalars['String']>;
 };
 
 export type UpdateUserSocialInput = {
@@ -1263,7 +1543,7 @@ export type UploadFilterInput = {
 
 export const UploadOperation = {
   Delete: 'DELETE',
-  Insert: 'INSERT',
+  Insert: 'INSERT'
 } as const;
 
 export type UploadOperation = typeof UploadOperation[keyof typeof UploadOperation];
@@ -1296,9 +1576,9 @@ export type User = {
   bio?: Maybe<Scalars['String']>;
   classYear?: Maybe<Scalars['Int']>;
   createdAt?: Maybe<Scalars['Date']>;
-  displayName?: Maybe<Scalars['String']>;
+  displayName: Scalars['String'];
   eBoard?: Maybe<EBoard>;
-  email: Scalars['String'];
+  email?: Maybe<Scalars['String']>;
   id: Scalars['ID'];
   loginIdentities: Array<UserLoginIdentity>;
   projectInvites: Array<ProjectInvite>;
@@ -1306,7 +1586,7 @@ export type User = {
   roles: Array<UserRole>;
   socials: Array<UserSocial>;
   updatedAt?: Maybe<Scalars['Date']>;
-  username?: Maybe<Scalars['String']>;
+  username: Scalars['String'];
 };
 
 export type UserFilterInput = {
@@ -1339,10 +1619,10 @@ export type UserInsertInput = {
   bio?: InputMaybe<Scalars['String']>;
   classYear?: InputMaybe<Scalars['Int']>;
   createdAt?: InputMaybe<Scalars['Date']>;
-  displayName?: InputMaybe<Scalars['String']>;
-  email: Scalars['String'];
+  displayName: Scalars['String'];
+  email?: InputMaybe<Scalars['String']>;
   updatedAt?: InputMaybe<Scalars['Date']>;
-  username?: InputMaybe<Scalars['String']>;
+  username: Scalars['String'];
 };
 
 export type UserLoginIdentity = {
@@ -1391,6 +1671,10 @@ export type UserLoginIdentitySortInput = {
   identityId?: InputMaybe<SortDirection>;
   name?: InputMaybe<SortDirection>;
   userId?: InputMaybe<SortDirection>;
+};
+
+export type UserLoginIdentitySubscriptionFilter = {
+  id?: InputMaybe<Scalars['ID']>;
 };
 
 export type UserLoginIdentityUpdateInput = {
@@ -1523,7 +1807,7 @@ export type UserSortInput = {
 };
 
 export type UserSubscriptionFilter = {
-  userId?: InputMaybe<Scalars['ID']>;
+  id?: InputMaybe<Scalars['ID']>;
 };
 
 export type UserUpdateInput = {
