@@ -4,6 +4,8 @@ import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatBadgeModule } from '@angular/material/badge';
 import { MatButtonModule } from '@angular/material/button';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -14,6 +16,7 @@ import { MatSortModule } from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { Route, RouterModule } from '@angular/router';
 import { AvatarModule } from '@src/app/modules/avatar/avatar.module';
 import { ButtonStylesModule } from '@src/app/modules/button-styles/button-styles.module';
 import { CarouselModule } from '@src/app/modules/carousel/carousel.module';
@@ -31,7 +34,6 @@ import { SettingsModule } from '@src/app/settings/_settings.module';
 import { UtilsModule } from '@src/app/utils/_utils.module';
 import { IconModule } from '@visurel/iconify-angular';
 import { MarkdownModule } from 'ngx-markdown';
-import { MatCheckboxModule } from '@angular/material/checkbox';
 import { EditMemberDialogComponent } from './edit-member-dialog/edit-member-dialog.component';
 import { EditProjectDialogComponent } from './edit-project-dialog/edit-project-dialog.component';
 import { InviteUserDialogComponent } from './invite-user-dialog/invite-user-dialog.component';
@@ -40,7 +42,6 @@ import { MembersTabComponent } from './members-tab/members-tab.component';
 import { OverviewTabComponent } from './overview-tab/overview-tab.component';
 import { ProjectPageComponent } from './project-page/project-page.component';
 import { SettingsTabComponent } from './settings-tab/settings-tab.component';
-import { Route, RouterModule } from '@angular/router';
 
 const ROUTES: Route[] = [{ path: '', component: ProjectPageComponent }];
 
@@ -82,6 +83,7 @@ const ROUTES: Route[] = [{ path: '', component: ProjectPageComponent }];
     MatTooltipModule,
     RolesModule,
     MatTableModule,
+    MatDatepickerModule,
     MatBadgeModule,
     MatSortModule,
     IconModule,
