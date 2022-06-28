@@ -561,9 +561,9 @@ export type UserResolvers<ContextType = any, ParentType extends ResolversParentT
   bio?: Resolver<types.Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   classYear?: Resolver<types.Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
   createdAt?: Resolver<types.Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
-  displayName?: Resolver<types.Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  displayName?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   eBoard?: Resolver<types.Maybe<ResolversTypes['EBoard']>, ParentType, ContextType>;
-  email?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  email?: Resolver<types.Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   loginIdentities?: Resolver<Array<ResolversTypes['UserLoginIdentity']>, ParentType, ContextType>;
   projectInvites?: Resolver<Array<ResolversTypes['ProjectInvite']>, ParentType, ContextType>;
@@ -571,7 +571,7 @@ export type UserResolvers<ContextType = any, ParentType extends ResolversParentT
   roles?: Resolver<Array<ResolversTypes['UserRole']>, ParentType, ContextType>;
   socials?: Resolver<Array<ResolversTypes['UserSocial']>, ParentType, ContextType>;
   updatedAt?: Resolver<types.Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
-  username?: Resolver<types.Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  username?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 

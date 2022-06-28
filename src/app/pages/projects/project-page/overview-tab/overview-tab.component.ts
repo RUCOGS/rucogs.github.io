@@ -155,6 +155,7 @@ export class OverviewTabComponent implements AfterViewChecked, OnChanges {
         .open(EditProjectDialogComponent, {
           data: <EditProjectDialogData>{
             project: this.project,
+            projectOptions: this.projectOptions,
           },
           width: '37.5em',
           maxWidth: '90vw',

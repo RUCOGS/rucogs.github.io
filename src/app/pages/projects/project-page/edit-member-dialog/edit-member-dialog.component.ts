@@ -1,10 +1,9 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ProcessMonitor } from '@src/app/classes/process-monitor';
 import { UIMessageService } from '@src/app/modules/ui-message/ui-message.module';
-import { BackendService, CdnService, RolesService } from '@src/app/services/_services.module';
-import { FormConfigurer } from '@src/app/utils/form-utils';
+import { BackendService, RolesService } from '@src/app/services/_services.module';
 import { ProjectMember, RoleCode, UpdateProjectMemberInput } from '@src/generated/graphql-endpoint.types';
 import { gql } from 'apollo-angular';
 import { first } from 'rxjs/operators';
@@ -23,10 +22,6 @@ export interface EditMemberDialogData {
   styleUrls: ['./edit-member-dialog.component.css'],
 })
 export class EditMemberDialogComponent implements OnInit {
-  projectMember: PartialDeep<ProjectMember>;
-  projectId: string;
-  projectMemberOptions: ProjectMemberOptions;
-
   form: UntypedFormGroup;
 
   rolesEdited: boolean = false;
@@ -45,23 +40,17 @@ export class EditMemberDialogComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: EditMemberDialogData,
   ) {
     this.form = formBuilder.group({
-      contributions: [null, []],
+      contributions: [this.data.projectMember.contributions, []],
     });
     dialogRef.disableClose = true;
-    this.projectMember = data.projectMember;
-    this.projectId = data.projectId;
-    this.projectMemberOptions = data.projectMemberOptions;
   }
 
   async ngOnInit() {
-    if (!this.projectMember.roles) return;
+    if (!this.data.projectMember.roles) return;
 
-    const formConfig = new FormConfigurer(this.form);
-    formConfig.initControl('contributions', this.projectMember.contributions);
-
-    this.roles = this.projectMember.roles.map((x) => x?.roleCode as RoleCode);
-    this.acceptedRoles = await this.rolesService.getAddableProjectRoles(this.projectId);
-    this.disabledRoles = await this.rolesService.getDisabledProjectRoles(this.projectId);
+    this.roles = this.data.projectMember.roles.map((x) => x?.roleCode as RoleCode);
+    this.acceptedRoles = await this.rolesService.getAddableProjectRoles(this.data.projectId);
+    this.disabledRoles = await this.rolesService.getDisabledProjectRoles(this.data.projectId);
   }
 
   exit(success: boolean = false) {
@@ -87,10 +76,10 @@ export class EditMemberDialogComponent implements OnInit {
 
     // Upload profile picture
     const input = <UpdateProjectMemberInput>{
-      id: this.projectMember.id,
+      id: this.data.projectMember.id,
     };
 
-    if (this.form.get('contributions')?.value !== this.projectMember.contributions) {
+    if (this.form.get('contributions')?.value !== this.data.projectMember.contributions) {
       input.contributions = this.form.get('contributions')?.value;
     }
 

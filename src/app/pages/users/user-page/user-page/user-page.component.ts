@@ -23,6 +23,7 @@ export function defaultUserOptions() {
     canManageUserRoles: false,
     canManageEBoardRoles: false,
     canManageEBoard: false,
+    canManageMetadata: false,
     loaded: false,
   };
 }
@@ -36,6 +37,7 @@ export type UserOptions = {
   canManageUserRoles: boolean;
   canManageEBoardRoles: boolean;
   canManageEBoard: boolean;
+  canManageMetadata: boolean;
   loaded: boolean;
 };
 
@@ -149,6 +151,7 @@ export class UserPageComponent implements OnInit, OnDestroy {
     this.userOptions.canManageUserRoles = permCalc.hasPermission(Permission.ManageUserRoles);
     this.userOptions.canManageEBoardRoles = permCalc.hasPermission(Permission.ManageEboardRoles);
     this.userOptions.canManageEBoard = permCalc.hasPermission(Permission.ManageEboard);
+    this.userOptions.canManageMetadata = permCalc.hasPermission(Permission.ManageMetadata);
     if (!this.userOptions.canDeleteUser) {
       this.userOptions.deleteUserTooltip = `Please ask an e-board officer if you'd like to delete your profile.`;
     }

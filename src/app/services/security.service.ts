@@ -1,8 +1,7 @@
 import { Injectable, OnDestroy } from '@angular/core';
-import { ApolloQueryResult, Operation } from '@apollo/client/core';
+import { ApolloQueryResult } from '@apollo/client/core';
 import { Permission } from '@src/generated/graphql-endpoint.types';
 import {
-  BaseSecurityDomain,
   isBaseSecurityDomain,
   isExtendedSecurityDomain,
   OperationSecurityDomain,
@@ -13,7 +12,7 @@ import {
   SecurityPolicy,
 } from '@src/shared/security';
 import { gql } from 'apollo-angular';
-import { firstValueFrom, Observable, Subject, first, takeUntil } from 'rxjs';
+import { first, firstValueFrom, Observable, Subject, takeUntil } from 'rxjs';
 import { AuthService } from './auth.service';
 import { BackendService } from './backend.service';
 
