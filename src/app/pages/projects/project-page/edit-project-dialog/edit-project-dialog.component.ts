@@ -12,11 +12,13 @@ import { Project, UpdateProjectInput, UploadOperation, UploadOrSource } from '@s
 import { gql } from 'apollo-angular';
 import { first } from 'rxjs/operators';
 import { PartialDeep } from 'type-fest';
+import { ProjectOptions } from '../project-page/project-page.component';
 
 const soundcloudEmbedRegex = new RegExp(/https%3A\/\/api\.soundcloud\.com\/.+\/[0-9]+/);
 
 export interface EditProjectDialogData {
   project: PartialDeep<Project>;
+  projectOptions: ProjectOptions;
 }
 
 @Component({
