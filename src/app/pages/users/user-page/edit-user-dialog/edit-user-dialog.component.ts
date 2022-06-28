@@ -54,6 +54,7 @@ export class EditUserDialogComponent implements AfterViewInit {
       displayName: [data.user.displayName, [Validators.required]],
       bio: [data.user.bio, []],
       classYear: [data.user.classYear, []],
+      createdAt: [new Date(this.data.user.createdAt)],
     });
     dialogRef.disableClose = true;
   }
@@ -176,6 +177,13 @@ export class EditUserDialogComponent implements AfterViewInit {
           };
     }
 
+    if (this.data.userOptions.canManageMetadata) {
+      const createdAtDateTime = (this.form.get('createdAt')?.value as Date | undefined)?.getTime();
+      if (createdAtDateTime !== this.data.user.createdAt) {
+        input.createdAt = createdAtDateTime;
+      }
+    }
+
     // If change data is not empty, meaning there were changes...
     if (Object.keys(input).length > 1) {
       this.monitor.addProcess();
@@ -184,7 +192,7 @@ export class EditUserDialogComponent implements AfterViewInit {
           updateUser: boolean;
         }>({
           mutation: gql`
-            mutation ($input: UpdateUserInput!) {
+            mutation EditUserDialog($input: UpdateUserInput!) {
               updateUser(input: $input)
             }
           `,

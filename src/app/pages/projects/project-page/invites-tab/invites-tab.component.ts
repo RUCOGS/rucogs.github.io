@@ -132,6 +132,7 @@ export class InvitesTabComponent implements OnChanges, OnDestroy, AfterViewInit 
             project: this.project,
           },
           width: '25em',
+          maxWidth: '90vw',
         })
         .afterClosed(),
     );

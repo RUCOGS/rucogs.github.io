@@ -1,3 +1,9 @@
 <app-section full-width>
+  <div *ngIf="canCreateUser" style="margin-bottom: 1em">
+    <button mat-stroked-button pill (click)="onCreateUser()">
+      <mat-icon>add</mat-icon>
+      Create Member
+    </button>
+  </div>
   <app-users-display></app-users-display>
 </app-section>

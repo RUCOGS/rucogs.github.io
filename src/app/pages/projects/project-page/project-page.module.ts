@@ -5,6 +5,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { MatBadgeModule } from '@angular/material/badge';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatNativeDateModule } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatDividerModule } from '@angular/material/divider';
@@ -84,6 +85,7 @@ const ROUTES: Route[] = [{ path: '', component: ProjectPageComponent }];
     RolesModule,
     MatTableModule,
     MatDatepickerModule,
+    MatNativeDateModule,
     MatBadgeModule,
     MatSortModule,
     IconModule,

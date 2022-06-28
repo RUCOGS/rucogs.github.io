@@ -594,10 +594,10 @@ bannerLink: String
 bio: String
 classYear: Int
 createdAt: Date
-displayName: String
-email: String!
+displayName: String!
+email: String
 updatedAt: Date
-username: String
+username: String!
       }
       input UserUpdateInput {
         avatarLink: String

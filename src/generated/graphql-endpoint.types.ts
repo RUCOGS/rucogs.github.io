@@ -230,7 +230,9 @@ export type NewProjectMemberRoleInput = {
 };
 
 export type NewUserInput = {
-  displayName?: InputMaybe<Scalars['String']>;
+  discordId?: InputMaybe<Scalars['String']>;
+  displayName: Scalars['String'];
+  email?: InputMaybe<Scalars['String']>;
   username: Scalars['String'];
 };
 
@@ -527,6 +529,7 @@ export type UpdateUserInput = {
   banner?: InputMaybe<UploadWithOperation>;
   bio?: InputMaybe<Scalars['String']>;
   classYear?: InputMaybe<Scalars['Int']>;
+  createdAt?: InputMaybe<Scalars['Date']>;
   displayName?: InputMaybe<Scalars['String']>;
   id: Scalars['ID'];
   roles?: InputMaybe<Array<RoleCode>>;
@@ -562,9 +565,9 @@ export type User = {
   bio?: Maybe<Scalars['String']>;
   classYear?: Maybe<Scalars['Int']>;
   createdAt?: Maybe<Scalars['Date']>;
-  displayName?: Maybe<Scalars['String']>;
+  displayName: Scalars['String'];
   eBoard?: Maybe<EBoard>;
-  email: Scalars['String'];
+  email?: Maybe<Scalars['String']>;
   id: Scalars['ID'];
   loginIdentities: Array<UserLoginIdentity>;
   projectInvites: Array<ProjectInvite>;
@@ -572,7 +575,7 @@ export type User = {
   roles: Array<UserRole>;
   socials: Array<UserSocial>;
   updatedAt?: Maybe<Scalars['Date']>;
-  username?: Maybe<Scalars['String']>;
+  username: Scalars['String'];
 };
 
 export type UserLoginIdentity = {
@@ -938,9 +941,9 @@ export type UserResolvers<ContextType = any, ParentType extends ResolversParentT
   bio?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   classYear?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
   createdAt?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
-  displayName?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  displayName?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   eBoard?: Resolver<Maybe<ResolversTypes['EBoard']>, ParentType, ContextType>;
-  email?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  email?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   loginIdentities?: Resolver<Array<ResolversTypes['UserLoginIdentity']>, ParentType, ContextType>;
   projectInvites?: Resolver<Array<ResolversTypes['ProjectInvite']>, ParentType, ContextType>;
@@ -948,7 +951,7 @@ export type UserResolvers<ContextType = any, ParentType extends ResolversParentT
   roles?: Resolver<Array<ResolversTypes['UserRole']>, ParentType, ContextType>;
   socials?: Resolver<Array<ResolversTypes['UserSocial']>, ParentType, ContextType>;
   updatedAt?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
-  username?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  username?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 

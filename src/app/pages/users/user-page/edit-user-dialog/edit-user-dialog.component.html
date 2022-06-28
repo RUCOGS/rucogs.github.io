@@ -110,6 +110,16 @@
     <div>
       <app-role-codes-editor [roles]="roles" [allRoles]="acceptedRoles" (rolesEdited)="onEditRoles()" [disabledRoles]="disabledRoles" label="Roles" [disabled]="!data.userOptions.canManageUserRoles"></app-role-codes-editor>
     </div>
+    <div *ngIf="data.userOptions.canManageMetadata">
+      <h2>Metadata</h2>
+      <mat-form-field appearance="outline" style="width: 100%;">
+        <mat-label>Created At</mat-label>
+        <input matInput [matDatepicker]="createdAt" formControlName="createdAt">
+        <mat-hint>MM/DD/YYYY</mat-hint>
+        <mat-datepicker-toggle matSuffix [for]="createdAt"></mat-datepicker-toggle>
+        <mat-datepicker #createdAt></mat-datepicker>
+      </mat-form-field>
+    </div>
   </form>
 </mat-dialog-content>
 <mat-dialog-actions>

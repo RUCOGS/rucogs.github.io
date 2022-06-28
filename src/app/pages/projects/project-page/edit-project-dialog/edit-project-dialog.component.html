@@ -133,12 +133,19 @@
     </mat-form-field>
     <div *ngIf="data.projectOptions.canManageMetadata">
       <h2>Metadata</h2>
-      <mat-form-field appearance="fill">
-        <mat-label>Choose a date</mat-label>
-        <input matInput [matDatepicker]="picker">
+      <mat-form-field appearance="outline" style="width: 100%;">
+        <mat-label>Created At</mat-label>
+        <input matInput [matDatepicker]="createdAt" formControlName="createdAt">
         <mat-hint>MM/DD/YYYY</mat-hint>
-        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-        <mat-datepicker #picker></mat-datepicker>
+        <mat-datepicker-toggle matSuffix [for]="createdAt"></mat-datepicker-toggle>
+        <mat-datepicker #createdAt></mat-datepicker>
+      </mat-form-field>
+      <mat-form-field appearance="outline" style="width: 100%;">
+        <mat-label>Completed At</mat-label>
+        <input matInput [matDatepicker]="completedAt" formControlName="completedAt">
+        <mat-hint>MM/DD/YYYY</mat-hint>
+        <mat-datepicker-toggle matSuffix [for]="completedAt"></mat-datepicker-toggle>
+        <mat-datepicker #completedAt></mat-datepicker>
       </mat-form-field>
     </div>
   </form>

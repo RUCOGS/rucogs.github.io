@@ -661,7 +661,9 @@ export type NewProjectMemberRoleInput = {
 };
 
 export type NewUserInput = {
-  displayName?: InputMaybe<Scalars['String']>;
+  discordId?: InputMaybe<Scalars['String']>;
+  displayName: Scalars['String'];
+  email?: InputMaybe<Scalars['String']>;
   username: Scalars['String'];
 };
 
@@ -1459,6 +1461,7 @@ export type UpdateUserInput = {
   banner?: InputMaybe<UploadWithOperation>;
   bio?: InputMaybe<Scalars['String']>;
   classYear?: InputMaybe<Scalars['Int']>;
+  createdAt?: InputMaybe<Scalars['Date']>;
   displayName?: InputMaybe<Scalars['String']>;
   id: Scalars['ID'];
   roles?: InputMaybe<Array<RoleCode>>;
@@ -1514,9 +1517,9 @@ export type User = {
   bio?: Maybe<Scalars['String']>;
   classYear?: Maybe<Scalars['Int']>;
   createdAt?: Maybe<Scalars['Date']>;
-  displayName?: Maybe<Scalars['String']>;
+  displayName: Scalars['String'];
   eBoard?: Maybe<EBoard>;
-  email: Scalars['String'];
+  email?: Maybe<Scalars['String']>;
   id: Scalars['ID'];
   loginIdentities: Array<UserLoginIdentity>;
   projectInvites: Array<ProjectInvite>;
@@ -1524,7 +1527,7 @@ export type User = {
   roles: Array<UserRole>;
   socials: Array<UserSocial>;
   updatedAt?: Maybe<Scalars['Date']>;
-  username?: Maybe<Scalars['String']>;
+  username: Scalars['String'];
 };
 
 export type UserFilterInput = {
@@ -1557,10 +1560,10 @@ export type UserInsertInput = {
   bio?: InputMaybe<Scalars['String']>;
   classYear?: InputMaybe<Scalars['Int']>;
   createdAt?: InputMaybe<Scalars['Date']>;
-  displayName?: InputMaybe<Scalars['String']>;
-  email: Scalars['String'];
+  displayName: Scalars['String'];
+  email?: InputMaybe<Scalars['String']>;
   updatedAt?: InputMaybe<Scalars['Date']>;
-  username?: InputMaybe<Scalars['String']>;
+  username: Scalars['String'];
 };
 
 export type UserLoginIdentity = {
