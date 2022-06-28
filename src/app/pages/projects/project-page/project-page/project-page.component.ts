@@ -33,6 +33,7 @@ export function defaultProjectOptions() {
     isAuthenticated: false,
     loaded: false,
     canDeleteProject: false,
+    canManageMetadata: false,
   };
 }
 
@@ -45,6 +46,7 @@ export type ProjectOptions = {
   inviteSent: boolean;
   isAuthenticated: boolean;
   loaded: boolean;
+  canManageMetadata: boolean;
 };
 
 @Component({
@@ -229,6 +231,7 @@ export class ProjectPageComponent implements OnInit {
     const permCalc = this.security.makePermCalc().withDomain(projectOpDomain);
     this.projectOptions.canUpdateProject = permCalc.hasPermission(Permission.UpdateProject);
     this.projectOptions.canDeleteProject = permCalc.hasPermission(Permission.DeleteProject);
+    this.projectOptions.canManageMetadata = permCalc.hasPermission(Permission.ManageMetadata);
 
     this.project = deepClone(projectResult.data.projects[0]);
     if (invitesResult && !invitesResult.error) {

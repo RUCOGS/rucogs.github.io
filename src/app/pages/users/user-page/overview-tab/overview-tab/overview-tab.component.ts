@@ -10,6 +10,7 @@ import {
 } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
+import { defaultUserOptions, UserOptions } from '@pages/users/user-page/classes';
 import { Color, ProcessMonitor } from '@src/app/classes/_classes.module';
 import { ProjectsDisplayComponent } from '@src/app/modules/project/project.module';
 import { UIMessageService } from '@src/app/modules/ui-message/ui-message.module';
@@ -22,7 +23,6 @@ import ColorThief from 'colorthief';
 import { firstValueFrom } from 'rxjs';
 import { PartialDeep } from 'type-fest';
 import { EditUserDialogComponent, EditUserDialogData } from '../edit-user-dialog/edit-user-dialog.component';
-import { defaultUserOptions, UserOptions } from '../user-page/user-page.component';
 
 @Component({
   selector: 'app-overview-tab',

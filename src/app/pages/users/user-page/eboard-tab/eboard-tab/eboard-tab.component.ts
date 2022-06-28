@@ -1,5 +1,6 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { defaultUserOptions, UserOptions } from '@pages/users/user-page/classes';
 import { ProcessMonitor } from '@src/app/classes/process-monitor';
 import { UIMessageService } from '@src/app/modules/ui-message/ui-message.module';
 import { BackendService } from '@src/app/services/backend.service';
@@ -8,15 +9,14 @@ import { gql } from 'apollo-angular';
 import { firstValueFrom } from 'rxjs';
 import { PartialDeep } from 'type-fest';
 import {
-  AddEboardTermDialogComponent,
-  AddEboardTermDialogData,
-} from '../add-eboard-term-dialog/add-eboard-term-dialog.component';
+  CreateEboardTermDialogComponent,
+  CreateEboardTermDialogData,
+} from '../create-eboard-term-dialog/create-eboard-term-dialog.component';
 import { EditEboardDialogComponent, EditEBoardDialogData } from '../edit-eboard-dialog/edit-eboard-dialog.component';
 import {
   EditEboardTermDialogComponent,
   EditEBoardTermDialogData,
 } from '../edit-eboard-term-dialog/edit-eboard-term-dialog.component';
-import { defaultUserOptions, UserOptions } from '../user-page/user-page.component';
 
 @Component({
   selector: 'app-eboard-tab',
@@ -45,8 +45,8 @@ export class EboardTabComponent {
   async onAddTerm() {
     const success = await firstValueFrom(
       this.dialog
-        .open(AddEboardTermDialogComponent, {
-          data: <AddEboardTermDialogData>{
+        .open(CreateEboardTermDialogComponent, {
+          data: <CreateEboardTermDialogData>{
             eBoardId: this.user.eBoard?.id,
             takenYears: this.user.eBoard?.terms?.map((x) => x?.year) ?? [],
           },

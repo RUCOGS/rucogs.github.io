@@ -1,6 +1,7 @@
 import { AfterViewInit, Component, Inject, ViewChild } from '@angular/core';
-import { FormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { UserOptions } from '@pages/users/user-page/classes';
 import { ProcessMonitor } from '@src/app/classes/process-monitor';
 import { ImageUploadComponent } from '@src/app/modules/image-upload/image-upload.module';
 import { UIMessageService } from '@src/app/modules/ui-message/ui-message.module';
@@ -13,7 +14,6 @@ import { assertNoDuplicates } from '@src/shared/validation';
 import { gql } from 'apollo-angular';
 import { firstValueFrom } from 'rxjs';
 import { PartialDeep } from 'type-fest';
-import { UserOptions } from '../user-page/user-page.component';
 
 export interface EditUserDialogData {
   user: PartialDeep<User>;
@@ -29,7 +29,7 @@ export class EditUserDialogComponent implements AfterViewInit {
   @ViewChild('avatarUpload') avatarUpload?: ImageUploadComponent;
   @ViewChild('bannerUpload') bannerUpload?: ImageUploadComponent;
 
-  form: UntypedFormGroup;
+  form: FormGroup;
 
   userSocialEdits: UserSocialEdit[] = [];
   socialsEdited = false;
@@ -54,6 +54,7 @@ export class EditUserDialogComponent implements AfterViewInit {
       displayName: [data.user.displayName, [Validators.required]],
       bio: [data.user.bio, []],
       classYear: [data.user.classYear, []],
+      createdAt: [new Date(this.data.user.createdAt)],
     });
     dialogRef.disableClose = true;
   }
@@ -106,6 +107,9 @@ export class EditUserDialogComponent implements AfterViewInit {
 
   validate() {
     try {
+      this.form.updateValueAndValidity();
+      if (!this.form.valid) throw new Error('Missing info!');
+
       for (const userSocialEdit of this.userSocialEdits) {
         if (!userSocialEdit.validate()) throw new Error('A user social is incomplete!');
       }
@@ -176,6 +180,13 @@ export class EditUserDialogComponent implements AfterViewInit {
           };
     }
 
+    if (this.data.userOptions.canManageMetadata) {
+      const createdAtDateTime = (this.form.get('createdAt')?.value as Date | undefined)?.getTime();
+      if (createdAtDateTime !== this.data.user.createdAt) {
+        input.createdAt = createdAtDateTime;
+      }
+    }
+
     // If change data is not empty, meaning there were changes...
     if (Object.keys(input).length > 1) {
       this.monitor.addProcess();
@@ -184,7 +195,7 @@ export class EditUserDialogComponent implements AfterViewInit {
           updateUser: boolean;
         }>({
           mutation: gql`
-            mutation ($input: UpdateUserInput!) {
+            mutation EditUserDialog($input: UpdateUserInput!) {
               updateUser(input: $input)
             }
           `,

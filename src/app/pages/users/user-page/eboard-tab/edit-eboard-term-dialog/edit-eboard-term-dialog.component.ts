@@ -1,6 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { UserOptions } from '@pages/users/user-page/classes';
 import { ProcessMonitor } from '@src/app/classes/process-monitor';
 import { UIMessageService } from '@src/app/modules/ui-message/ui-message.module';
 import { BackendService, RolesService } from '@src/app/services/_services.module';
@@ -8,7 +9,6 @@ import { EBoardTerm, RoleCode, UpdateEBoardTermInput } from '@src/generated/grap
 import { gql } from 'apollo-angular';
 import { firstValueFrom } from 'rxjs';
 import { PartialDeep } from 'type-fest';
-import { UserOptions } from '../user-page/user-page.component';
 
 export interface EditEBoardTermDialogData {
   term: PartialDeep<EBoardTerm>;

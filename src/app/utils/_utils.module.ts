@@ -1,9 +1,8 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
 
 export * from './file-utils';
 export * from './utils';
-export * from './form-utils';
 
 @NgModule({
   declarations: [],

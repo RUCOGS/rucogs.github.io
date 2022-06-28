@@ -1,5 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { defaultUserOptions, UserOptions } from '@pages/users/user-page/classes';
 import { UIMessageService } from '@src/app/modules/ui-message/ui-message.module';
 import { BackendService } from '@src/app/services/backend.service';
 import { SecurityService } from '@src/app/services/security.service';
@@ -12,32 +13,6 @@ import { gql } from 'apollo-angular';
 import { firstValueFrom, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { PartialDeep } from 'type-fest';
-
-export function defaultUserOptions() {
-  return <UserOptions>{
-    canUpdateUser: false,
-    nonExistent: false,
-    hasProjects: false,
-    deleteUserTooltip: '',
-    canDeleteUser: false,
-    canManageUserRoles: false,
-    canManageEBoardRoles: false,
-    canManageEBoard: false,
-    loaded: false,
-  };
-}
-
-export type UserOptions = {
-  canUpdateUser: boolean;
-  nonExistent: boolean;
-  hasProjects: boolean;
-  deleteUserTooltip: string;
-  canDeleteUser: boolean;
-  canManageUserRoles: boolean;
-  canManageEBoardRoles: boolean;
-  canManageEBoard: boolean;
-  loaded: boolean;
-};
 
 @Component({
   selector: 'app-user-page',
@@ -149,6 +124,8 @@ export class UserPageComponent implements OnInit, OnDestroy {
     this.userOptions.canManageUserRoles = permCalc.hasPermission(Permission.ManageUserRoles);
     this.userOptions.canManageEBoardRoles = permCalc.hasPermission(Permission.ManageEboardRoles);
     this.userOptions.canManageEBoard = permCalc.hasPermission(Permission.ManageEboard);
+    this.userOptions.canManageMetadata = permCalc.hasPermission(Permission.ManageMetadata);
+    this.userOptions.canUpdateUserPrivate = permCalc.hasPermission(Permission.UpdateUserPrivate);
     if (!this.userOptions.canDeleteUser) {
       this.userOptions.deleteUserTooltip = `Please ask an e-board officer if you'd like to delete your profile.`;
     }
