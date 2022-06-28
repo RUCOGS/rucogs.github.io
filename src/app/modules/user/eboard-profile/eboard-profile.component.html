@@ -19,9 +19,10 @@
       display: flex;
       flex-direction: row;
       gap: 0.5em;
+      flex-wrap: wrap;
     ">
       <app-tag color="blank">💫 EBoard Alumni</app-tag>
-      <app-tag color="blank">{{ getEBoardReign() }}</app-tag>
+      <app-tag color="blank" *ngIf="getEBoardReign()">{{ getEBoardReign() }}</app-tag>
     </div>
   </div>
 </div>

@@ -1,0 +1,35 @@
+<mat-dialog-content>
+  <form [formGroup]="form" style="
+    position: relative;
+  ">
+    <mat-form-field appearance="outline" style="width: 100%;">
+      <mat-label>Name</mat-label>
+      <input matInput formControlName="name">
+      <mat-error *ngIf="form.get('name')?.hasError('required')">
+        Name is required
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field appearance="outline" style="width: 100%;">
+      <mat-label>Identity ID</mat-label>
+      <input matInput formControlName="identityId">
+      <mat-error *ngIf="form.get('identityId')?.hasError('required')">
+        Identity ID is required
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field appearance="outline" style="width: 100%;">
+      <mat-label>Data</mat-label>
+      <textarea matInput
+          cdkTextareaAutosize
+          cdkAutosizeMinRows="1"
+          cdkAutosizeMaxRows="5"
+          formControlName="data"
+      ></textarea>
+    </mat-form-field>
+  </form>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-stroked-button color="basic" pill (click)="exit()" [disabled]="monitor.isProcessing">Exit
+  </button>
+  <button mat-stroked-button color="basic" pill (click)="save()" [disabled]="monitor.isProcessing">Save
+  </button>
+</mat-dialog-actions>

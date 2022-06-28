@@ -1,24 +1,24 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ProcessMonitor } from '@src/app/classes/process-monitor';
 import { UIMessageService } from '@src/app/modules/ui-message/ui-message.module';
 import { BackendService } from '@src/app/services/backend.service';
-import { NewEBoardTermInput } from '@src/generated/graphql-endpoint.types';
+import { NewUserLoginIdentityInput } from '@src/generated/graphql-endpoint.types';
 import { gql } from 'apollo-angular';
 import { firstValueFrom } from 'rxjs';
 
-export interface AddEboardTermDialogData {
-  eBoardId: string;
-  takenYears: number[];
+export interface CreateLoginIdentityData {
+  userId: string;
+  takenNames: string[];
 }
 
 @Component({
-  selector: 'app-add-eboard-term-dialog',
-  templateUrl: './add-eboard-term-dialog.component.html',
-  styleUrls: ['./add-eboard-term-dialog.component.css'],
+  selector: 'app-create-login-identity-dialog',
+  templateUrl: './create-login-identity-dialog.component.html',
+  styleUrls: ['./create-login-identity-dialog.component.css'],
 })
-export class AddEboardTermDialogComponent {
+export class CreateLoginIdentityDialogComponent {
   form: FormGroup;
   monitor = new ProcessMonitor();
 
@@ -26,11 +26,12 @@ export class AddEboardTermDialogComponent {
     formBuilder: FormBuilder,
     private backend: BackendService,
     private uiMessageService: UIMessageService,
-    public dialogRef: MatDialogRef<AddEboardTermDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: AddEboardTermDialogData,
+    public dialogRef: MatDialogRef<CreateLoginIdentityDialogComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: CreateLoginIdentityData,
   ) {
     this.form = formBuilder.group({
-      year: [null, [Validators.required]],
+      name: [null, [Validators.required]],
+      identityId: [null, [Validators.required]],
     });
     dialogRef.disableClose = true;
   }
@@ -56,29 +57,21 @@ export class AddEboardTermDialogComponent {
     const result = await firstValueFrom(
       this.backend.withAuth().mutate({
         mutation: gql`
-          mutation NewEBoardTerm($input: NewEBoardTermInput!) {
-            newEBoardTerm(input: $input)
+          mutation NewUserLoginIdentity($input: NewUserLoginIdentityInput!) {
+            newUserLoginIdentity(input: $input)
           }
         `,
         variables: {
-          input: <NewEBoardTermInput>{
-            eBoardId: this.data.eBoardId,
-            year: this.form.get('year')?.value,
+          input: <NewUserLoginIdentityInput>{
+            userId: this.data.userId,
+            name: this.form.get('name')?.value,
+            identityId: this.form.get('identityId')?.value,
           },
         },
       }),
     );
     if (result.errors) return;
-    this.uiMessageService.notifyConfirmed('Term created!');
+    this.uiMessageService.notifyConfirmed('Login identity created!');
     this.exit(true);
-  }
-
-  getAvailableYears() {
-    const currYear = new Date().getFullYear();
-    const availableYears: number[] = [];
-    for (let year = currYear + 3; year >= 2012; year--) {
-      if (!this.data.takenYears.includes(year)) availableYears.push(year);
-    }
-    return availableYears;
   }
 }

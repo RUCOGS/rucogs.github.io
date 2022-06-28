@@ -543,6 +543,9 @@ projectMemberUpdated: ID
 projectUpdated: ID
 userCreated: ID
 userDeleted: ID
+userLoginIdentityCreated: ID
+userLoginIdentityDeleted: ID
+userLoginIdentityUpdated: ID
 userUpdated: ID
       }
       input SubscriptionUpdateInput {
@@ -563,6 +566,9 @@ projectMemberUpdated: ID
 projectUpdated: ID
 userCreated: ID
 userDeleted: ID
+userLoginIdentityCreated: ID
+userLoginIdentityDeleted: ID
+userLoginIdentityUpdated: ID
 userUpdated: ID
       }
       input SubscriptionSortInput {
@@ -583,6 +589,9 @@ projectMemberUpdated: SortDirection
 projectUpdated: SortDirection
 userCreated: SortDirection
 userDeleted: SortDirection
+userLoginIdentityCreated: SortDirection
+userLoginIdentityDeleted: SortDirection
+userLoginIdentityUpdated: SortDirection
 userUpdated: SortDirection
       }
 ########### Subscription ###########

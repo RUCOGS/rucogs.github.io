@@ -1,0 +1,76 @@
+<app-bg-container full-page>
+  <div style="
+    display: flex;
+    flex-direction: column;
+    gap: 2em;
+  ">
+    <div *ngIf="userOptions.canUpdateUserPrivate">
+      <button mat-stroked-button pill (click)="onEditUserPrivate()">
+        <mat-icon>edit</mat-icon>
+        Edit Private Information
+      </button>
+    </div>
+    <div>
+      <h2>Email:</h2>
+      <div>{{user.email ?? 'None'}}</div>
+    </div>
+    <div>
+      <div style="
+        display: flex;
+        flex-direction: row;
+        margin-bottom: 0.5em;
+        align-items: center;
+      ">
+        <h2 style="flex: 1; margin-bottom: 0;">Login Identities:</h2>
+        <button *ngIf="userOptions.canManageMetadata" pill mat-stroked-button (click)="onCreateLoginIdentity()">
+          <mat-icon>add</mat-icon>
+          Add Login Identity
+        </button>
+      </div>
+      <div style="
+        display: flex;
+        flex-direction: column;
+        gap: 1em;
+      ">
+        <app-card-grid column-width="20em" style="width: 100%;">
+          <div *ngFor="let identity of user.loginIdentities" style="width: 100%;">
+            <app-card>
+              <div style="
+                position: absolute;
+                top: 0.5em;
+                right: 0.5em;
+                display: flex;
+                flex-direction: row;
+                gap: 0.5em;
+                justify-content: end;
+              " *ngIf="userOptions.canManageMetadata">
+                <button mat-icon-button (click)="onEditLoginIdentity(identity)">
+                  <mat-icon>edit</mat-icon>
+                </button>
+                <button mat-icon-button (click)="onDeleteLoginIdentity(identity)">
+                  <mat-icon>close</mat-icon>
+                </button>
+              </div>
+              <h2>{{getIdentityName(identity)}}</h2>
+              <h4 style="margin-bottom: 0.1em;">ID</h4>
+              <p>{{identity?.identityId}}</p>
+              <h4 style="margin-bottom: 0.1em;">Data</h4>
+              <p>{{getIdentityData(identity)}}</p>
+            </app-card>
+          </div>
+        </app-card-grid>
+      </div>
+    </div>
+    <div>
+      <h2>Danger Zone</h2>
+      <div [matTooltip]="userOptions.deleteUserTooltip" style="width: min-content;">
+        <button mat-flat-button pill tall-button color="primary" (click)="onDeleteUser()" [disabled]="!userOptions.canDeleteUser || monitor.isProcessing" style="
+          max-width: 20em;
+        ">
+          <mat-icon>delete</mat-icon>
+          Delete User
+        </button>
+      </div>
+    </div>
+  </div>
+</app-bg-container>
