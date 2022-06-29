@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { defaultProjectOptions, ProjectOptions } from '@pages/projects/project-page/classes';
 import { UIMessageService } from '@src/app/modules/ui-message/ui-message.module';
 import { AuthService } from '@src/app/services/auth.service';
 import { BackendService } from '@src/app/services/backend.service';
@@ -22,32 +23,6 @@ import { gql } from 'apollo-angular';
 import { firstValueFrom, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { PartialDeep } from 'type-fest';
-
-export function defaultProjectOptions() {
-  return <ProjectOptions>{
-    isMember: false,
-    manageSomeMembers: false,
-    nonExistent: false,
-    canUpdateProject: false,
-    inviteSent: false,
-    isAuthenticated: false,
-    loaded: false,
-    canDeleteProject: false,
-    canManageMetadata: false,
-  };
-}
-
-export type ProjectOptions = {
-  isMember: boolean;
-  manageSomeMembers: boolean;
-  nonExistent: boolean;
-  canUpdateProject: boolean;
-  canDeleteProject: boolean;
-  inviteSent: boolean;
-  isAuthenticated: boolean;
-  loaded: boolean;
-  canManageMetadata: boolean;
-};
 
 @Component({
   selector: 'app-project-page',
@@ -232,7 +207,7 @@ export class ProjectPageComponent implements OnInit {
     this.projectOptions.canUpdateProject = permCalc.hasPermission(Permission.UpdateProject);
     this.projectOptions.canDeleteProject = permCalc.hasPermission(Permission.DeleteProject);
     this.projectOptions.canManageMetadata = permCalc.hasPermission(Permission.ManageMetadata);
-
+    this.projectOptions.canCreateProjectMember = permCalc.hasPermission(Permission.CreateProjectMember);
     this.project = deepClone(projectResult.data.projects[0]);
     if (invitesResult && !invitesResult.error) {
       this.project.invites = invitesResult.data.projectInvites;

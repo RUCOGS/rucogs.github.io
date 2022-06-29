@@ -15,3 +15,11 @@
 	justify-content: space-around;
 	display: flex;
 }
+
+.mat-tab-member {
+	flex: 1;
+}
+
+.mat-tab-buttons {
+	flex: 0;
+}

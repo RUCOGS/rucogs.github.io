@@ -57,7 +57,17 @@
 
           <!-- Buttons Column -->
           <ng-container matColumnDef="buttons">
-            <th mat-header-cell *matHeaderCellDef></th>
+            <th mat-header-cell *matHeaderCellDef>
+              <div style="
+                display: flex;
+                justify-content: right;
+              ">
+                <button *ngIf="projectOptions.canCreateProjectMember" mat-stroked-button pill class="text-foreground" (click)="onForceAddUser()">
+                  <mat-icon>add</mat-icon>
+                  Force Add User
+                </button>
+              </div>
+            </th>
             <td mat-cell *matCellDef="let element;">
               <div style="
                 display: flex;

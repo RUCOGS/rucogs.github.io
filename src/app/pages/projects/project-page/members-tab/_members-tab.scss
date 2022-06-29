@@ -1,0 +1,5 @@
+@use './members-tab/members-tab.component-theme' as members-tab;
+
+@mixin theme($theme) {
+	@include members-tab.theme($theme);
+}

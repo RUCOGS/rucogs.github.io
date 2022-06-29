@@ -1,0 +1,5 @@
+@use './overview-tab/overview-tab.component-theme' as overview-tab;
+
+@mixin theme($theme) {
+	@include overview-tab.theme($theme);
+}

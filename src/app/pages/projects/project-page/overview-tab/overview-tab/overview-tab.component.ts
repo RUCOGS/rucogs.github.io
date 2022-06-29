@@ -1,6 +1,7 @@
 import { AfterViewChecked, Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { AccessOptions } from '@app/modules/project/project.module';
+import { defaultProjectOptions, ProjectOptions } from '@pages/projects/project-page/classes';
 import { Color, ProcessMonitor } from '@src/app/classes/_classes.module';
 import { UIMessageService } from '@src/app/modules/ui-message/ui-message.module';
 import {
@@ -20,7 +21,6 @@ import {
   EditProjectDialogComponent,
   EditProjectDialogData,
 } from '../edit-project-dialog/edit-project-dialog.component';
-import { defaultProjectOptions, ProjectOptions } from '../project-page/project-page.component';
 
 @Component({
   selector: 'app-overview-tab',

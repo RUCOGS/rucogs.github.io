@@ -2,6 +2,7 @@ import { AfterViewInit, ChangeDetectorRef, Component, EventEmitter, Inject, Outp
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { AccessOptions } from '@app/modules/project/project.module';
+import { ProjectOptions } from '@pages/projects/project-page/classes';
 import { ProcessMonitor } from '@src/app/classes/_classes.module';
 import { ImageUploadComponent } from '@src/app/modules/image-upload/image-upload.module';
 import { UIMessageService } from '@src/app/modules/ui-message/ui-message.module';
@@ -12,7 +13,6 @@ import { Project, UpdateProjectInput, UploadOperation, UploadOrSource } from '@s
 import { gql } from 'apollo-angular';
 import { first } from 'rxjs/operators';
 import { PartialDeep } from 'type-fest';
-import { ProjectOptions } from '../project-page/project-page.component';
 
 const soundcloudEmbedRegex = new RegExp(/https%3A\/\/api\.soundcloud\.com\/.+\/[0-9]+/);
 

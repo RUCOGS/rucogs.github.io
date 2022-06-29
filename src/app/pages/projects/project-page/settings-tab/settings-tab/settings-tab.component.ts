@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Router } from '@angular/router';
+import { defaultProjectOptions, ProjectOptions } from '@pages/projects/project-page/classes';
 import { ProcessMonitor } from '@src/app/classes/process-monitor';
 import { UIMessageService } from '@src/app/modules/ui-message/ui-message.module';
 import { BackendService } from '@src/app/services/backend.service';
@@ -7,7 +8,6 @@ import { Project } from '@src/generated/graphql-endpoint.types';
 import { gql } from 'apollo-angular';
 import { firstValueFrom } from 'rxjs';
 import { PartialDeep } from 'type-fest';
-import { defaultProjectOptions, ProjectOptions } from '../project-page/project-page.component';
 
 @Component({
   selector: 'app-settings-tab',
