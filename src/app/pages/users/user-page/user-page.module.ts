@@ -7,7 +7,7 @@ import { EboardTabModule } from './eboard-tab/eboard-tab.module';
 import { InvitesTabModule } from './invites-tab/invites-tab.module';
 import { OverviewTabModule } from './overview-tab/overview-tab.module';
 import { SettingsTabModule } from './settings-tab/settings-tab.module';
-import { UserPageComponent } from './user-page/user-page.component';
+import { UserPageComponent } from './_user-page/user-page.component';
 
 const ROUTES: Route[] = [{ path: '', component: UserPageComponent }];
 

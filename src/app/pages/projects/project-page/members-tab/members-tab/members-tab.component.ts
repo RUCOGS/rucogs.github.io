@@ -11,6 +11,7 @@ import {
 } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Sort } from '@angular/material/sort';
+import { defaultProjectOptions, ProjectOptions } from '@pages/projects/project-page/classes';
 import { FilterHeaderComponent } from '@src/app/modules/filtering/filtering.module';
 import { UIMessageService } from '@src/app/modules/ui-message/ui-message.module';
 import {
@@ -26,7 +27,10 @@ import { firstValueFrom, Subject } from 'rxjs';
 import { first, takeUntil } from 'rxjs/operators';
 import { PartialDeep } from 'type-fest';
 import { EditMemberDialogComponent, EditMemberDialogData } from '../edit-member-dialog/edit-member-dialog.component';
-import { defaultProjectOptions, ProjectOptions } from '../project-page/project-page.component';
+import {
+  ForceAddUserDialogComponent,
+  ForceAddUserDialogData,
+} from '../force-add-user-dialog/force-add-user-dialog.component';
 
 @Component({
   selector: 'app-members-tab',
@@ -261,6 +265,21 @@ export class MembersTabComponent implements AfterViewInit, OnDestroy, OnChanges 
           return 0;
       }
     });
+  }
+
+  async onForceAddUser() {
+    const result = await firstValueFrom(
+      this.dialog
+        .open(ForceAddUserDialogComponent, {
+          data: <ForceAddUserDialogData>{
+            project: this.project,
+          },
+          width: '25em',
+          maxWidth: '90vw',
+        })
+        .afterClosed(),
+    );
+    if (result) this.edited.emit();
   }
 }
 

@@ -11,6 +11,7 @@ import {
 } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Sort } from '@angular/material/sort';
+import { defaultProjectOptions, ProjectOptions } from '@pages/projects/project-page/classes';
 import { ProcessMonitor } from '@src/app/classes/process-monitor';
 import { FilterHeaderComponent } from '@src/app/modules/filtering/filtering.module';
 import { BackendService } from '@src/app/services/backend.service';
@@ -22,7 +23,6 @@ import { firstValueFrom, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { PartialDeep } from 'type-fest';
 import { InviteUserDialogComponent, InviteUserDialogData } from '../invite-user-dialog/invite-user-dialog.component';
-import { defaultProjectOptions, ProjectOptions } from '../project-page/project-page.component';
 
 @Component({
   selector: 'app-invites-tab',
@@ -97,9 +97,6 @@ export class InvitesTabComponent implements OnChanges, OnDestroy, AfterViewInit 
     );
 
     if (result.errors) return;
-
-    // Handled by subscription instead
-    // this.edited.emit();
   }
 
   async onRejectInvite(invite: PartialDeep<ProjectInvite>) {
@@ -119,9 +116,6 @@ export class InvitesTabComponent implements OnChanges, OnDestroy, AfterViewInit 
     );
 
     if (result.errors) return;
-
-    // Handled by subscription instead
-    // this.edited.emit();
   }
 
   async invite() {
