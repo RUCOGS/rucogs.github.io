@@ -61,4 +61,10 @@ export class SettingsTabComponent implements OnInit {
     }
     return '';
   }
+
+  async createDiscordSettings() {}
+
+  async archiveDiscordSettings() {
+    this.backend.request();
+  }
 }

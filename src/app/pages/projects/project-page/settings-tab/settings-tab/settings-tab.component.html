@@ -5,6 +5,22 @@
     gap: 2em;
   ">
     <div>
+      <h2>Discord</h2>
+      <ng-container *ngIf="project.discordSettings; else noDiscordSettings">
+        <h4 style="margin-bottom: 0.1em;">Category ID</h4>
+        <h4 style="margin-bottom: 0.1em;">Voice Channel IDs</h4>
+        <h4 style="margin-bottom: 0.1em;">Text Channel IDs</h4>
+      </ng-container>
+      <ng-template #noDiscordSettings>
+        <div style="width: min-content;">
+          <button mat-flat-button pill tall-button color="primary" (click)="createDiscordSettings()" [disabled]="monitor.isProcessing" style="
+            max-width: 20em;
+          ">
+            <mat-icon>add</mat-icon>
+            Create Discord Settings
+          </button>
+        </div>
+      </ng-template>
       <h2>Danger Zone</h2>
       <div [matTooltip]="getDeleteProjectTooltip()" style="width: min-content;">
         <button mat-flat-button pill tall-button color="primary" (click)="deleteProject()" [disabled]="!projectOptions.canDeleteProject || monitor.isProcessing" style="
@@ -14,6 +30,12 @@
           Delete Project
         </button>
       </div>
+      <button *ngIf="project.discordSettings" mat-flat-button pill tall-button color="primary" (click)="archiveDiscordSettings()" [disabled]="monitor.isProcessing" style="
+        max-width: 20em;
+      ">
+        Archive Discord Settings
+        <mat-icon>add</mat-icon>
+      </button>
     </div>
   </div>
 </app-bg-container>

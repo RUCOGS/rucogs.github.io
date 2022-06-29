@@ -180,6 +180,14 @@ export class ProjectPageComponent implements OnInit {
                     roleCode
                   }
                 }
+                discordSettings {
+                  id
+                  createdAt
+                  updatedAt
+                  textChannelIds
+                  voiceChannelIds
+                  categoryId
+                }
               }
             }
           `,
