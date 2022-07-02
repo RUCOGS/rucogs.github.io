@@ -13,6 +13,7 @@ import {
   Project,
   ProjectInvite,
   ProjectInviteSubscriptionFilter,
+  ProjectMember,
   ProjectMemberSubscriptionFilter,
 } from '@src/generated/graphql-endpoint.types';
 import { ProjectFilterInput, ProjectInviteFilterInput } from '@src/generated/model.types';
@@ -267,12 +268,12 @@ export class ProjectPageComponent implements OnInit {
 
     this.backend
       .subscribe<{
-        projectInviteDeleted: string;
+        projectInviteDeleted: ProjectInvite;
       }>({
         query: gql`
           subscription OnProjectInviteDeleted($filter: ProjectInviteSubscriptionFilter!) {
             projectInviteDeleted(filter: $filter) {
-              id
+              userId
             }
           }
         `,
@@ -283,9 +284,10 @@ export class ProjectPageComponent implements OnInit {
       .pipe(takeUntil(this.onDestroy$))
       .subscribe({
         next: async (value) => {
-          const deletedInvite = this.project.invites?.find((x) => x?.id === value.data?.projectInviteDeleted);
+          const deletedInvite = value.data?.projectInviteDeleted;
+          console.log(deletedInvite);
           await this.fetchData(true);
-          if (this.project.members?.some((x) => x?.user?.id === deletedInvite?.user?.id))
+          if (this.project.members?.some((x) => x?.user?.id === deletedInvite?.userId))
             this.uiMessageService.notifyInfo('Invite accepted!');
           else this.uiMessageService.notifyInfo('Invite rejected!');
         },
@@ -293,12 +295,12 @@ export class ProjectPageComponent implements OnInit {
 
     this.backend
       .subscribe<{
-        projectMemberDeleted: string;
+        projectMemberDeleted: ProjectMember;
       }>({
         query: gql`
           subscription OnProjectMemberDeleted($filter: ProjectMemberSubscriptionFilter!) {
             projectMemberDeleted(filter: $filter) {
-              id
+              userId
             }
           }
         `,
@@ -311,8 +313,8 @@ export class ProjectPageComponent implements OnInit {
       .pipe(takeUntil(this.onDestroy$))
       .subscribe({
         next: async (value) => {
-          const deletedMember = this.project.members?.find((x) => x?.id === value.data?.projectMemberDeleted);
-          if (deletedMember?.user?.id === this.security.securityContext?.userId)
+          const deletedMember = value.data?.projectMemberDeleted;
+          if (deletedMember?.userId === this.security.securityContext?.userId)
             this.uiMessageService.notifyInfo('You were kicked!');
           else this.uiMessageService.notifyInfo('Member kicked!');
           await this.fetchData(true);
@@ -321,7 +323,7 @@ export class ProjectPageComponent implements OnInit {
 
     this.backend
       .subscribe<{
-        projectMemberCreated: string;
+        projectMemberCreated: ProjectMember;
       }>({
         query: gql`
           subscription OnProjectMemberCreated($filter: ProjectMemberSubscriptionFilter!) {

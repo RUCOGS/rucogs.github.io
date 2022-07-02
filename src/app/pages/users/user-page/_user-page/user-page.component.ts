@@ -177,49 +177,54 @@ export class UserPageComponent implements OnInit, OnDestroy {
 
     if (this.security.securityContext?.userId) {
       const invitesOpDomains = this.security.getOpDomainsFromPermission(Permission.ManageProjectInvites);
-      const invitesResult =
-        this.security.securityContext && this.userOptions.canUpdateUser
-          ? await firstValueFrom(
-              this.backend
-                .withAuth()
-                .withOpDomains(invitesOpDomains)
-                .query<{
-                  projectInvites: {
-                    id: string;
-                    type: InviteType;
-                    project: {
+      // TODO NOW: Wait for typetta to fix querying with empty operation domain
+      if ((invitesOpDomains && invitesOpDomains.length > 0) || invitesOpDomains === undefined) {
+        const invitesResult =
+          this.security.securityContext && this.userOptions.canUpdateUser
+            ? await firstValueFrom(
+                this.backend
+                  .withAuth()
+                  .withOpDomains(invitesOpDomains)
+                  .query<{
+                    projectInvites: {
                       id: string;
-                      name: string;
-                      cardImageLink: string;
-                    };
-                  }[];
-                }>({
-                  query: gql`
-                    query FetchUserPageInvites($filter: ProjectInviteFilterInput) {
-                      projectInvites(filter: $filter) {
-                        id
-                        type
-                        project {
+                      type: InviteType;
+                      project: {
+                        id: string;
+                        name: string;
+                        cardImageLink: string;
+                      };
+                    }[];
+                  }>({
+                    query: gql`
+                      query FetchUserPageInvites($filter: ProjectInviteFilterInput) {
+                        projectInvites(filter: $filter) {
                           id
-                          name
-                          cardImageLink
+                          type
+                          project {
+                            id
+                            name
+                            cardImageLink
+                          }
                         }
                       }
-                    }
-                  `,
-                  ...(invalidateCache && { fetchPolicy: 'no-cache' }),
-                }),
-            )
-          : undefined;
+                    `,
+                    ...(invalidateCache && { fetchPolicy: 'no-cache' }),
+                  }),
+              )
+            : undefined;
 
-      if (invitesResult && !invitesResult.error) {
-        user.projectInvites = invitesResult.data.projectInvites;
+        if (invitesResult && !invitesResult.error) {
+          user.projectInvites = invitesResult.data.projectInvites;
+        }
+      } else {
+        user.projectInvites = [];
       }
-    }
 
-    this.userOptions.loaded = true;
-    // Set user last to let angular propagate it.
-    this.user = user;
+      this.userOptions.loaded = true;
+      // Set user last to let angular propagate it.
+      this.user = user;
+    }
   }
 
   setupSubscribers() {
