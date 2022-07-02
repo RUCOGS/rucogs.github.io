@@ -312,8 +312,6 @@ export type Mutation = {
   newProjectMember?: Maybe<Scalars['ID']>;
   newUser?: Maybe<Scalars['ID']>;
   newUserLoginIdentity?: Maybe<Scalars['ID']>;
-  requestArchiveProjectDiscordConfig?: Maybe<Scalars['Boolean']>;
-  requestProjectDiscordConfig?: Maybe<Scalars['Boolean']>;
   transferProjectOwnership?: Maybe<Scalars['Boolean']>;
   updateEBoard?: Maybe<Scalars['Boolean']>;
   updateEBoardTerm?: Maybe<Scalars['Boolean']>;
@@ -536,16 +534,6 @@ export type MutationNewUserLoginIdentityArgs = {
 };
 
 
-export type MutationRequestArchiveProjectDiscordConfigArgs = {
-  projectId: Scalars['ID'];
-};
-
-
-export type MutationRequestProjectDiscordConfigArgs = {
-  projectId: Scalars['ID'];
-};
-
-
 export type MutationTransferProjectOwnershipArgs = {
   memberId: Scalars['ID'];
   projectId: Scalars['ID'];
@@ -710,6 +698,7 @@ export const Permission = {
   ManageEboard: 'MANAGE_EBOARD',
   ManageEboardRoles: 'MANAGE_EBOARD_ROLES',
   ManageMetadata: 'MANAGE_METADATA',
+  ManageProjectDiscord: 'MANAGE_PROJECT_DISCORD',
   ManageProjectInvites: 'MANAGE_PROJECT_INVITES',
   ManageProjectMember: 'MANAGE_PROJECT_MEMBER',
   ManageProjectMemberRoles: 'MANAGE_PROJECT_MEMBER_ROLES',
@@ -762,9 +751,7 @@ export type ProjectDiscordConfig = {
   id: Scalars['ID'];
   project: Project;
   projectId: Scalars['ID'];
-  textChannelIds?: Maybe<Array<Scalars['String']>>;
   updatedAt?: Maybe<Scalars['Date']>;
-  voiceChannelIds?: Maybe<Array<Scalars['String']>>;
 };
 
 export type ProjectDiscordConfigFilterInput = {
@@ -775,9 +762,7 @@ export type ProjectDiscordConfigFilterInput = {
   nor_?: InputMaybe<Array<ProjectDiscordConfigFilterInput>>;
   or_?: InputMaybe<Array<ProjectDiscordConfigFilterInput>>;
   projectId?: InputMaybe<IdFilterInput>;
-  textChannelIds?: InputMaybe<StringFilterInput>;
   updatedAt?: InputMaybe<DateFilterInput>;
-  voiceChannelIds?: InputMaybe<StringFilterInput>;
 };
 
 export type ProjectDiscordConfigFindInput = {
@@ -792,9 +777,7 @@ export type ProjectDiscordConfigInsertInput = {
   categoryId?: InputMaybe<Scalars['String']>;
   createdAt?: InputMaybe<Scalars['Date']>;
   projectId: Scalars['ID'];
-  textChannelIds?: InputMaybe<Array<Scalars['String']>>;
   updatedAt?: InputMaybe<Scalars['Date']>;
-  voiceChannelIds?: InputMaybe<Array<Scalars['String']>>;
 };
 
 export type ProjectDiscordConfigRelationsFilterInput = {
@@ -806,18 +789,14 @@ export type ProjectDiscordConfigSortInput = {
   createdAt?: InputMaybe<SortDirection>;
   id?: InputMaybe<SortDirection>;
   projectId?: InputMaybe<SortDirection>;
-  textChannelIds?: InputMaybe<SortDirection>;
   updatedAt?: InputMaybe<SortDirection>;
-  voiceChannelIds?: InputMaybe<SortDirection>;
 };
 
 export type ProjectDiscordConfigUpdateInput = {
   categoryId?: InputMaybe<Scalars['String']>;
   createdAt?: InputMaybe<Scalars['Date']>;
   projectId?: InputMaybe<Scalars['ID']>;
-  textChannelIds?: InputMaybe<Array<Scalars['String']>>;
   updatedAt?: InputMaybe<Scalars['Date']>;
-  voiceChannelIds?: InputMaybe<Array<Scalars['String']>>;
 };
 
 export type ProjectFilterInput = {
@@ -1278,33 +1257,26 @@ export const StringFilterMode = {
 export type StringFilterMode = typeof StringFilterMode[keyof typeof StringFilterMode];
 export type Subscription = {
   __typename?: 'Subscription';
-  archiveProjectDiscordConfigRequested?: Maybe<Scalars['ID']>;
-  eBoardCreated?: Maybe<Scalars['ID']>;
-  eBoardDeleted?: Maybe<Scalars['ID']>;
-  eBoardTermCreated?: Maybe<Scalars['ID']>;
-  eBoardTermDeleted?: Maybe<Scalars['ID']>;
-  eBoardTermUpdated?: Maybe<Scalars['ID']>;
-  eBoardUpdated?: Maybe<Scalars['ID']>;
-  projectCreated?: Maybe<Scalars['ID']>;
-  projectDeleted?: Maybe<Scalars['ID']>;
-  projectDiscordConfigRequested?: Maybe<Scalars['ID']>;
-  projectInviteCreated?: Maybe<Scalars['ID']>;
-  projectInviteDeleted?: Maybe<Scalars['ID']>;
-  projectMemberCreated?: Maybe<Scalars['ID']>;
-  projectMemberDeleted?: Maybe<Scalars['ID']>;
-  projectMemberUpdated?: Maybe<Scalars['ID']>;
-  projectUpdated?: Maybe<Scalars['ID']>;
-  userCreated?: Maybe<Scalars['ID']>;
-  userDeleted?: Maybe<Scalars['ID']>;
-  userLoginIdentityCreated?: Maybe<Scalars['ID']>;
-  userLoginIdentityDeleted?: Maybe<Scalars['ID']>;
-  userLoginIdentityUpdated?: Maybe<Scalars['ID']>;
-  userUpdated?: Maybe<Scalars['ID']>;
-};
-
-
-export type SubscriptionArchiveProjectDiscordConfigRequestedArgs = {
-  filter: ProjectSubscriptionFilter;
+  eBoardCreated?: Maybe<EBoard>;
+  eBoardDeleted?: Maybe<EBoard>;
+  eBoardTermCreated?: Maybe<EBoardTerm>;
+  eBoardTermDeleted?: Maybe<EBoardTerm>;
+  eBoardTermUpdated?: Maybe<EBoardTerm>;
+  eBoardUpdated?: Maybe<EBoard>;
+  projectCreated?: Maybe<Project>;
+  projectDeleted?: Maybe<Project>;
+  projectInviteCreated?: Maybe<ProjectInvite>;
+  projectInviteDeleted?: Maybe<ProjectInvite>;
+  projectMemberCreated?: Maybe<ProjectMember>;
+  projectMemberDeleted?: Maybe<ProjectMember>;
+  projectMemberUpdated?: Maybe<ProjectMember>;
+  projectUpdated?: Maybe<Project>;
+  userCreated?: Maybe<User>;
+  userDeleted?: Maybe<User>;
+  userLoginIdentityCreated?: Maybe<UserLoginIdentity>;
+  userLoginIdentityDeleted?: Maybe<UserLoginIdentity>;
+  userLoginIdentityUpdated?: Maybe<UserLoginIdentity>;
+  userUpdated?: Maybe<User>;
 };
 
 
@@ -1344,11 +1316,6 @@ export type SubscriptionProjectCreatedArgs = {
 
 
 export type SubscriptionProjectDeletedArgs = {
-  filter: ProjectSubscriptionFilter;
-};
-
-
-export type SubscriptionProjectDiscordConfigRequestedArgs = {
   filter: ProjectSubscriptionFilter;
 };
 
@@ -1413,78 +1380,72 @@ export type SubscriptionUserUpdatedArgs = {
 };
 
 export type SubscriptionInsertInput = {
-  archiveProjectDiscordConfigRequested?: InputMaybe<Scalars['ID']>;
-  eBoardCreated?: InputMaybe<Scalars['ID']>;
-  eBoardDeleted?: InputMaybe<Scalars['ID']>;
-  eBoardTermCreated?: InputMaybe<Scalars['ID']>;
-  eBoardTermDeleted?: InputMaybe<Scalars['ID']>;
-  eBoardTermUpdated?: InputMaybe<Scalars['ID']>;
-  eBoardUpdated?: InputMaybe<Scalars['ID']>;
-  projectCreated?: InputMaybe<Scalars['ID']>;
-  projectDeleted?: InputMaybe<Scalars['ID']>;
-  projectDiscordConfigRequested?: InputMaybe<Scalars['ID']>;
-  projectInviteCreated?: InputMaybe<Scalars['ID']>;
-  projectInviteDeleted?: InputMaybe<Scalars['ID']>;
-  projectMemberCreated?: InputMaybe<Scalars['ID']>;
-  projectMemberDeleted?: InputMaybe<Scalars['ID']>;
-  projectMemberUpdated?: InputMaybe<Scalars['ID']>;
-  projectUpdated?: InputMaybe<Scalars['ID']>;
-  userCreated?: InputMaybe<Scalars['ID']>;
-  userDeleted?: InputMaybe<Scalars['ID']>;
-  userLoginIdentityCreated?: InputMaybe<Scalars['ID']>;
-  userLoginIdentityDeleted?: InputMaybe<Scalars['ID']>;
-  userLoginIdentityUpdated?: InputMaybe<Scalars['ID']>;
-  userUpdated?: InputMaybe<Scalars['ID']>;
+  eBoardCreated?: InputMaybe<EBoardInsertInput>;
+  eBoardDeleted?: InputMaybe<EBoardInsertInput>;
+  eBoardTermCreated?: InputMaybe<EBoardTermInsertInput>;
+  eBoardTermDeleted?: InputMaybe<EBoardTermInsertInput>;
+  eBoardTermUpdated?: InputMaybe<EBoardTermInsertInput>;
+  eBoardUpdated?: InputMaybe<EBoardInsertInput>;
+  projectCreated?: InputMaybe<ProjectInsertInput>;
+  projectDeleted?: InputMaybe<ProjectInsertInput>;
+  projectInviteCreated?: InputMaybe<ProjectInviteInsertInput>;
+  projectInviteDeleted?: InputMaybe<ProjectInviteInsertInput>;
+  projectMemberCreated?: InputMaybe<ProjectMemberInsertInput>;
+  projectMemberDeleted?: InputMaybe<ProjectMemberInsertInput>;
+  projectMemberUpdated?: InputMaybe<ProjectMemberInsertInput>;
+  projectUpdated?: InputMaybe<ProjectInsertInput>;
+  userCreated?: InputMaybe<UserInsertInput>;
+  userDeleted?: InputMaybe<UserInsertInput>;
+  userLoginIdentityCreated?: InputMaybe<UserLoginIdentityInsertInput>;
+  userLoginIdentityDeleted?: InputMaybe<UserLoginIdentityInsertInput>;
+  userLoginIdentityUpdated?: InputMaybe<UserLoginIdentityInsertInput>;
+  userUpdated?: InputMaybe<UserInsertInput>;
 };
 
 export type SubscriptionSortInput = {
-  archiveProjectDiscordConfigRequested?: InputMaybe<SortDirection>;
-  eBoardCreated?: InputMaybe<SortDirection>;
-  eBoardDeleted?: InputMaybe<SortDirection>;
-  eBoardTermCreated?: InputMaybe<SortDirection>;
-  eBoardTermDeleted?: InputMaybe<SortDirection>;
-  eBoardTermUpdated?: InputMaybe<SortDirection>;
-  eBoardUpdated?: InputMaybe<SortDirection>;
-  projectCreated?: InputMaybe<SortDirection>;
-  projectDeleted?: InputMaybe<SortDirection>;
-  projectDiscordConfigRequested?: InputMaybe<SortDirection>;
-  projectInviteCreated?: InputMaybe<SortDirection>;
-  projectInviteDeleted?: InputMaybe<SortDirection>;
-  projectMemberCreated?: InputMaybe<SortDirection>;
-  projectMemberDeleted?: InputMaybe<SortDirection>;
-  projectMemberUpdated?: InputMaybe<SortDirection>;
-  projectUpdated?: InputMaybe<SortDirection>;
-  userCreated?: InputMaybe<SortDirection>;
-  userDeleted?: InputMaybe<SortDirection>;
-  userLoginIdentityCreated?: InputMaybe<SortDirection>;
-  userLoginIdentityDeleted?: InputMaybe<SortDirection>;
-  userLoginIdentityUpdated?: InputMaybe<SortDirection>;
-  userUpdated?: InputMaybe<SortDirection>;
+  eBoardCreated?: InputMaybe<EBoardSortInput>;
+  eBoardDeleted?: InputMaybe<EBoardSortInput>;
+  eBoardTermCreated?: InputMaybe<EBoardTermSortInput>;
+  eBoardTermDeleted?: InputMaybe<EBoardTermSortInput>;
+  eBoardTermUpdated?: InputMaybe<EBoardTermSortInput>;
+  eBoardUpdated?: InputMaybe<EBoardSortInput>;
+  projectCreated?: InputMaybe<ProjectSortInput>;
+  projectDeleted?: InputMaybe<ProjectSortInput>;
+  projectInviteCreated?: InputMaybe<ProjectInviteSortInput>;
+  projectInviteDeleted?: InputMaybe<ProjectInviteSortInput>;
+  projectMemberCreated?: InputMaybe<ProjectMemberSortInput>;
+  projectMemberDeleted?: InputMaybe<ProjectMemberSortInput>;
+  projectMemberUpdated?: InputMaybe<ProjectMemberSortInput>;
+  projectUpdated?: InputMaybe<ProjectSortInput>;
+  userCreated?: InputMaybe<UserSortInput>;
+  userDeleted?: InputMaybe<UserSortInput>;
+  userLoginIdentityCreated?: InputMaybe<UserLoginIdentitySortInput>;
+  userLoginIdentityDeleted?: InputMaybe<UserLoginIdentitySortInput>;
+  userLoginIdentityUpdated?: InputMaybe<UserLoginIdentitySortInput>;
+  userUpdated?: InputMaybe<UserSortInput>;
 };
 
 export type SubscriptionUpdateInput = {
-  archiveProjectDiscordConfigRequested?: InputMaybe<Scalars['ID']>;
-  eBoardCreated?: InputMaybe<Scalars['ID']>;
-  eBoardDeleted?: InputMaybe<Scalars['ID']>;
-  eBoardTermCreated?: InputMaybe<Scalars['ID']>;
-  eBoardTermDeleted?: InputMaybe<Scalars['ID']>;
-  eBoardTermUpdated?: InputMaybe<Scalars['ID']>;
-  eBoardUpdated?: InputMaybe<Scalars['ID']>;
-  projectCreated?: InputMaybe<Scalars['ID']>;
-  projectDeleted?: InputMaybe<Scalars['ID']>;
-  projectDiscordConfigRequested?: InputMaybe<Scalars['ID']>;
-  projectInviteCreated?: InputMaybe<Scalars['ID']>;
-  projectInviteDeleted?: InputMaybe<Scalars['ID']>;
-  projectMemberCreated?: InputMaybe<Scalars['ID']>;
-  projectMemberDeleted?: InputMaybe<Scalars['ID']>;
-  projectMemberUpdated?: InputMaybe<Scalars['ID']>;
-  projectUpdated?: InputMaybe<Scalars['ID']>;
-  userCreated?: InputMaybe<Scalars['ID']>;
-  userDeleted?: InputMaybe<Scalars['ID']>;
-  userLoginIdentityCreated?: InputMaybe<Scalars['ID']>;
-  userLoginIdentityDeleted?: InputMaybe<Scalars['ID']>;
-  userLoginIdentityUpdated?: InputMaybe<Scalars['ID']>;
-  userUpdated?: InputMaybe<Scalars['ID']>;
+  eBoardCreated?: InputMaybe<EBoardUpdateInput>;
+  eBoardDeleted?: InputMaybe<EBoardUpdateInput>;
+  eBoardTermCreated?: InputMaybe<EBoardTermUpdateInput>;
+  eBoardTermDeleted?: InputMaybe<EBoardTermUpdateInput>;
+  eBoardTermUpdated?: InputMaybe<EBoardTermUpdateInput>;
+  eBoardUpdated?: InputMaybe<EBoardUpdateInput>;
+  projectCreated?: InputMaybe<ProjectUpdateInput>;
+  projectDeleted?: InputMaybe<ProjectUpdateInput>;
+  projectInviteCreated?: InputMaybe<ProjectInviteUpdateInput>;
+  projectInviteDeleted?: InputMaybe<ProjectInviteUpdateInput>;
+  projectMemberCreated?: InputMaybe<ProjectMemberUpdateInput>;
+  projectMemberDeleted?: InputMaybe<ProjectMemberUpdateInput>;
+  projectMemberUpdated?: InputMaybe<ProjectMemberUpdateInput>;
+  projectUpdated?: InputMaybe<ProjectUpdateInput>;
+  userCreated?: InputMaybe<UserUpdateInput>;
+  userDeleted?: InputMaybe<UserUpdateInput>;
+  userLoginIdentityCreated?: InputMaybe<UserLoginIdentityUpdateInput>;
+  userLoginIdentityDeleted?: InputMaybe<UserLoginIdentityUpdateInput>;
+  userLoginIdentityUpdated?: InputMaybe<UserLoginIdentityUpdateInput>;
+  userUpdated?: InputMaybe<UserUpdateInput>;
 };
 
 export type UpdateEBoardInput = {

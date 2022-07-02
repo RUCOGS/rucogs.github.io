@@ -354,35 +354,27 @@ members: ProjectMemberFindInput
         categoryId: String
 createdAt: Date
 projectId: ID!
-textChannelIds: [String!]
 updatedAt: Date
-voiceChannelIds: [String!]
       }
       input ProjectDiscordConfigUpdateInput {
         categoryId: String
 createdAt: Date
 projectId: ID
-textChannelIds: [String!]
 updatedAt: Date
-voiceChannelIds: [String!]
       }
       input ProjectDiscordConfigSortInput {
         categoryId: SortDirection
 createdAt: SortDirection
 id: SortDirection
 projectId: SortDirection
-textChannelIds: SortDirection
 updatedAt: SortDirection
-voiceChannelIds: SortDirection
       }
       input ProjectDiscordConfigFilterInput {
         categoryId: StringFilterInput
 createdAt: DateFilterInput
 id: IDFilterInput
 projectId: IDFilterInput
-textChannelIds: StringFilterInput
 updatedAt: DateFilterInput
-voiceChannelIds: StringFilterInput
           and_: [ProjectDiscordConfigFilterInput!]
           or_: [ProjectDiscordConfigFilterInput!]
           nor_: [ProjectDiscordConfigFilterInput!]
@@ -526,76 +518,70 @@ roleCode: RoleCodeFilterInput
 
 ########### Subscription ###########
       input SubscriptionInsertInput {
-        archiveProjectDiscordConfigRequested: ID
-eBoardCreated: ID
-eBoardDeleted: ID
-eBoardTermCreated: ID
-eBoardTermDeleted: ID
-eBoardTermUpdated: ID
-eBoardUpdated: ID
-projectCreated: ID
-projectDeleted: ID
-projectDiscordConfigRequested: ID
-projectInviteCreated: ID
-projectInviteDeleted: ID
-projectMemberCreated: ID
-projectMemberDeleted: ID
-projectMemberUpdated: ID
-projectUpdated: ID
-userCreated: ID
-userDeleted: ID
-userLoginIdentityCreated: ID
-userLoginIdentityDeleted: ID
-userLoginIdentityUpdated: ID
-userUpdated: ID
+        eBoardCreated: EBoardInsertInput
+eBoardDeleted: EBoardInsertInput
+eBoardTermCreated: EBoardTermInsertInput
+eBoardTermDeleted: EBoardTermInsertInput
+eBoardTermUpdated: EBoardTermInsertInput
+eBoardUpdated: EBoardInsertInput
+projectCreated: ProjectInsertInput
+projectDeleted: ProjectInsertInput
+projectInviteCreated: ProjectInviteInsertInput
+projectInviteDeleted: ProjectInviteInsertInput
+projectMemberCreated: ProjectMemberInsertInput
+projectMemberDeleted: ProjectMemberInsertInput
+projectMemberUpdated: ProjectMemberInsertInput
+projectUpdated: ProjectInsertInput
+userCreated: UserInsertInput
+userDeleted: UserInsertInput
+userLoginIdentityCreated: UserLoginIdentityInsertInput
+userLoginIdentityDeleted: UserLoginIdentityInsertInput
+userLoginIdentityUpdated: UserLoginIdentityInsertInput
+userUpdated: UserInsertInput
       }
       input SubscriptionUpdateInput {
-        archiveProjectDiscordConfigRequested: ID
-eBoardCreated: ID
-eBoardDeleted: ID
-eBoardTermCreated: ID
-eBoardTermDeleted: ID
-eBoardTermUpdated: ID
-eBoardUpdated: ID
-projectCreated: ID
-projectDeleted: ID
-projectDiscordConfigRequested: ID
-projectInviteCreated: ID
-projectInviteDeleted: ID
-projectMemberCreated: ID
-projectMemberDeleted: ID
-projectMemberUpdated: ID
-projectUpdated: ID
-userCreated: ID
-userDeleted: ID
-userLoginIdentityCreated: ID
-userLoginIdentityDeleted: ID
-userLoginIdentityUpdated: ID
-userUpdated: ID
+        eBoardCreated: EBoardUpdateInput
+eBoardDeleted: EBoardUpdateInput
+eBoardTermCreated: EBoardTermUpdateInput
+eBoardTermDeleted: EBoardTermUpdateInput
+eBoardTermUpdated: EBoardTermUpdateInput
+eBoardUpdated: EBoardUpdateInput
+projectCreated: ProjectUpdateInput
+projectDeleted: ProjectUpdateInput
+projectInviteCreated: ProjectInviteUpdateInput
+projectInviteDeleted: ProjectInviteUpdateInput
+projectMemberCreated: ProjectMemberUpdateInput
+projectMemberDeleted: ProjectMemberUpdateInput
+projectMemberUpdated: ProjectMemberUpdateInput
+projectUpdated: ProjectUpdateInput
+userCreated: UserUpdateInput
+userDeleted: UserUpdateInput
+userLoginIdentityCreated: UserLoginIdentityUpdateInput
+userLoginIdentityDeleted: UserLoginIdentityUpdateInput
+userLoginIdentityUpdated: UserLoginIdentityUpdateInput
+userUpdated: UserUpdateInput
       }
       input SubscriptionSortInput {
-        archiveProjectDiscordConfigRequested: SortDirection
-eBoardCreated: SortDirection
-eBoardDeleted: SortDirection
-eBoardTermCreated: SortDirection
-eBoardTermDeleted: SortDirection
-eBoardTermUpdated: SortDirection
-eBoardUpdated: SortDirection
-projectCreated: SortDirection
-projectDeleted: SortDirection
-projectDiscordConfigRequested: SortDirection
-projectInviteCreated: SortDirection
-projectInviteDeleted: SortDirection
-projectMemberCreated: SortDirection
-projectMemberDeleted: SortDirection
-projectMemberUpdated: SortDirection
-projectUpdated: SortDirection
-userCreated: SortDirection
-userDeleted: SortDirection
-userLoginIdentityCreated: SortDirection
-userLoginIdentityDeleted: SortDirection
-userLoginIdentityUpdated: SortDirection
-userUpdated: SortDirection
+        eBoardCreated: EBoardSortInput
+eBoardDeleted: EBoardSortInput
+eBoardTermCreated: EBoardTermSortInput
+eBoardTermDeleted: EBoardTermSortInput
+eBoardTermUpdated: EBoardTermSortInput
+eBoardUpdated: EBoardSortInput
+projectCreated: ProjectSortInput
+projectDeleted: ProjectSortInput
+projectInviteCreated: ProjectInviteSortInput
+projectInviteDeleted: ProjectInviteSortInput
+projectMemberCreated: ProjectMemberSortInput
+projectMemberDeleted: ProjectMemberSortInput
+projectMemberUpdated: ProjectMemberSortInput
+projectUpdated: ProjectSortInput
+userCreated: UserSortInput
+userDeleted: UserSortInput
+userLoginIdentityCreated: UserLoginIdentitySortInput
+userLoginIdentityDeleted: UserLoginIdentitySortInput
+userLoginIdentityUpdated: UserLoginIdentitySortInput
+userUpdated: UserSortInput
       }
 ########### Subscription ###########
 

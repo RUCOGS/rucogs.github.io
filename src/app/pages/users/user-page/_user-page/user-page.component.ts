@@ -243,7 +243,9 @@ export class UserPageComponent implements OnInit, OnDestroy {
       }>({
         query: gql`
           subscription ($filter: ProjectInviteSubscriptionFilter!) {
-            projectInviteCreated(filter: $filter)
+            projectInviteCreated(filter: $filter) {
+              id
+            }
           }
         `,
         variables: {
@@ -264,7 +266,9 @@ export class UserPageComponent implements OnInit, OnDestroy {
       }>({
         query: gql`
           subscription ($filter: ProjectInviteSubscriptionFilter!) {
-            projectInviteDeleted(filter: $filter)
+            projectInviteDeleted(filter: $filter) {
+              id
+            }
           }
         `,
         variables: {
