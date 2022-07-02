@@ -59,6 +59,13 @@ export class SettingsTabComponent implements OnInit {
     if (!this.projectOptions.canDeleteProject) {
       return "Please ask an e-board officer if you'd like to delete a project.";
     }
+    if (this.project.discordConfig) {
+      return "Cannot delete project with discord presence! Please archive the project's discord category first.";
+    }
     return '';
+  }
+
+  getDateString(date: number) {
+    return new Date(date).toLocaleString();
   }
 }

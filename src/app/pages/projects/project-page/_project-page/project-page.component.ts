@@ -8,14 +8,12 @@ import { BreakpointManagerService } from '@src/app/services/breakpoint-manager.s
 import { SecurityService } from '@src/app/services/security.service';
 import { deepClone } from '@src/app/utils/utils';
 import {
-  Access,
   InviteType,
   Permission,
   Project,
   ProjectInvite,
   ProjectInviteSubscriptionFilter,
   ProjectMemberSubscriptionFilter,
-  RoleCode,
 } from '@src/generated/graphql-endpoint.types';
 import { ProjectFilterInput, ProjectInviteFilterInput } from '@src/generated/model.types';
 import { OperationSecurityDomain } from '@src/shared/security';
@@ -65,6 +63,10 @@ export class ProjectPageComponent implements OnInit {
     await this.security.fetchData();
 
     this.projectOptions.isAuthenticated = this.security.securityContext?.userId != undefined;
+    const projectOpDomain = <OperationSecurityDomain>{
+      projectId: [this.projectId],
+    };
+    const permCalc = this.security.makePermCalc().withDomain(projectOpDomain);
 
     let invitesQuery;
     if (this.security.securityContext?.userId) {
@@ -113,105 +115,86 @@ export class ProjectPageComponent implements OnInit {
       );
     }
 
-    const projectQuery = firstValueFrom(
-      this.backend
-        .withAuth()
-        .withOpDomain({
-          projectId: [this.projectId],
-        })
-        .query<{
-          projects: {
-            id: string;
-            cardImageLink: string;
-            bannerLink: string;
-            completedAt: Date;
-            createdAt: Date;
-            updatedAt: Date;
-            name: string;
-            access: Access;
-            pitch: string;
-            description: string;
-            tags: string[];
-            galleryImageLinks: string[];
-            soundcloudEmbedSrc: string;
-            downloadLinks: string[];
-            members: {
-              id: string;
-              contributions: string;
-              user: {
-                id: string;
-                avatarLink: string;
-                username: string;
-                displayName: string;
-              };
-              roles: {
-                roleCode: RoleCode;
-              }[];
-            }[];
-          }[];
-        }>({
-          query: gql`
-            query FetchProjectPageProject($filter: ProjectFilterInput) {
-              projects(filter: $filter) {
-                id
-                cardImageLink
-                bannerLink
-                completedAt
-                createdAt
-                updatedAt
-                name
-                access
-                pitch
-                description
-                tags
-                galleryImageLinks
-                soundcloudEmbedSrc
-                downloadLinks
-                members {
-                  id
-                  user {
-                    id
-                    avatarLink
-                    username
-                    displayName
-                  }
-                  contributions
-                  roles {
-                    roleCode
-                  }
-                }
-                discordSettings {
+    let discordQuery;
+    if (permCalc.hasPermission(Permission.ManageProjectDiscord)) {
+      discordQuery = firstValueFrom(
+        this.backend
+          .withAuth()
+          .withOpDomain({
+            projectId: [this.projectId],
+          })
+          .query<{
+            projectDiscordConfig: any[];
+          }>({
+            query: gql`
+              query FetchProjectPageDiscord {
+                projectDiscordConfigs {
                   id
                   createdAt
                   updatedAt
-                  textChannelIds
-                  voiceChannelIds
                   categoryId
                 }
               }
+            `,
+          }),
+      );
+    }
+
+    const projectQuery = firstValueFrom(
+      this.backend.withAuth().query<{
+        projects: any[];
+      }>({
+        query: gql`
+          query FetchProjectPageProject($filter: ProjectFilterInput) {
+            projects(filter: $filter) {
+              id
+              cardImageLink
+              bannerLink
+              completedAt
+              createdAt
+              updatedAt
+              name
+              access
+              pitch
+              description
+              tags
+              galleryImageLinks
+              soundcloudEmbedSrc
+              downloadLinks
+              members {
+                id
+                user {
+                  id
+                  avatarLink
+                  username
+                  displayName
+                }
+                contributions
+                roles {
+                  roleCode
+                }
+              }
             }
-          `,
-          variables: {
-            filter: <ProjectFilterInput>{
-              id: { eq: this.projectId },
-            },
+          }
+        `,
+        variables: {
+          filter: <ProjectFilterInput>{
+            id: { eq: this.projectId },
           },
-          ...(invalidateCache && { fetchPolicy: 'no-cache' }),
-        }),
+        },
+        ...(invalidateCache && { fetchPolicy: 'no-cache' }),
+      }),
     );
 
-    const [invitesResult, projectResult] = await Promise.all([invitesQuery, projectQuery]);
+    const [discordResult, invitesResult, projectResult] = await Promise.all([discordQuery, invitesQuery, projectQuery]);
 
+    console.log('disc projectas:');
+    console.log(discordResult.data);
     if (projectResult.data.projects.length == 0) {
       this.projectOptions.nonExistent = true;
       this.projectOptions.loaded = true;
       return;
     }
-
-    const projectOpDomain = <OperationSecurityDomain>{
-      projectId: [this.projectId],
-    };
-    const permCalc = this.security.makePermCalc().withDomain(projectOpDomain);
     this.projectOptions.canUpdateProject = permCalc.hasPermission(Permission.UpdateProject);
     this.projectOptions.canDeleteProject = permCalc.hasPermission(Permission.DeleteProject);
     this.projectOptions.canManageMetadata = permCalc.hasPermission(Permission.ManageMetadata);
@@ -219,6 +202,9 @@ export class ProjectPageComponent implements OnInit {
     this.project = deepClone(projectResult.data.projects[0]);
     if (invitesResult && !invitesResult.error) {
       this.project.invites = invitesResult.data.projectInvites;
+    }
+    if (discordResult && !discordResult.error) {
+      this.project.discordConfig = discordResult.data.projectDiscordConfigs[0];
     }
 
     if (
@@ -263,7 +249,9 @@ export class ProjectPageComponent implements OnInit {
       }>({
         query: gql`
           subscription OnProjectInviteCreated($filter: ProjectInviteSubscriptionFilter!) {
-            projectInviteCreated(filter: $filter)
+            projectInviteCreated(filter: $filter) {
+              id
+            }
           }
         `,
         variables: {
@@ -284,7 +272,9 @@ export class ProjectPageComponent implements OnInit {
       }>({
         query: gql`
           subscription OnProjectInviteDeleted($filter: ProjectInviteSubscriptionFilter!) {
-            projectInviteDeleted(filter: $filter)
+            projectInviteDeleted(filter: $filter) {
+              id
+            }
           }
         `,
         variables: {
@@ -308,7 +298,9 @@ export class ProjectPageComponent implements OnInit {
       }>({
         query: gql`
           subscription OnProjectMemberDeleted($filter: ProjectMemberSubscriptionFilter!) {
-            projectMemberDeleted(filter: $filter)
+            projectMemberDeleted(filter: $filter) {
+              id
+            }
           }
         `,
         variables: {
@@ -334,7 +326,9 @@ export class ProjectPageComponent implements OnInit {
       }>({
         query: gql`
           subscription OnProjectMemberCreated($filter: ProjectMemberSubscriptionFilter!) {
-            projectMemberCreated(filter: $filter)
+            projectMemberCreated(filter: $filter) {
+              id
+            }
           }
         `,
         variables: {
