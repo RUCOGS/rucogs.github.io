@@ -157,7 +157,7 @@ export class MembersTabComponent implements AfterViewInit, OnDestroy, OnChanges 
     if (
       !permsCalc
         .withDomain({
-          projectMemberId: [member.id],
+          projectMemberId: member.id,
         })
         .hasPermission(Permission.ManageProjectMember)
     ) {
@@ -175,7 +175,7 @@ export class MembersTabComponent implements AfterViewInit, OnDestroy, OnChanges 
     if (
       !permsCalc
         .withDomain({
-          projectId: [this.project.id ?? ''],
+          projectId: this.project.id ?? '',
         })
         .hasPermission(Permission.TransferProjectOwnership)
     ) {
@@ -200,7 +200,7 @@ export class MembersTabComponent implements AfterViewInit, OnDestroy, OnChanges 
 
     let canManageMemberRoles = permsCalc
       .withDomain({
-        projectMemberId: [member.id],
+        projectMemberId: member.id,
       })
       .hasPermission(Permission.ManageProjectMemberRoles);
 

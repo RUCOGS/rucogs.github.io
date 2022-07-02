@@ -1,14 +1,14 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
+import { InMemoryCache } from '@apollo/client/core';
 import { User } from '@src/generated/graphql-endpoint.types';
 import { EntityManagerMetadata, SecurityContext } from '@src/shared/security';
 import { SettingsService } from '@src/_settings';
 import { Apollo, gql } from 'apollo-angular';
-import { BehaviorSubject, firstValueFrom, Observable, Subject } from 'rxjs';
-import { first, takeUntil } from 'rxjs/operators';
 import { HttpLink } from 'apollo-angular/http';
-import { InMemoryCache } from '@apollo/client/core';
+import { BehaviorSubject, firstValueFrom, Observable, Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 const AUTH_PAYLOAD_KEY = 'auth-payload';
 
@@ -130,9 +130,11 @@ export class AuthService implements OnDestroy {
           headers: {
             Authorization: 'Bearer ' + this.getToken(),
             'Operation-Metadata': JSON.stringify(<EntityManagerMetadata>{
-              securityDomain: {
-                userId: [userId],
-              },
+              securityDomains: [
+                {
+                  userId: userId,
+                },
+              ],
             }),
           },
         },

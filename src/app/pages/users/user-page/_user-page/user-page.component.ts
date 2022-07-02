@@ -116,7 +116,7 @@ export class UserPageComponent implements OnInit, OnDestroy {
     let user: PartialDeep<User> = deepClone(userResult.data.users[0]);
     user.eBoard?.terms?.sort((a, b) => b!.year! - a!.year!);
     const userOpDomain = <OperationSecurityDomain>{
-      userId: [user.id],
+      userId: user.id,
     };
     const permCalc = this.security.makePermCalc().withDomain(userOpDomain);
     this.userOptions.canUpdateUser = permCalc.hasPermission(Permission.UpdateUser);
@@ -139,7 +139,7 @@ export class UserPageComponent implements OnInit, OnDestroy {
       this.security
         .makePermCalc()
         .withDomain({
-          userId: [user.id!],
+          userId: user.id!,
         })
         .hasPermission(Permission.ReadUserPrivate)
     ) {
@@ -147,7 +147,7 @@ export class UserPageComponent implements OnInit, OnDestroy {
         this.backend
           .withAuth()
           .withOpDomain({
-            userId: [user.id!],
+            userId: user.id!,
           })
           .query<{
             users: any[];
@@ -176,15 +176,13 @@ export class UserPageComponent implements OnInit, OnDestroy {
     }
 
     if (this.security.securityContext?.userId) {
-      const invitesOpDomain = this.security.getOpDomainFromPermission(Permission.ManageProjectInvites, [
-        'projectInviteId',
-      ]);
+      const invitesOpDomains = this.security.getOpDomainsFromPermission(Permission.ManageProjectInvites);
       const invitesResult =
         this.security.securityContext && this.userOptions.canUpdateUser
           ? await firstValueFrom(
               this.backend
                 .withAuth()
-                .withOpDomain(invitesOpDomain)
+                .withOpDomains(invitesOpDomains)
                 .query<{
                   projectInvites: {
                     id: string;
