@@ -248,7 +248,7 @@ export class ProjectPageComponent implements OnInit {
         projectInviteCreated: ProjectInvite;
       }>({
         query: gql`
-          subscription OnProjectInviteCreated($filter: ProjectInviteSubscriptionFilter!) {
+          subscription OnProjectInviteCreated($filter: ProjectInviteSubscriptionFilter) {
             projectInviteCreated(filter: $filter) {
               id
             }
@@ -271,7 +271,7 @@ export class ProjectPageComponent implements OnInit {
         projectInviteDeleted: ProjectInvite;
       }>({
         query: gql`
-          subscription OnProjectInviteDeleted($filter: ProjectInviteSubscriptionFilter!) {
+          subscription OnProjectInviteDeleted($filter: ProjectInviteSubscriptionFilter) {
             projectInviteDeleted(filter: $filter) {
               userId
             }
@@ -298,7 +298,7 @@ export class ProjectPageComponent implements OnInit {
         projectMemberDeleted: ProjectMember;
       }>({
         query: gql`
-          subscription OnProjectMemberDeleted($filter: ProjectMemberSubscriptionFilter!) {
+          subscription OnProjectMemberDeleted($filter: ProjectMemberSubscriptionFilter) {
             projectMemberDeleted(filter: $filter) {
               userId
             }
@@ -326,7 +326,7 @@ export class ProjectPageComponent implements OnInit {
         projectMemberCreated: ProjectMember;
       }>({
         query: gql`
-          subscription OnProjectMemberCreated($filter: ProjectMemberSubscriptionFilter!) {
+          subscription OnProjectMemberCreated($filter: ProjectMemberSubscriptionFilter) {
             projectMemberCreated(filter: $filter) {
               id
             }
