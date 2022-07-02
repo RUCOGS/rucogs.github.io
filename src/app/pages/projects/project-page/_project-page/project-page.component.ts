@@ -187,8 +187,6 @@ export class ProjectPageComponent implements OnInit {
 
     const [discordResult, invitesResult, projectResult] = await Promise.all([discordQuery, invitesQuery, projectQuery]);
 
-    console.log('disc projectas:');
-    console.log(discordResult.data);
     if (projectResult.data.projects.length == 0) {
       this.projectOptions.nonExistent = true;
       this.projectOptions.loaded = true;
