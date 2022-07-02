@@ -64,21 +64,20 @@ export class ProjectPageComponent implements OnInit {
 
     this.projectOptions.isAuthenticated = this.security.securityContext?.userId != undefined;
     const projectOpDomain = <OperationSecurityDomain>{
-      projectId: [this.projectId],
+      projectId: this.projectId,
     };
     const permCalc = this.security.makePermCalc().withDomain(projectOpDomain);
 
     let invitesQuery;
     if (this.security.securityContext?.userId) {
-      let invitesOpDomain: OperationSecurityDomain | undefined = this.security.getOpDomainFromPermission(
+      let invitesOpDomains: OperationSecurityDomain[] | undefined = this.security.getOpDomainsFromPermission(
         Permission.ManageProjectInvites,
-        ['projectInviteId'],
       );
 
       invitesQuery = firstValueFrom(
         this.backend
           .withAuth()
-          .withOpDomain(invitesOpDomain)
+          .withOpDomains(invitesOpDomains)
           .query<{
             projectInvites: {
               id: string;
@@ -121,7 +120,7 @@ export class ProjectPageComponent implements OnInit {
         this.backend
           .withAuth()
           .withOpDomain({
-            projectId: [this.projectId],
+            projectId: this.projectId,
           })
           .query<{
             projectDiscordConfig: any[];
@@ -209,9 +208,11 @@ export class ProjectPageComponent implements OnInit {
 
     if (
       permCalc
-        .withDomain({
-          projectMemberId: this.project.members?.map((x) => x?.id ?? '') ?? [],
-        })
+        .withDomains(
+          this.project.members?.map((x) => ({
+            projectMemberId: x?.id ?? '',
+          })) ?? [],
+        )
         .hasPermission(Permission.ManageProjectMember)
     )
       this.projectOptions.manageSomeMembers = true;
