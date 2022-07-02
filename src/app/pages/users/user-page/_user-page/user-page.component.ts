@@ -7,7 +7,7 @@ import { SecurityService } from '@src/app/services/security.service';
 import { BreakpointManagerService } from '@src/app/services/_services.module';
 import { deepClone } from '@src/app/utils/utils';
 import { InviteType, Permission, ProjectInviteSubscriptionFilter, User } from '@src/generated/graphql-endpoint.types';
-import { ProjectInviteFilterInput, UserFilterInput } from '@src/generated/model.types';
+import { UserFilterInput } from '@src/generated/model.types';
 import { OperationSecurityDomain } from '@src/shared/security';
 import { gql } from 'apollo-angular';
 import { firstValueFrom, Subject } from 'rxjs';
@@ -207,11 +207,6 @@ export class UserPageComponent implements OnInit, OnDestroy {
                       }
                     }
                   `,
-                  variables: {
-                    filter: <ProjectInviteFilterInput>{
-                      userId: { eq: user.id },
-                    },
-                  },
                   ...(invalidateCache && { fetchPolicy: 'no-cache' }),
                 }),
             )

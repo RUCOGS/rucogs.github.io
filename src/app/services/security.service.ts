@@ -117,7 +117,9 @@ export class SecurityService implements OnDestroy {
     // Unset the operation domain if we have complete access
     if (this.hasCompletePermission(permissionCode)) return undefined;
     try {
-      let domains: OperationSecurityDomain[] = this.getOpDomainsFromPermissionHelper(permissionCode);
+      let domains: OperationSecurityDomain[] = this.getOpDomainsFromPermissionHelper(
+        this.securityContext?.permissions[permissionCode],
+      );
       return domains;
     } catch (err) {
       if (err instanceof Error) err.message += ` Permission: "${permissionCode}".`;
