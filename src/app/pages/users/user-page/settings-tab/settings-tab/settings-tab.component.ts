@@ -23,6 +23,10 @@ import {
   EditUserPrivateDialogComponent,
   EditUserPrivateDialogData,
 } from '../edit-user-private-dialog/edit-user-private-dialog.component';
+import {
+  LinkRutgersEmailDialogComponent,
+  LinkRutgersEmailDialogData,
+} from '../link-rutgers-email-dialog/link-rutgers-email-dialog.component';
 
 @Component({
   selector: 'app-settings-tab',
@@ -61,6 +65,17 @@ export class SettingsTabComponent implements OnChanges {
     return (identity?.name?.charAt(0).toUpperCase() ?? '') + identity?.name?.slice(1);
   }
 
+  onLinkRutgersEmail() {
+    this.dialog.open(LinkRutgersEmailDialogComponent, {
+      data: <LinkRutgersEmailDialogData>{
+        user: this.user,
+        userOptions: this.userOptions,
+      },
+      width: '35em',
+      maxWidth: '90vw',
+    });
+  }
+
   async onEditUserPrivate() {
     const result = await firstValueFrom(
       this.dialog
@@ -69,7 +84,7 @@ export class SettingsTabComponent implements OnChanges {
             user: this.user,
             userOptions: this.userOptions,
           },
-          width: '37.5em',
+          width: '35em',
           maxWidth: '90vw',
         })
         .afterClosed(),

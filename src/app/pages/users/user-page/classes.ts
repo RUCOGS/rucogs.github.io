@@ -9,6 +9,7 @@ export function defaultUserOptions() {
     canManageEBoardRoles: false,
     canManageEBoard: false,
     canManageMetadata: false,
+    canManageProjectInvites: false,
     canUpdateUserPrivate: false,
     loaded: false,
   };
@@ -24,6 +25,7 @@ export type UserOptions = {
   canManageEBoardRoles: boolean;
   canManageEBoard: boolean;
   canManageMetadata: boolean;
+  canManageProjectInvites: boolean;
   canUpdateUserPrivate: boolean;
   loaded: boolean;
 };

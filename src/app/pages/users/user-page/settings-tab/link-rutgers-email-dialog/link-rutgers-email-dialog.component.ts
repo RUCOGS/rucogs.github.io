@@ -1,26 +1,27 @@
 import { Component, Inject } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { UserOptions } from '@pages/users/user-page/classes';
+import { CustomValidators } from '@src/app/classes/custom-validators';
 import { ProcessMonitor } from '@src/app/classes/process-monitor';
 import { UIMessageService } from '@src/app/modules/ui-message/ui-message.module';
 import { BackendService } from '@src/app/services/backend.service';
-import { UpdateUserInput, User } from '@src/generated/graphql-endpoint.types';
+import { User, VerifyRutgersEmailInput } from '@src/generated/graphql-endpoint.types';
 import { gql } from 'apollo-angular';
 import { firstValueFrom } from 'rxjs';
 import { PartialDeep } from 'type-fest';
 
-export interface EditUserPrivateDialogData {
+export interface LinkRutgersEmailDialogData {
   user: PartialDeep<User>;
   userOptions: UserOptions;
 }
 
 @Component({
-  selector: 'app-edit-user-private-dialog',
-  templateUrl: './edit-user-private-dialog.component.html',
-  styleUrls: ['./edit-user-private-dialog.component.css'],
+  selector: 'app-link-rutgers-email-dialog',
+  templateUrl: './link-rutgers-email-dialog.component.html',
+  styleUrls: ['./link-rutgers-email-dialog.component.css'],
 })
-export class EditUserPrivateDialogComponent {
+export class LinkRutgersEmailDialogComponent {
   form: FormGroup;
 
   monitor = new ProcessMonitor();
@@ -29,11 +30,11 @@ export class EditUserPrivateDialogComponent {
     formBuilder: FormBuilder,
     private backend: BackendService,
     private uiMessageService: UIMessageService,
-    public dialogRef: MatDialogRef<EditUserPrivateDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: EditUserPrivateDialogData,
+    public dialogRef: MatDialogRef<LinkRutgersEmailDialogComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: LinkRutgersEmailDialogData,
   ) {
     this.form = formBuilder.group({
-      email: [data.user.email, [Validators.email]],
+      rutgersEmail: [data.user.rutgersEmail, [CustomValidators.rutgersEmail]],
     });
     dialogRef.disableClose = true;
   }
@@ -59,12 +60,12 @@ export class EditUserPrivateDialogComponent {
       return;
     }
 
-    const input = <UpdateUserInput>{
-      id: this.data.user.id,
+    const input = <VerifyRutgersEmailInput>{
+      userId: this.data.user.id,
     };
 
-    if (this.form.get('email')?.value !== this.data.user.email) {
-      input.email = this.form.get('email')?.value ?? null;
+    if (this.form.get('rutgersEmail')?.value !== this.data.user.rutgersEmail) {
+      input.rutgersEmail = this.form.get('rutgersEmail')?.value ?? null;
     }
 
     // If change data is not empty, meaning there were changes...
@@ -75,8 +76,8 @@ export class EditUserPrivateDialogComponent {
           updateUser: boolean;
         }>({
           mutation: gql`
-            mutation EditUserPrivateDialog($input: UpdateUserInput!) {
-              updateUser(input: $input)
+            mutation LinkRutgersEmailDialog($input: VerifyRutgersEmailInput!) {
+              verifyRutgersEmail(input: $input)
             }
           `,
           variables: {
@@ -89,6 +90,9 @@ export class EditUserPrivateDialogComponent {
         this.uiMessageService.error('Error uploading data!');
         return;
       }
+      this.uiMessageService.notifyInfo(
+        'Verification email has been sent! Please follow the instructions in that email to finish linking it to this account.',
+      );
       this.exit(true);
     }
   }

@@ -197,6 +197,7 @@ export class ProjectPageComponent implements OnInit {
     this.projectOptions.canDeleteProject = permCalc.hasPermission(Permission.DeleteProject);
     this.projectOptions.canManageMetadata = permCalc.hasPermission(Permission.ManageMetadata);
     this.projectOptions.canCreateProjectMember = permCalc.hasPermission(Permission.CreateProjectMember);
+    this.projectOptions.canJoinProject = permCalc.hasPermission(Permission.JoinProject);
     this.project = deepClone(projectResult.data.projects[0]);
     if (invitesResult && !invitesResult.error) {
       this.project.invites = invitesResult.data.projectInvites;

@@ -69,6 +69,7 @@ export class UserPageComponent implements OnInit, OnDestroy {
               createdAt
               updatedAt
               classYear
+              rutgersVerified
               projectMembers {
                 id
                 projectId
@@ -126,6 +127,7 @@ export class UserPageComponent implements OnInit, OnDestroy {
     this.userOptions.canManageEBoard = permCalc.hasPermission(Permission.ManageEboard);
     this.userOptions.canManageMetadata = permCalc.hasPermission(Permission.ManageMetadata);
     this.userOptions.canUpdateUserPrivate = permCalc.hasPermission(Permission.UpdateUserPrivate);
+    this.userOptions.canManageProjectInvites = permCalc.hasPermission(Permission.ManageProjectInvites);
     if (!this.userOptions.canDeleteUser) {
       this.userOptions.deleteUserTooltip = `Please ask an e-board officer if you'd like to delete your profile.`;
     }
@@ -156,6 +158,7 @@ export class UserPageComponent implements OnInit, OnDestroy {
               query FetchUserPagePrivateUser {
                 users {
                   email
+                  rutgersEmail
                   loginIdentities {
                     id
                     name
@@ -220,11 +223,11 @@ export class UserPageComponent implements OnInit, OnDestroy {
       } else {
         user.projectInvites = [];
       }
-
-      this.userOptions.loaded = true;
-      // Set user last to let angular propagate it.
-      this.user = user;
     }
+
+    this.userOptions.loaded = true;
+    // Set user last to let angular propagate it.
+    this.user = user;
   }
 
   setupSubscribers() {
