@@ -13,7 +13,7 @@ import { CoreModule } from '@src/app/modules/_core/core.module';
 import { CreateLoginIdentityDialogComponent } from './create-login-identity-dialog/create-login-identity-dialog.component';
 import { EditLoginIdentityDialogComponent } from './edit-login-identity-dialog/edit-login-identity-dialog.component';
 import { EditUserPrivateDialogComponent } from './edit-user-private-dialog/edit-user-private-dialog.component';
-import { LinkRutgersEmailDialogComponent } from './link-rutgers-email-dialog/link-rutgers-email-dialog.component';
+import { LinkNetIdDialogComponent } from './link-netid-dialog/link-netid-dialog.component';
 import { SettingsTabComponent } from './settings-tab/settings-tab.component';
 
 @NgModule({
@@ -22,7 +22,7 @@ import { SettingsTabComponent } from './settings-tab/settings-tab.component';
     CreateLoginIdentityDialogComponent,
     EditLoginIdentityDialogComponent,
     EditUserPrivateDialogComponent,
-    LinkRutgersEmailDialogComponent,
+    LinkNetIdDialogComponent,
   ],
   imports: [
     CommonModule,

@@ -13,13 +13,13 @@
     <div>
       <h2>Email:</h2>
       <p>{{user.email ?? 'None'}}</p>
-      <h2>Rutgers Scarletmail:</h2>
-      <p>{{user.rutgersEmail ?? 'None'}}</p>
-      <button mat-flat-button pill tall-button color="primary" (click)="onLinkRutgersEmail()" [disabled]="!userOptions.canUpdateUser || monitor.isProcessing" style="
+      <h2>Rutgers NetID:</h2>
+      <p>{{user.netId ?? 'None'}}</p>
+      <button mat-flat-button pill color="primary" (click)="onLinkNetId()" [disabled]="!userOptions.canUpdateUser || monitor.isProcessing" style="
           max-width: 20em;
         ">
         <mat-icon>add</mat-icon>
-        {{user.rutgersEmail ? 'Relink' : 'Link'}} Scarletmail
+        {{user.netId ? 'Relink' : 'Link'}} NetID
       </button>
     </div>
     <div>

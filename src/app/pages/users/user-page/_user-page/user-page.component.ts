@@ -75,7 +75,7 @@ export class UserPageComponent implements OnInit, OnDestroy {
               createdAt
               updatedAt
               classYear
-              rutgersVerified
+              netId
               projectMembers {
                 id
                 projectId
@@ -165,7 +165,6 @@ export class UserPageComponent implements OnInit, OnDestroy {
               query FetchUserPagePrivateUser {
                 users {
                   email
-                  rutgersEmail
                   loginIdentities {
                     id
                     name
