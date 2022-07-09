@@ -12,7 +12,15 @@
     </div>
     <div>
       <h2>Email:</h2>
-      <div>{{user.email ?? 'None'}}</div>
+      <p>{{user.email ?? 'None'}}</p>
+      <h2>Rutgers Scarletmail:</h2>
+      <p>{{user.rutgersEmail ?? 'None'}}</p>
+      <button mat-flat-button pill tall-button color="primary" (click)="onLinkRutgersEmail()" [disabled]="!userOptions.canUpdateUser || monitor.isProcessing" style="
+          max-width: 20em;
+        ">
+        <mat-icon>add</mat-icon>
+        {{user.rutgersEmail ? 'Relink' : 'Link'}} Scarletmail
+      </button>
     </div>
     <div>
       <div style="

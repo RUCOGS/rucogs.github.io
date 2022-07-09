@@ -1,5 +1,5 @@
 import { FocusMonitor } from '@angular/cdk/a11y';
-import { Component, ElementRef, OnInit, Optional, Self } from '@angular/core';
+import { Component, ElementRef, Input, OnInit, Optional, Self } from '@angular/core';
 import { NgControl, UntypedFormControl } from '@angular/forms';
 import { MatFormFieldControl } from '@angular/material/form-field';
 import { BaseCustomInputComponent } from '@app/modules/base-custom-input/base-custom-input.module';
@@ -25,6 +25,8 @@ import { PartialDeep } from 'type-fest';
   ],
 })
 export class UserInputComponent extends BaseCustomInputComponent<string> implements OnInit {
+  @Input() rutgersVerified: boolean = false;
+
   inputControl = new UntypedFormControl();
   filteredUsers$ = new ReplaySubject<PartialDeep<User>[]>();
   isEnteringNewUser = true;
@@ -97,14 +99,27 @@ export class UserInputComponent extends BaseCustomInputComponent<string> impleme
   async fetchSearchedUsers(searchedUsername: string): Promise<PartialDeep<User>[]> {
     searchedUsername = searchedUsername.toLowerCase();
 
+    let filter: UserFilterInput | undefined = {};
+    if (searchedUsername)
+      filter = {
+        ...filter,
+        username: {
+          startsWith: searchedUsername,
+          mode: 'INSENSITIVE',
+        },
+      };
+
+    if (this.rutgersVerified)
+      filter = {
+        ...filter,
+        rutgersVerified: { eq: true },
+      };
+
+    if (Object.keys(filter).length === 0) filter = undefined;
+
     const startMatches = await firstValueFrom(
       this.backend.query<{
-        users: {
-          id: string;
-          username: string;
-          displayName: string;
-          avatarLink: string;
-        }[];
+        users: any[];
       }>({
         query: gql`
           query ($filter: UserFilterInput, $sorts: [UserSortInput!], $limit: Int) {
@@ -120,14 +135,7 @@ export class UserInputComponent extends BaseCustomInputComponent<string> impleme
           // Pagination
           // TODO EVENTUALLY: Use cursor pagination once Typetta suppoorts that
           limit: 10,
-          filter: searchedUsername
-            ? <UserFilterInput>{
-                username: {
-                  startsWith: searchedUsername,
-                  mode: 'INSENSITIVE',
-                },
-              }
-            : {},
+          filter,
           sorts: [
             <UserSortInput>{
               username: 'asc',

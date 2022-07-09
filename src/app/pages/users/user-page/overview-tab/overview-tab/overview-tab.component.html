@@ -97,15 +97,25 @@
           right: 0; 
           display: flex;
           flex-direction: row;
-          gap: 0.5em;
+          gap: 1.25em;
           align-items: center;
         ">
+          <div *ngIf="user.rutgersVerified" style="
+            display: flex; 
+            flex-direction: row;
+            align-items: center;
+            gap: 0.5em;
+            flex-wrap: wrap;
+          ">
+            <app-tag color="blank">
+              ✅ Rutgers Verified
+            </app-tag>
+          </div>
           <div *ngIf="user.classYear" style="
             display: flex; 
             flex-direction: row;
             align-items: center;
             gap: 0.5em;
-            margin-right: 1em;
             flex-wrap: wrap;
           ">
             <div>Class of {{ user.classYear }}</div>

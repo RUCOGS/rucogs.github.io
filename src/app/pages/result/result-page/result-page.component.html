@@ -1,0 +1,14 @@
+<app-bg-container color="primary" full-page>
+  <div>
+    <h1 class="mat-display-4" style="margin-bottom: 0.5em;">{{title}}</h1>
+    <p style="
+      font-size: 1.2em;
+      line-height: 1.5em;
+      margin-bottom: 2em;
+    ">{{body}}</p>
+    <button mat-flat-button color="blank" tall-button pill style="width: 8em;" (click)="router.navigateByUrl('/home')">
+      <mat-icon>keyboard_backspace</mat-icon>
+      Back
+    </button>
+  </div>
+</app-bg-container>

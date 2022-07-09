@@ -25,6 +25,8 @@ const routes: Route[] = [
   { path: 'members', loadChildren: () => import('./users/users-dir.module').then((m) => m.UsersDirModule) },
   { path: 'test', loadChildren: () => import('./test/test.module').then((m) => m.TestPageModule) },
 
+  { path: 'result', loadChildren: () => import('./result/result-page.module').then((m) => m.ResultModule) },
+
   { path: '', redirectTo: '/home', pathMatch: 'full' },
   { path: '**', redirectTo: '/home', pathMatch: 'full' },
 ];
