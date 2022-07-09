@@ -168,7 +168,7 @@
             margin-bottom: 1em;
           ">
             <h2 style="flex: 1; margin-bottom: 0;">Projects</h2>
-            <button *ngIf="userOptions.canUpdateUser" mat-stroked-button pill (click)="onNewProjectClick()">
+            <button *ngIf="userOptions.canUpdateUser && userOptions.canCreateProject" mat-stroked-button pill (click)="onNewProjectClick()">
               <mat-icon>add</mat-icon>
               New Project
             </button>

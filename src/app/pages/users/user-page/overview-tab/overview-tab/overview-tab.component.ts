@@ -176,7 +176,8 @@ export class OverviewTabComponent implements AfterViewChecked, OnChanges {
         .afterClosed(),
     );
 
-    if (result) this.edited.emit();
+    // We already have UserUpdated graphql subscription
+    // if (result) this.edited.emit();
   }
 
   onNewProjectClick() {
