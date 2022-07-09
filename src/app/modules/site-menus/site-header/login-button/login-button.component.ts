@@ -1,11 +1,12 @@
-import { ChangeDetectorRef, Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
-import { Router, RouterLink } from '@angular/router';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { UIMessageService } from '@src/app/modules/ui-message/ui-message.module';
 import { AuthService } from '@src/app/services/auth.service';
 import { CdnService } from '@src/app/services/cdn.service';
-import { User } from '@src/generated/graphql-endpoint.types';
-import { Observable, Subject } from 'rxjs';
-import { first, takeUntil } from 'rxjs/operators';
+import { SecurityService } from '@src/app/services/security.service';
+import { Permission, User } from '@src/generated/graphql-endpoint.types';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-login-button',
@@ -15,6 +16,7 @@ import { first, takeUntil } from 'rxjs/operators';
 export class LoginButtonComponent implements OnInit, OnDestroy {
   onDestroy$ = new Subject<void>();
   isLoggedIn: boolean = false;
+  canCreateProject: boolean = false;
   user: Partial<User> | undefined;
 
   constructor(
@@ -22,9 +24,14 @@ export class LoginButtonComponent implements OnInit, OnDestroy {
     private authService: AuthService,
     private router: Router,
     private uiMessageService: UIMessageService,
+    private security: SecurityService,
   ) {}
 
-  ngOnInit(): void {
+  async ngOnInit() {
+    await this.security.waitUntilReady();
+
+    this.canCreateProject = this.security.makePermCalc().hasPermission(Permission.CreateProject);
+
     this.authService.payload$.pipe(takeUntil(this.onDestroy$)).subscribe((payload) => {
       this.user = payload?.user;
       this.isLoggedIn = payload !== undefined;

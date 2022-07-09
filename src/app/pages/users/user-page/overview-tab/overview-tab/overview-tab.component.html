@@ -100,7 +100,7 @@
           gap: 1.25em;
           align-items: center;
         ">
-          <div *ngIf="user.rutgersVerified" style="
+          <div *ngIf="user.netId" style="
             display: flex; 
             flex-direction: row;
             align-items: center;
@@ -108,7 +108,7 @@
             flex-wrap: wrap;
           ">
             <app-tag color="blank">
-              ✅ Rutgers Verified
+              ✅ Verified @{{user.netId}}
             </app-tag>
           </div>
           <div *ngIf="user.classYear" style="

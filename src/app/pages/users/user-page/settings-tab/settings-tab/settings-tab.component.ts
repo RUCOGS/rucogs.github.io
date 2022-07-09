@@ -23,10 +23,7 @@ import {
   EditUserPrivateDialogComponent,
   EditUserPrivateDialogData,
 } from '../edit-user-private-dialog/edit-user-private-dialog.component';
-import {
-  LinkRutgersEmailDialogComponent,
-  LinkRutgersEmailDialogData,
-} from '../link-rutgers-email-dialog/link-rutgers-email-dialog.component';
+import { LinkNetIdDialogComponent, LinkNetIdDialogData } from '../link-netid-dialog/link-netid-dialog.component';
 
 @Component({
   selector: 'app-settings-tab',
@@ -65,9 +62,9 @@ export class SettingsTabComponent implements OnChanges {
     return (identity?.name?.charAt(0).toUpperCase() ?? '') + identity?.name?.slice(1);
   }
 
-  onLinkRutgersEmail() {
-    this.dialog.open(LinkRutgersEmailDialogComponent, {
-      data: <LinkRutgersEmailDialogData>{
+  onLinkNetId() {
+    this.dialog.open(LinkNetIdDialogComponent, {
+      data: <LinkNetIdDialogData>{
         user: this.user,
         userOptions: this.userOptions,
       },

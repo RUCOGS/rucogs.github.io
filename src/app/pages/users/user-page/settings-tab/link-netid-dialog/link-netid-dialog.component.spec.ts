@@ -1,19 +1,19 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { LinkRutgersEmailDialogComponent } from './link-rutgers-email-dialog.component';
+import { LinkNetIdDialogComponent } from './link-netid-dialog.component';
 
 describe('EditUserPrivateDialogComponent', () => {
-  let component: LinkRutgersEmailDialogComponent;
-  let fixture: ComponentFixture<LinkRutgersEmailDialogComponent>;
+  let component: LinkNetIdDialogComponent;
+  let fixture: ComponentFixture<LinkNetIdDialogComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [LinkRutgersEmailDialogComponent],
+      declarations: [LinkNetIdDialogComponent],
     }).compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(LinkRutgersEmailDialogComponent);
+    fixture = TestBed.createComponent(LinkNetIdDialogComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
