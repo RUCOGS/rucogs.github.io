@@ -72,6 +72,8 @@
     <mat-error *ngIf="form.get('access')?.hasError('access')">
       Access is required
     </mat-error>
-    <button mat-flat-button pill color="primary" type="submit">Create Project</button>
+    <div [matTooltip]="createProjectTooltip" style="width: min-content;">
+      <button mat-flat-button pill color="primary" type="submit" [disabled]="!canCreateProject">Create Project</button>
+    </div>
   </form>
 </app-bg-container>

@@ -6,7 +6,13 @@ import { BackendService } from '@src/app/services/backend.service';
 import { SecurityService } from '@src/app/services/security.service';
 import { BreakpointManagerService } from '@src/app/services/_services.module';
 import { deepClone } from '@src/app/utils/utils';
-import { InviteType, Permission, ProjectInviteSubscriptionFilter, User } from '@src/generated/graphql-endpoint.types';
+import {
+  InviteType,
+  Permission,
+  ProjectInviteSubscriptionFilter,
+  User,
+  UserSubscriptionFilter,
+} from '@src/generated/graphql-endpoint.types';
 import { UserFilterInput } from '@src/generated/model.types';
 import { OperationSecurityDomain } from '@src/shared/security';
 import { gql } from 'apollo-angular';
@@ -127,7 +133,8 @@ export class UserPageComponent implements OnInit, OnDestroy {
     this.userOptions.canManageEBoard = permCalc.hasPermission(Permission.ManageEboard);
     this.userOptions.canManageMetadata = permCalc.hasPermission(Permission.ManageMetadata);
     this.userOptions.canUpdateUserPrivate = permCalc.hasPermission(Permission.UpdateUserPrivate);
-    this.userOptions.canManageProjectInvites = permCalc.hasPermission(Permission.ManageProjectInvites);
+    this.userOptions.canManageProjectInvites = permCalc.hasPermission(Permission.RutgersVerified);
+    this.userOptions.canCreateProject = permCalc.hasPermission(Permission.CreateProject);
     if (!this.userOptions.canDeleteUser) {
       this.userOptions.deleteUserTooltip = `Please ask an e-board officer if you'd like to delete your profile.`;
     }
@@ -234,6 +241,31 @@ export class UserPageComponent implements OnInit, OnDestroy {
     // Only realtime subscriptions for people editing their profile
     if (!this.security.securityContext?.userId || !this.userOptions.canUpdateUser) return;
 
+    this.backend
+      .subscribe<{
+        userUpdated: string;
+      }>({
+        query: gql`
+          subscription ($filter: UserSubscriptionFilter) {
+            userUpdated(filter: $filter) {
+              id
+            }
+          }
+        `,
+        variables: {
+          filter: <UserSubscriptionFilter>{
+            id: this.security.securityContext.userId,
+          },
+        },
+      })
+      .pipe(takeUntil(this.onDestroy$))
+      .subscribe({
+        next: (value) => {
+          this.uiMessageService.notifyInfo('User updated!');
+          this.fetchData(true);
+        },
+      });
+
     const inviteSubFilter = <ProjectInviteSubscriptionFilter>{
       userId: this.security.securityContext.userId,
     };
@@ -256,7 +288,7 @@ export class UserPageComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.onDestroy$))
       .subscribe({
         next: (value) => {
-          if (inviteSubFilter.projectId) this.uiMessageService.notifyInfo('New invite!');
+          this.uiMessageService.notifyInfo('New invite!');
           this.fetchData(true);
         },
       });
@@ -279,7 +311,7 @@ export class UserPageComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.onDestroy$))
       .subscribe({
         next: (value) => {
-          if (inviteSubFilter.projectId) this.uiMessageService.notifyInfo('Invite deleted!');
+          this.uiMessageService.notifyInfo('Invite deleted!');
           this.fetchData(true);
         },
       });

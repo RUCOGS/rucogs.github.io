@@ -11,6 +11,7 @@ export function defaultUserOptions() {
     canManageMetadata: false,
     canManageProjectInvites: false,
     canUpdateUserPrivate: false,
+    canCreateProject: false,
     loaded: false,
   };
 }
@@ -27,5 +28,6 @@ export type UserOptions = {
   canManageMetadata: boolean;
   canManageProjectInvites: boolean;
   canUpdateUserPrivate: boolean;
+  canCreateProject: boolean;
   loaded: boolean;
 };

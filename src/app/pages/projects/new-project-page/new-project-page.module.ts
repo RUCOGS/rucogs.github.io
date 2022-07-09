@@ -5,6 +5,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatRadioModule } from '@angular/material/radio';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { Route, RouterModule } from '@angular/router';
 import { ProjectModule } from '@src/app/modules/project/project.module';
 import { CoreModule } from '@src/app/modules/_core/core.module';
@@ -25,6 +26,7 @@ const ROUTES: Route[] = [{ path: '', component: NewProjectPageComponent }];
     ReactiveFormsModule,
     MatRadioModule,
     MatIconModule,
+    MatTooltipModule,
   ],
 })
 export class NewProjectPageModule {}
