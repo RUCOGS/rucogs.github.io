@@ -3,9 +3,9 @@
     position: relative;
   ">
     <mat-form-field appearance="outline" style="width: 100%;">
-      <mat-label>Email</mat-label>
-      <input matInput formControlName="email" [maxLength]="50">
-      <mat-error *ngIf="form.get('email')?.hasError('email')">Expected a valid email.</mat-error>
+      <mat-label>Rutgers NetID</mat-label>
+      <input matInput formControlName="netId" [maxLength]="50">
+      <mat-error *ngIf="form.get('netId')?.hasError('netId')">Expected a valid Rutgers NetID.</mat-error>
     </mat-form-field>
   </form>
 </mat-dialog-content>

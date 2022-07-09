@@ -6,8 +6,14 @@ import { BackendService } from '@src/app/services/backend.service';
 import { SecurityService } from '@src/app/services/security.service';
 import { BreakpointManagerService } from '@src/app/services/_services.module';
 import { deepClone } from '@src/app/utils/utils';
-import { InviteType, Permission, ProjectInviteSubscriptionFilter, User } from '@src/generated/graphql-endpoint.types';
-import { ProjectInviteFilterInput, UserFilterInput } from '@src/generated/model.types';
+import {
+  InviteType,
+  Permission,
+  ProjectInviteSubscriptionFilter,
+  User,
+  UserSubscriptionFilter,
+} from '@src/generated/graphql-endpoint.types';
+import { UserFilterInput } from '@src/generated/model.types';
 import { OperationSecurityDomain } from '@src/shared/security';
 import { gql } from 'apollo-angular';
 import { firstValueFrom, Subject } from 'rxjs';
@@ -69,6 +75,7 @@ export class UserPageComponent implements OnInit, OnDestroy {
               createdAt
               updatedAt
               classYear
+              netId
               projectMembers {
                 id
                 projectId
@@ -116,7 +123,7 @@ export class UserPageComponent implements OnInit, OnDestroy {
     let user: PartialDeep<User> = deepClone(userResult.data.users[0]);
     user.eBoard?.terms?.sort((a, b) => b!.year! - a!.year!);
     const userOpDomain = <OperationSecurityDomain>{
-      userId: [user.id],
+      userId: user.id,
     };
     const permCalc = this.security.makePermCalc().withDomain(userOpDomain);
     this.userOptions.canUpdateUser = permCalc.hasPermission(Permission.UpdateUser);
@@ -126,6 +133,8 @@ export class UserPageComponent implements OnInit, OnDestroy {
     this.userOptions.canManageEBoard = permCalc.hasPermission(Permission.ManageEboard);
     this.userOptions.canManageMetadata = permCalc.hasPermission(Permission.ManageMetadata);
     this.userOptions.canUpdateUserPrivate = permCalc.hasPermission(Permission.UpdateUserPrivate);
+    this.userOptions.canManageProjectInvites = permCalc.hasPermission(Permission.RutgersVerified);
+    this.userOptions.canCreateProject = permCalc.hasPermission(Permission.CreateProject);
     if (!this.userOptions.canDeleteUser) {
       this.userOptions.deleteUserTooltip = `Please ask an e-board officer if you'd like to delete your profile.`;
     }
@@ -139,7 +148,7 @@ export class UserPageComponent implements OnInit, OnDestroy {
       this.security
         .makePermCalc()
         .withDomain({
-          userId: [user.id!],
+          userId: user.id!,
         })
         .hasPermission(Permission.ReadUserPrivate)
     ) {
@@ -147,7 +156,7 @@ export class UserPageComponent implements OnInit, OnDestroy {
         this.backend
           .withAuth()
           .withOpDomain({
-            userId: [user.id!],
+            userId: user.id!,
           })
           .query<{
             users: any[];
@@ -176,51 +185,49 @@ export class UserPageComponent implements OnInit, OnDestroy {
     }
 
     if (this.security.securityContext?.userId) {
-      const invitesOpDomain = this.security.getOpDomainFromPermission(Permission.ManageProjectInvites, [
-        'projectInviteId',
-      ]);
-      const invitesResult =
-        this.security.securityContext && this.userOptions.canUpdateUser
-          ? await firstValueFrom(
-              this.backend
-                .withAuth()
-                .withOpDomain(invitesOpDomain)
-                .query<{
-                  projectInvites: {
-                    id: string;
-                    type: InviteType;
-                    project: {
+      const invitesOpDomains = this.security.getOpDomainsFromPermission(Permission.ManageProjectInvites);
+      // TODO NOW: Wait for typetta to fix querying with empty operation domain
+      if ((invitesOpDomains && invitesOpDomains.length > 0) || invitesOpDomains === undefined) {
+        const invitesResult =
+          this.security.securityContext && this.userOptions.canUpdateUser
+            ? await firstValueFrom(
+                this.backend
+                  .withAuth()
+                  .withOpDomains(invitesOpDomains)
+                  .query<{
+                    projectInvites: {
                       id: string;
-                      name: string;
-                      cardImageLink: string;
-                    };
-                  }[];
-                }>({
-                  query: gql`
-                    query FetchUserPageInvites($filter: ProjectInviteFilterInput) {
-                      projectInvites(filter: $filter) {
-                        id
-                        type
-                        project {
+                      type: InviteType;
+                      project: {
+                        id: string;
+                        name: string;
+                        cardImageLink: string;
+                      };
+                    }[];
+                  }>({
+                    query: gql`
+                      query FetchUserPageInvites($filter: ProjectInviteFilterInput) {
+                        projectInvites(filter: $filter) {
                           id
-                          name
-                          cardImageLink
+                          type
+                          project {
+                            id
+                            name
+                            cardImageLink
+                          }
                         }
                       }
-                    }
-                  `,
-                  variables: {
-                    filter: <ProjectInviteFilterInput>{
-                      userId: { eq: user.id },
-                    },
-                  },
-                  ...(invalidateCache && { fetchPolicy: 'no-cache' }),
-                }),
-            )
-          : undefined;
+                    `,
+                    ...(invalidateCache && { fetchPolicy: 'no-cache' }),
+                  }),
+              )
+            : undefined;
 
-      if (invitesResult && !invitesResult.error) {
-        user.projectInvites = invitesResult.data.projectInvites;
+        if (invitesResult && !invitesResult.error) {
+          user.projectInvites = invitesResult.data.projectInvites;
+        }
+      } else {
+        user.projectInvites = [];
       }
     }
 
@@ -233,6 +240,31 @@ export class UserPageComponent implements OnInit, OnDestroy {
     // Only realtime subscriptions for people editing their profile
     if (!this.security.securityContext?.userId || !this.userOptions.canUpdateUser) return;
 
+    this.backend
+      .subscribe<{
+        userUpdated: string;
+      }>({
+        query: gql`
+          subscription ($filter: UserSubscriptionFilter) {
+            userUpdated(filter: $filter) {
+              id
+            }
+          }
+        `,
+        variables: {
+          filter: <UserSubscriptionFilter>{
+            id: this.security.securityContext.userId,
+          },
+        },
+      })
+      .pipe(takeUntil(this.onDestroy$))
+      .subscribe({
+        next: (value) => {
+          this.uiMessageService.notifyInfo('User updated!');
+          this.fetchData(true);
+        },
+      });
+
     const inviteSubFilter = <ProjectInviteSubscriptionFilter>{
       userId: this.security.securityContext.userId,
     };
@@ -242,8 +274,10 @@ export class UserPageComponent implements OnInit, OnDestroy {
         projectInviteCreated: string;
       }>({
         query: gql`
-          subscription ($filter: ProjectInviteSubscriptionFilter!) {
-            projectInviteCreated(filter: $filter)
+          subscription ($filter: ProjectInviteSubscriptionFilter) {
+            projectInviteCreated(filter: $filter) {
+              id
+            }
           }
         `,
         variables: {
@@ -253,7 +287,7 @@ export class UserPageComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.onDestroy$))
       .subscribe({
         next: (value) => {
-          if (inviteSubFilter.projectId) this.uiMessageService.notifyInfo('New invite!');
+          this.uiMessageService.notifyInfo('New invite!');
           this.fetchData(true);
         },
       });
@@ -263,8 +297,10 @@ export class UserPageComponent implements OnInit, OnDestroy {
         projectInviteDeleted: string;
       }>({
         query: gql`
-          subscription ($filter: ProjectInviteSubscriptionFilter!) {
-            projectInviteDeleted(filter: $filter)
+          subscription ($filter: ProjectInviteSubscriptionFilter) {
+            projectInviteDeleted(filter: $filter) {
+              id
+            }
           }
         `,
         variables: {
@@ -274,7 +310,7 @@ export class UserPageComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.onDestroy$))
       .subscribe({
         next: (value) => {
-          if (inviteSubFilter.projectId) this.uiMessageService.notifyInfo('Invite deleted!');
+          this.uiMessageService.notifyInfo('Invite deleted!');
           this.fetchData(true);
         },
       });

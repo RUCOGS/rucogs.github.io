@@ -23,6 +23,7 @@ import {
   EditUserPrivateDialogComponent,
   EditUserPrivateDialogData,
 } from '../edit-user-private-dialog/edit-user-private-dialog.component';
+import { LinkNetIdDialogComponent, LinkNetIdDialogData } from '../link-netid-dialog/link-netid-dialog.component';
 
 @Component({
   selector: 'app-settings-tab',
@@ -61,6 +62,17 @@ export class SettingsTabComponent implements OnChanges {
     return (identity?.name?.charAt(0).toUpperCase() ?? '') + identity?.name?.slice(1);
   }
 
+  onLinkNetId() {
+    this.dialog.open(LinkNetIdDialogComponent, {
+      data: <LinkNetIdDialogData>{
+        user: this.user,
+        userOptions: this.userOptions,
+      },
+      width: '35em',
+      maxWidth: '90vw',
+    });
+  }
+
   async onEditUserPrivate() {
     const result = await firstValueFrom(
       this.dialog
@@ -69,7 +81,7 @@ export class SettingsTabComponent implements OnChanges {
             user: this.user,
             userOptions: this.userOptions,
           },
-          width: '37.5em',
+          width: '35em',
           maxWidth: '90vw',
         })
         .afterClosed(),

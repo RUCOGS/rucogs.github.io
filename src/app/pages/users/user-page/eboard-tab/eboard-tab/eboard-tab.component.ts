@@ -154,8 +154,6 @@ export class EboardTabComponent {
         },
       }),
     );
-    console.log('finish');
-    console.log(result.errors);
     if (result.errors) return;
     this.uiMessage.notifyConfirmed('EBoard profile created!');
     this.edited.emit();

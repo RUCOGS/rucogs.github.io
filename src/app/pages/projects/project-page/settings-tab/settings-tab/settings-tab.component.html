@@ -5,9 +5,23 @@
     gap: 2em;
   ">
     <div>
+      <div *ngIf="project.discordConfig" style="margin-bottom: 2em;">
+        <h2>Discord</h2>
+        <h4 style="margin-bottom: 0.1em;">Category ID</h4>
+        <div>{{project.discordConfig.categoryId}}</div>
+        <div class="text-disabled" style="
+          display: flex;
+          flex-direction: row;
+          gap: 2em;
+          margin-top: 1em;
+        ">
+          <div>Created at {{ getDateString(project.discordConfig.createdAt) }}</div>
+          <div>Updated at {{ getDateString(project.discordConfig.updatedAt) }}</div>
+        </div>
+      </div>
       <h2>Danger Zone</h2>
       <div [matTooltip]="getDeleteProjectTooltip()" style="width: min-content;">
-        <button mat-flat-button pill tall-button color="primary" (click)="deleteProject()" [disabled]="!projectOptions.canDeleteProject || monitor.isProcessing" style="
+        <button mat-flat-button pill tall-button color="primary" (click)="deleteProject()" [disabled]="!projectOptions.canDeleteProject || monitor.isProcessing || this.project.discordConfig" style="
           max-width: 20em;
         ">
           <mat-icon>delete</mat-icon>

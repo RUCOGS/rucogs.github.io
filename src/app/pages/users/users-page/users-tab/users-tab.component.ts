@@ -26,7 +26,6 @@ export class UsersTabComponent implements OnInit {
     await this.security.waitUntilReady();
 
     this.canCreateUser = this.security.makePermCalc().hasPermission(Permission.CreateUser);
-    console.log('can create user ' + this.canCreateUser);
   }
 
   async onCreateUser() {

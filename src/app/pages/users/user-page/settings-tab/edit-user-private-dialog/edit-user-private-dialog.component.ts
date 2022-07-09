@@ -63,7 +63,7 @@ export class EditUserPrivateDialogComponent {
       id: this.data.user.id,
     };
 
-    if (this.form.get('email')?.value !== this.data.user.displayName) {
+    if (this.form.get('email')?.value !== this.data.user.email) {
       input.email = this.form.get('email')?.value ?? null;
     }
 

@@ -3,7 +3,7 @@
   <form [formGroup]="form">
     <mat-form-field appearance="outline" style="width: 100%;">
       <mat-label>User</mat-label>
-      <app-user-input formControlName="user"></app-user-input>
+      <app-user-input formControlName="user" [rutgersVerified]="true"></app-user-input>
       <mat-error *ngIf="form.get('user')?.hasError('required')">
         User is required
       </mat-error>

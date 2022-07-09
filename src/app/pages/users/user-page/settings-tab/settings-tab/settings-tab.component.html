@@ -12,7 +12,15 @@
     </div>
     <div>
       <h2>Email:</h2>
-      <div>{{user.email ?? 'None'}}</div>
+      <p>{{user.email ?? 'None'}}</p>
+      <h2>Rutgers NetID:</h2>
+      <p>{{user.netId ?? 'None'}}</p>
+      <button mat-flat-button pill color="primary" (click)="onLinkNetId()" [disabled]="!userOptions.canUpdateUser || monitor.isProcessing" style="
+          max-width: 20em;
+        ">
+        <mat-icon>add</mat-icon>
+        {{user.netId ? 'Relink' : 'Link'}} NetID
+      </button>
     </div>
     <div>
       <div style="
