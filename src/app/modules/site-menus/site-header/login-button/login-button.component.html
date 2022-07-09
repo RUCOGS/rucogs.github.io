@@ -30,7 +30,7 @@ Login
       <mat-icon>person</mat-icon>
       <span>Profile</span>
     </button>
-    <button mat-menu-item (click)="onCreateProjectClick()">
+    <button *ngIf="canCreateProject" mat-menu-item (click)="onCreateProjectClick()">
       <mat-icon>add</mat-icon>
       <span>Create Project</span>
     </button>

@@ -83,29 +83,6 @@ export class SecurityService implements OnDestroy {
     return this.securityContext?.permissions;
   }
 
-  public getOpDomainFieldFromPermissionDomain<T extends keyof SecurityDomainTemplate>(
-    permissionDomain: SecurityDomain,
-    field: T,
-  ): SecurityDomainTemplate[T][] {
-    if (isBaseSecurityDomain(permissionDomain)) {
-      if (permissionDomain === true) {
-        // There's no point in filtering for an entity using the operation domain here.
-        // If permission == true, then we should be able to access every entity, hence the
-        // operation domain is irrelevant.
-        return [];
-      }
-      if (permissionDomain.some((x) => x[field] === undefined))
-        throw new Error(`Field "${field}" doesn't exist on domain.`);
-      return permissionDomain.map((x) => x[field]) as SecurityDomainTemplate[T][];
-    } else if (isExtendedSecurityDomain(permissionDomain)) {
-      // Only process the base domain
-      return this.getOpDomainFieldFromPermissionDomain(permissionDomain.baseDomain, field);
-    } else {
-      // Do nothing for custom domains
-      return [];
-    }
-  }
-
   public hasCompletePermission(permissionCode: Permission) {
     const permissionsDomain = this.securityContext?.permissions[permissionCode];
     if (isBaseSecurityDomain(permissionsDomain)) {
@@ -118,33 +95,39 @@ export class SecurityService implements OnDestroy {
     return false;
   }
 
-  public getOpDomainFromPermission<T extends keyof SecurityDomainTemplate>(
-    permissionCode: Permission,
-    fields: (keyof SecurityDomainTemplate)[],
-  ): OperationSecurityDomain | undefined {
+  private getOpDomainsFromPermissionHelper(permissionDomain: SecurityDomain): OperationSecurityDomain[] {
+    if (isBaseSecurityDomain(permissionDomain)) {
+      if (permissionDomain === true) {
+        // There's no point in filtering for an entity using the operation domain here.
+        // If permission == true, then we should be able to access every entity, hence the
+        // operation domain is irrelevant.
+        return [];
+      }
+      return permissionDomain as OperationSecurityDomain[];
+    } else if (isExtendedSecurityDomain(permissionDomain)) {
+      // Only process the base domain
+      return this.getOpDomainsFromPermissionHelper(permissionDomain.baseDomain);
+    } else {
+      // Do nothing for custom domains
+      return [];
+    }
+  }
+
+  public getOpDomainsFromPermission(permissionCode: Permission): OperationSecurityDomain[] | undefined {
     // Unset the operation domain if we have complete access
     if (this.hasCompletePermission(permissionCode)) return undefined;
-
-    let domain: OperationSecurityDomain = {};
-    for (const field of fields) {
-      domain[field] = this.getOpDomainFieldFromPermission(permissionCode, field);
-    }
-    return domain;
-  }
-
-  public getOpDomainFieldFromPermission<T extends keyof SecurityDomainTemplate>(
-    permissionCode: Permission,
-    field: keyof SecurityDomainTemplate,
-  ): SecurityDomainTemplate[T][] {
-    const permissionDomain = this.securityContext?.permissions[permissionCode];
     try {
-      return this.getOpDomainFieldFromPermissionDomain(permissionDomain, field);
+      let domains: OperationSecurityDomain[] = this.getOpDomainsFromPermissionHelper(
+        this.securityContext?.permissions[permissionCode],
+      );
+      return domains;
     } catch (err) {
-      if (err instanceof Error) {
-        err.message += ` Permission: "${permissionCode}".`;
-        throw err;
-      }
+      if (err instanceof Error) err.message += ` Permission: "${permissionCode}".`;
+      throw err;
     }
-    return [];
   }
 }
+
+export type OpDomainFieldOptions = {
+  [key in keyof SecurityDomainTemplate]?: true;
+};

@@ -10,6 +10,7 @@ export function defaultProjectOptions() {
     canDeleteProject: false,
     canManageMetadata: false,
     canCreateProjectMember: false,
+    canJoinProject: false,
   };
 }
 
@@ -24,4 +25,5 @@ export type ProjectOptions = {
   loaded: boolean;
   canManageMetadata: boolean;
   canCreateProjectMember: boolean;
+  canJoinProject: boolean;
 };

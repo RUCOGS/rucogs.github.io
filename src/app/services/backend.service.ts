@@ -39,14 +39,16 @@ type HttpClientOptions = {
   withCredentials?: boolean;
 };
 
+type OpSettings = {
+  useAuth: boolean;
+  operationDomains: OperationSecurityDomain[] | undefined;
+};
+
 @Injectable({
   providedIn: 'root',
 })
 export class BackendService implements OnDestroy {
-  private opSettings: {
-    useAuth: boolean;
-    operationDomain: OperationSecurityDomain | undefined;
-  } = this.defaultOpSettings();
+  private opSettings: OpSettings = this.defaultOpSettings();
 
   protected onDestroy$ = new Subject<void>();
   private graphQLWsClient!: GraphQLWsClient;
@@ -84,18 +86,18 @@ export class BackendService implements OnDestroy {
   }
 
   private defaultOpSettings() {
-    return {
+    return <OpSettings>{
       useAuth: false,
-      operationDomain: undefined,
+      operationDomains: undefined,
     };
   }
 
   private getHeaders() {
     return {
       Authorization: 'Bearer ' + this.authService.getToken(),
-      ...(this.opSettings.operationDomain && {
+      ...(this.opSettings.operationDomains && {
         'Operation-Metadata': JSON.stringify(<EntityManagerMetadata>{
-          securityDomain: this.opSettings.operationDomain,
+          securityDomains: this.opSettings.operationDomains,
         }),
       }),
     };
@@ -175,7 +177,12 @@ export class BackendService implements OnDestroy {
 
   // #region // ----- SETTINGS ----- //
   withOpDomain(operationDomain: OperationSecurityDomain | undefined) {
-    this.opSettings.operationDomain = operationDomain;
+    if (operationDomain) this.opSettings.operationDomains = [operationDomain];
+    return this;
+  }
+
+  withOpDomains(operationDomains: OperationSecurityDomain[] | undefined) {
+    this.opSettings.operationDomains = operationDomains;
     return this;
   }
 

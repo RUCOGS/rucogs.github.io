@@ -336,7 +336,7 @@ updatedAt: DateFilterInput
           nor_: [ProjectFilterInput!]
       }
       input ProjectRelationsFilterInput {
-        discordSettings: ProjectDiscordSettingsFindInput
+        discordConfig: ProjectDiscordConfigFindInput
 invites: ProjectInviteFindInput
 members: ProjectMemberFindInput
       }
@@ -349,55 +349,47 @@ members: ProjectMemberFindInput
       }
 ########### Project ###########
 
-########### ProjectDiscordSettings ###########
-      input ProjectDiscordSettingsInsertInput {
+########### ProjectDiscordConfig ###########
+      input ProjectDiscordConfigInsertInput {
         categoryId: String
 createdAt: Date
 projectId: ID!
-textChannelIds: [String!]
 updatedAt: Date
-voiceChannelIds: [String!]
       }
-      input ProjectDiscordSettingsUpdateInput {
+      input ProjectDiscordConfigUpdateInput {
         categoryId: String
 createdAt: Date
 projectId: ID
-textChannelIds: [String!]
 updatedAt: Date
-voiceChannelIds: [String!]
       }
-      input ProjectDiscordSettingsSortInput {
+      input ProjectDiscordConfigSortInput {
         categoryId: SortDirection
 createdAt: SortDirection
 id: SortDirection
 projectId: SortDirection
-textChannelIds: SortDirection
 updatedAt: SortDirection
-voiceChannelIds: SortDirection
       }
-      input ProjectDiscordSettingsFilterInput {
+      input ProjectDiscordConfigFilterInput {
         categoryId: StringFilterInput
 createdAt: DateFilterInput
 id: IDFilterInput
 projectId: IDFilterInput
-textChannelIds: StringFilterInput
 updatedAt: DateFilterInput
-voiceChannelIds: StringFilterInput
-          and_: [ProjectDiscordSettingsFilterInput!]
-          or_: [ProjectDiscordSettingsFilterInput!]
-          nor_: [ProjectDiscordSettingsFilterInput!]
+          and_: [ProjectDiscordConfigFilterInput!]
+          or_: [ProjectDiscordConfigFilterInput!]
+          nor_: [ProjectDiscordConfigFilterInput!]
       }
-      input ProjectDiscordSettingsRelationsFilterInput {
+      input ProjectDiscordConfigRelationsFilterInput {
         project: ProjectFindInput
       }
-      input ProjectDiscordSettingsFindInput {
-        filter: ProjectDiscordSettingsFilterInput
-        sorts: [ProjectDiscordSettingsSortInput!]
+      input ProjectDiscordConfigFindInput {
+        filter: ProjectDiscordConfigFilterInput
+        sorts: [ProjectDiscordConfigSortInput!]
         skip: Int
         limit: Int
-        relations: ProjectDiscordSettingsRelationsFilterInput
+        relations: ProjectDiscordConfigRelationsFilterInput
       }
-########### ProjectDiscordSettings ###########
+########### ProjectDiscordConfig ###########
 
 ########### ProjectInvite ###########
       input ProjectInviteInsertInput {
@@ -526,73 +518,70 @@ roleCode: RoleCodeFilterInput
 
 ########### Subscription ###########
       input SubscriptionInsertInput {
-        eBoardCreated: ID
-eBoardDeleted: ID
-eBoardTermCreated: ID
-eBoardTermDeleted: ID
-eBoardTermUpdated: ID
-eBoardUpdated: ID
-projectCreated: ID
-projectDeleted: ID
-projectDiscordRequested: ID
-projectInviteCreated: ID
-projectInviteDeleted: ID
-projectMemberCreated: ID
-projectMemberDeleted: ID
-projectMemberUpdated: ID
-projectUpdated: ID
-userCreated: ID
-userDeleted: ID
-userLoginIdentityCreated: ID
-userLoginIdentityDeleted: ID
-userLoginIdentityUpdated: ID
-userUpdated: ID
+        eBoardCreated: EBoardInsertInput
+eBoardDeleted: EBoardInsertInput
+eBoardTermCreated: EBoardTermInsertInput
+eBoardTermDeleted: EBoardTermInsertInput
+eBoardTermUpdated: EBoardTermInsertInput
+eBoardUpdated: EBoardInsertInput
+projectCreated: ProjectInsertInput
+projectDeleted: ProjectInsertInput
+projectInviteCreated: ProjectInviteInsertInput
+projectInviteDeleted: ProjectInviteInsertInput
+projectMemberCreated: ProjectMemberInsertInput
+projectMemberDeleted: ProjectMemberInsertInput
+projectMemberUpdated: ProjectMemberInsertInput
+projectUpdated: ProjectInsertInput
+userCreated: UserInsertInput
+userDeleted: UserInsertInput
+userLoginIdentityCreated: UserLoginIdentityInsertInput
+userLoginIdentityDeleted: UserLoginIdentityInsertInput
+userLoginIdentityUpdated: UserLoginIdentityInsertInput
+userUpdated: UserInsertInput
       }
       input SubscriptionUpdateInput {
-        eBoardCreated: ID
-eBoardDeleted: ID
-eBoardTermCreated: ID
-eBoardTermDeleted: ID
-eBoardTermUpdated: ID
-eBoardUpdated: ID
-projectCreated: ID
-projectDeleted: ID
-projectDiscordRequested: ID
-projectInviteCreated: ID
-projectInviteDeleted: ID
-projectMemberCreated: ID
-projectMemberDeleted: ID
-projectMemberUpdated: ID
-projectUpdated: ID
-userCreated: ID
-userDeleted: ID
-userLoginIdentityCreated: ID
-userLoginIdentityDeleted: ID
-userLoginIdentityUpdated: ID
-userUpdated: ID
+        eBoardCreated: EBoardUpdateInput
+eBoardDeleted: EBoardUpdateInput
+eBoardTermCreated: EBoardTermUpdateInput
+eBoardTermDeleted: EBoardTermUpdateInput
+eBoardTermUpdated: EBoardTermUpdateInput
+eBoardUpdated: EBoardUpdateInput
+projectCreated: ProjectUpdateInput
+projectDeleted: ProjectUpdateInput
+projectInviteCreated: ProjectInviteUpdateInput
+projectInviteDeleted: ProjectInviteUpdateInput
+projectMemberCreated: ProjectMemberUpdateInput
+projectMemberDeleted: ProjectMemberUpdateInput
+projectMemberUpdated: ProjectMemberUpdateInput
+projectUpdated: ProjectUpdateInput
+userCreated: UserUpdateInput
+userDeleted: UserUpdateInput
+userLoginIdentityCreated: UserLoginIdentityUpdateInput
+userLoginIdentityDeleted: UserLoginIdentityUpdateInput
+userLoginIdentityUpdated: UserLoginIdentityUpdateInput
+userUpdated: UserUpdateInput
       }
       input SubscriptionSortInput {
-        eBoardCreated: SortDirection
-eBoardDeleted: SortDirection
-eBoardTermCreated: SortDirection
-eBoardTermDeleted: SortDirection
-eBoardTermUpdated: SortDirection
-eBoardUpdated: SortDirection
-projectCreated: SortDirection
-projectDeleted: SortDirection
-projectDiscordRequested: SortDirection
-projectInviteCreated: SortDirection
-projectInviteDeleted: SortDirection
-projectMemberCreated: SortDirection
-projectMemberDeleted: SortDirection
-projectMemberUpdated: SortDirection
-projectUpdated: SortDirection
-userCreated: SortDirection
-userDeleted: SortDirection
-userLoginIdentityCreated: SortDirection
-userLoginIdentityDeleted: SortDirection
-userLoginIdentityUpdated: SortDirection
-userUpdated: SortDirection
+        eBoardCreated: EBoardSortInput
+eBoardDeleted: EBoardSortInput
+eBoardTermCreated: EBoardTermSortInput
+eBoardTermDeleted: EBoardTermSortInput
+eBoardTermUpdated: EBoardTermSortInput
+eBoardUpdated: EBoardSortInput
+projectCreated: ProjectSortInput
+projectDeleted: ProjectSortInput
+projectInviteCreated: ProjectInviteSortInput
+projectInviteDeleted: ProjectInviteSortInput
+projectMemberCreated: ProjectMemberSortInput
+projectMemberDeleted: ProjectMemberSortInput
+projectMemberUpdated: ProjectMemberSortInput
+projectUpdated: ProjectSortInput
+userCreated: UserSortInput
+userDeleted: UserSortInput
+userLoginIdentityCreated: UserLoginIdentitySortInput
+userLoginIdentityDeleted: UserLoginIdentitySortInput
+userLoginIdentityUpdated: UserLoginIdentitySortInput
+userUpdated: UserSortInput
       }
 ########### Subscription ###########
 
@@ -605,6 +594,7 @@ classYear: Int
 createdAt: Date
 displayName: String!
 email: String
+netId: String
 updatedAt: Date
 username: String!
       }
@@ -616,6 +606,7 @@ classYear: Int
 createdAt: Date
 displayName: String
 email: String
+netId: String
 updatedAt: Date
 username: String
       }
@@ -628,6 +619,7 @@ createdAt: SortDirection
 displayName: SortDirection
 email: SortDirection
 id: SortDirection
+netId: SortDirection
 updatedAt: SortDirection
 username: SortDirection
       }
@@ -640,6 +632,7 @@ createdAt: DateFilterInput
 displayName: StringFilterInput
 email: StringFilterInput
 id: IDFilterInput
+netId: StringFilterInput
 updatedAt: DateFilterInput
 username: StringFilterInput
           and_: [UserFilterInput!]
@@ -787,7 +780,7 @@ username: StringFilterInput
 eBoardTerms(filter: EBoardTermFilterInput, sorts: [EBoardTermSortInput!], relations: EBoardTermRelationsFilterInput, skip: Int, limit: Int): [EBoardTerm!]!
 eBoardTermRoles(filter: EBoardTermRoleFilterInput, sorts: [EBoardTermRoleSortInput!], relations: EBoardTermRoleRelationsFilterInput, skip: Int, limit: Int): [EBoardTermRole!]!
 projects(filter: ProjectFilterInput, sorts: [ProjectSortInput!], relations: ProjectRelationsFilterInput, skip: Int, limit: Int): [Project!]!
-projectDiscordSettingss(filter: ProjectDiscordSettingsFilterInput, sorts: [ProjectDiscordSettingsSortInput!], relations: ProjectDiscordSettingsRelationsFilterInput, skip: Int, limit: Int): [ProjectDiscordSettings!]!
+projectDiscordConfigs(filter: ProjectDiscordConfigFilterInput, sorts: [ProjectDiscordConfigSortInput!], relations: ProjectDiscordConfigRelationsFilterInput, skip: Int, limit: Int): [ProjectDiscordConfig!]!
 projectInvites(filter: ProjectInviteFilterInput, sorts: [ProjectInviteSortInput!], relations: ProjectInviteRelationsFilterInput, skip: Int, limit: Int): [ProjectInvite!]!
 projectMembers(filter: ProjectMemberFilterInput, sorts: [ProjectMemberSortInput!], relations: ProjectMemberRelationsFilterInput, skip: Int, limit: Int): [ProjectMember!]!
 projectMemberRoles(filter: ProjectMemberRoleFilterInput, sorts: [ProjectMemberRoleSortInput!], relations: ProjectMemberRoleRelationsFilterInput, skip: Int, limit: Int): [ProjectMemberRole!]!
@@ -811,9 +804,9 @@ deleteEBoardTermRoles(filter: EBoardTermRoleFilterInput!): Boolean
 createProject(record: ProjectInsertInput!): Project!
 updateProjects(filter: ProjectFilterInput!, changes: ProjectUpdateInput!): Boolean
 deleteProjects(filter: ProjectFilterInput!): Boolean
-createProjectDiscordSettings(record: ProjectDiscordSettingsInsertInput!): ProjectDiscordSettings!
-updateProjectDiscordSettingss(filter: ProjectDiscordSettingsFilterInput!, changes: ProjectDiscordSettingsUpdateInput!): Boolean
-deleteProjectDiscordSettingss(filter: ProjectDiscordSettingsFilterInput!): Boolean
+createProjectDiscordConfig(record: ProjectDiscordConfigInsertInput!): ProjectDiscordConfig!
+updateProjectDiscordConfigs(filter: ProjectDiscordConfigFilterInput!, changes: ProjectDiscordConfigUpdateInput!): Boolean
+deleteProjectDiscordConfigs(filter: ProjectDiscordConfigFilterInput!): Boolean
 createProjectInvite(record: ProjectInviteInsertInput!): ProjectInvite!
 updateProjectInvites(filter: ProjectInviteFilterInput!, changes: ProjectInviteUpdateInput!): Boolean
 deleteProjectInvites(filter: ProjectInviteFilterInput!): Boolean

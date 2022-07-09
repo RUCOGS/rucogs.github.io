@@ -97,15 +97,25 @@
           right: 0; 
           display: flex;
           flex-direction: row;
-          gap: 0.5em;
+          gap: 1.25em;
           align-items: center;
         ">
+          <div *ngIf="user.netId" style="
+            display: flex; 
+            flex-direction: row;
+            align-items: center;
+            gap: 0.5em;
+            flex-wrap: wrap;
+          ">
+            <app-tag color="blank">
+              ✅ Verified @{{user.netId}}
+            </app-tag>
+          </div>
           <div *ngIf="user.classYear" style="
             display: flex; 
             flex-direction: row;
             align-items: center;
             gap: 0.5em;
-            margin-right: 1em;
             flex-wrap: wrap;
           ">
             <div>Class of {{ user.classYear }}</div>
@@ -158,7 +168,7 @@
             margin-bottom: 1em;
           ">
             <h2 style="flex: 1; margin-bottom: 0;">Projects</h2>
-            <button *ngIf="userOptions.canUpdateUser" mat-stroked-button pill (click)="onNewProjectClick()">
+            <button *ngIf="userOptions.canUpdateUser && userOptions.canCreateProject" mat-stroked-button pill (click)="onNewProjectClick()">
               <mat-icon>add</mat-icon>
               New Project
             </button>

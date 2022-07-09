@@ -138,7 +138,7 @@
                 {{accessOptions[project.access!].name}}
               </h4>
             </div>
-            <ng-template [ngIf]="!projectOptions.isMember && projectOptions.isAuthenticated">
+            <ng-template [ngIf]="projectOptions.canJoinProject && !projectOptions.isMember && projectOptions.isAuthenticated">
               <button *ngIf="project.access === 'OPEN'" class="project-page overview-tab edit-button" mat-stroked-button color="basic" pill (click)="join()">
                 <mat-icon>add</mat-icon>
                 Join

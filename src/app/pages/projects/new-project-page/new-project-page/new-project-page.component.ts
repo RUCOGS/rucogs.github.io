@@ -1,10 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ProcessMonitor } from '@src/app/classes/process-monitor';
 import { BackendService } from '@src/app/services/backend.service';
 import { SecurityService } from '@src/app/services/_services.module';
-import { Access, NewProjectInput } from '@src/generated/graphql-endpoint.types';
+import { Access, NewProjectInput, Permission } from '@src/generated/graphql-endpoint.types';
 import { gql } from 'apollo-angular';
 import { finalize, first } from 'rxjs/operators';
 
@@ -13,8 +13,10 @@ import { finalize, first } from 'rxjs/operators';
   templateUrl: './new-project-page.component.html',
   styleUrls: ['./new-project-page.component.css'],
 })
-export class NewProjectPageComponent {
+export class NewProjectPageComponent implements OnInit {
   form: UntypedFormGroup;
+  createProjectTooltip: string = '';
+  canCreateProject: boolean = false;
 
   monitor = new ProcessMonitor();
 
@@ -31,6 +33,20 @@ export class NewProjectPageComponent {
     });
 
     this.form.get('access')?.setValue(Access.Open);
+  }
+
+  async ngOnInit() {
+    await this.security.waitUntilReady();
+
+    this.createProjectTooltip = '';
+    this.canCreateProject = true;
+    if (!this.security.securityContext?.userId) {
+      this.createProjectTooltip = 'You must be logged in to create a project!';
+      this.canCreateProject = false;
+    } else if (!this.security.makePermCalc().hasPermission(Permission.CreateProject)) {
+      this.createProjectTooltip = 'Insufficient permissions!';
+      this.canCreateProject = false;
+    }
   }
 
   onSubmit() {

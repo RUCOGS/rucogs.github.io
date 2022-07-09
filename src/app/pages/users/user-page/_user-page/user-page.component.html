@@ -13,7 +13,7 @@
         </app-overview-tab>
       </ng-template>
     </mat-tab>
-    <mat-tab *ngIf="userOptions.canUpdateUser">
+    <mat-tab *ngIf="userOptions.canManageProjectInvites">
       <ng-template mat-tab-label>
         <mat-icon>mail</mat-icon>
         <div style="margin-left: 0.5em;" *ngIf="breakpointManager.matchedBreakpointOrAbove('MOBILE')">Invites</div>
