@@ -7,17 +7,22 @@ import {
   ElementRef,
   Input,
   OnDestroy,
+  OnInit,
   TemplateRef,
   ViewChild,
   ViewContainerRef,
 } from '@angular/core';
-import { Color } from '@src/app/classes/_classes.module';
+import { Router } from '@angular/router';
+import { Color, WithDestroy } from '@src/app/classes/_classes.module';
 import { CdnService } from '@src/app/services/cdn.service';
 import { CssLengthService } from '@src/app/services/css-length.service';
+import { OverlayService } from '@src/app/services/overlay.service';
 import { getClassYearString, getSidePanelPositions } from '@src/app/utils/_utils.module';
 import { User } from '@src/generated/graphql-endpoint.types';
 import { SettingsService } from '@src/_settings';
 import ColorThief from 'colorthief';
+import { takeUntil } from 'rxjs';
+import { Mixin } from 'ts-mixer';
 import { PartialDeep } from 'type-fest';
 
 @Component({
@@ -25,20 +30,31 @@ import { PartialDeep } from 'type-fest';
   templateUrl: './profile-overlay.component.html',
   styleUrls: ['./profile-overlay.component.css'],
 })
-export class ProfileOverlayComponent implements AfterViewChecked, OnDestroy {
+export class ProfileOverlayComponent extends Mixin(WithDestroy) implements AfterViewChecked, OnDestroy, OnInit {
+  @Input() trigger: 'click' | 'hover' = 'click';
   @Input() user: PartialDeep<User> = {};
   @ViewChild('overlayTemplate', { read: TemplateRef }) overlayTemplate?: TemplateRef<any>;
-  get overlayAnimRoot() {
-    return this.overlayRef?.overlayElement.querySelector('.overlayAnimRoot');
+  @ViewChild('container') container?: ElementRef;
+
+  get overlayRoot() {
+    return this.overlayRef?.overlayElement?.querySelector('.overlayRoot');
   }
   get avatar() {
-    return this.overlayRef?.overlayElement.querySelector<HTMLImageElement>('img.profile-overlay.avatar');
+    return this.overlayRef?.overlayElement?.querySelector<HTMLImageElement>('img.profile-overlay.avatar');
   }
 
   bannerColor: Color = Color.Types.white;
   hover: boolean = false;
   overlayRef?: OverlayRef;
   currAnimPlayer?: AnimationPlayer;
+
+  private closeWhenOutsideViewportObserver = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (!entry.isIntersecting && this.elementRef) {
+        this.close();
+      }
+    });
+  });
 
   constructor(
     public cdnService: CdnService,
@@ -48,16 +64,38 @@ export class ProfileOverlayComponent implements AfterViewChecked, OnDestroy {
     private viewContainerRef: ViewContainerRef,
     private elementRef: ElementRef,
     private cssLength: CssLengthService,
-  ) {}
+    private overlayService: OverlayService,
+    private router: Router,
+  ) {
+    super();
+  }
+
+  ngOnInit(): void {
+    if (this.trigger === 'click') {
+      this.overlayService.onClick$.pipe(takeUntil(this.onDestroy$)).subscribe((e) => {
+        if (!this.container || this.overlayRoot?.contains(e.target as Node)) return;
+        if (this.container.nativeElement.contains(e.target)) {
+          this.toggle();
+        } else {
+          this.close();
+        }
+      });
+    }
+  }
 
   setupBannerColorListeners: boolean = false;
   ngAfterViewChecked(): void {
     this.trySetupBannerColorListeners();
   }
 
+  onProfileClick() {
+    this.router.navigateByUrl(`/members/${this.user.username}`);
+  }
+
   ngOnDestroy(): void {
     if (this.currAnimPlayer) this.currAnimPlayer.destroy();
     if (this.overlayRef) this.overlayRef.dispose();
+    this.closeWhenOutsideViewportObserver.disconnect();
   }
 
   trySetupBannerColorListeners() {
@@ -81,7 +119,6 @@ export class ProfileOverlayComponent implements AfterViewChecked, OnDestroy {
     };
   }
 
-  readonly timings = `200ms ease-out`;
   getOpenAnimation(): AnimationMetadata[] {
     return [
       style({
@@ -89,7 +126,7 @@ export class ProfileOverlayComponent implements AfterViewChecked, OnDestroy {
         opacity: 0,
       }),
       animate(
-        this.timings,
+        `200ms ease-out`,
         style({
           transform: 'translateY(0)',
           opacity: 1,
@@ -105,23 +142,25 @@ export class ProfileOverlayComponent implements AfterViewChecked, OnDestroy {
         opacity: 1,
       }),
       animate(
-        this.timings,
+        `100ms ease-out`,
         style({
-          transform: 'translateY(5%)',
+          transform: 'translateY(2.5%)',
           opacity: 0,
         }),
       ),
     ];
   }
 
-  onMouseEnter() {
-    this.hover = true;
-
-    if (!this.overlayTemplate) return;
+  toggle() {
     if (this.overlayRef) {
-      this.currAnimPlayer?.destroy();
-      this.overlayRef.dispose();
+      this.close();
+    } else {
+      this.open();
     }
+  }
+
+  open() {
+    if (this.overlayRef || !this.overlayTemplate || !this.container) return;
     this.overlayRef = this.overlay.create({
       scrollStrategy: this.overlay.scrollStrategies.reposition(),
       positionStrategy: this.overlay
@@ -132,25 +171,46 @@ export class ProfileOverlayComponent implements AfterViewChecked, OnDestroy {
     this.overlayRef.attach(new TemplatePortal(this.overlayTemplate, this.viewContainerRef));
 
     if (this.currAnimPlayer) this.currAnimPlayer.destroy();
-    this.currAnimPlayer = this.animBuilder.build(this.getOpenAnimation()).create(this.overlayAnimRoot);
+    this.currAnimPlayer = this.animBuilder.build(this.getOpenAnimation()).create(this.overlayRoot);
     this.currAnimPlayer.onDone(() => (this.currAnimPlayer = undefined));
+    this.currAnimPlayer.play();
+
+    this.closeWhenOutsideViewportObserver.observe(this.container.nativeElement);
+  }
+
+  close() {
+    if (!this.overlayRef || !this.container) return;
+
+    this.closeWhenOutsideViewportObserver.unobserve(this.container.nativeElement);
+
+    if (this.currAnimPlayer) this.currAnimPlayer.destroy();
+
+    this.currAnimPlayer = this.animBuilder.build(this.getCloseAnimation()).create(this.overlayRoot);
+    this.currAnimPlayer.onDone(() => {
+      this.currAnimPlayer = undefined;
+      this.overlayRef?.dispose();
+      this.overlayRef = undefined;
+    });
     this.currAnimPlayer.play();
   }
 
-  async onMouseExit() {
+  onMouseEnter() {
+    this.hover = true;
+
+    if (this.trigger === 'hover') this.open();
+  }
+
+  onMouseExit() {
     this.hover = false;
 
-    if (!this.overlayRef) return;
-    // if (this.currAnimPlayer) this.currAnimPlayer.destroy();
-    // this.currAnimPlayer = this.animBuilder.build(this.getCloseAnimation()).create(this.overlayAnimRoot);
-    // this.currAnimPlayer.onDone(() => {
-    //   this.currAnimPlayer = undefined;
-    //   // this.overlayRef?.dispose();
-    //   // this.overlayRef = undefined;
-    // });
-    // this.currAnimPlayer.play();
-    this.overlayRef?.dispose();
-    this.overlayRef = undefined;
+    if (this.trigger === 'hover') this.close();
+  }
+
+  onVisibilityChanged(visibile: any) {
+    console.log(visibile);
+    if (!visibile && this.elementRef) {
+      this.close();
+    }
   }
 
   getClassYearString = getClassYearString;

@@ -86,7 +86,7 @@
         align-items: flex-start;
         margin-top: 5em; 
         flex-wrap: wrap; 
-        gap: 4px; 
+        gap: 2em 0.25em; 
         margin-bottom: 1em;
       ">
         <div style="flex-grow: 1;" *ngIf="!userOptions.nonExistent">
@@ -94,34 +94,40 @@
           <div class="user-page overview-tab username-tag">@{{ user.username }}</div>
         </div>
         <div style="
-          right: 0; 
           display: flex;
           flex-direction: row;
           gap: 1.25em;
-          align-items: center;
+          align-items: start;
         ">
-          <div *ngIf="user.netId" style="
-            display: flex; 
-            flex-direction: row;
-            align-items: center;
-            gap: 0.5em;
+          <div style="
+            display: flex;
             flex-wrap: wrap;
+            min-height: 2.125em;
+            gap: 0.5em 1.25em;;
           ">
-            <app-tag color="blank">
-              ✅ Verified @{{user.netId}}
-            </app-tag>
+            <div *ngIf="user.netId" style="
+              display: flex; 
+              flex-direction: row;
+              align-items: center;
+              gap: 0.5em;
+              flex-wrap: wrap;
+            ">
+              <app-tag color="blank">
+                ✅ Verified @{{user.netId}}
+              </app-tag>
+            </div>
+            <div *ngIf="user.classYear" style="
+              display: flex; 
+              flex-direction: row;
+              align-items: center;
+              gap: 0.25em 0.5em;
+              flex-wrap: wrap;
+            ">
+              <div>Class of {{ user.classYear }}</div>
+              <app-tag color="blank">{{ getClassYearString(user.classYear) }}</app-tag>
+            </div>
           </div>
-          <div *ngIf="user.classYear" style="
-            display: flex; 
-            flex-direction: row;
-            align-items: center;
-            gap: 0.5em;
-            flex-wrap: wrap;
-          ">
-            <div>Class of {{ user.classYear }}</div>
-            <app-tag color="blank">{{ getClassYearString(user.classYear) }}</app-tag>
-          </div>
-          <button class="user-page overview-tab edit-button" mat-stroked-button color="basic" pill (click)="edit()" *ngIf="userOptions.canUpdateUser">Edit Profile
+          <button style="flex-shrink: 0;" class="user-page overview-tab edit-button" mat-stroked-button color="basic" pill (click)="edit()" *ngIf="userOptions.canUpdateUser">Edit Profile
           </button>
         </div>
       </div>
