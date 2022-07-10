@@ -32,6 +32,7 @@
 	}
 
 	@include colorStyles(disabled, mat.get-color-from-palette($foreground, disabled-button));
+	@include colorStyles(faded, mat.get-color-from-palette($foreground, disabled-text));
 	@include colorStyles(foreground, mat.get-color-from-palette($foreground, text));
 	@include colorStyles(background, mat.get-color-from-palette($background, background));
 	@include colorStyles(card, mat.get-color-from-palette($background, card));

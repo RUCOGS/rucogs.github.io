@@ -166,6 +166,10 @@ export class ProjectPageComponent implements OnInit {
                 user {
                   id
                   avatarLink
+                  bannerLink
+                  bio
+                  classYear
+                  netId
                   username
                   displayName
                 }

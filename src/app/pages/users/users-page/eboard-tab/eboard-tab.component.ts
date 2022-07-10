@@ -43,18 +43,7 @@ export class EboardTabComponent extends BaseScrollPaginationComponent<PartialDee
     const results = await firstValueFrom(
       this.backend.withAuth().query<{
         eBoardTerms: {
-          eBoard: {
-            id: string;
-            avatarLink: string;
-            bio: string;
-            user: {
-              id: string;
-              avatarLink: string;
-              bannerLink: string;
-              displayName: string;
-              username: string;
-            };
-          };
+          eBoard: any;
           id: string;
           year: number;
           roles: {
@@ -73,6 +62,9 @@ export class EboardTabComponent extends BaseScrollPaginationComponent<PartialDee
                   id
                   avatarLink
                   bannerLink
+                  netId
+                  classYear
+                  bio
                   displayName
                   username
                 }

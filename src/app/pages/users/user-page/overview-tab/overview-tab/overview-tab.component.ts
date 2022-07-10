@@ -15,6 +15,7 @@ import { Color, ProcessMonitor } from '@src/app/classes/_classes.module';
 import { ProjectsDisplayComponent } from '@src/app/modules/project/project.module';
 import { UIMessageService } from '@src/app/modules/ui-message/ui-message.module';
 import { BackendService, CdnService, SecurityService } from '@src/app/services/_services.module';
+import { getClassYearString } from '@src/app/utils/_utils.module';
 import { Access, Project, RoleCode, User } from '@src/generated/graphql-endpoint.types';
 import { ProjectFilterInput } from '@src/generated/model.types';
 import { SettingsService } from '@src/_settings';
@@ -184,21 +185,5 @@ export class OverviewTabComponent implements AfterViewChecked, OnChanges {
     this.router.navigateByUrl('/projects/new');
   }
 
-  getClassYearString(classYear: number) {
-    const currYear = new Date().getFullYear();
-    const grade = classYear - currYear;
-    if (grade > 4) {
-      return '📨 Incoming';
-    } else if (grade === 1) {
-      return '🎆 Senior';
-    } else if (grade === 2) {
-      return '🌇 Junior';
-    } else if (grade === 3) {
-      return '🦜 Sophmore';
-    } else if (grade === 4) {
-      return '🔰 Freshman';
-    } else {
-      return '🎓 Alumni';
-    }
-  }
+  getClassYearString = getClassYearString;
 }
