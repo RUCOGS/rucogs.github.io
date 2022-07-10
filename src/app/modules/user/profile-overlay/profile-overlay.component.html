@@ -6,6 +6,7 @@
     border-radius: 0.5em;
     padding: 0.5em;
     margin: 1em;
+    height: min-content;
   " class="background-color-card overlayRoot">
     <div style="
       width: 100%;
@@ -102,6 +103,6 @@
     </div>
   </div>
 </ng-template>
-<div #container (mouseenter)="onMouseEnter()" (mouseleave)="onMouseExit()">
+<div #container (mouseenter)="onMouseEnter()" (mouseleave)="onMouseExit()" (mousedown)="onMouseDown()">
   <ng-content></ng-content>
 </div>
