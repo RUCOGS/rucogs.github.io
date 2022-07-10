@@ -14,6 +14,7 @@ import { FilteringModule } from '@app/modules/filtering/filtering.module';
 import { ServicesModule } from '@src/app/services/_services.module';
 import { IconModule } from '@visurel/iconify-angular';
 import { AvatarModule } from '../avatar/avatar.module';
+import { ButtonStylesModule } from '../button-styles/button-styles.module';
 import { RolesModule } from '../roles/roles.module';
 import { TagsModule } from '../tags/tags.module';
 import { BasicProfileComponent } from './basic-profile/basic-profile.component';
@@ -58,6 +59,7 @@ import { UsersDisplayComponent } from './users-display/users-display.component';
     RolesModule,
     TagsModule,
     OverlayModule,
+    ButtonStylesModule,
   ],
   exports: [
     BasicProfileComponent,

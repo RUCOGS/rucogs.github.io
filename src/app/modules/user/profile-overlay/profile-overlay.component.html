@@ -6,7 +6,7 @@
     border-radius: 0.5em;
     padding: 0.5em;
     margin: 1em;
-  " class="background-color-card overlayAnimRoot">
+  " class="background-color-card overlayRoot">
     <div style="
       width: 100%;
       height: 9.375em;
@@ -34,22 +34,24 @@
         position: absolute;
         height: var(--size);
         width: var(--size);
-        border-radius: 5em;
+        border-radius: 50%;
         overflow: hidden;
         outline-style: solid;
         outline-width: 0.25em;
       " class="outline-color-card background-color-card">
-        <div style="
+        <img [src]="user.avatarLink ? cdnService.getFileLink(user.avatarLink) : settings.General.defaultAvatarSrc" style="
+          object-fit: cover;
           width: 100%;
           height: 100%;
-        ">
-          <img [src]="user.avatarLink ? cdnService.getFileLink(user.avatarLink) : settings.General.defaultAvatarSrc" style="
-            object-fit: cover;
-            width: 100%;
-            height: 100%;
-          " class="profile-overlay avatar">
-        </div>
+        " class="profile-overlay avatar">
       </div>
+      <button mat-stroked-button pill style="
+        position: absolute;
+        top: 1em;
+        right: 1em;
+      " (click)="onProfileClick()">
+        Profile
+      </button>
     </div>
     <div style="
       padding: 0 1em 1em 1.5em;
@@ -100,6 +102,6 @@
     </div>
   </div>
 </ng-template>
-<div (mouseenter)="onMouseEnter()" (mouseleave)="onMouseExit()">
+<div #container (mouseenter)="onMouseEnter()" (mouseleave)="onMouseExit()">
   <ng-content></ng-content>
 </div>

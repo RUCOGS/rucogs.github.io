@@ -1,5 +1,6 @@
-<app-profile-overlay [user]="user">
-  <a class="app-basic-profile container" [routerLink]="clickable ? link : null" [ngClass]="{ clickable: clickable }">
+<app-profile-overlay [user]="user" trigger="click">
+  <!-- <a class="app-basic-profile container" [routerLink]="clickable ? link : null" [ngClass]="{ clickable: clickable }"> -->
+  <a class="app-basic-profile container" [ngClass]="{ clickable: clickable }">
     <app-avatar [avatarSrc]="user.avatarLink ? cdnService.getFileLink(user.avatarLink) : ''"></app-avatar>
     <div style="margin-top: 8px">
       <h2 class="app-basic-profile display-name" style="margin-bottom: 4px">{{ user.displayName ?? '' }}</h2>

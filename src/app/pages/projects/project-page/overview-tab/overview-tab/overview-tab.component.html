@@ -125,6 +125,8 @@
             <h1 class="project-page overview-tab name" style="
               margin-bottom: 0px;
               flex: 1;
+              min-width: 5em;
+              word-break: break-word;
             ">{{ project.name }}</h1>
             <div *ngIf="accessOptions[project.access!] !== undefined" style="padding: 0.4em 0.5em 0 0.5em;">
               <h4 class="mat-caption" style="
