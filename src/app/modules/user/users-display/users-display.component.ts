@@ -53,18 +53,16 @@ export class UsersDisplayComponent extends BaseFilteredHeaderScrollPaginationCom
   _filteredValuesQuery = async (filter: UserFilterInput, skip: number, limit: number) => {
     const results = await firstValueFrom(
       this.backend.withAuth().query<{
-        users: {
-          // Result type
-          avatarLink: string;
-          displayName: string;
-          username: string;
-          bio: string;
-        }[];
+        users: any[];
       }>({
         query: gql`
           query DisplayUsers($filter: UserFilterInput, $limit: Int, $skip: Int, $sorts: [UserSortInput!]) {
             users(filter: $filter, limit: $limit, skip: $skip, sorts: $sorts) {
               avatarLink
+              bannerLink
+              netId
+              classYear
+              bio
               displayName
               username
             }
