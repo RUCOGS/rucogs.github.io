@@ -14,6 +14,7 @@ import {
 } from '@angular/core';
 import { Router } from '@angular/router';
 import { Color, WithDestroy } from '@src/app/classes/_classes.module';
+import { BreakpointManagerService } from '@src/app/services/breakpoint-manager.service';
 import { CdnService } from '@src/app/services/cdn.service';
 import { CssLengthService } from '@src/app/services/css-length.service';
 import { OverlayService } from '@src/app/services/overlay.service';
@@ -35,6 +36,10 @@ export class ProfileOverlayComponent extends Mixin(WithDestroy) implements After
   @Input() user: PartialDeep<User> = {};
   @ViewChild('overlayTemplate', { read: TemplateRef }) overlayTemplate?: TemplateRef<any>;
   @ViewChild('container') container?: ElementRef;
+
+  get ignoreOverlay() {
+    return this.breakpointManager.matchedBreakpointOrBelow('MEDIUM_MOBILE');
+  }
 
   get overlayRoot() {
     return this.overlayRef?.overlayElement?.querySelector('.overlayRoot');
@@ -66,12 +71,13 @@ export class ProfileOverlayComponent extends Mixin(WithDestroy) implements After
     private cssLength: CssLengthService,
     private overlayService: OverlayService,
     private router: Router,
+    private breakpointManager: BreakpointManagerService,
   ) {
     super();
   }
 
   ngOnInit(): void {
-    if (this.trigger === 'click') {
+    if (!this.ignoreOverlay && this.trigger === 'click') {
       this.overlayService.onClick$.pipe(takeUntil(this.onDestroy$)).subscribe((e) => {
         if (!this.container || this.overlayRoot?.contains(e.target as Node)) return;
         if (this.container.nativeElement.contains(e.target)) {
@@ -86,6 +92,12 @@ export class ProfileOverlayComponent extends Mixin(WithDestroy) implements After
   setupBannerColorListeners: boolean = false;
   ngAfterViewChecked(): void {
     this.trySetupBannerColorListeners();
+  }
+
+  onMouseDown() {
+    if (this.ignoreOverlay) {
+      this.onProfileClick();
+    }
   }
 
   onProfileClick() {
@@ -165,7 +177,7 @@ export class ProfileOverlayComponent extends Mixin(WithDestroy) implements After
       scrollStrategy: this.overlay.scrollStrategies.reposition(),
       positionStrategy: this.overlay
         .position()
-        .flexibleConnectedTo(this.elementRef)
+        .flexibleConnectedTo(this.container)
         .withPositions(getSidePanelPositions(0, this.cssLength.convertToNumber('1em', 'px'))),
     });
     this.overlayRef.attach(new TemplatePortal(this.overlayTemplate, this.viewContainerRef));
@@ -197,13 +209,13 @@ export class ProfileOverlayComponent extends Mixin(WithDestroy) implements After
   onMouseEnter() {
     this.hover = true;
 
-    if (this.trigger === 'hover') this.open();
+    if (!this.ignoreOverlay && this.trigger === 'hover') this.open();
   }
 
   onMouseExit() {
     this.hover = false;
 
-    if (this.trigger === 'hover') this.close();
+    if (!this.ignoreOverlay && this.trigger === 'hover') this.close();
   }
 
   onVisibilityChanged(visibile: any) {
