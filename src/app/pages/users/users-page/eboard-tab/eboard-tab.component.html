@@ -17,11 +17,10 @@
         align-items: center;
       " *ngFor="let term of group.terms">
         <app-profile-overlay [user]="term?.eBoard?.user ?? {}" trigger="click">
-          <a style="
+          <div style="
             display: flex;
             flex-direction: column;
             align-items: center;
-            width: min-content;
           " class="eboard-tab eboard-profile">
           <!-- " class="eboard-tab eboard-profile" routerLink="/members/{{term?.eBoard?.user?.username}}"> -->
             <div style="
@@ -43,7 +42,7 @@
               margin-bottom: 0.5em;
             " class="text-faded">@{{term?.eBoard?.user?.username}}</p>
             <app-roles-display [roles]="getEBoardTermRoles(term)" [center]="true"></app-roles-display>
-          </a>
+          </div>
         </app-profile-overlay>
       </div>
     </div>
