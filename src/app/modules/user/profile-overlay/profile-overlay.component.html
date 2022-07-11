@@ -7,7 +7,7 @@
     padding: 0.5em;
     margin: 1em;
     height: min-content;
-  " class="background-color-card overlayRoot">
+  " class="background-color-card overlayRoot" cdkTrapFocus cdkTrapFocusAutoCapture (keyup.escape)="close()">
     <div style="
       width: 100%;
       height: 9.375em;
@@ -103,6 +103,10 @@
     </div>
   </div>
 </ng-template>
-<div #container (mouseenter)="onMouseEnter()" (mouseleave)="onMouseExit()" (mousedown)="onMouseDown()">
+<button #container (mouseenter)="onMouseEnter()" (mouseleave)="onMouseExit()" (click)=" onMouseDown()" style="
+  background: inherit;
+  border: none; 
+  font: inherit;
+">
   <ng-content></ng-content>
-</div>
+</button>
