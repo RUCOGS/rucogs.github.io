@@ -37,9 +37,9 @@
         width: var(--size);
         border-radius: 50%;
         overflow: hidden;
-        outline-style: solid;
-        outline-width: 0.25em;
-      " class="outline-color-card background-color-card">
+        border-style: solid;
+        border-width: 0.25em;
+      " class="border-color-card background-color-card">
         <img [src]="user.avatarLink ? cdnService.getFileLink(user.avatarLink) : settings.General.defaultAvatarSrc" style="
           object-fit: cover;
           width: 100%;
