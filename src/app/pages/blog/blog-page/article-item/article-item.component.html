@@ -1,4 +1,4 @@
-<a class="app-article-item card blank" (click)="onClick()">
+<a class="app-article-item card blank" (keyup.enter)="onClick()" (keyup.space)="onClick()" (click)="onClick()" tabindex="0">
   <div class="app-article-item article-image" [hidden]="article.imagePath == ''" style="background-image: url('{{this.article.imagePath}}')" *ngIf="breakpointManager.matchedBreakpointOrAbove('DESKTOP')"></div>
   <div class="app-article-item card-content">
     <h2 class="app-article-item title">{{article.title}}</h2>
