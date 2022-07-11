@@ -103,10 +103,6 @@
     </div>
   </div>
 </ng-template>
-<button #container (mouseenter)="onMouseEnter()" (mouseleave)="onMouseExit()" (click)=" onMouseDown()" style="
-  background: inherit;
-  border: none; 
-  font: inherit;
-">
+<button #container (mouseenter)="onMouseEnter()" (mouseleave)="onMouseExit()" (click)=" onMouseDown()">
   <ng-content></ng-content>
 </button>
