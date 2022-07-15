@@ -31,7 +31,7 @@ export class BlogPageComponent implements AfterViewInit {
   ngAfterViewInit(): void {
     if (!this.filterHeader || !this.paginatorBottom || !this.paginatorTop) return;
 
-    this.filterHeader.newSearchRequest$.pipe(takeUntil(this.onDestroy$)).subscribe(this.onNewSearchRequest.bind(this));
+    this.filterHeader.newSearchRequest.pipe(takeUntil(this.onDestroy$)).subscribe(this.onNewSearchRequest.bind(this));
     this.paginatorTop.currentPageChange.pipe(takeUntil(this.onDestroy$)).subscribe(this.onCurrentPageChange.bind(this));
     this.paginatorBottom.currentPageChange
       .pipe(takeUntil(this.onDestroy$))

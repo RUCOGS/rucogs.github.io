@@ -51,6 +51,10 @@ export class UsersDisplayComponent extends BaseFilteredHeaderScrollPaginationCom
   }
 
   _filteredValuesQuery = async (filter: UserFilterInput, skip: number, limit: number) => {
+    const sortAscending = this.filterHeader?.sortAscending ?? false;
+    const sortAscendingText = sortAscending ? 'asc' : 'desc';
+    const sortingMode = this.filterHeader?.sortingMode ?? 'classYear';
+
     const results = await firstValueFrom(
       this.backend.withAuth().query<{
         users: any[];
@@ -76,7 +80,9 @@ export class UsersDisplayComponent extends BaseFilteredHeaderScrollPaginationCom
           filter,
           sorts: [
             <UserSortInput>{
-              username: 'asc',
+              ...(sortingMode === 'name' && { displayName: sortAscendingText }),
+              ...(sortingMode === 'username' && { username: sortAscendingText }),
+              ...(sortingMode === 'classYear' && { classYear: sortAscendingText }),
             },
           ],
         },

@@ -63,7 +63,7 @@ export class MembersTabComponent implements AfterViewInit, OnDestroy, OnChanges 
   ngAfterViewInit(): void {
     if (!this.filterHeader) return;
 
-    this.filterHeader.newSearchRequest$.pipe(takeUntil(this.onDestroy$)).subscribe(this.onNewSearchRequest.bind(this));
+    this.filterHeader.newSearchRequest.pipe(takeUntil(this.onDestroy$)).subscribe(this.onNewSearchRequest.bind(this));
   }
 
   ngOnChanges(changes: SimpleChanges): void {

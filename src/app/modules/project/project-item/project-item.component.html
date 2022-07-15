@@ -12,12 +12,12 @@
       gap: 8px;
       margin-top: auto;
     ">
-      <app-tag-container style="flex: 1;">
+      <app-tag-container style="flex: 1; min-width: 50%;">
         <app-tag color="primary">{{ getProjectYear() }}</app-tag>
-        <app-tag color="accent" *ngIf="getProjectCompleted()">Completed</app-tag>
         <app-tag color="accent" *ngIf="project.access">{{ accessOptions[project.access].name }}</app-tag>
+        <app-tag color="accent" *ngIf="getProjectCompleted()">Completed</app-tag>
       </app-tag-container>
-      <app-avatar-group [avatarSrcs]="getAvatarLinks()" [limit]="8"></app-avatar-group>
+      <app-avatar-group [avatarSrcs]="getAvatarLinks()" [limit]="7"></app-avatar-group>
     </div>
   </div>
 </a>

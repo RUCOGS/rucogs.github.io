@@ -1,4 +1,8 @@
-<app-filter-header searchBar></app-filter-header>
+<app-filter-header searchBar filterOptions ascendingToggle="true" sortingMode="classYear" [sortAscending]="false">
+  <mat-option value="classYear">Class Year</mat-option>
+  <mat-option value="username">Username</mat-option>
+  <mat-option value="name">Name</mat-option>
+</app-filter-header>
 
 <div #usersContainer class="app-users-display users-container">
   <app-profile-grid [users]="users"></app-profile-grid>

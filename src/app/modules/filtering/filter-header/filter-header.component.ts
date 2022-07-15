@@ -1,16 +1,22 @@
 import {
   AfterViewInit,
+  Attribute,
   Component,
   ContentChildren,
+  EventEmitter,
   Input,
   OnInit,
+  Optional,
   Output,
   QueryList,
-  EventEmitter,
-  Optional,
-  Attribute,
 } from '@angular/core';
 import { MatOption } from '@angular/material/core';
+
+export interface FilterChange {
+  searchText: string;
+  sortingMode: string;
+  sortAscending: boolean;
+}
 
 @Component({
   selector: 'app-filter-header',
@@ -18,9 +24,12 @@ import { MatOption } from '@angular/material/core';
   styleUrls: ['./filter-header.component.css'],
 })
 export class FilterHeaderComponent implements OnInit, AfterViewInit {
-  @Output() newSearchRequest$ = new EventEmitter<string>();
+  @Output() newSearchRequest = new EventEmitter<string>();
   @Output() sortingModeChange = new EventEmitter<string>();
   @Output() sortAscendingChange = new EventEmitter<boolean>();
+
+  @Output() filterChange = new EventEmitter<FilterChange>();
+
   @ContentChildren(MatOption) queryOptions: QueryList<MatOption> = new QueryList();
 
   @Input() sortingMode: string = '';
@@ -42,6 +51,18 @@ export class FilterHeaderComponent implements OnInit, AfterViewInit {
     this.searchBar = searchBar != undefined;
     this.filterOptions = filterOptions != undefined;
     this.ascendingToggle = ascendingToggle != undefined;
+
+    const onFilterChange = () => {
+      this.filterChange.next({
+        searchText: this.searchText,
+        sortAscending: this.sortAscending,
+        sortingMode: this.sortingMode,
+      });
+    };
+
+    this.newSearchRequest.subscribe(onFilterChange);
+    this.sortingModeChange.subscribe(onFilterChange);
+    this.sortAscendingChange.subscribe(onFilterChange);
   }
 
   ngOnInit(): void {}
@@ -56,7 +77,7 @@ export class FilterHeaderComponent implements OnInit, AfterViewInit {
   }
 
   emitNewSearchRequest(value: string) {
-    this.newSearchRequest$.emit(value);
+    this.newSearchRequest.emit(value);
   }
 
   emitSortingModeChange(value: string) {
