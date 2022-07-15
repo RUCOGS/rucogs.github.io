@@ -77,7 +77,10 @@ export class UsersDisplayComponent extends BaseFilteredHeaderScrollPaginationCom
           // TODO EVENTUALLY: Use cursor pagination once Typetta suppoorts that
           skip,
           limit,
-          filter,
+          filter: <UserFilterInput>{
+            ...filter,
+            ...(sortingMode === 'classYear' && { classYear: { exists: true } }),
+          },
           sorts: [
             <UserSortInput>{
               ...(sortingMode === 'name' && { displayName: sortAscendingText }),

@@ -46,7 +46,7 @@ export class ProjectsDisplayComponent extends BaseFilteredHeaderScrollPagination
   }
 
   _filteredValuesQuery = async (filter: ProjectFilterInput, skip: number, limit: number) => {
-    const sortAscending = this.filterHeader?.sortAscending ?? true;
+    const sortAscending = this.filterHeader?.sortAscending ?? false;
     const sortAscendingText = sortAscending ? 'asc' : 'desc';
     const sortingMode = this.filterHeader?.sortingMode ?? 'year';
 
