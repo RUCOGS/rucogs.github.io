@@ -46,6 +46,8 @@
   $primary: map.get($config, primary);
   $accent: map.get($config, accent);
   $warn: map.get($config, warn);
+  $foreground: map.get($config, foreground);
+  $background: map.get($config, background);
 
   .app-button.button {
 		transition: 0.2s;
@@ -64,6 +66,13 @@
 
   .warn {
     @include palette-styles($warn);
+  }
+
+  .blank {
+    @include styles(
+      mat.get-color-from-palette($background, card),
+      mat.get-color-from-palette($foreground, text)
+    );
   }
   
   .discord {

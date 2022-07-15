@@ -1,13 +1,12 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ScarletGameJamPageComponent } from './scarlet-game-jam/scarlet-game-jam-page.component';
-import { CoreModule } from '@src/app/modules/_core/core.module';
-import { MatExpansionModule } from '@angular/material/expansion';
-import { CardsModule } from '@src/app/modules/cards/cards.module';
-import { ResourceModule } from '@src/app/modules/resource/resource.module';
+import { NgModule } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
-import { IconModule } from '@visurel/iconify-angular';
+import { MatExpansionModule } from '@angular/material/expansion';
 import { Route, RouterModule } from '@angular/router';
+import { CardsModule } from '@src/app/modules/cards/cards.module';
+import { CoreModule } from '@src/app/modules/_core/core.module';
+import { IconModule } from '@visurel/iconify-angular';
+import { ScarletGameJamPageComponent } from './scarlet-game-jam/scarlet-game-jam-page.component';
 
 export { ScarletGameJamPageComponent };
 

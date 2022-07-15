@@ -1,23 +1,29 @@
+$browser-context: 16;
+
+@function em($pixels, $context: $browser-context) {
+  @return #{$pixels/$context}em;
+}
+
 //----- MARGIN UTILITY -----//
 $spaceamounts: (0, 2, 4, 6, 8, 10, 12, 14, 16, 18, 24, 32, 48, 52, 64, 128);
 $sides: (top, bottom, left, right); // Leave this variable alone
 @each $space in $spaceamounts {
 	@each $side in $sides {
 		.m#{str-slice($side, 0, 1)}-#{$space} {
-			margin-#{$side}: #{$space}px !important;
+			margin-#{$side}: #{em($space)} !important;
 		}
 		.p#{str-slice($side, 0, 1)}-#{$space} {
-			padding-#{$side}: #{$space}px !important;
+			padding-#{$side}: #{em($space)} !important;
 		}
 	}
 }
 
 @each $space in $spaceamounts {
 	.m-#{$space} {
-		margin: #{$space}px !important;
+		margin: #{em($space)} !important;
 	}
 	.p-#{$space} {
-		padding: #{$space}px !important;
+		padding: #{em($space)} !important;
 	}
 }
 
@@ -26,7 +32,7 @@ $spaceamounts: (0, 2, 4, 6, 8, 10, 12, 14, 16, 18, 24, 32, 48, 52, 64, 128);
 @each $space in $spaceamounts {
 	.vbox-#{$space} > * {
 		display: block;
-		margin-top: #{$space}px !important;
+		margin-top: #{em($space)} !important;
 	}
 
 	.vbox-#{$space} > :first-child {

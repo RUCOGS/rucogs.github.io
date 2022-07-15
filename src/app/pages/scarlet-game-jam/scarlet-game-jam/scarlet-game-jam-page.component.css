@@ -6,7 +6,7 @@
 }
 
 .logo-container {
-	margin-left: 2em;
+	margin-left: 5em;
 	flex-grow: 1;
 }
 
@@ -17,21 +17,14 @@
 .split-section {
 	display: flex;
 	height: 100%;
+	width: 100%;
 }
 
 .logo-painted {
-	max-width: 30vw;
-	max-height: 30vw;
+	max-width: 100%;
 	filter: drop-shadow(0 0 1rem black);
 }
 
 .logo-painted.desktop {
 	float: right;
-}
-
-@media screen and (max-width: 1400px) {
-
-	.logo-painted {
-		display: none;
-	}
 }
