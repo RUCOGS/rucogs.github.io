@@ -219,7 +219,6 @@ export class ProfileOverlayComponent extends Mixin(WithDestroy) implements After
   }
 
   onVisibilityChanged(visibile: any) {
-    console.log(visibile);
     if (!visibile && this.elementRef) {
       this.close();
     }

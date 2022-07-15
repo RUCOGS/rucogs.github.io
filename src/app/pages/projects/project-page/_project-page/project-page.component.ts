@@ -290,7 +290,6 @@ export class ProjectPageComponent implements OnInit {
       .subscribe({
         next: async (value) => {
           const deletedInvite = value.data?.projectInviteDeleted;
-          console.log(deletedInvite);
           await this.fetchData(true);
           if (this.project.members?.some((x) => x?.user?.id === deletedInvite?.userId))
             this.uiMessageService.notifyInfo('Invite accepted!');

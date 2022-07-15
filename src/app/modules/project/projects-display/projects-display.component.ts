@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { BaseFilteredHeaderScrollPaginationComponent } from '@app/modules/paginator/paginator.module';
-import { Access, Project } from '@src/generated/graphql-endpoint.types';
+import { Project } from '@src/generated/graphql-endpoint.types';
 import { ProjectFilterInput, ProjectSortInput } from '@src/generated/model.types';
 import { gql } from 'apollo-angular';
 import { firstValueFrom } from 'rxjs';
@@ -46,25 +46,13 @@ export class ProjectsDisplayComponent extends BaseFilteredHeaderScrollPagination
   }
 
   _filteredValuesQuery = async (filter: ProjectFilterInput, skip: number, limit: number) => {
+    const sortAscending = this.filterHeader?.sortAscending ?? true;
+    const sortAscendingText = sortAscending ? 'asc' : 'desc';
+    const sortingMode = this.filterHeader?.sortingMode ?? 'year';
+
     const results = await firstValueFrom(
       this.backend.withAuth().query<{
-        projects: {
-          // Result type
-          id: string;
-          access: Access;
-          cardImageLink: string;
-          completedAt: Date;
-          createdAt: Date;
-          updatedAt: Date;
-          name: string;
-          pitch: string;
-          downloadLinks: string[];
-          members: {
-            user: {
-              avatarLink: string;
-            };
-          }[];
-        }[];
+        projects: any[];
       }>({
         query: gql`
           query DefaultProjectsDisplay(
@@ -82,6 +70,7 @@ export class ProjectsDisplayComponent extends BaseFilteredHeaderScrollPagination
               updatedAt
               name
               pitch
+              tags
               downloadLinks
               members {
                 user {
@@ -96,10 +85,14 @@ export class ProjectsDisplayComponent extends BaseFilteredHeaderScrollPagination
           // TODO EVENTUALLY: Use cursor pagination once Typetta suppoorts that
           skip,
           limit,
-          filter,
+          filter: <ProjectFilterInput>{
+            ...filter,
+            ...(sortingMode === 'completion' && { completedAt: { exists: sortAscending } }),
+          },
           sorts: [
             <ProjectSortInput>{
-              name: 'asc',
+              ...(sortingMode === 'year' && { createdAt: sortAscendingText }),
+              ...(sortingMode === 'name' && { name: sortAscendingText }),
             },
           ],
         },

@@ -1,4 +1,8 @@
-<app-filter-header searchBar></app-filter-header>
+<app-filter-header searchBar filterOptions ascendingToggle="true" sortingMode="year">
+  <mat-option value="year">Year</mat-option>
+  <mat-option value="name">Name</mat-option>
+  <mat-option value="completion">Completion</mat-option>
+</app-filter-header>
 
 <app-card-grid column-width="20em" style="width: 100%;">
   <app-project-item *ngFor="let project of projects" [project]="project"></app-project-item>
