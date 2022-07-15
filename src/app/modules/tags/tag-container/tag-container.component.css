@@ -4,5 +4,5 @@
 	flex-direction: row;
 	width: 100%;
 	height: fit-content;
-	gap: 8px;
+	gap: 0.5em;
 }

@@ -25,7 +25,7 @@ export class UsersDisplayComponent extends BaseFilteredHeaderScrollPaginationCom
     this.filteredValuesQuery = value;
   }
 
-  valuesPerPage: number = 21;
+  valuesPerPage: number = 18;
 
   getFilter(): UserFilterInput {
     if (!this.filterHeader) return {};

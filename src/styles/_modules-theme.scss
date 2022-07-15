@@ -9,6 +9,7 @@
 @use '../app/modules/site-menus/site-menus' as site-menus;
 @use '../app/modules/project-member/project-member' as project-member;
 @use '../app/modules/carousel/carousel' as carousel;
+@use '../app/modules/eboard/eboard' as eboard;
 
 @mixin theme($theme) {
   @include ngx-markdown-nav.theme($theme);
@@ -22,4 +23,5 @@
   @include site-menus.theme($theme);
   @include project-member.theme($theme);
   @include carousel.theme($theme);
+  @include eboard.theme($theme);
 }

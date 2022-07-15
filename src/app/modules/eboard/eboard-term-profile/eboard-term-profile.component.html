@@ -1,0 +1,29 @@
+
+<app-profile-overlay [user]="term?.eBoard?.user ?? {}" trigger="click">
+  <div style="
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  " class="eboard-term-profile container">
+  <!-- " class="eboard-tab eboard-profile" routerLink="/members/{{term?.eBoard?.user?.username}}"> -->
+    <div style="
+      position: relative;
+      width: min-content;
+      margin-bottom: 0.5em;
+    ">
+      <app-avatar [avatarSrc]="cdn.getFileLink(term?.eBoard?.avatarLink)" size="large"></app-avatar>
+      <app-avatar [avatarSrc]="cdn.getFileLink(term?.eBoard?.user?.avatarLink)" size="small" style="
+        position: absolute;
+        bottom: 0em;
+        right: 0em; 
+      "></app-avatar>
+    </div>
+    <h2 style="margin-bottom: 0;">{{term?.eBoard?.user?.displayName}}</h2>
+    <p style="
+      text-overflow: ellipsis;
+      overflow: hidden;
+      margin-bottom: 0.5em;
+    " class="text-faded">@{{term?.eBoard?.user?.username}}</p>
+    <app-roles-display [roles]="getEBoardTermRoles(term)" [center]="true"></app-roles-display>
+  </div>
+</app-profile-overlay>

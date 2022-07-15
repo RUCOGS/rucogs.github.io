@@ -1,4 +1,4 @@
-import { Directive, Input } from '@angular/core';
+import { Directive } from '@angular/core';
 import { WithDestroy, WithInit } from '@src/app/classes/_classes.module';
 import { BackendService, CdnService, ScrollService } from '@src/app/services/_services.module';
 import { takeUntil } from 'rxjs';
@@ -26,7 +26,7 @@ export abstract class BaseScrollPaginationComponent<TValue> extends Mixin(WithDe
 
   ngOnInit() {
     super.ngOnInit();
-    this.scrollService.scrolledToBottom$.pipe(takeUntil(this.onDestroy$)).subscribe(this.onScrollToBottom.bind(this));
+    this.scrollService.scrolledToBottom.pipe(takeUntil(this.onDestroy$)).subscribe(this.onScrollToBottom.bind(this));
     this.queryUntilFillPage();
   }
 

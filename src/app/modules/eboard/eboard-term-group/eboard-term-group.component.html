@@ -1,0 +1,20 @@
+<div style="margin-bottom: 5em;" class="eboard-term-group container">
+  <h1>{{group.year}} - {{group.year + 1}}</h1>  
+  <mat-divider style="margin-bottom: 1em;"></mat-divider>
+  <div style="
+    width: 100%;
+    display: grid;
+    align-items: stretch;
+    gap: 1em;
+    justify-content: center;
+    width: 100%;
+  " class="eboard-term-group profile-container">
+    <div style="
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    " *ngFor="let term of group.terms">
+      <app-eboard-term-profile [term]="term"></app-eboard-term-profile>
+    </div>
+  </div>
+</div>

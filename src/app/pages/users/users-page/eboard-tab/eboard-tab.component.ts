@@ -1,4 +1,5 @@
 import { Component, Input } from '@angular/core';
+import { EBoardTermGroup } from '@src/app/modules/eboard/eboard.module';
 import { BaseScrollPaginationComponent } from '@src/app/modules/paginator/paginator.module';
 import { EBoardTerm, RoleCode } from '@src/generated/graphql-endpoint.types';
 import { EBoardTermSortInput } from '@src/generated/model.types';
@@ -6,11 +7,6 @@ import { gql } from 'apollo-angular';
 import { firstValueFrom } from 'rxjs';
 import { PartialDeep } from 'type-fest';
 import { PartialObjectDeep } from 'type-fest/source/partial-deep';
-
-export interface EBoardTermGroup {
-  year: number;
-  terms: PartialDeep<EBoardTerm>[];
-}
 
 @Component({
   selector: 'app-eboard-tab',

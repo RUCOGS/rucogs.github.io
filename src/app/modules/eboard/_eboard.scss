@@ -1,0 +1,5 @@
+@use './eboard-term-group/eboard-term-group' as eboard-term-group;
+
+@mixin theme($theme) {
+	@include eboard-term-group.theme($theme);
+}
