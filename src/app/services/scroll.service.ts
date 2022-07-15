@@ -1,5 +1,5 @@
-import { EventEmitter, HostListener, Injectable, Output } from '@angular/core';
-import { NavigationEnd, Router } from '@angular/router';
+import { EventEmitter, Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root',
@@ -10,7 +10,7 @@ export class ScrollService {
   minPosition: number = 0;
 
   scrolledToTop = new EventEmitter();
-  scrolledToBottom$ = new EventEmitter();
+  scrolledToBottom = new EventEmitter();
 
   constructor(private router: Router) {
     window.addEventListener('scroll', (event) => {
@@ -29,10 +29,10 @@ export class ScrollService {
     this.minPosition = document.documentElement.offsetHeight;
     if (emitEvent) {
       // pos/max will give you the distance between scroll bottom and and bottom of screen in percentage.
-      if (this.position == this.maxPosition) {
-        this.scrolledToBottom$.emit();
+      if (this.position >= this.maxPosition) {
+        this.scrolledToBottom.emit();
       }
-      if (this.position == this.minPosition) {
+      if (this.position <= this.minPosition) {
         this.scrolledToTop.emit();
       }
     }

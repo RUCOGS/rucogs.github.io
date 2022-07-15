@@ -1,8 +1,8 @@
 <app-profile-overlay [user]="user" trigger="click">
   <div class="app-basic-profile container" [ngClass]="{ clickable: clickable }">
     <app-avatar [avatarSrc]="user.avatarLink ? cdnService.getFileLink(user.avatarLink) : ''"></app-avatar>
-    <div style="margin-top: 8px">
-      <h2 class="app-basic-profile display-name" style="margin-bottom: 4px">{{ user.displayName ?? '' }}</h2>
+    <div style="margin-top: 0.5em">
+      <h2 class="app-basic-profile display-name" style="margin-bottom: 0">{{ user.displayName ?? '' }}</h2>
       <div class="app-basic-profile username text-faded">@{{ user.username ?? '' }}</div>
     </div>
   </div>  

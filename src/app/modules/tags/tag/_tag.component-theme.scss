@@ -56,10 +56,6 @@
     font-family: mat.font-family($config);
 		font-size: 0.8em;
 		font-weight: 800;
-		
-		@media screen and (max-width: variables.$medium-mobile-width) {
-			font-size: 1em;
-		}
   }
 }
 

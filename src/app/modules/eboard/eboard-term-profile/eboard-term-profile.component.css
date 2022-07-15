@@ -1,0 +1,16 @@
+.container {
+	transition: transform .1s ease-out;
+	transform: none;
+	color: inherit;
+	text-decoration: inherit;
+}
+
+.container:hover {
+	cursor: pointer;
+	transform: scale(1.05);
+}
+
+
+.container:active {
+	transform: scale(1.025);
+}

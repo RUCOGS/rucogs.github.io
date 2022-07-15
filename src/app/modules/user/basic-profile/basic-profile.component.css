@@ -1,3 +1,9 @@
+:host {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
 .container {
 	max-width: 8em;
 	color: inherit;
@@ -11,6 +17,7 @@
 }
 
 .clickable:hover {
+	cursor: pointer;
 	transform: scale(1.08);
 }
 

@@ -8,7 +8,14 @@
   $foreground: map.get($config, foreground);
   $background: map.get($config, background);
 
-  .app-basic-profile.container {
+  .eboard-term-group.profile-container {
+    grid-template-columns: repeat(auto-fit, minmax(16em, 1fr));
+		@media screen and (max-width: variables.$medium-mobile-width) {
+      grid-template-columns: repeat(auto-fit, minmax(calc(16em * 0.8), 1fr));  
+    }
+  }
+
+  .eboard-term-group.container {
 		@media screen and (max-width: variables.$medium-mobile-width) {
 			font-size: 0.8em;
 		}
