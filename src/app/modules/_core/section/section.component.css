@@ -22,10 +22,6 @@
 	background-position: center;
 }
 
-.shadow {
-	box-shadow: 0px 0px 32px 0px rgba(0,0,0,127);
-}
-
 .dog-ear {
 	border-top-left-radius: var(--dog-ear);
 }
@@ -49,7 +45,6 @@ div.last {
 }
 
 .content {
-	width: 100%;
 	margin: auto;
 	max-width: var(--content-width);
 }

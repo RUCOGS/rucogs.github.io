@@ -10,7 +10,11 @@
     <app-card>
       <h2>How do I join?</h2>
       <p class="mb-16">Join the mailing list or Discord. This is where we will provide information about our meetings and events that we plan to hold over the year.</p>
-      <div class="vbox-8">
+      <div style="
+        display: flex;
+        flex-direction: column;
+        gap: 0.5em;
+      ">
         <app-button iconifyIcon="mail" target="_blank" [link]="settings.General.mailingListLink">Mailing List</app-button>
         <app-button iconifyIcon="discord" target="_blank" color="discord" [link]="settings.General.discordLink">Discord</app-button>
       </div>

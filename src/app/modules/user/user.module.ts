@@ -18,7 +18,6 @@ import { ButtonStylesModule } from '../button-styles/button-styles.module';
 import { RolesModule } from '../roles/roles.module';
 import { TagsModule } from '../tags/tags.module';
 import { BasicProfileComponent } from './basic-profile/basic-profile.component';
-import { EboardProfileComponent } from './eboard-profile/eboard-profile.component';
 import { EditableSocialButtonComponent } from './editable-social-button/editable-social-button.component';
 import { InlineOptionsProfileComponent } from './inline-options-profile/inline-options-profile.component';
 import { InlineProfileComponent } from './inline-profile/inline-profile.component';
@@ -38,7 +37,6 @@ import { UsersDisplayComponent } from './users-display/users-display.component';
     UserInputComponent,
     InlineProfileComponent,
     InlineOptionsProfileComponent,
-    EboardProfileComponent,
     ProfileOverlayComponent,
   ],
   imports: [
@@ -70,7 +68,6 @@ import { UsersDisplayComponent } from './users-display/users-display.component';
     UserInputComponent,
     InlineProfileComponent,
     InlineOptionsProfileComponent,
-    EboardProfileComponent,
     ProfileOverlayComponent,
   ],
 })

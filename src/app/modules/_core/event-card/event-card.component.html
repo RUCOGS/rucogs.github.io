@@ -1,6 +1,9 @@
 <app-card>
   <app-column-layout>
-    <div>
+    <div style="
+      display: flex;
+      flex-direction: column;
+    ">
       <h2 class="mb-8">{{title}}</h2>
       <div class="mb-16" style="width: 100%; display: flex; flex: row;">
         <app-tag-container style="text-align: left; flex: 1;">
@@ -9,7 +12,7 @@
         <app-tag color="accent">{{type}}</app-tag>
         </app-tag-container>
       </div>
-      <p class="mb-0">
+      <p class="mb-0" style="flex: 1;">
         <ng-content></ng-content>
       </p>
       <div class="mt-16" style="max-width: 300px;" *ngIf="eventPage != ''">

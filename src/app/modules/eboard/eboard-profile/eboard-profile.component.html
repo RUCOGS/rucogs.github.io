@@ -1,8 +1,16 @@
-<div style="
-  display: flex;
-  flex-direction: row;
-  gap: 24px;
-">
+<div breakable-styles 
+  style="
+    display: flex;
+    gap: 0.5em 1.5em;
+  "
+  prebreak-style="
+    flex-direction: row; 
+  "
+  break-style="
+    flex-direction: column;
+  "
+  break-on="width < 840"
+>
   <app-avatar size="large" [avatarSrc]="cdn.getFileLink(eBoard.avatarLink)"></app-avatar>
   <div style="
     display: flex;

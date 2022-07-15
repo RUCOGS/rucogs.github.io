@@ -38,6 +38,13 @@ ic-icon {
 }
 
 .mat-override-custom {
+	&.mat-h2, 
+	&.mat-title, 
+	&.mat-typography h2 {
+		margin-bottom: 0.5em;
+	}
+	
+
 	.mat-tooltip {
 		font-size: 0.8em;
 	}

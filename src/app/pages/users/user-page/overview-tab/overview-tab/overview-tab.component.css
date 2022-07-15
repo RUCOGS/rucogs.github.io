@@ -60,7 +60,7 @@
 }
 
 .display-name {
-  margin: 0px;
+  margin: 0;
 }
 
 .main-bg {
@@ -72,7 +72,7 @@
 
 .content-width-padding {
 	padding: var(--content-padding);
-  padding-top: 0px;
+  padding-top: 0;
 }
 
 .socials-button-container {
@@ -87,12 +87,12 @@
 
 .content {
 	display: block;
-  margin-top: 0px;
+  margin-top: 0;
 	margin: auto;
-  padding-top: 0px;
+  padding-top: 0;
 	max-width: var(--content-width);
 }
 
 .core-content > * {
-  margin-top: 32px;
+  margin-top: 2em;
 }

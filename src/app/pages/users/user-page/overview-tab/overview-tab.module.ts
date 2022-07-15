@@ -11,6 +11,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { ButtonStylesModule } from '@src/app/modules/button-styles/button-styles.module';
+import { EBoardModule } from '@src/app/modules/eboard/eboard.module';
 import { ImageUploadModule } from '@src/app/modules/image-upload/image-upload.module';
 import { ProjectModule } from '@src/app/modules/project/project.module';
 import { RolesModule } from '@src/app/modules/roles/roles.module';
@@ -39,6 +40,7 @@ import { OverviewTabComponent } from './overview-tab/overview-tab.component';
     MatButtonModule,
     ButtonStylesModule,
     MatInputModule,
+    EBoardModule,
   ],
   exports: [OverviewTabComponent],
 })

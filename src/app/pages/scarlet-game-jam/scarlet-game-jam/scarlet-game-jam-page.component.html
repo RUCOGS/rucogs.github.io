@@ -6,7 +6,11 @@
       <div [ngStyle]="{
         'height': eventActive ? '20px' : 'auto'
         }" id="sgj-countdown" class="app-scarlet-game-jam flipdown"></div>
-      <div style="max-width: 300px;" class="vbox-16">
+      <div style="
+        display: flex;
+        flex-direction: column;
+        gap: 1em;
+      ">
         <app-button iconifyIcon="form" target="_blank" color="form" link="{{signupLink}}" [hidden]="signupLink == ''">
           <div *ngIf="eventActive; else lateSignUp">
             Late Sign Up
@@ -19,19 +23,19 @@
         <app-button *ngIf="eventActive" iconifyIcon="itchdotio" target="_blank" color="blank" [link]="itchioLink">Itchio Page</app-button>
       </div>
     </div>
-    <div class="app-scarlet-game-jam logo-container" [ngClass]="breakpointManager.currentBreakpoint">
+    <div class="app-scarlet-game-jam logo-container" *ngIf="breakpointManager.matchedBreakpointOrAbove('SMALL_DESKTOP')">
       <img src="assets/images/sgj-logo-s2022.png" class="app-scarlet-game-jam logo-painted" [ngClass]="breakpointManager.currentBreakpoint">
     </div>
   </div>
 </app-full-page-header>
 <!-- <app-section title="Collaborations" color="blank">
-  <app-card-grid class="mt-32" column-width="250px">
+  <app-card-grid column-width="250px">
     <app-card outlined hover="fill" color="primary">
       <h1>RUEsports</h1>
       <p class="mb-0">
         In an all new collaboration with <b>RUEsports</b>, games made in the Scarlet Game Jam can be showcased at the RUEsports Fireside Open event.
       </p>
-    </div>
+    </app-card>
   </app-card-grid>
 </app-section> -->
 <app-section title="Itinerary" color="foreground-accent-300">
@@ -56,7 +60,13 @@
   </app-card-grid>
 </app-section>
 <app-section title="Merch" color="blank" dog-ear>
-  <p style="max-width: 400px; text-align: justify; margin-bottom: 24px;">Help support the COGs club by buying merchandise! We will use the money raised to make our future events bigger and better. 😄</p>
+  <p style="
+    text-align: justify; 
+    margin-bottom: 1.5em;
+    max-width: 25em;
+  ">
+    Help support the COGs club by buying merchandise! We will use the money raised to make our future events bigger and better. 😄
+  </p>
   <app-button link="{{merchLink}}" target="_blank" color="primary" style="width: 100%;" [hidden]="merchLink == ''">👕 Merch Shop</app-button>
 </app-section>
 <app-section title="FAQ" color="primary" dog-ear last>
