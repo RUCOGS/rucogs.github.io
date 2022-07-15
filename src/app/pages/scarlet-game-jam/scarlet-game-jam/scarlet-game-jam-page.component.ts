@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { BreakpointManagerService } from '@app/services/breakpoint-manager.service';
+import { getSemesterString } from '@src/app/utils/duration-utils';
 import { SettingsService } from '@src/_settings';
 declare var FlipDown: any;
 
@@ -32,6 +33,8 @@ export class ScarletGameJamPageComponent implements OnInit {
   endDateEventPage: string = 'https://rutgers.campuslabs.com/engage/event/8000723';
 
   constructor(public breakpointManager: BreakpointManagerService, public settings: SettingsService) {}
+
+  getSemesterString = getSemesterString;
 
   ngOnInit(): void {
     if (!this.eventActive) {
