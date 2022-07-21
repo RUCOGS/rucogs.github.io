@@ -31,7 +31,13 @@
 }
 
 .main-bg.full-width {
-	display: block;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.main-bg.full-width .content {
+	width: 100%;
 }
 
 div.last {
