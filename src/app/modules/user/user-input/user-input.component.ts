@@ -109,11 +109,13 @@ export class UserInputComponent extends BaseCustomInputComponent<string> impleme
         },
       };
 
-    if (this.rutgersVerified)
+    if (this.rutgersVerified) {
       filter = {
         ...filter,
-        netId: { ne: undefined },
+        netId: { exists: true },
       };
+      console.log(filter);
+    }
 
     if (Object.keys(filter).length === 0) filter = undefined;
 

@@ -32,7 +32,7 @@ export class NewProjectPageComponent implements OnInit {
       pitch: [null, [Validators.required]],
     });
 
-    this.form.get('access')?.setValue(Access.Open);
+    this.form.get('access')?.setValue(Access.Invite);
   }
 
   async ngOnInit() {
