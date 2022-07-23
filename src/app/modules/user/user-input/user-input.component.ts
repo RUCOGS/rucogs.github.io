@@ -114,7 +114,6 @@ export class UserInputComponent extends BaseCustomInputComponent<string> impleme
         ...filter,
         netId: { exists: true },
       };
-      console.log(filter);
     }
 
     if (Object.keys(filter).length === 0) filter = undefined;
