@@ -85,14 +85,12 @@ export class ProjectsDisplayComponent extends BaseFilteredHeaderScrollPagination
           // TODO EVENTUALLY: Use cursor pagination once Typetta suppoorts that
           skip,
           limit,
-          filter: <ProjectFilterInput>{
-            ...filter,
-            ...(sortingMode === 'completion' && { completedAt: { exists: sortAscending } }),
-          },
+          filter,
           sorts: [
             <ProjectSortInput>{
               ...(sortingMode === 'year' && { createdAt: sortAscendingText }),
               ...(sortingMode === 'name' && { name: sortAscendingText }),
+              ...(sortingMode === 'completion' && { completedAt: sortAscendingText }),
             },
           ],
         },

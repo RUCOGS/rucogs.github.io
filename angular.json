@@ -91,6 +91,38 @@
               "extractLicenses": false,
               "sourceMap": true,
               "namedChunks": true
+            },
+            "selfhosted-production": {
+              "baseHref": "/rucogs/test/frontend/",
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "2mb",
+                  "maximumError": "4mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "2kb",
+                  "maximumError": "4kb"
+                }
+              ],
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.prod.ts"
+                }
+              ],
+              "outputHashing": "all"
+            },
+            "selfhosted-development": {
+              "baseHref": "/rucogs/test/frontend/",
+              "serviceWorker": false,
+              "buildOptimizer": false,
+              "optimization": false,
+              "vendorChunk": true,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "namedChunks": true
             }
           },
           "defaultConfiguration": "production"
@@ -103,6 +135,14 @@
             },
             "development": {
               "browserTarget": "rucogs-website:build:development"
+            },
+            "selfhosted-production": {
+              "browserTarget": "rucogs-website:build:atlinxnet-production",
+              "disableHostCheck": true
+            },
+            "selfhosted-development": {
+              "browserTarget": "rucogs-website:build:selfhosted-development",
+              "disableHostCheck": true
             }
           },
           "defaultConfiguration": "development",
