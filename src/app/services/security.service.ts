@@ -12,9 +12,14 @@ import {
   SecurityPolicy,
 } from '@src/shared/security';
 import { gql } from 'apollo-angular';
-import { first, firstValueFrom, Observable, Subject, takeUntil } from 'rxjs';
+import { BehaviorSubject, first, firstValueFrom, Observable, Subject, takeUntil } from 'rxjs';
 import { AuthService } from './auth.service';
 import { BackendService } from './backend.service';
+
+type DataFetched = {
+  securityContext: SecurityContext;
+  securityPolicy: SecurityPolicy;
+};
 
 @Injectable({
   providedIn: 'root',
@@ -22,6 +27,9 @@ import { BackendService } from './backend.service';
 export class SecurityService implements OnDestroy {
   public securityPolicy: SecurityPolicy | undefined;
   public securityContext: SecurityContext | undefined;
+
+  public dataFetched$: Observable<DataFetched | undefined>;
+  private dataFetchedSubject: BehaviorSubject<DataFetched | undefined>;
 
   private fetchQuery?: Observable<
     ApolloQueryResult<{
@@ -32,6 +40,8 @@ export class SecurityService implements OnDestroy {
   protected onDestroy$ = new Subject<void>();
 
   constructor(private backend: BackendService, private authService: AuthService) {
+    this.dataFetchedSubject = new BehaviorSubject<DataFetched | undefined>(undefined);
+    this.dataFetched$ = this.dataFetchedSubject.asObservable();
     this.fetchData();
     authService.payload$.pipe(takeUntil(this.onDestroy$)).subscribe({
       next: (value) => {
@@ -69,6 +79,8 @@ export class SecurityService implements OnDestroy {
     this.securityPolicy = result.data.securityPolicy;
 
     this.fetchQuery = undefined;
+
+    this.dataFetchedSubject.next(result.data);
   }
 
   public async waitUntilReady() {
