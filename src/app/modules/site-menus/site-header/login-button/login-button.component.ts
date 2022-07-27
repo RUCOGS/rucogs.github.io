@@ -30,11 +30,13 @@ export class LoginButtonComponent implements OnInit, OnDestroy {
   async ngOnInit() {
     await this.security.waitUntilReady();
 
-    this.canCreateProject = this.security.makePermCalc().hasPermission(Permission.CreateProject);
-
     this.authService.payload$.pipe(takeUntil(this.onDestroy$)).subscribe((payload) => {
       this.user = payload?.user;
       this.isLoggedIn = payload !== undefined;
+    });
+
+    this.security.dataFetched$.pipe(takeUntil(this.onDestroy$)).subscribe((data) => {
+      this.canCreateProject = this.security.makePermCalc().hasPermission(Permission.CreateProject);
     });
   }
 
