@@ -82,6 +82,7 @@ export class EboardTabComponent extends BaseScrollPaginationComponent<PartialDee
             },
           ],
         },
+        fetchPolicy: 'no-cache',
       }),
     );
 
