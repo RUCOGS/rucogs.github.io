@@ -94,6 +94,7 @@ export class ProjectsDisplayComponent extends BaseFilteredHeaderScrollPagination
             },
           ],
         },
+        fetchPolicy: 'no-cache',
       }),
     );
     if (results.error) return [];

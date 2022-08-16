@@ -51,7 +51,6 @@ export class LoginButtonComponent implements OnInit, OnDestroy {
 
   onLogoutClick() {
     this.authService.logout();
-    this.router.navigateByUrl('/home');
   }
 
   onProfileClick() {
