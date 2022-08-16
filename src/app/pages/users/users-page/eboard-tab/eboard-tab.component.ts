@@ -33,7 +33,7 @@ export class EboardTabComponent extends BaseScrollPaginationComponent<PartialDee
 
   eBoardTermGroups: EBoardTermGroup[] = [];
 
-  valuesPerPage: number = 24;
+  valuesPerPage: number = 6;
 
   _valuesQuery = async (skip: number, limit: number) => {
     const results = await firstValueFrom(
