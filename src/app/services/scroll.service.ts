@@ -24,9 +24,9 @@ export class ScrollService {
 
   updateScrollData(emitEvent: boolean = true) {
     //In chrome and some browser scroll is given to body tag
-    this.position = Math.round(document.documentElement.scrollTop + document.documentElement.offsetHeight);
-    this.maxPosition = document.documentElement.scrollHeight;
-    this.minPosition = document.documentElement.offsetHeight;
+    this.position = window.innerHeight + window.scrollY;
+    this.maxPosition = document.body.scrollHeight;
+    this.minPosition = window.innerHeight;
 
     if (emitEvent) {
       // pos/max will give you the distance between scroll bottom and and bottom of screen in percentage.
