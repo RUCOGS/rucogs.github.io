@@ -55,8 +55,6 @@ export class UsersDisplayComponent extends BaseFilteredHeaderScrollPaginationCom
     const sortAscendingText = sortAscending ? 'asc' : 'desc';
     const sortingMode = this.filterHeader?.sortingMode ?? 'classYear';
 
-    console.log('----- fitlered querying -----');
-
     const results = await firstValueFrom(
       this.backend.withAuth().query<{
         users: any[];
