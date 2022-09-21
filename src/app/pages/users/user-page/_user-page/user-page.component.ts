@@ -133,7 +133,10 @@ export class UserPageComponent implements OnInit, OnDestroy {
     this.userOptions.canManageEBoard = permCalc.hasPermission(Permission.ManageEboard);
     this.userOptions.canManageMetadata = permCalc.hasPermission(Permission.ManageMetadata);
     this.userOptions.canUpdateUserPrivate = permCalc.hasPermission(Permission.UpdateUserPrivate);
-    this.userOptions.canManageProjectInvites = permCalc.hasPermission(Permission.RutgersVerified);
+    this.userOptions.canManageProjectInvites = permCalc.hasAllPermissions(
+      Permission.RutgersVerified,
+      Permission.UpdateUser,
+    );
     this.userOptions.canCreateProject = permCalc.hasPermission(Permission.CreateProject);
     if (!this.userOptions.canDeleteUser) {
       this.userOptions.deleteUserTooltip = `Please ask an e-board officer if you'd like to delete your profile.`;
