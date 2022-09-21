@@ -13,7 +13,7 @@ import {
   User,
   UserSubscriptionFilter,
 } from '@src/generated/graphql-endpoint.types';
-import { UserFilterInput } from '@src/generated/model.types';
+import { ProjectInviteFilterInput, UserFilterInput } from '@src/generated/model.types';
 import { OperationSecurityDomain } from '@src/shared/security';
 import { gql } from 'apollo-angular';
 import { firstValueFrom, Subject } from 'rxjs';
@@ -221,6 +221,12 @@ export class UserPageComponent implements OnInit, OnDestroy {
                         }
                       }
                     `,
+                    variables: {
+                      // Prevents you from seeing all invites if you're an admin
+                      filter: <ProjectInviteFilterInput>{
+                        userId: { eq: this.security.securityContext.userId },
+                      },
+                    },
                     ...(invalidateCache && { fetchPolicy: 'no-cache' }),
                   }),
               )
