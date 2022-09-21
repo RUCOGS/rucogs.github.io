@@ -210,16 +210,13 @@ export class ProjectPageComponent implements OnInit {
       this.project.discordConfig = discordResult.data.projectDiscordConfigs[0];
     }
 
-    if (
-      permCalc
-        .withDomains(
-          this.project.members?.map((x) => ({
-            projectMemberId: x?.id ?? '',
-          })) ?? [],
-        )
-        .hasPermission(Permission.ManageProjectMember)
-    )
-      this.projectOptions.manageSomeMembers = true;
+    this.projectOptions.manageSomeMembers = permCalc
+      .withDomains(
+        this.project.members?.map((x) => ({
+          projectMemberId: x?.id ?? '',
+        })) ?? [],
+      )
+      .hasPermission(Permission.ManageProjectMember);
 
     this.projectOptions.inviteSent =
       this.project.invites?.some(
@@ -231,6 +228,8 @@ export class ProjectPageComponent implements OnInit {
       this.projectOptions.isMember =
         this.project.members?.some((x) => x?.user?.id === this.authService.getPayload()?.user.id) ?? false;
 
+    console.log('proj opts: ');
+    console.log(this.projectOptions);
     // TODO: Set this to true after finishing loading page
     this.projectOptions.loaded = true;
   }

@@ -134,7 +134,7 @@ export class MembersTabComponent implements AfterViewInit, OnDestroy, OnChanges 
         }),
       );
       if (result.errors || !result.data) return;
-      this.edited.emit();
+      // Edited notification is handled by a GraphQL subscription already
     }
   }
 
