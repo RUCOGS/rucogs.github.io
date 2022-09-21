@@ -228,8 +228,6 @@ export class ProjectPageComponent implements OnInit {
       this.projectOptions.isMember =
         this.project.members?.some((x) => x?.user?.id === this.authService.getPayload()?.user.id) ?? false;
 
-    console.log('proj opts: ');
-    console.log(this.projectOptions);
     // TODO: Set this to true after finishing loading page
     this.projectOptions.loaded = true;
   }

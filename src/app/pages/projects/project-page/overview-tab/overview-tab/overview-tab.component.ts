@@ -145,7 +145,7 @@ export class OverviewTabComponent implements AfterViewChecked, OnChanges {
 
     if (result.errors) return;
 
-    this.edited.emit();
+    // Edited notification is handled by a GraphQL subscription already
     this.uiMessageService.notifyConfirmed('Invite sent!');
   }
 
