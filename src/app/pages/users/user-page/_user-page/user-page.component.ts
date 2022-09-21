@@ -134,7 +134,7 @@ export class UserPageComponent implements OnInit, OnDestroy {
     this.userOptions.canManageMetadata = permCalc.hasPermission(Permission.ManageMetadata);
     this.userOptions.canUpdateUserPrivate = permCalc.hasPermission(Permission.UpdateUserPrivate);
     this.userOptions.canManageProjectInvites = permCalc.hasAllPermissions(
-      Permission.RutgersVerified,
+      Permission.JoinProject,
       Permission.UpdateUser,
     );
     this.userOptions.canCreateProject = permCalc.hasPermission(Permission.CreateProject);

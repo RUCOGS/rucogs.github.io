@@ -156,7 +156,7 @@ export class AuthService implements OnDestroy {
 
   public logout() {
     this.setPayload(undefined);
-    this.router.navigateByUrl(window.location.href);
+    window.location.reload();
   }
 
   public setPayload(payload: AuthPayload | undefined): void {
