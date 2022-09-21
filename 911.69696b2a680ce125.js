@@ -150,7 +150,7 @@
                           }
                         }
                       }
-                    `,...t&&{fetchPolicy:"no-cache"}})):void 0;J&&!J.error&&(a.projectInvites=J.data.projectInvites)}else a.projectInvites=[]}i.userOptions.loaded=!0,i.user=a})()}setupSubscribers(){if(!this.security.securityContext?.userId||!this.userOptions.canUpdateUser)return;this.backend.subscribe({query:_.Ps`
+                    `,variables:{filter:{userId:{eq:i.security.securityContext.userId}}},...t&&{fetchPolicy:"no-cache"}})):void 0;J&&!J.error&&(a.projectInvites=J.data.projectInvites)}else a.projectInvites=[]}i.userOptions.loaded=!0,i.user=a})()}setupSubscribers(){if(!this.security.securityContext?.userId||!this.userOptions.canUpdateUser)return;this.backend.subscribe({query:_.Ps`
           subscription ($filter: UserSubscriptionFilter) {
             userUpdated(filter: $filter) {
               id
