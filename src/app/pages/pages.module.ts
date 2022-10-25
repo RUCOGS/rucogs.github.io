@@ -15,6 +15,10 @@ const routes: Route[] = [
     loadChildren: () => import('./resources/resources-page.module').then((m) => m.ResourcesPageModule),
   },
   {
+    path: 'sgj',
+    redirectTo: 'scarlet-game-jam',
+  },
+  {
     path: 'scarlet-game-jam',
     loadChildren: () =>
       import('./scarlet-game-jam/scarlet-game-jam-page.module').then((m) => m.ScarletGameJamPageModule),
