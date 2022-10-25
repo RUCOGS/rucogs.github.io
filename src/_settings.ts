@@ -1,38 +1,37 @@
-import { Injectable } from '@angular/core';
-import { PageLink } from '@src/app/classes/pagelink';
-import { isDevMode } from '@angular/core';
-import discord from '@iconify/icons-simple-icons/discord';
-import twitter from '@iconify/icons-simple-icons/twitter';
-import github from '@iconify/icons-simple-icons/github';
-import soundCloud from '@iconify/icons-simple-icons/soundcloud';
-import appStore from '@iconify/icons-simple-icons/appstore';
-import googlePlay from '@iconify/icons-simple-icons/googleplay';
-import itchdotio from '@iconify/icons-simple-icons/itchdotio';
-import pixiv from '@iconify/icons-simple-icons/pixiv';
-import twitch from '@iconify/icons-simple-icons/twitch';
-import instagram from '@iconify/icons-simple-icons/instagram';
-import youtube from '@iconify/icons-simple-icons/youtube';
-import steam from '@iconify/icons-simple-icons/steam';
-import spotify from '@iconify/icons-simple-icons/spotify';
-import unity from '@iconify/icons-simple-icons/unity';
-import unrealEngine from '@iconify/icons-simple-icons/unrealengine';
-import blender from '@iconify/icons-simple-icons/blender';
-import html5 from '@iconify/icons-simple-icons/html5';
-import link from '@iconify/icons-bx/link';
+import { Injectable, isDevMode } from '@angular/core';
+import form from '@iconify/icons-ant-design/form-outlined';
 import mail from '@iconify/icons-ant-design/mail-filled';
+import play from '@iconify/icons-ant-design/play-circle-filled';
+import arrowDownCircleFill from '@iconify/icons-bi/arrow-down-circle-fill';
+import chevronUp from '@iconify/icons-bx/chevron-up';
+import link from '@iconify/icons-bx/link';
+import video from '@iconify/icons-dashicons/format-video';
 import arrowExportRight from '@iconify/icons-fluent/arrow-export-ltr-16-filled';
-import arrowRight from '@iconify/icons-fluent/arrow-right-16-filled';
 import arrowExportLeft from '@iconify/icons-fluent/arrow-export-rtl-16-filled';
 import arrowLeft from '@iconify/icons-fluent/arrow-left-16-filled';
-import chevronUp from '@iconify/icons-bx/chevron-up';
-import arrowDownCircleFill from '@iconify/icons-bi/arrow-down-circle-fill';
+import arrowRight from '@iconify/icons-fluent/arrow-right-16-filled';
 import article from '@iconify/icons-ic/outline-article';
-import video from '@iconify/icons-dashicons/format-video';
 import tutorial from '@iconify/icons-ic/outline-integration-instructions';
+import appStore from '@iconify/icons-simple-icons/appstore';
+import blender from '@iconify/icons-simple-icons/blender';
+import discord from '@iconify/icons-simple-icons/discord';
+import github from '@iconify/icons-simple-icons/github';
 import google from '@iconify/icons-simple-icons/google';
-import form from '@iconify/icons-ant-design/form-outlined';
-import play from '@iconify/icons-ant-design/play-circle-filled';
+import googlePlay from '@iconify/icons-simple-icons/googleplay';
+import html5 from '@iconify/icons-simple-icons/html5';
+import instagram from '@iconify/icons-simple-icons/instagram';
+import itchdotio from '@iconify/icons-simple-icons/itchdotio';
 import linkedIn from '@iconify/icons-simple-icons/linkedin';
+import pixiv from '@iconify/icons-simple-icons/pixiv';
+import soundCloud from '@iconify/icons-simple-icons/soundcloud';
+import spotify from '@iconify/icons-simple-icons/spotify';
+import steam from '@iconify/icons-simple-icons/steam';
+import twitch from '@iconify/icons-simple-icons/twitch';
+import twitter from '@iconify/icons-simple-icons/twitter';
+import unity from '@iconify/icons-simple-icons/unity';
+import unrealEngine from '@iconify/icons-simple-icons/unrealengine';
+import youtube from '@iconify/icons-simple-icons/youtube';
+import { PageLink } from '@src/app/classes/pagelink';
 
 // Settings for the entire site.
 // Edit these if you need to make minor tweaks
@@ -51,12 +50,12 @@ export class SettingsService {
     //  Format: new PageLink("Link Name", "url_relative_to_the_site");
     public pageLinks: PageLink[] = [
       new PageLink('Home', 'home'),
+      new PageLink('SGJ', 'scarlet-game-jam'),
       new PageLink('Members', 'members'),
       new PageLink('Projects', 'projects'),
-      new PageLink('Pictures', 'pictures'),
+      new PageLink('Pics', 'pictures'),
       new PageLink('Calendar', 'calendar'),
       new PageLink('Resources', 'resources'),
-      // new PageLink("SGJ", "scarlet-game-jam"),
       new PageLink('Blog', 'blog'),
     ];
 

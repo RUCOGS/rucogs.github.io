@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Attribute, Optional, ElementRef } from '@angular/core';
+import { Attribute, Component, ElementRef, Input, OnInit, Optional } from '@angular/core';
 
 @Component({
   selector: 'app-section',
@@ -17,6 +17,7 @@ export class SectionComponent implements OnInit {
   fullPage: boolean;
   fullWidth: boolean;
   shadow: boolean;
+  bottomGradient: boolean;
 
   constructor(
     private elementRef: ElementRef,
@@ -25,12 +26,14 @@ export class SectionComponent implements OnInit {
     @Optional() @Attribute('full-page') fullPage: any,
     @Optional() @Attribute('full-width') fullWidth: any,
     @Optional() @Attribute('shadow') shadow: any,
+    @Optional() @Attribute('bottom-gradient') bottomGradient: any,
   ) {
     this.last = last != undefined;
     this.dogEar = dogEar != undefined;
     this.fullPage = fullPage != undefined;
     this.fullWidth = fullWidth != undefined;
     this.shadow = shadow != undefined;
+    this.bottomGradient = bottomGradient != undefined;
   }
 
   ngOnInit(): void {
@@ -46,7 +49,12 @@ export class SectionComponent implements OnInit {
   getBgStyle(): Object {
     return {
       ...(this.bgImage && {
-        'background-image': 'linear-gradient(var(--background-color), #00000000), url(' + this.bgImage + ')',
+        'background-image':
+          'linear-gradient(var(--background-color), #00000000' +
+          (this.bottomGradient ? ', var(--background-color)' : '') +
+          '), url(' +
+          this.bgImage +
+          ')',
       }),
       ...(this.bgRepeatMode !== '' && { 'background-repeat': this.bgRepeatMode, 'background-size': 'auto' }),
       ...(this.bgPosition !== '' && { 'background-position': this.bgPosition }),
