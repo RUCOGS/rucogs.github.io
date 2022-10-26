@@ -24,8 +24,8 @@ const ROUTES: Route[] = [
     path: '',
     component: UsersPageComponent,
     children: [
-      { path: '', component: UsersTabComponent },
-      { path: 'eboard', component: EboardTabComponent },
+      { path: '', component: UsersTabComponent, data: { titleAll: 'Members' } },
+      { path: 'eboard', component: EboardTabComponent, data: { titleAll: 'E-Board' } },
     ],
   },
 ];

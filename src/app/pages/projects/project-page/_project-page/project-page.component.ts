@@ -6,6 +6,7 @@ import { AuthService } from '@src/app/services/auth.service';
 import { BackendService } from '@src/app/services/backend.service';
 import { BreakpointManagerService } from '@src/app/services/breakpoint-manager.service';
 import { SecurityService } from '@src/app/services/security.service';
+import { SEOService } from '@src/app/services/seo.service';
 import { deepClone } from '@src/app/utils/utils';
 import {
   InviteType,
@@ -42,6 +43,7 @@ export class ProjectPageComponent implements OnInit {
     private security: SecurityService,
     private authService: AuthService,
     private uiMessageService: UIMessageService,
+    private seoService: SEOService,
   ) {}
 
   ngOnInit() {
@@ -52,6 +54,12 @@ export class ProjectPageComponent implements OnInit {
 
       await this.fetchData(true);
       this.setupSubscribers();
+      this.seoService.update({
+        titleAll: this.project.name,
+        descriptionAll: this.project.description,
+        ogImage: this.project.cardImageLink,
+        twitterCard: 'summary_large_image',
+      });
     });
   }
 

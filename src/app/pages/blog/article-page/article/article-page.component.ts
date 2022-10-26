@@ -2,6 +2,7 @@ import { Component, ElementRef, Input, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ArticleInfo } from '@app/classes/_classes.module';
 import { BlogPageArticles, BlogPageArticlesDir } from '@app/settings/_settings.module';
+import { SEOService } from '@src/app/services/seo.service';
 import { MarkdownService } from 'ngx-markdown';
 
 @Component({
@@ -19,6 +20,7 @@ export class ArticlePageComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private markdownService: MarkdownService,
     private elementRef: ElementRef<HTMLElement>,
+    private seoService: SEOService,
   ) {
     this.markdownService.renderer.link = (href: string, title: string, text: string) => {
       return `<a href='${href}'` + (title ? `title='${title}'` : '') + `target='_blank'>${text}</a>`;
@@ -31,6 +33,11 @@ export class ArticlePageComponent implements OnInit {
       // TODO LATER: Change in future to not store .md in url in the first place
       const articleFilePath = decodeURIComponent(articleParam);
       this.article = this.articles.find((x) => x.filePath == articleFilePath);
+      this.seoService.update({
+        titleAll: this.article?.title,
+        descriptionAll: this.article?.description,
+        ogImage: this.article?.imagePath,
+      });
     }
   }
 
