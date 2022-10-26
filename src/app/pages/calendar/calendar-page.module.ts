@@ -1,11 +1,18 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { CalendarPageComponent } from './calendar-page/calendar-page.component';
-import { CoreModule } from '@src/app/modules/_core/core.module';
+import { NgModule } from '@angular/core';
 import { Route, RouterModule } from '@angular/router';
-import { ServicesModule } from '@src/app/services/_services.module';
+import { CoreModule } from '@src/app/modules/_core/core.module';
+import { CalendarPageComponent } from './calendar-page/calendar-page.component';
 
-const ROUTES: Route[] = [{ path: '', component: CalendarPageComponent }];
+const ROUTES: Route[] = [
+  {
+    path: '',
+    component: CalendarPageComponent,
+    data: {
+      title: 'Calendar',
+    },
+  },
+];
 
 @NgModule({
   declarations: [CalendarPageComponent],

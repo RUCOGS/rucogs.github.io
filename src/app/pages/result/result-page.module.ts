@@ -8,7 +8,15 @@ import { CardsModule } from '@src/app/modules/cards/cards.module';
 import { CoreModule } from '@src/app/modules/_core/core.module';
 import { ResultPageComponent } from './result-page/result-page.component';
 
-const ROUTES: Route[] = [{ path: '', component: ResultPageComponent }];
+const ROUTES: Route[] = [
+  {
+    path: '',
+    component: ResultPageComponent,
+    data: {
+      titleAll: 'Result',
+    },
+  },
+];
 
 @NgModule({
   declarations: [ResultPageComponent],

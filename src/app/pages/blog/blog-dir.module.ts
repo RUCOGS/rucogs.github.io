@@ -3,7 +3,11 @@ import { NgModule } from '@angular/core';
 import { Route, RouterModule, UrlSegment } from '@angular/router';
 
 const ROUTES: Route[] = [
-  { path: '', loadChildren: () => import('./blog-page/blog-page.module').then((m) => m.BlogPageModule) },
+  {
+    path: '',
+    loadChildren: () => import('./blog-page/blog-page.module').then((m) => m.BlogPageModule),
+    data: { titleAll: 'Blog' },
+  },
   {
     matcher: (url: UrlSegment[]) => {
       if (url.length > 1) {

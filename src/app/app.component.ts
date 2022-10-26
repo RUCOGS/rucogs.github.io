@@ -1,16 +1,15 @@
-import { Component, ElementRef, OnDestroy } from '@angular/core';
+import { Component, ElementRef, OnDestroy, OnInit } from '@angular/core';
 import { SettingsService } from '@src/_settings';
 import { IconService } from '@visurel/iconify-angular';
 import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
-import { AuthService } from './services/auth.service';
+import { SEOService } from './services/seo.service';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
 })
-export class AppComponent implements OnDestroy {
+export class AppComponent implements OnDestroy, OnInit {
   title = 'cogs';
   showSidebars = false;
 
@@ -18,19 +17,16 @@ export class AppComponent implements OnDestroy {
 
   constructor(
     private elementRef: ElementRef,
+    private seoService: SEOService,
     iconService: IconService,
-    // authService: AuthService,
     settings: SettingsService,
   ) {
     iconService.registerAll(settings.General.icons);
     this.updateStyleVars();
-    // authService.payload$
-    //   .pipe(takeUntil(this.onDestroy$))
-    //   .subscribe({
-    //     next: (value) => {
-    //       this.showSidebars = value !== undefined;
-    //     }
-    //   });
+  }
+
+  ngOnInit(): void {
+    this.seoService.ngOnInit();
   }
 
   ngOnDestroy(): void {

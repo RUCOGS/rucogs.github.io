@@ -8,7 +8,13 @@ import { OverviewTabModule } from './overview-tab/overview-tab.module';
 import { SettingsTabModule } from './settings-tab/settings-tab.module';
 import { ProjectPageComponent } from './_project-page/project-page.component';
 
-const ROUTES: Route[] = [{ path: '', component: ProjectPageComponent }];
+const ROUTES: Route[] = [
+  {
+    path: '',
+    component: ProjectPageComponent,
+    data: { titleAll: 'Project' },
+  },
+];
 
 @NgModule({
   declarations: [ProjectPageComponent],

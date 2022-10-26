@@ -6,6 +6,9 @@ const ROUTES: Route[] = [
   {
     path: 'new',
     loadChildren: () => import('./new-project-page/new-project-page.module').then((m) => m.NewProjectPageModule),
+    data: {
+      title: 'New Project',
+    },
   },
   {
     path: ':projectId',
