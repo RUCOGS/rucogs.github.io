@@ -39,11 +39,10 @@
     </app-card>
   </app-card-grid>
 </app-section> -->
-<app-section title="Itinerary" color="foreground-accent-300">
+<app-section title="Itinerary" color="foreground-accent-200">
   <p class="mb-0">
-    🚧 Coming soon 🚧
   </p>
-  <!-- <app-card-grid columns="1">
+  <app-card-grid columns="1">
     <app-event-card title="Jam Meetup and Discussion" date="{{startDate}}" time="{{startDateTime}}" type="In-Person" event-page="{{startDateEventPage}}">
       <div>
         First in-person meetup of Scarlet Game Jam. This is the time to meet other people participating in the jam and form groups. The meetup marks the official start of Scarlet Game Jam and will be the reveal of the big theme of the game jam.
@@ -56,9 +55,9 @@
         <br><br> 
         Food will be served.
       </div>
-      <iframe rightHalf src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1702.1118570276826!2d-74.46046262755256!3d40.523503979968524!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c3c70b9391c1db%3A0xed97af4bcd2f4154!2sRutgers%20University%20Busch%20Student%20Center!5e0!3m2!1sen!2sus!4v1647886225990!5m2!1sen!2sus" style="border: 0; width: 100%; height:100%; min-height: 300px;" allowfullscreen="" loading="lazy"></iframe>
+      <iframe rightHalf src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3033.761674693532!2d-74.45402298385157!3d40.502652858331786!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c3c6555bfed5bd%3A0x56777a278b7457f3!2sRutgers%20Student%20Center%2C%20126%20College%20Ave%2C%20New%20Brunswick%2C%20NJ%2008901!5e0!3m2!1sen!2sus!4v1666758691215!5m2!1sen!2sus" style="border: 0; width: 100%; height:100%; min-height: 300px;" allowfullscreen="" loading="lazy"></iframe>
     </app-event-card>
-  </app-card-grid> -->
+  </app-card-grid>
 </app-section>
 <!-- <app-section title="Merch" color="blank" dog-ear>
   <p style="
@@ -70,6 +69,18 @@
   </p>
   <app-button link="{{merchLink}}" target="_blank" color="primary" style="width: 100%;" [hidden]="merchLink == ''">👕 Merch Shop</app-button>
 </app-section> -->
+<app-section title="Stickers" color="foreground-accent-300" dog-ear>
+  <p style="
+    text-align: justify; 
+    margin-bottom: 1.5em;
+  ">
+    We will be selling stickers throughout Scarlet Game Jam! Single stickers will cost a $1 each, and a 5-pack bundle of 4 matte and 1 holographic sticker will cost $4 each. We will use the money raised to make our future events bigger and better. 😄
+  </p>
+  <app-column-layout>
+    <img src="assets/images/sgj-sticker-sample-f2022.png" style="width: 100%;">
+    <img src="assets/images/sgj-sticker-bundle-f2022.png" style="width: 100%;">
+  </app-column-layout>
+</app-section>
 <app-section title="FAQ" color="primary" dog-ear last>
   <mat-accordion>
     <app-question-panel title="What is Scarlet Game Jam?">
@@ -78,7 +89,7 @@
     </app-question-panel>
     <app-question-panel title="Where does Scarlet Game Jam take place?">
       <p>Scarlet Game Jam takes place over a week(ish), but we're not going to keep you in place for that long. We understand you're busy college students (we are too!) so the large majority of Scarlet Game Jam actually takes place wherever you want it to. This means you can work in the comfort of your home (dorm, apartment, ...), the library, the dining hall, a table in the Yard, literally anywhere. We do this so that you can work around your schedule and, if working with other people, find the perfect time to meet for your group without having to worry about our availability or the availability of a single room.</p>
-      <p class="mb-0">There are portions of Scarlet Game Jam in person, though, those being: <a href="{{startDateCalendarEventLink}}" title="Save Event in my Calendar" >{{startDate}}</a>, where you can brainstorm with other people, form a group if you want, and just hang out in general; And <a href="{{endDateCalendarEventLink}}" title="Save Event in my Calendar" >{{endDate}}</a>, the end, where you get to show off your game, see what other people have made, and reminisce over the long week you just had (and hopefully how fun it was!).</p>
+      <p class="mb-0">There are portions of Scarlet Game Jam in person, though, those being: {{startDate}}, where you can brainstorm with other people, form a group if you want, and just hang out in general; And {{endDate}}, the end, where you get to show off your game, see what other people have made, and reminisce over the long week you just had (and hopefully how fun it was!).</p>
     </app-question-panel>
     <app-question-panel title="Who can come?">
       <p class="mb-0">Scarlet Game Jam is open to ALL Rutgers students, faculty, and staff. Because of this, Scarlet Game Jam is a great networking/social event where you can meet fellow Rutgers people and form friendships, partnerships, or whatever. Nothing says you have to stop working on your game after the game jam either. If you like your project and you've worked with some likeminded people, we encourage you to finish that game, polish it up, and then release it online for everyone to play (of course make sure to send us the steam link and maybe a key or two 😉). </p>
