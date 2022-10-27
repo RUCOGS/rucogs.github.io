@@ -16,7 +16,7 @@ const ROUTES: Route[] = [
       ogTitle: 'Creation of Games Society',
       descriptionAll:
         "We're the Creation of Games Society, a game-development club at Rutgers University. Running since 2012, we welcome anyone from any background -- no experience is required!",
-      ogImage: 'assets/images/banner.png',
+      ogImage: 'assets/images/cogs-meta-banner.png',
     } as SEOUpdateData,
   },
 ];
