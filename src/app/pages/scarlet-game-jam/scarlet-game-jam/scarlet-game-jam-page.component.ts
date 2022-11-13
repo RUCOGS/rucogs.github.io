@@ -16,7 +16,7 @@ export class ScarletGameJamPageComponent implements OnInit {
   startDate: string = 'Nov 13';
   endDate: string = 'Nov 20';
 
-  eventActive: boolean = false;
+  eventActive: boolean = true;
 
   merchLink: string = 'http://scarlet-game-jam.allcolorsllc.com/';
   signupLink: string = 'https://forms.gle/3QT1gDhXqUGdvhhn6';
