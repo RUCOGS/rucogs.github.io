@@ -80,7 +80,7 @@ def get_file_name(filePath: str) -> str:
 	return get_base_name(filePath).split('/')[-1]
 
 def is_image(entry: os.DirEntry):
-	return entry.is_file() and get_extension(entry.path) in IMAGE_FILE_EXTENSIONS
+	return entry.is_file() and get_extension(entry.path).lower() in IMAGE_FILE_EXTENSIONS
 
 def sqaure_crop(image: Image) -> Image:
 	# Set the new length to the smallest possible length
@@ -96,7 +96,7 @@ def sqaure_crop(image: Image) -> Image:
 	return image.crop((left, top, right, bottom))
 
 def get_image_paths_in_dir(path: str):
-	"""Recursively finds all articles"""
+	"""Recursively finds all images"""
 	if get_file_name(path) == "previews":
 		return
 	for entry in os.scandir(path):
@@ -157,7 +157,7 @@ for path in tqdm(image_paths, desc="Processing images"):
 	extension = get_extension(path)
 	
 	# Convert file to png if it is not.
-	if extension != "png" and extension in IMAGE_FILE_EXTENSIONS:
+	if extension != "png" and extension.lower() in IMAGE_FILE_EXTENSIONS:
 		if image is None:
 			image = Image.open(path)
 		image.save(get_base_name(path) + ".png")

@@ -15,7 +15,8 @@ import { ImageInfo } from '@app/classes/_classes.module';
   },
 })
 export class PicturesPageComponent implements OnInit {
-  images: ImageInfo[] = PicturesPageImages;
+  // Show the most recent stuff first
+  images: ImageInfo[] = PicturesPageImages.reverse();
   imagesDir: string = PicturesPageImagesDir;
   previewsDir: string = PicturesPageImagePreviewsDir;
 
