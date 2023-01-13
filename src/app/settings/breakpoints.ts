@@ -21,11 +21,11 @@ export const BreakpointsData: {
   },
   {
     name: Breakpoint.Mobile,
-    maxWidth: '1180px',
+    maxWidth: '1200px',
   },
   {
     name: Breakpoint.SmallDesktop,
-    maxWidth: '1280px',
+    maxWidth: '1320px',
   },
   {
     name: Breakpoint.Desktop,

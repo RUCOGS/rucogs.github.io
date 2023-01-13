@@ -1,0 +1,5 @@
+@use './global-game-jam/global-game-jam-page.component-theme' as ggj;
+
+@mixin theme($theme) {
+	@include ggj.theme($theme);
+}

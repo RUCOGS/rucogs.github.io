@@ -5,6 +5,7 @@
 @use './signup/signup-page' as signup;
 @use './users/users-dir' as users-dir;
 @use './projects/projects-dir' as projects-dir;
+@use './global-game-jam/global-game-jam-page' as ggj;
 
 @mixin theme($theme) {
 	@include blog-dir.theme($theme);
@@ -14,4 +15,5 @@
 	@include signup.theme($theme);
 	@include users-dir.theme($theme);
 	@include projects-dir.theme($theme);
+	@include ggj.theme($theme);
 }

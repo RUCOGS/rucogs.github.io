@@ -1,0 +1,66 @@
+<app-full-page-header color="primary" bgImage="assets/images/ggj-bg.png">
+  <div class="app-global-game-jam split-section">
+    <div style="
+      display: flex;
+      flex-direction: column;
+    ">
+      <h1 class="mat-display-4 app-global-game-jam text mb-4">Global Game Jam</h1>
+      <h1 class="mat-display-1 app-scarlet-game-jam text mb-16">{{getSemesterString()}}</h1>
+      <div [ngStyle]="{
+        'display': eventActive ? 'none' : ''
+        }" id="sgj-countdown" class="app-global-game-jam flipdown"></div>
+      <div style="
+        display: flex;
+        flex-direction: column;
+        max-width: 20em;
+        gap: 1em;
+      ">
+        <app-button iconifyIcon="form" target="_blank" color="form" link="{{siteLink}}" [hidden]="siteLink == ''">
+          Sign Up
+        </app-button>
+        <app-button iconifyIcon="discord" target="_blank" color="discord" [link]="settings.General.discordLink">Discord</app-button>
+      </div>
+    </div>
+    <div class="app-global-game-jam logo-container" *ngIf="breakpointManager.matchedBreakpointOrAbove('SMALL_DESKTOP')">
+      <img src="assets/images/ggj-logo.png" class="app-global-game-jam logo-painted" [ngClass]="breakpointManager.currentBreakpoint">
+    </div>
+  </div>
+</app-full-page-header>
+<app-section title="Itinerary" color="foreground-accent-200">
+  <p class="mb-0">
+  </p>
+  <app-card-grid columns="1">
+    <app-event-card title="Kickoff" date="Feb 3" time="5pm - 9pm" type="In-Person">
+      <div>
+        First in-person meetup of our Global Game Jam site. This is the time to meet other people participating in the jam and form groups to make a game together. The theme  that all games must adhere to will be revealed at this event.
+        <br><br> 
+        Food will be served.
+      </div>
+      <iframe rightHalf src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d12131.923935259512!2d-74.46769013022463!3d40.5199114!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c3c70c05a35157%3A0xe17f149ca619644e!2sRUTCOR%2C%20Piscataway%2C%20NJ%2008854!5e0!3m2!1sen!2sus!4v1647202302200!5m2!1sen!2sus" style="border:0; width:100%; height:100%; min-height: 300px;" allowfullscreen="" loading="lazy"></iframe>
+    </app-event-card>
+    <app-event-card title="Work Time" date="Feb 4" time="12pm - 5pm" type="In-Person">
+      <div>
+        This is time for you to work on your game. COGS e-board members will be available to help with any game development problems or questions you may have.
+      </div>
+      <iframe rightHalf src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d12131.923935259512!2d-74.46769013022463!3d40.5199114!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c3c70c05a35157%3A0xe17f149ca619644e!2sRUTCOR%2C%20Piscataway%2C%20NJ%2008854!5e0!3m2!1sen!2sus!4v1647202302200!5m2!1sen!2sus" style="border:0; width:100%; height:100%; min-height: 300px;" allowfullscreen="" loading="lazy"></iframe>
+    </app-event-card>
+    <app-event-card title="Game Showcase & Final Remarks" date="Feb 5" time="12pm - 5pm" type="In-Person">
+      <div>
+        This is the final day to work on your game and polish it up for submission. At the end, you'll present your games infront of everyone.
+        <br><br> 
+        Food will be served. 
+      </div>
+      <iframe rightHalf src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d12131.923935259512!2d-74.46769013022463!3d40.5199114!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c3c70c05a35157%3A0xe17f149ca619644e!2sRUTCOR%2C%20Piscataway%2C%20NJ%2008854!5e0!3m2!1sen!2sus!4v1647202302200!5m2!1sen!2sus" style="border:0; width:100%; height:100%; min-height: 300px;" allowfullscreen="" loading="lazy"></iframe>
+    </app-event-card>
+  </app-card-grid>
+</app-section>
+<app-section title="FAQ" color="primary" dog-ear last>
+  <mat-accordion>
+    <app-question-panel title="What is Global Game Jam?">
+      <p>Global Game Jam is an annual game jam that happens across the world. Particpants are given 48 hours to develop a video game based around a theme that is unveiled at the beginning of the event. COGS hosts a site for Global Game Jam which lets Rutgers students attend.</p>
+    </app-question-panel>
+    <app-question-panel title="What can we do with our games?">
+      <p class="mb-0">Your team owns 100% of the game you make during jam. Feel free to turn your game jam games into a full release if you think the game has potential. </p>
+    </app-question-panel>
+  </mat-accordion>
+</app-section>
