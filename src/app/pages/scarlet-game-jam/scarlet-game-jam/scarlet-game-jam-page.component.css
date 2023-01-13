@@ -1,11 +1,12 @@
 .flipdown {
 	display: block; 
-	padding-top: 2em; 
 	padding-bottom: 3em;
 	width: 100%;
+	height: auto;
 }
 
 .logo-container {
+	max-width: 40%;
 	margin-left: 5em;
 	flex-grow: 1;
 }
