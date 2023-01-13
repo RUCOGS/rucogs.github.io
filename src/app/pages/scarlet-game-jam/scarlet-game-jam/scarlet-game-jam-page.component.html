@@ -2,9 +2,9 @@
   <div class="app-scarlet-game-jam split-section">
     <div>
       <h1 class="mat-display-4 app-scarlet-game-jam text mb-4">Scarlet Game Jam</h1>
-      <h1 class="mat-display-1 app-scarlet-game-jam text mb-0">{{getSemesterString()}}</h1>
+      <h1 class="mat-display-1 app-scarlet-game-jam text mb-16">{{getSemesterString()}}</h1>
       <div [ngStyle]="{
-        'height': eventActive ? '20px' : ''
+        'display': eventActive ? 'none' : ''
         }" id="sgj-countdown" class="app-scarlet-game-jam flipdown"></div>
       <div style="
         display: flex;

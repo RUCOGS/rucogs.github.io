@@ -5,7 +5,7 @@
 @mixin color($config) {
   $primary: map.get($config, primary);
 
-  .app-scarlet-game-jam.text {
+  .app-global-game-jam.text {
 		color: mat.get-color-from-palette($primary, 500-contrast)
   }
 }
