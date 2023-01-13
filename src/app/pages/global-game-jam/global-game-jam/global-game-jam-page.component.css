@@ -1,0 +1,31 @@
+.flipdown {
+	display: block; 
+	padding-bottom: 3em;
+	width: 100%;
+	height: auto;
+}
+
+.logo-container {
+	max-width: 40%;
+	margin-left: 5em;
+	flex-grow: 1;
+}
+
+.logo-container.mobile {
+	margin-left: 0;
+}
+
+.split-section {
+	display: flex;
+	height: 100%;
+	width: 100%;
+}
+
+.logo-painted {
+	max-width: 100%;
+	filter: drop-shadow(0 0 1rem black);
+}
+
+.logo-painted.desktop {
+	float: right;
+}
