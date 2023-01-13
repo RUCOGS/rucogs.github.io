@@ -23,6 +23,15 @@ const routes: Route[] = [
     loadChildren: () =>
       import('./scarlet-game-jam/scarlet-game-jam-page.module').then((m) => m.ScarletGameJamPageModule),
   },
+  {
+    path: 'ggj',
+    redirectTo: 'global-game-jam'
+  },
+  {
+    path: 'global-game-jam',
+    loadChildren: () =>
+      import('./global-game-jam/global-game-jam-page.module').then((m) => m.GlobalGameJamPageModule),
+  },
   { path: 'blog', loadChildren: () => import('./blog/blog-dir.module').then((m) => m.BlogDirModule) },
   { path: 'login', loadChildren: () => import('./login/login-page.module').then((m) => m.LoginPageModule) },
   { path: 'signup', loadChildren: () => import('./signup/signup-page.module').then((m) => m.SignupPageModule) },
