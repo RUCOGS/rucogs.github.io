@@ -1,4 +1,4 @@
-import { AfterViewChecked, AfterViewInit, Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component } from '@angular/core';
 import { BreakpointManagerService } from '@app/services/breakpoint-manager.service';
 import { getSemesterString } from '@src/app/utils/duration-utils';
 import { SettingsService } from '@src/_settings';
@@ -17,6 +17,7 @@ export class GlobalGameJamPageComponent implements AfterViewInit {
 
   eventActive: boolean = false;
 
+  signupLink: string = 'https://docs.google.com/forms/d/e/1FAIpQLSdKO4CJxCXNtefgiYBx07Fq03feDFc897z6lLGrEi7wttPRLA/viewform';
   siteLink: string = 'https://globalgamejam.org/2023/jam-sites/rutgers-new-brunswick-creation-games-society';
 
   constructor(public breakpointManager: BreakpointManagerService, public settings: SettingsService) {}

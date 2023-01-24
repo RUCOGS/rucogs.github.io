@@ -15,8 +15,11 @@
         max-width: 20em;
         gap: 1em;
       ">
-        <app-button iconifyIcon="form" target="_blank" color="form" link="{{siteLink}}" [hidden]="siteLink == ''">
+        <app-button iconifyIcon="form" target="_blank" color="form" link="{{signupLink}}" [hidden]="signupLink == ''">
           Sign Up
+        </app-button>
+        <app-button iconifyIcon="link" target="_blank" color="form" link="{{siteLink}}" [hidden]="siteLink == ''">
+          Site
         </app-button>
         <app-button iconifyIcon="discord" target="_blank" color="discord" [link]="settings.General.discordLink">Discord</app-button>
       </div>
