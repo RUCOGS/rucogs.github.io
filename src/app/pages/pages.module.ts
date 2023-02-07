@@ -1,17 +1,9 @@
 import { NgModule } from '@angular/core';
 
 import { Route, RouterModule } from '@angular/router';
-import { RedirectGuard } from './_components/redirect-guard/redirect.guard';
 
 const routes: Route[] = [
-  {
-    path: 'discord',
-    canActivate: [RedirectGuard],
-    component: RedirectGuard,
-    data: {
-      externalUrl: 'https://discord.gg/aQUgesr',
-    },
-  },
+  { path: 'discord', loadChildren: () => import('./discord/discord-page.module').then((m) => m.DiscordPageModule) },
 
   { path: 'home', loadChildren: () => import('./home/home-page.module').then((m) => m.HomePageModule) },
   { path: 'calendar', loadChildren: () => import('./calendar/calendar-page.module').then((m) => m.CalendarPageModule) },
@@ -54,8 +46,6 @@ const routes: Route[] = [
 ];
 
 @NgModule({
-  providers: [RedirectGuard],
-  declarations: [],
   imports: [
     RouterModule.forRoot(routes, {
       scrollPositionRestoration: 'enabled',
