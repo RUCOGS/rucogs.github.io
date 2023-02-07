@@ -1,8 +1,18 @@
 import { NgModule } from '@angular/core';
 
 import { Route, RouterModule } from '@angular/router';
+import { RedirectGuard } from './_components/redirect-guard/redirect.guard';
 
 const routes: Route[] = [
+  {
+    path: 'discord',
+    canActivate: [RedirectGuard],
+    component: RedirectGuard,
+    data: {
+      externalUrl: 'https://discord.gg/aQUgesr',
+    },
+  },
+
   { path: 'home', loadChildren: () => import('./home/home-page.module').then((m) => m.HomePageModule) },
   { path: 'calendar', loadChildren: () => import('./calendar/calendar-page.module').then((m) => m.CalendarPageModule) },
   { path: 'projects', loadChildren: () => import('./projects/projects-dir.module').then((m) => m.ProjectsDirModule) },
@@ -25,12 +35,11 @@ const routes: Route[] = [
   },
   {
     path: 'ggj',
-    redirectTo: 'global-game-jam'
+    redirectTo: 'global-game-jam',
   },
   {
     path: 'global-game-jam',
-    loadChildren: () =>
-      import('./global-game-jam/global-game-jam-page.module').then((m) => m.GlobalGameJamPageModule),
+    loadChildren: () => import('./global-game-jam/global-game-jam-page.module').then((m) => m.GlobalGameJamPageModule),
   },
   { path: 'blog', loadChildren: () => import('./blog/blog-dir.module').then((m) => m.BlogDirModule) },
   { path: 'login', loadChildren: () => import('./login/login-page.module').then((m) => m.LoginPageModule) },
@@ -45,6 +54,7 @@ const routes: Route[] = [
 ];
 
 @NgModule({
+  providers: [RedirectGuard],
   declarations: [],
   imports: [
     RouterModule.forRoot(routes, {
