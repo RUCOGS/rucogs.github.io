@@ -16,8 +16,17 @@ export class EboardProfileComponent implements OnInit {
   ngOnInit(): void {}
 
   hasRoles() {
-    const currYear = new Date().getFullYear();
-    return this.eBoard.terms?.find((x) => x?.year === currYear) !== undefined;
+    const now = new Date();
+    const semesterStart = new Date(`${now.getFullYear()}-09-1`);
+    let lookupYear;
+    if (now < semesterStart) {
+      // We're in the summer/spring semester, but we're not in fall yet, so we're still in the previous year
+      lookupYear = now.getFullYear() - 1;
+    } else {
+      // We're in the fall semester
+      lookupYear = now.getFullYear();
+    }
+    return this.eBoard.terms?.find((x) => x?.year === lookupYear) !== undefined;
   }
 
   getRoles() {
