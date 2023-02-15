@@ -1,3 +1,15 @@
+export function getCurrentAcademicYear() {
+  const now = new Date();
+  const semesterStart = new Date(`${now.getFullYear()}-09-1`);
+  if (now < semesterStart) {
+    // We're in the summer/spring semester, but we're not in fall yet, so we're still in the previous year
+    return now.getFullYear() - 1;
+  } else {
+    // We're in the fall semester
+    return now.getFullYear();
+  }
+}
+
 export function getClassYearString(classYear: number) {
   const now = new Date();
 
@@ -6,17 +18,9 @@ export function getClassYearString(classYear: number) {
     return '🎓 Alumni';
   }
 
-  let calcYear;
-  const semesterStart = new Date(`${now.getFullYear()}-09-1`);
-  if (now < semesterStart) {
-    // We're in the summer/spring semester, but we're not in fall yet, so we're still in the previous year
-    calcYear = now.getFullYear() - 1;
-  } else {
-    // We're in the fall semester
-    calcYear = now.getFullYear();
-  }
+  let academicYear = getCurrentAcademicYear();
 
-  const grade = classYear - calcYear;
+  const grade = classYear - academicYear;
   if (grade === 1) {
     return '🎆 Senior';
   } else if (grade === 2) {
