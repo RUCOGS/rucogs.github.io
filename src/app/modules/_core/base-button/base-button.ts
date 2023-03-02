@@ -6,7 +6,7 @@ export class BaseButtonComponent implements OnInit {
   @Input() width: number = -1;
   @Input() color: string = 'primary';
   @Input() link: string = '';
-  @Input() target: string = '_self';
+  @Input() target: string = '_blank';
 
   @Output() click = new EventEmitter();
 
@@ -18,8 +18,16 @@ export class BaseButtonComponent implements OnInit {
 
   ngOnInit(): void {}
 
+  isValidUrl(urlString: string): boolean {
+    try {
+      return Boolean(new URL(urlString));
+    } catch (e) {
+      return false;
+    }
+  }
+
   onClick(): void {
-    if (this.route) this.router.navigateByUrl(this.link);
+    if (!this.isValidUrl(this.link) && this.route) this.router.navigateByUrl(this.link);
     else window.open(this.link, this.target);
     this.click.emit();
   }

@@ -58,6 +58,7 @@ export class SettingsService {
       new PageLink('Calendar', 'calendar'),
       new PageLink('Resources', 'resources'),
       new PageLink('Blog', 'blog'),
+      new PageLink('Merch', 'https://scarlet-game-jam.allcolorsllc.com/'),
     ];
 
     // Social media links
@@ -106,6 +107,7 @@ export class SettingsService {
     defaultCardImageSrc: string =
       'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png';
   })();
+
   public Backend = new (class {
     public backendDomain = isDevMode() ? 'localhost:3000' : 'atlinx.net';
     public backendRelativeBaseUrl = isDevMode() ? '' : '/rucogs/backend';
@@ -137,7 +139,4 @@ export class SettingsService {
 
   // Scarlet Game Jam
   // See src\app\pages\scarlet-game-jam\scarlet-game-jam.component.ts
-
-  // Footer Social Media Buttons
-  // See src\app\components\footer-social-media-buttons\footer-social-media-buttons.component.html
 }
