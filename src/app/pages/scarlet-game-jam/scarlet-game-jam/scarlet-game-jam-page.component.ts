@@ -22,7 +22,7 @@ export class ScarletGameJamPageComponent implements OnInit {
   eventActive: boolean = false;
 
   merchLink: string = 'http://scarlet-game-jam.allcolorsllc.com/';
-  signupLink: string = '';
+  signupLink: string = 'https://docs.google.com/forms/d/1Iu62xtKaaW_MRc8P9VxZUUgK874ScnmwVj9GRRs5TyU';
   itchioLink: string = '';
 
   startDateEventPage: string = '';
