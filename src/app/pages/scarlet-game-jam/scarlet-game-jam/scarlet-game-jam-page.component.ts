@@ -23,10 +23,10 @@ export class ScarletGameJamPageComponent implements OnInit {
 
   merchLink: string = 'http://scarlet-game-jam.allcolorsllc.com/';
   signupLink: string = 'https://docs.google.com/forms/d/1Iu62xtKaaW_MRc8P9VxZUUgK874ScnmwVj9GRRs5TyU';
-  itchioLink: string = '';
+  itchioLink: string = 'https://itch.io/jam/scarlet-game-jam-spring-2023';
 
-  startDateEventPage: string = '';
-  endDateEventPage: string = '';
+  startDateEventPage: string = 'https://rutgers.campuslabs.com/engage/event/8607671';
+  endDateEventPage: string = 'https://rutgers.campuslabs.com/engage/event/8607671';
 
   constructor(public breakpointManager: BreakpointManagerService, public settings: SettingsService) {}
 
