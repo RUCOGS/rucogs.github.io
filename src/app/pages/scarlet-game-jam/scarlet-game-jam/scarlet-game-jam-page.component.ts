@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { BreakpointManagerService } from '@app/services/breakpoint-manager.service';
-import { getSemesterString } from '@src/app/utils/duration-utils';
 import { SettingsService } from '@src/_settings';
+import { convertHourMinute12to24, getSemesterString } from '@src/app/utils/duration-utils';
 declare var FlipDown: any;
 
 @Component({
@@ -13,20 +13,20 @@ declare var FlipDown: any;
   },
 })
 export class ScarletGameJamPageComponent implements OnInit {
-  startDate: string = 'Nov 13';
-  endDate: string = 'Nov 20';
+  startDate: string = 'Apr 16';
+  endDate: string = 'Apr 21';
 
-  eventActive: boolean = true;
+  startDateTime: string = '4pm - 8pm';
+  endDateTime: string = '3pm - 9pm';
+
+  eventActive: boolean = false;
 
   merchLink: string = 'http://scarlet-game-jam.allcolorsllc.com/';
-  signupLink: string = 'https://forms.gle/3QT1gDhXqUGdvhhn6';
-  itchioLink: string = 'https://itch.io/jam/scarlet-game-jam-fall-2022';
+  signupLink: string = '';
+  itchioLink: string = '';
 
-  startDateTime: string = '4pm - 6pm';
-  endDateTime: string = '11am - 11pm';
-
-  startDateEventPage: string = 'https://rutgers.campuslabs.com/engage/event/8543685';
-  endDateEventPage: string = 'https://rutgers.campuslabs.com/engage/event/8543686';
+  startDateEventPage: string = '';
+  endDateEventPage: string = '';
 
   constructor(public breakpointManager: BreakpointManagerService, public settings: SettingsService) {}
 
@@ -34,9 +34,11 @@ export class ScarletGameJamPageComponent implements OnInit {
 
   ngOnInit(): void {
     if (!this.eventActive) {
-      var finalDateSeconds =
-        new Date(this.startDate + ', ' + new Date().getFullYear() + ' 16:00:00 EST').getTime() / 1000;
-      var flipdown = new FlipDown(finalDateSeconds, 'sgj-countdown', {
+      let startDateTimeStart = convertHourMinute12to24(this.startDateTime.split('-')[0]);
+      console.log(startDateTimeStart);
+      let finalDateSeconds =
+        new Date(this.startDate + ', ' + new Date().getFullYear() + ' ' + startDateTimeStart + ' EST').getTime() / 1000;
+      let flipdown = new FlipDown(finalDateSeconds, 'sgj-countdown', {
         theme: 'dark',
       }).start();
     }
