@@ -49,46 +49,46 @@
   }
 }
 
-@mixin styles($bg-color, $text-color, $outline-color) {
+@mixin styles($bg-color, $text-color, $outline-color, $card-color, $card-text-color) {
   &.app-card.card {
     color: $text-color;
     background-color: $bg-color;
     border-color: $outline-color;
   
     &.outlined {
-      color: $bg-color;
-      background-color: transparent;
+      color: $card-text-color;
       border-color: $bg-color;
-      
-    &.fill {
-      // Fill not working
-      // $url: "https://raw.githubusercontent.com/pizza3/asset/master/natureSmaller.png";
-      // $x1: 7000%;
-      // $y1: 300%;
+      background-color: $card-color;
 
-      // -webkit-mask: url($url);
-      // mask: url($url);
-      // -webkit-mask-size: $x1 $y1;
-      // mask-size: $x1 $y1;
+      &.fill {
+        // Fill not working
+        // $url: "https://raw.githubusercontent.com/pizza3/asset/master/natureSmaller.png";
+        // $x1: 7000%;
+        // $y1: 300%;
 
-      // -webkit-animation: ani2 2s steps(70) forwards;
-      // animation: ani2 2s steps(70) forwards;
+        // -webkit-mask: url($url);
+        // mask: url($url);
+        // -webkit-mask-size: $x1 $y1;
+        // mask-size: $x1 $y1;
 
-      // &:hover {
-      //   -webkit-animation: ani 0.7s steps(70) forwards;
-      //   animation: ani 0.7s steps(70) forwards;
-      // }
+        // -webkit-animation: ani2 2s steps(70) forwards;
+        // animation: ani2 2s steps(70) forwards;
 
-      // -webkit-animation: ani2 0.1s steps(70) forwards;
-      // animation: ani2 0.1s steps(70) forwards;
+        // &:hover {
+        //   -webkit-animation: ani 0.7s steps(70) forwards;
+        //   animation: ani 0.7s steps(70) forwards;
+        // }
 
-      // &:hover {
-      //   -webkit-animation: ani 0.7s steps(70) forwards;
-      //   animation: ani 0.7s steps(70) forwards;
-      // }
+        // -webkit-animation: ani2 0.1s steps(70) forwards;
+        // animation: ani2 0.1s steps(70) forwards;
 
-      // Linear fill
-        background: linear-gradient(to top, $bg-color 50%, transparent 50%);
+        // &:hover {
+        //   -webkit-animation: ani 0.7s steps(70) forwards;
+        //   animation: ani 0.7s steps(70) forwards;
+        // }
+
+        // Linear fill
+        background: linear-gradient(to top, $bg-color 50%, $card-color 50%);
         background-size: 100% 200%;
         background-position: right top;
         transition: 0.5s ease;
@@ -103,23 +103,27 @@
   }
 }
 
-@mixin level-palette-styles($palette, $level) {
+@mixin level-palette-styles($palette, $level, $card-color, $card-text-color) {
   @include styles(
     mat.get-color-from-palette($palette, $level),
     mat.get-color-from-palette($palette, #{$level}-contrast),
     mat.get-color-from-palette($palette, ($level + 200)),
+    $card-color,
+    $card-text-color,
   );
   &-contrast {
     @include styles(
       mat.get-color-from-palette($palette, #{$level}-contrast),
       mat.get-color-from-palette($palette, $level),
       mat.get-color-from-palette($palette, #{$level}-contrast),
+      $card-color,
+      $card-text-color,
     );
   }
 }
 
-@mixin palette-styles($palette) {
-  @include level-palette-styles($palette, 500);
+@mixin palette-styles($palette, $card-color, $card-text-color) {
+  @include level-palette-styles($palette, 500, $card-color, $card-text-color);
 }
 
 @mixin color($config) {
@@ -129,11 +133,16 @@
   $background: map.get($config, background);
   $foreground: map.get($config, foreground);
 
+  $card-color: mat.get-color-from-palette($background, card); 
+  $card-text-color: mat.get-color-from-palette($foreground, text);
+
   .blank {
     @include styles(
-      mat.get-color-from-palette($background, card),
-      mat.get-color-from-palette($foreground, text),
+      $card-color,
+      $card-text-color,
       mat.get-color-from-palette($foreground, divider),
+      $card-color,
+      $card-text-color
     )
   }
 
@@ -141,28 +150,28 @@
 
   @each $level in $levels {
     .primary-#{$level} {
-      @include level-palette-styles($primary, $level);
+      @include level-palette-styles($primary, $level, $card-color, $card-text-color);
     }
     
     .accent-#{$level} {
-      @include level-palette-styles($accent, $level);
+      @include level-palette-styles($accent, $level, $card-color, $card-text-color);
     }
 
     .warn-#{$level} {
-      @include level-palette-styles($warn, $level);
+      @include level-palette-styles($warn, $level, $card-color, $card-text-color);
     }
   }
 
   .primary {
-    @include palette-styles($primary);
+    @include palette-styles($primary, $card-color, $card-text-color);
   }
   
   .accent {
-    @include palette-styles($accent);
+    @include palette-styles($accent, $card-color, $card-text-color);
   }
 
   .warn {
-    @include palette-styles($warn);
+    @include palette-styles($warn, $card-color, $card-text-color);
   }
 }
 
