@@ -19,8 +19,6 @@ export class ScarletGameJamPageComponent implements OnInit {
   startDateTime: string = '4pm - 8pm';
   endDateTime: string = '3pm - 9pm';
 
-  eventActive: boolean = false;
-
   merchLink: string = 'http://scarlet-game-jam.allcolorsllc.com/';
   signupLink: string = 'https://docs.google.com/forms/d/1Iu62xtKaaW_MRc8P9VxZUUgK874ScnmwVj9GRRs5TyU';
   itchioLink: string = 'https://itch.io/jam/scarlet-game-jam-spring-2023';
@@ -28,16 +26,19 @@ export class ScarletGameJamPageComponent implements OnInit {
   startDateEventPage: string = 'https://rutgers.campuslabs.com/engage/event/8607671';
   endDateEventPage: string = 'https://rutgers.campuslabs.com/engage/event/8607671';
 
+  eventActive: boolean = false;
+
   constructor(public breakpointManager: BreakpointManagerService, public settings: SettingsService) {}
 
   getSemesterString = getSemesterString;
 
   ngOnInit(): void {
+    let startDateTimeStart = convertHourMinute12to24(this.startDateTime.split('-')[0]);
+    let startDateObj = new Date(this.startDate + ', ' + new Date().getFullYear() + ' ' + startDateTimeStart + ' EST');
+    this.eventActive = startDateObj < new Date();
+    let finalDateSeconds = startDateObj.getTime() / 1000;
+
     if (!this.eventActive) {
-      let startDateTimeStart = convertHourMinute12to24(this.startDateTime.split('-')[0]);
-      console.log(startDateTimeStart);
-      let finalDateSeconds =
-        new Date(this.startDate + ', ' + new Date().getFullYear() + ' ' + startDateTimeStart + ' EST').getTime() / 1000;
       let flipdown = new FlipDown(finalDateSeconds, 'sgj-countdown', {
         theme: 'dark',
       }).start();
