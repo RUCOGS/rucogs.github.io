@@ -2,7 +2,7 @@
 	Title: 			  Scarlet Game Jam Spring 2023
 	Description:	Recounting how scarlet game jam went.
 	Date:		      April 22, 2023
-	Image:			  assets/images/banner.png
+	Image:			  assets/blog-page-articles/2023/assets/sgj-spring.png
 	Authors: 		  Alan Tong
 	Tags:			    SGJ, event, spring
 -->
