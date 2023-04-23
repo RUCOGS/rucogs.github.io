@@ -7,6 +7,8 @@
 	Tags:			    SGJ, event, spring
 -->
 
+![Picture](assets/pictures-page-images/2022/spring/sgj-finale.png)
+
 [Itch.io page](https://itch.io/jam/sgj2022s)
 
 This semester's theme was "Fish," and we had some interesting submissions.

@@ -7,6 +7,8 @@
 	Tags:			    SGJ, event, spring
 -->
 
+![Picture](assets/pictures-page-images/2023/spring/sgj-whisk.png)
+
 [Itch.io page](https://itch.io/jam/scarlet-game-jam-spring-2023)
 
 This semester's theme was "Out of Order," and many submissions had creative interpretations of this theme. 

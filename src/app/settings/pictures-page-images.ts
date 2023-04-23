@@ -310,11 +310,6 @@ export const PicturesPageImages = [
     /* Tags        */ [],
   ),
   new ImageInfo(
-    /* File path   */ "2022/fall/SON01666.png",
-    /* Description */ "",
-    /* Tags        */ [],
-  ),
-  new ImageInfo(
     /* File path   */ "2022/fall/SON01669.png",
     /* Description */ "",
     /* Tags        */ [],
@@ -340,17 +335,17 @@ export const PicturesPageImages = [
     /* Tags        */ [],
   ),
   new ImageInfo(
+    /* File path   */ "2022/fall/sgj-delivery.png",
+    /* Description */ "",
+    /* Tags        */ [],
+  ),
+  new ImageInfo(
     /* File path   */ "2022/spring/DSC_0003.png",
     /* Description */ "",
     /* Tags        */ [],
   ),
   new ImageInfo(
     /* File path   */ "2022/spring/DSC_0008.png",
-    /* Description */ "",
-    /* Tags        */ [],
-  ),
-  new ImageInfo(
-    /* File path   */ "2022/spring/DSC_0015.png",
     /* Description */ "",
     /* Tags        */ [],
   ),
@@ -416,6 +411,11 @@ export const PicturesPageImages = [
   ),
   new ImageInfo(
     /* File path   */ "2022/spring/PXL_20220410_191818368MP.png",
+    /* Description */ "",
+    /* Tags        */ [],
+  ),
+  new ImageInfo(
+    /* File path   */ "2022/spring/sgj-finale.png",
     /* Description */ "",
     /* Tags        */ [],
   ),
@@ -516,11 +516,6 @@ export const PicturesPageImages = [
   ),
   new ImageInfo(
     /* File path   */ "2023/spring/IMG_6359.png",
-    /* Description */ "",
-    /* Tags        */ [],
-  ),
-  new ImageInfo(
-    /* File path   */ "2023/spring/IMG_6360.png",
     /* Description */ "",
     /* Tags        */ [],
   ),
@@ -666,6 +661,11 @@ export const PicturesPageImages = [
   ),
   new ImageInfo(
     /* File path   */ "2023/spring/PXL_20230422_010806101.png",
+    /* Description */ "",
+    /* Tags        */ [],
+  ),
+  new ImageInfo(
+    /* File path   */ "2023/spring/sgj-whisk.png",
     /* Description */ "",
     /* Tags        */ [],
   ),

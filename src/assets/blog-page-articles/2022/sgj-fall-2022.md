@@ -7,6 +7,8 @@
 	Tags:			    SGJ, event, spring
 -->
 
+![Picture](assets/pictures-page-images/2022/fall/sgj-delivery.png)
+
 [Itch.io page](https://itch.io/jam/scarlet-game-jam-fall-2022)
 
 This semester's theme was "Cut Corners," and we had some interesting submissions.
