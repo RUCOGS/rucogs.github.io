@@ -3,13 +3,14 @@
 # The packages needed for running this file are stored under "requirements.txt"
 # Run 'pip install -r requirements.txt' from this repository's folder to install the dependendecies.
 
-import shutil
-from PIL import Image, ImageFilter
-from typing import List, Dict
-from tqdm import tqdm
-import time
 import os
 import re
+import shutil
+import time
+from typing import Dict, List
+
+from PIL import Image, ImageFilter
+from tqdm import tqdm
 
 IMAGE_FILE_EXTENSIONS = [ "png", "jpg", "jpeg", "gif" ]
 PICTURES_PAGE_IMAGES_DIR = "src/assets/pictures-page-images/"
@@ -160,9 +161,13 @@ for path in tqdm(image_paths, desc="Processing images"):
 	if extension != "png" and extension.lower() in IMAGE_FILE_EXTENSIONS:
 		if image is None:
 			image = Image.open(path)
-		image.save(get_base_name(path) + ".png")
+		new_path = get_base_name(path) + ".png";
+		image.save(new_path)
+		image.close()
 		# Delete old file
 		os.remove(path)
+		path = new_path
+		image = Image.open(path)
 	
 	
 	# Generate preview if it does not exist
@@ -173,6 +178,7 @@ for path in tqdm(image_paths, desc="Processing images"):
 		image = sqaure_crop(image)
 		image.thumbnail((200, 200), Image.ANTIALIAS)
 		image.save(preview_path)
+		image.close()
 
 	# Use existing ImageInfo if it exists
 	# Note that images that are removed but still have ImageInfo's will not be included,

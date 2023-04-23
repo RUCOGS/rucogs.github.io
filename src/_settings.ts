@@ -50,7 +50,7 @@ export class SettingsService {
     //  Format: new PageLink("Link Name", "url_relative_to_the_site");
     public pageLinks: PageLink[] = [
       new PageLink('Home', 'home'),
-      new PageLink('SGJ', 'scarlet-game-jam'),
+      // new PageLink('SGJ', 'scarlet-game-jam'),
       // new PageLink('GGJ', 'global-game-jam'),
       new PageLink('Members', 'members'),
       new PageLink('Projects', 'projects'),
@@ -58,7 +58,7 @@ export class SettingsService {
       new PageLink('Calendar', 'calendar'),
       new PageLink('Resources', 'resources'),
       new PageLink('Blog', 'blog'),
-      // new PageLink('Merch', 'https://scarlet-game-jam.allcolorsllc.com/'),
+      new PageLink('Merch', 'https://scarlet-game-jam.allcolorsllc.com/'),
     ];
 
     // Social media links
