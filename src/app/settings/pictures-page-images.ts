@@ -425,7 +425,22 @@ export const PicturesPageImages = [
     /* Tags        */ [],
   ),
   new ImageInfo(
+    /* File path   */ "2023/spring/scarlet-classic-2.png",
+    /* Description */ "",
+    /* Tags        */ [],
+  ),
+  new ImageInfo(
+    /* File path   */ "2023/spring/scarlet-classic-3.png",
+    /* Description */ "",
+    /* Tags        */ [],
+  ),
+  new ImageInfo(
     /* File path   */ "2023/spring/scarlet-classic-4.png",
+    /* Description */ "",
+    /* Tags        */ [],
+  ),
+  new ImageInfo(
+    /* File path   */ "2023/spring/scarlet-classic-5.png",
     /* Description */ "",
     /* Tags        */ [],
   ),
