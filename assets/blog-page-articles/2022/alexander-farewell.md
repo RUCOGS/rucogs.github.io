@@ -1,10 +1,10 @@
 <!--
-	Title: 			  Alexander Xie - Presidental Farewell
+	Title: 			Alexander Xie - Presidental Farewell
 	Description:	It's been a pleasure being the president of COGS.
-	Date:		      May 9, 2022
-	Image:			  assets/images/banner.png
-	Authors: 		  Alexander Xie
-	Tags:			    Club, Article
+	Date:		    May 9, 2022
+	Image:			assets/images/banner.png
+	Authors: 		Alexander Xie
+	Tags:			Club, Article
 -->
 
 Hello everyone!
