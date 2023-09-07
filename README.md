@@ -98,7 +98,6 @@ Then you must run the `update_images.py` script from this repository's root fold
 > `pip install -r requirements.txt`
 >
 > in this repository's root folder.
-> The `/*.spec.ts` means it will search for all files that end in `.spec.ts` in the `component-folder-name` folder.
 
 ## Adding Articles to the Blog Page
 
@@ -119,4 +118,3 @@ Then you must run the `py update_articles.py` script from this repository's root
 > `pip install -r requirements.txt`
 >
 > in this repository's root folder.
-> The `/*.spec.ts` means it will search for all files that end in `.spec.ts` in the `component-folder-name` folder.

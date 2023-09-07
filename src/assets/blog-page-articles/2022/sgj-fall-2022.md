@@ -1,10 +1,10 @@
 <!--
-	Title: 			  Scarlet Game Jam Fall 2022
+	Title: 			Scarlet Game Jam Fall 2022
 	Description:	Recounting how scarlet game jam went.
-	Date:		      Nov 20, 2022
-	Image:			  assets/blog-page-articles/2022/assets/sgj-fall.png
-	Authors: 		  Alan Tong
-	Tags:			    SGJ, event, spring
+	Date:		    Nov 20, 2022
+	Image:			assets/blog-page-articles/2022/assets/sgj-fall.png
+	Authors: 		Alan Tong
+	Tags:			SGJ, event, spring
 -->
 
 ![Picture](assets/pictures-page-images/2022/fall/sgj-delivery.png)
