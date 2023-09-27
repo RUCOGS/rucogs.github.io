@@ -86,7 +86,7 @@ export class UsersDisplayComponent extends BaseFilteredHeaderScrollPaginationCom
             },
           ],
         },
-        fetchPolicy: 'no-cache',
+        fetchPolicy: 'cache-first',
       }),
     );
 

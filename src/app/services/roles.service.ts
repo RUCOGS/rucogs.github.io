@@ -56,7 +56,7 @@ export class RolesService implements OnDestroy {
             id: { eq: this.securityService.securityContext.userId },
           },
         },
-        fetchPolicy: 'no-cache',
+        fetchPolicy: 'cache-first',
       }),
     );
 
@@ -107,7 +107,7 @@ export class RolesService implements OnDestroy {
             projectId: { eq: projectId },
           },
         },
-        fetchPolicy: 'no-cache',
+        fetchPolicy: 'cache-first',
       }),
     );
 
@@ -162,7 +162,7 @@ export class RolesService implements OnDestroy {
             id: { eq: this.securityService.securityContext?.userId },
           },
         },
-        fetchPolicy: 'no-cache',
+        fetchPolicy: 'cache-first',
       }),
     );
 

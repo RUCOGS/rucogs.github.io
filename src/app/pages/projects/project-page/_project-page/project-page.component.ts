@@ -52,7 +52,7 @@ export class ProjectPageComponent implements OnInit {
 
       await this.security.waitUntilReady();
 
-      await this.fetchData(true);
+      await this.fetchData();
       this.setupSubscribers();
       this.seoService.update({
         titleAll: this.project.name,
