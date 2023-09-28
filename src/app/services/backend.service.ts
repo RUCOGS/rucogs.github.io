@@ -157,7 +157,7 @@ export class BackendService implements OnDestroy {
         if (typettaError.includes('Token unauthorized')) {
           this.authService.logout();
         }
-        console.log(networkError, " ", JSON.stringify(networkError));
+        console.log("NetworkError: ", networkError);
       }
     });
 

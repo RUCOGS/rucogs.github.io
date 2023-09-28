@@ -56,8 +56,9 @@ export class UserPageComponent implements OnInit, OnDestroy {
     this.onDestroy$.complete();
   }
 
-  async fetchData(invalidateCache: boolean = false) {
-    await this.security.fetchData();
+  async fetchData(invalidateCache: boolean = false, invalidateSecurityCache: boolean = false) {
+    if (invalidateSecurityCache)
+      await this.security.fetchData();
 
     const userResult = await firstValueFrom(
       this.backend.withAuth().query<{
@@ -270,7 +271,7 @@ export class UserPageComponent implements OnInit, OnDestroy {
       .subscribe({
         next: (value) => {
           this.uiMessageService.notifyInfo('User updated!');
-          this.fetchData(true);
+          this.fetchData(true, true);
         },
       });
 

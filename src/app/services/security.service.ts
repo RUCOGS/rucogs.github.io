@@ -84,7 +84,7 @@ export class SecurityService implements OnDestroy {
   }
 
   public async waitUntilReady() {
-    if (this.fetchQuery) await this.fetchQuery.toPromise();
+    if (this.fetchQuery) await firstValueFrom(this.fetchQuery);
   }
 
   public makePermCalc() {

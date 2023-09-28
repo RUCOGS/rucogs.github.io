@@ -68,8 +68,9 @@ export class ProjectPageComponent implements OnInit {
     this.onDestroy$.complete();
   }
 
-  async fetchData(invalidateCache: boolean = false) {
-    await this.security.fetchData();
+  async fetchData(invalidateCache: boolean = false, invalidateSecurityCache: boolean = false) {
+    if (invalidateSecurityCache)
+      await this.security.fetchData();
 
     this.projectOptions.isAuthenticated = this.security.securityContext?.userId != undefined;
     const projectOpDomain = <OperationSecurityDomain>{

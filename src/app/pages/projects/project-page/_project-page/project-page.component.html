@@ -5,9 +5,9 @@
         <mat-icon>remove_red_eye</mat-icon>
         <div style="margin-left: 0.5em;" *ngIf="breakpointManager.matchedBreakpointOrAbove('MOBILE', 'key')">Overview</div>
       </ng-template>
-      <app-overview-tab 
+      <app-overview-tab
         [project]="project"
-        [projectOptions]="projectOptions" 
+        [projectOptions]="projectOptions"
         (edited)="fetchData(true)">
       </app-overview-tab>
     </mat-tab>
@@ -18,8 +18,8 @@
       </ng-template>
       <app-members-tab
         [project]="project"
-        [projectOptions]="projectOptions" 
-        (edited)="fetchData(true)">
+        [projectOptions]="projectOptions"
+        (edited)="fetchData(true, true)">
       </app-members-tab>
     </mat-tab>
     <mat-tab *ngIf="projectOptions.canUpdateProject">
