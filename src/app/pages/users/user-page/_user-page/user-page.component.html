@@ -6,10 +6,10 @@
         <div style="margin-left: 0.5em;" *ngIf="breakpointManager.matchedBreakpointOrAbove('MOBILE', 'key')">Overview</div>
       </ng-template>
       <ng-template matTabContent>
-        <app-overview-tab 
+        <app-overview-tab
           [user]="user"
-          [userOptions]="userOptions" 
-          (edited)="fetchData(true)">
+          [userOptions]="userOptions"
+          (edited)="fetchData(true, true)">
         </app-overview-tab>
       </ng-template>
     </mat-tab>
@@ -21,7 +21,7 @@
       <ng-template matTabContent>
         <app-invites-tab
           [user]="user"
-          [userOptions]="userOptions" 
+          [userOptions]="userOptions"
           (edited)="fetchData(true)">
         </app-invites-tab>
       </ng-template>
@@ -48,7 +48,7 @@
         <app-settings-tab
           [user]="user"
           [userOptions]="userOptions"
-          (edited)="fetchData(true)"
+          (edited)="fetchData(true, true)"
         ></app-settings-tab>
       </ng-template>
     </mat-tab>
