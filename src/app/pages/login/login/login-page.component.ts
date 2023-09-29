@@ -3,6 +3,7 @@ import { Form, UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular
 import { Router } from '@angular/router';
 import { AuthService } from '@app/services/auth.service';
 import { TokenStorageService } from '@app/services/token-storage.service';
+import { SecurityService } from '@src/app/services/security.service';
 import { Observable, Subject } from 'rxjs';
 import { first, takeUntil } from 'rxjs/operators';
 
@@ -19,7 +20,7 @@ export class LoginPageComponent implements OnDestroy {
 
   protected onDestroy$ = new Subject<void>();
 
-  constructor(formBuilder: UntypedFormBuilder, private authService: AuthService, private router: Router) {
+  constructor(formBuilder: UntypedFormBuilder, private authService: AuthService, private router: Router, private securityService: SecurityService) {
     this.form = formBuilder.group({
       username: [null, [Validators.required]],
       password: [null, [Validators.required]],
@@ -37,8 +38,9 @@ export class LoginPageComponent implements OnDestroy {
 
   private performLogin(observable: Observable<any>) {
     observable.pipe(first(), takeUntil(this.onDestroy$)).subscribe({
-      next: (data) => {
+      next: async (data) => {
         this.isLoginFailed = false;
+        await this.securityService.waitUntilReady();
         this.router.navigateByUrl(`/members/${data.user.username}`);
       },
       error: (err) => {

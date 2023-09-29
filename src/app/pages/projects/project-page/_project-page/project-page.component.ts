@@ -69,8 +69,12 @@ export class ProjectPageComponent implements OnInit {
   }
 
   async fetchData(invalidateCache: boolean = false, invalidateSecurityCache: boolean = false) {
-    if (invalidateSecurityCache)
+    if (invalidateSecurityCache) {
       await this.security.fetchData();
+      await this.backend.cacheEvict({
+        id: `Project:${this.projectId}`
+      });
+    }
 
     this.projectOptions.isAuthenticated = this.security.securityContext?.userId != undefined;
     const projectOpDomain = <OperationSecurityDomain>{
@@ -119,7 +123,7 @@ export class ProjectPageComponent implements OnInit {
                 projectId: { eq: this.projectId },
               },
             },
-            ...(invalidateCache && { fetchPolicy: 'no-cache' }),
+            ...(invalidateCache && { fetchPolicy: 'network-only' }),
           }),
       );
     }
@@ -195,7 +199,7 @@ export class ProjectPageComponent implements OnInit {
             id: { eq: this.projectId },
           },
         },
-        ...(invalidateCache && { fetchPolicy: 'no-cache' }),
+        ...(invalidateCache && { fetchPolicy: 'network-only' }),
       }),
     );
 

@@ -12,7 +12,7 @@ import {
   SecurityPolicy,
 } from '@src/shared/security';
 import { gql } from 'apollo-angular';
-import { BehaviorSubject, first, firstValueFrom, Observable, Subject, takeUntil } from 'rxjs';
+import { BehaviorSubject, first, firstValueFrom, Observable, Subject, takeUntil, timeout } from 'rxjs';
 import { AuthService } from './auth.service';
 import { BackendService } from './backend.service';
 
@@ -29,6 +29,7 @@ export class SecurityService implements OnDestroy {
   public securityContext: SecurityContext | undefined;
 
   public dataFetched$: Observable<DataFetched | undefined>;
+  public onDestroy$ = new Subject<void>();
   private dataFetchedSubject: BehaviorSubject<DataFetched | undefined>;
 
   private fetchQuery?: Observable<
@@ -37,17 +38,11 @@ export class SecurityService implements OnDestroy {
       securityPolicy: SecurityPolicy;
     }>
   >;
-  protected onDestroy$ = new Subject<void>();
 
-  constructor(private backend: BackendService, private authService: AuthService) {
+  constructor(private backend: BackendService) {
     this.dataFetchedSubject = new BehaviorSubject<DataFetched | undefined>(undefined);
     this.dataFetched$ = this.dataFetchedSubject.asObservable();
     this.fetchData();
-    authService.payload$.pipe(takeUntil(this.onDestroy$)).subscribe({
-      next: (value) => {
-        if (value) this.fetchData();
-      },
-    });
   }
 
   ngOnDestroy(): void {
@@ -55,7 +50,11 @@ export class SecurityService implements OnDestroy {
     this.onDestroy$.complete();
   }
 
-  async fetchData() {
+  async clearCache() {
+    await this.fetchData(true);
+  }
+
+  async fetchData(clearCache: boolean = false) {
     this.fetchQuery = this.backend
       .withAuth()
       .query<{
@@ -63,11 +62,14 @@ export class SecurityService implements OnDestroy {
         securityPolicy: SecurityPolicy;
       }>({
         query: gql`
-          query {
-            securityContext
+          query GetSecurityContextAndPolicy($clearCache: Boolean) {
+            securityContext(clearCache: $clearCache)
             securityPolicy
           }
         `,
+        variables: {
+          clearCache,
+        },
         fetchPolicy: 'no-cache',
       })
       .pipe(first(), takeUntil(this.onDestroy$));

@@ -15,7 +15,9 @@ import { SecurityService } from './security.service';
 import { StyleManagerService } from './style-manager.service';
 import { ThemeManagerService } from './theme-manager.service';
 import { TokenStorageService } from './token-storage.service';
+import { AuthSetupService } from './auth-setup.service';
 
+export { AuthSetupService };
 export { AuthService };
 export { BackendService };
 export { BreakpointManagerService };

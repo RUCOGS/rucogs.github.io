@@ -3,6 +3,7 @@ import { SettingsService } from '@src/_settings';
 import { IconService } from '@visurel/iconify-angular';
 import { Subject } from 'rxjs';
 import { SEOService } from './services/seo.service';
+import { AuthSetupService } from './services/auth-setup.service';
 
 @Component({
   selector: 'app-root',
@@ -20,6 +21,7 @@ export class AppComponent implements OnDestroy, OnInit {
     private seoService: SEOService,
     iconService: IconService,
     settings: SettingsService,
+    authSetupService: AuthSetupService,
   ) {
     iconService.registerAll(settings.General.icons);
     this.updateStyleVars();

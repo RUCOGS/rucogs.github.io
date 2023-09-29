@@ -25,6 +25,7 @@ export interface AuthPayload {
   providedIn: 'root',
 })
 export class AuthService implements OnDestroy {
+  public onDestroy$ = new Subject<void>();
   public payload$: Observable<AuthPayload | undefined>;
   public get authenticated() {
     return this.getPayload() !== null;
@@ -37,8 +38,6 @@ export class AuthService implements OnDestroy {
   private get oAuthLink() {
     return this.settings.Backend.backendHttpsURL + '/auth/thirdparty/';
   }
-
-  protected onDestroy$ = new Subject<void>();
 
   constructor(
     private apollo: Apollo,

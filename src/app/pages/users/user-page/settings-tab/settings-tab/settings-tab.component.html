@@ -70,6 +70,15 @@
       </div>
     </div>
     <div>
+      <h2>Utilities</h2>
+      <button mat-flat-button pill tall-button color="primary" (click)="onClearCache()" [disabled]="monitor.isProcessing" style="
+          max-width: 20em;
+        ">
+        <mat-icon>delete</mat-icon>
+        Clear Cache
+      </button>
+    </div>
+    <div>
       <h2>Danger Zone</h2>
       <div [matTooltip]="userOptions.deleteUserTooltip" style="width: min-content;">
         <button mat-flat-button pill tall-button color="primary" (click)="onDeleteUser()" [disabled]="!userOptions.canDeleteUser || monitor.isProcessing" style="

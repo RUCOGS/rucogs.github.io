@@ -121,6 +121,14 @@ export class SettingsTabComponent implements OnChanges {
     }
   }
 
+  async onClearCache() {
+    this.monitor.addProcess();
+    await this.backend.clearCache();
+    await this.securityService.clearCache();
+    this.monitor.removeProcess();
+    this.uiMessageService.notifyInfo('Cache cleared!');
+  }
+
   async onCreateLoginIdentity() {
     const result = await firstValueFrom(
       this.dialog

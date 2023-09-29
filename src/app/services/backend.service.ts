@@ -8,6 +8,7 @@ import {
   split,
   SubscriptionOptions,
   WatchQueryOptions,
+  Cache
 } from '@apollo/client/core';
 import { onError } from '@apollo/client/link/error';
 import { GraphQLWsLink } from '@apollo/client/link/subscriptions';
@@ -49,9 +50,9 @@ type OpSettings = {
   providedIn: 'root',
 })
 export class BackendService implements OnDestroy {
-  private opSettings: OpSettings = this.defaultOpSettings();
+  public onDestroy$ = new Subject<void>();
 
-  protected onDestroy$ = new Subject<void>();
+  private opSettings: OpSettings = this.defaultOpSettings();
   private graphQLWsClient!: GraphQLWsClient;
 
   constructor(
@@ -61,11 +62,6 @@ export class BackendService implements OnDestroy {
     private settings: SettingsService,
   ) {
     this.rebuildClient();
-    this.authService.payload$.pipe(takeUntil(this.onDestroy$)).subscribe({
-      next: (value) => {
-        this.rebuildClient();
-      },
-    });
   }
 
   ngOnDestroy(): void {
@@ -184,6 +180,16 @@ export class BackendService implements OnDestroy {
   private configureUrl(url: string) {
     if (url.startsWith('/')) return this.settings.Backend.backendHttpsURL + url;
     return url;
+  }
+
+  async cacheEvict(options: Cache.EvictOptions) {
+    this.apollo.client.cache.evict({
+      broadcast: true,
+      ...options });
+  }
+
+  async clearCache() {
+    await this.apollo.client.clearStore();
   }
 
   // #region // ----- SETTINGS ----- //

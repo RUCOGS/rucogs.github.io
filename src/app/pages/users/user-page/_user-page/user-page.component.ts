@@ -57,8 +57,12 @@ export class UserPageComponent implements OnInit, OnDestroy {
   }
 
   async fetchData(invalidateCache: boolean = false, invalidateSecurityCache: boolean = false) {
-    if (invalidateSecurityCache)
+    if (invalidateSecurityCache) {
       await this.security.fetchData();
+      await this.backend.cacheEvict({
+        id: `User:${this.user.id}`
+      });
+    }
 
     const userResult = await firstValueFrom(
       this.backend.withAuth().query<{
@@ -112,7 +116,7 @@ export class UserPageComponent implements OnInit, OnDestroy {
             username: { eq: this.username },
           },
         },
-        ...(invalidateCache && { fetchPolicy: 'no-cache' }),
+        ...(invalidateCache && { fetchPolicy: 'network-only' }),
       }),
     );
 
@@ -178,7 +182,7 @@ export class UserPageComponent implements OnInit, OnDestroy {
                 }
               }
             `,
-            ...(invalidateCache && { fetchPolicy: 'no-cache' }),
+            ...(invalidateCache && { fetchPolicy: 'network-only' }),
           }),
       );
       if (privateUserResult.error || privateUserResult.data.users.length === 0) return;
@@ -228,7 +232,7 @@ export class UserPageComponent implements OnInit, OnDestroy {
                         userId: { eq: this.security.securityContext.userId },
                       },
                     },
-                    ...(invalidateCache && { fetchPolicy: 'no-cache' }),
+                    ...(invalidateCache && { fetchPolicy: 'network-only' }),
                   }),
               )
             : undefined;
