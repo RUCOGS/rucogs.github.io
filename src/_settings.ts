@@ -64,7 +64,7 @@ export class SettingsService {
     // Social media links
     public instagramLink: string = 'https://www.instagram.com/rutgerscogs/';
     public twitterLink: string = 'https://twitter.com/RutgersCOGS';
-    public discordLink: string = 'https://discord.gg/aQUgesr';
+    public discordLink: string = 'https://discord.gg/erTWnAhdwj';
     public mailingListLink: string = 'http://eepurl.com/cgDAk5';
 
     public icons = {
