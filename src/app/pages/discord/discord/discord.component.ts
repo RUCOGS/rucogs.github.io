@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { SettingsService } from '@src/_settings';
 
 @Component({
   selector: 'app-discord',
@@ -6,9 +7,9 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./discord.component.css'],
 })
 export class DiscordComponent implements OnInit {
-  constructor() {}
+  constructor(private settings: SettingsService) {}
 
   ngOnInit(): void {
-    window.location.href = 'https://discord.gg/aQUgesr';
+    window.location.href = this.settings.General.discordLink;
   }
 }
