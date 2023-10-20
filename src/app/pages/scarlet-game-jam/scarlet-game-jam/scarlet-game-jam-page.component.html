@@ -97,17 +97,11 @@
   <app-button link="{{merchLink}}" target="_blank" color="primary" style="width: 100%;" [hidden]="merchLink == ''">👕 Merch Shop</app-button>
 </app-section>
 <app-section title="Stickers & Pins" color="foreground-accent-300" dog-ear>
-  <app-column-layout>
-    <p style="
-      text-align: justify;
-      margin-bottom: 1.5em;
-    ">
+  <app-column-layout style="gap: 8px 32px;" class="mb-16">
+    <p>
       We will be selling stickers throughout Scarlet Game Jam! Single stickers will cost a $1 each, and a 5-pack bundle of 4 matte and 1 holographic stickers will cost $4 each.
     </p>
-    <p style="
-      text-align: justify;
-      margin-bottom: 1.5em;
-    ">
+    <p>
       We will also be selling pins, which come in sizes of 25mm, 32mm, and 58mm. 25mm pins cost $2 each, 32mm pins cost $3 each, and 58mm pins cost $4 each.
     </p>
   </app-column-layout>
@@ -118,14 +112,14 @@
   <div [hidden]="stickerPinDesignLink == ''">
     <h1 class="mat-display-2 mb-16">Custom Designs</h1>
     <app-column-layout class="mb-64">
-    <p style="text-align: justify; margin-bottom: 1.5em;">
-      If you make your own sticker/pin design for COGS to help us fundraise, you can get a free version of your sticker/pin! Here's the form to submit your custom sticker/pin designs. Keep in mind they should be game or COGS themed.
-    </p>
-    <div style="width: 100%; display: flex; justify-content: center;">
-      <div style="width: 400px;">
-        <app-button link="{{stickerPinDesignLink}}" target="_blank" color="form" iconifyIcon="form"> Sticker/Pin Design Submission</app-button>
+      <div>
+        <p class="mb-24">
+          If you make your own sticker/pin design for COGS to help us fundraise, you can get a free version of your sticker/pin! Here's the form to submit your custom sticker/pin designs. Keep in mind they should be game or COGS themed.
+        </p>
+        <div style="max-width: 300px;">
+          <app-button link="{{stickerPinDesignLink}}" target="_blank" color="form" iconifyIcon="form"> Merch Design Form</app-button>
+        </div>
       </div>
-    </div>
     </app-column-layout>
   </div>
 </app-section>
