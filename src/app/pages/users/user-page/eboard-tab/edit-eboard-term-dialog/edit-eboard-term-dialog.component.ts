@@ -107,7 +107,7 @@ export class EditEboardTermDialogComponent implements OnInit {
   getAvailableYears() {
     const currYear = new Date().getFullYear();
     const availableYears: number[] = [this.data.term.year!];
-    for (let year = currYear + 3; year >= 2012; year--) {
+    for (let year = currYear + 3; year >= 2014; year--) {
       if (!this.data.takenYears.includes(year)) availableYears.push(year);
     }
     return availableYears;

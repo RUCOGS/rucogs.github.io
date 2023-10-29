@@ -216,7 +216,7 @@ export class EditUserDialogComponent implements AfterViewInit {
   getAvailableYears() {
     const currYear = new Date().getFullYear();
     const availableYears: number[] = [];
-    for (let year = currYear + 8; year >= 2012; year--) {
+    for (let year = currYear + 8; year >= 2014; year--) {
       availableYears.push(year);
     }
     return availableYears;
