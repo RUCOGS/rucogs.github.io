@@ -420,6 +420,101 @@ export const PicturesPageImages = [
     /* Tags        */ [],
   ),
   new ImageInfo(
+    /* File path   */ "2023/fall/final-1.png",
+    /* Description */ "",
+    /* Tags        */ [],
+  ),
+  new ImageInfo(
+    /* File path   */ "2023/fall/final-2.png",
+    /* Description */ "",
+    /* Tags        */ [],
+  ),
+  new ImageInfo(
+    /* File path   */ "2023/fall/final-3.png",
+    /* Description */ "",
+    /* Tags        */ [],
+  ),
+  new ImageInfo(
+    /* File path   */ "2023/fall/final-4.png",
+    /* Description */ "",
+    /* Tags        */ [],
+  ),
+  new ImageInfo(
+    /* File path   */ "2023/fall/final-5.png",
+    /* Description */ "",
+    /* Tags        */ [],
+  ),
+  new ImageInfo(
+    /* File path   */ "2023/fall/final-6.png",
+    /* Description */ "",
+    /* Tags        */ [],
+  ),
+  new ImageInfo(
+    /* File path   */ "2023/fall/final-7.png",
+    /* Description */ "",
+    /* Tags        */ [],
+  ),
+  new ImageInfo(
+    /* File path   */ "2023/fall/final-8.png",
+    /* Description */ "",
+    /* Tags        */ [],
+  ),
+  new ImageInfo(
+    /* File path   */ "2023/fall/final-9.png",
+    /* Description */ "",
+    /* Tags        */ [],
+  ),
+  new ImageInfo(
+    /* File path   */ "2023/fall/fireside-1.png",
+    /* Description */ "",
+    /* Tags        */ [],
+  ),
+  new ImageInfo(
+    /* File path   */ "2023/fall/fireside-2.png",
+    /* Description */ "",
+    /* Tags        */ [],
+  ),
+  new ImageInfo(
+    /* File path   */ "2023/fall/sgj-1.png",
+    /* Description */ "",
+    /* Tags        */ [],
+  ),
+  new ImageInfo(
+    /* File path   */ "2023/fall/sgj-2.png",
+    /* Description */ "",
+    /* Tags        */ [],
+  ),
+  new ImageInfo(
+    /* File path   */ "2023/fall/sgj-3.png",
+    /* Description */ "",
+    /* Tags        */ [],
+  ),
+  new ImageInfo(
+    /* File path   */ "2023/fall/sgj-4.png",
+    /* Description */ "",
+    /* Tags        */ [],
+  ),
+  new ImageInfo(
+    /* File path   */ "2023/fall/sgj-5.png",
+    /* Description */ "",
+    /* Tags        */ [],
+  ),
+  new ImageInfo(
+    /* File path   */ "2023/fall/sgj-6.png",
+    /* Description */ "",
+    /* Tags        */ [],
+  ),
+  new ImageInfo(
+    /* File path   */ "2023/fall/sgj-7.png",
+    /* Description */ "",
+    /* Tags        */ [],
+  ),
+  new ImageInfo(
+    /* File path   */ "2023/fall/sgj-everyone.png",
+    /* Description */ "",
+    /* Tags        */ [],
+  ),
+  new ImageInfo(
     /* File path   */ "2023/spring/scarlet-classic-1.png",
     /* Description */ "",
     /* Tags        */ [],

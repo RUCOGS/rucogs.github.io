@@ -1,3 +1,2 @@
-pillow==9.1.0
-setuptools==45.2.0
-tqdm==4.62.3
+pillow==10.1.0
+tqdm==4.66.1

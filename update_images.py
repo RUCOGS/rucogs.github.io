@@ -176,7 +176,7 @@ for path in tqdm(image_paths, desc="Processing images"):
 		if image is None:
 			image = Image.open(path)
 		image = sqaure_crop(image)
-		image.thumbnail((200, 200), Image.ANTIALIAS)
+		image.thumbnail((200, 200), Image.LANCZOS)
 		image.save(preview_path)
 		image.close()
 
