@@ -210,7 +210,8 @@ first_half = insertion_point_matches[0][0]
 # Text after the insertion point.
 second_half = insertion_point_matches[0][1]
 
-# Sandwich the actual text between the first_half and second_half to generate the compelte typescript file.
+# Sandwich the actual text between the first_half and second_half to generate the complete typescript file.
+image_infos.sort(key=lambda x: x.file_path)
 
 generated_typescript_text = first_half + "\n"
 

@@ -6,6 +6,8 @@ import {
 } from '@app/settings/_settings.module';
 import { ImageInfo } from '@app/classes/_classes.module';
 
+const PicturesPageImagesReversed = [...PicturesPageImages].reverse();
+
 @Component({
   selector: 'app-pictures-page',
   templateUrl: './pictures-page.component.html',
@@ -16,7 +18,7 @@ import { ImageInfo } from '@app/classes/_classes.module';
 })
 export class PicturesPageComponent implements OnInit {
   // Show the most recent stuff first
-  images: ImageInfo[] = PicturesPageImages.reverse();
+  images: ImageInfo[] = PicturesPageImagesReversed;
   imagesDir: string = PicturesPageImagesDir;
   previewsDir: string = PicturesPageImagePreviewsDir;
 
