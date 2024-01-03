@@ -109,8 +109,8 @@ export class SettingsService {
   })();
 
   public Backend = new (class {
-    public backendDomain = isDevMode() ? 'localhost:3000' : 'atlinx.net';
-    public backendRelativeBaseUrl = isDevMode() ? '' : '/rucogs/backend';
+    public backendDomain = isDevMode() ? 'localhost:3000' : '104.237.145.80';
+    public backendRelativeBaseUrl = isDevMode() ? '' : '/backend';
     public graphQLRelativePath = '/graphql';
 
     // Dev mode is unsecure
