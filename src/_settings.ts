@@ -114,8 +114,8 @@ export class SettingsService {
     public graphQLRelativePath = '/graphql';
 
     // Dev mode is unsecure
-    public httpsPrefix = isDevMode() ? 'http://' : 'https://';
-    public wssPrefix = isDevMode() ? 'ws://' : 'wss://';
+    public httpsPrefix = isDevMode() ? 'http://' : 'http://';
+    public wssPrefix = isDevMode() ? 'ws://' : 'ws://';
 
     public get backendDomainPlusBaseUrl() {
       return this.backendDomain + this.backendRelativeBaseUrl;
