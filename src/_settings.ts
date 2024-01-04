@@ -109,13 +109,13 @@ export class SettingsService {
   })();
 
   public Backend = new (class {
-    public backendDomain = isDevMode() ? 'localhost:3000' : '104.237.145.80';
+    public backendDomain = isDevMode() ? 'localhost:3000' : 'backend.cogs.club';
     public backendRelativeBaseUrl = isDevMode() ? '' : '/backend';
     public graphQLRelativePath = '/graphql';
 
     // Dev mode is unsecure
-    public httpsPrefix = isDevMode() ? 'http://' : 'http://';
-    public wssPrefix = isDevMode() ? 'ws://' : 'ws://';
+    public httpsPrefix = isDevMode() ? 'http://' : 'https://';
+    public wssPrefix = isDevMode() ? 'ws://' : 'wss://';
 
     public get backendDomainPlusBaseUrl() {
       return this.backendDomain + this.backendRelativeBaseUrl;
