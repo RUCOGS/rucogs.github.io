@@ -33,10 +33,10 @@ class ImageInfo:
 			# Remove the extra comma and space if we have just one tag
 			tags_str = tags_str[0:-2]
 		return """  new ImageInfo(
-    /* File path   */ "{file_path}",
-    /* Description */ "{description}",
-    /* Tags        */ [{tags}],
-  ),
+		/* File path   */ "{file_path}",
+		/* Description */ "{description}",
+		/* Tags        */ [{tags}],
+	),
 """.format(file_path=self.file_path, description=self.description, tags=tags_str)
 
 def parse_existing_image_infos(text: str) -> List[ImageInfo]:
@@ -52,9 +52,9 @@ def parse_existing_image_infos(text: str) -> List[ImageInfo]:
 			tags.append(matched_tag)
 		image_infos.append(ImageInfo(file_path=matched_image_info[0], description=matched_image_info[1], tags=tags))
 	return image_infos
-	
 
-# Returns a dictionary of parsed ImageInfo objects from text, with 
+
+# Returns a dictionary of parsed ImageInfo objects from text, with
 # key = image path
 # value = ImageInfo object
 def parse_existing_image_infos_into_dict(text: str) -> Dict[str, ImageInfo]:
@@ -71,7 +71,7 @@ def get_extension(filePath: str) -> str:
 # Returns filePath without any extension.
 def get_base_name(filePath: str) -> str:
 	stringList = filePath.split('.')
-	if len(stringList) > 1: 
+	if len(stringList) > 1:
 		# Remove last element from list
 		stringList.pop(-1);
 	return ''.join(stringList)
@@ -153,32 +153,46 @@ current_images = set()
 
 update_preview_dir_structure()
 
+MAX_DIM = 1080;
+
 for path in tqdm(image_paths, desc="Processing images"):
-	image = None
+	image = Image.open(path)
 	extension = get_extension(path)
-	
+
 	# Convert file to png if it is not.
-	if extension != "png" and extension.lower() in IMAGE_FILE_EXTENSIONS:
-		if image is None:
-			image = Image.open(path)
+
+	is_extension_different = extension != "png" and extension.lower() in IMAGE_FILE_EXTENSIONS
+	is_image_dim_different = image.width > MAX_DIM or image.height > MAX_DIM
+	if is_image_dim_different or is_extension_different:
 		new_path = get_base_name(path) + ".png";
+		if image.width > MAX_DIM and image.height > MAX_DIM:
+			if image.width > image.height:
+				# Keep width the largest
+				image = image.resize((MAX_DIM, int(image.height / image.width * MAX_DIM)))
+			else:
+				# Keep height the largest
+				image = image.resize((int(image.width / image.height * MAX_DIM), MAX_DIM))
+		elif image.width > MAX_DIM:
+			image = image.resize((MAX_DIM, int(image.height / image.width * MAX_DIM)))
+		elif image.height > MAX_DIM:
+			image = image.resize((int(image.width / image.height * MAX_DIM), MAX_DIM))
 		image.save(new_path)
 		image.close()
-		# Delete old file
-		os.remove(path)
+		if is_extension_different:
+			# Delete old file
+			os.remove(path)
 		path = new_path
 		image = Image.open(path)
-	
-	
+
+
 	# Generate preview if it does not exist
 	preview_path = get_base_name(path).replace(PICTURES_PAGE_IMAGES_DIR, PICTURES_PAGE_IMAGES_DIR + "previews/") + ".png"
 	if not os.path.isfile(preview_path):
-		if image is None:
-			image = Image.open(path)
 		image = sqaure_crop(image)
 		image.thumbnail((200, 200), Image.LANCZOS)
 		image.save(preview_path)
-		image.close()
+
+	image.close()
 
 	# Use existing ImageInfo if it exists
 	# Note that images that are removed but still have ImageInfo's will not be included,
