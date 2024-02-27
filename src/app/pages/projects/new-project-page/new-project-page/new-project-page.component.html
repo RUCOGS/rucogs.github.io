@@ -73,7 +73,7 @@
       Access is required
     </mat-error>
     <div [matTooltip]="createProjectTooltip" style="width: min-content;">
-      <button mat-flat-button pill color="primary" type="submit" [disabled]="!canCreateProject">Create Project</button>
+      <button mat-flat-button pill color="primary" type="submit" [disabled]="!canCreateProject || monitor.isProcessing">Create Project</button>
     </div>
   </form>
 </app-bg-container>
