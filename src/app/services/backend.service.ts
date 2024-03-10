@@ -8,7 +8,7 @@ import {
   split,
   SubscriptionOptions,
   WatchQueryOptions,
-  Cache
+  Cache,
 } from '@apollo/client/core';
 import { onError } from '@apollo/client/link/error';
 import { GraphQLWsLink } from '@apollo/client/link/subscriptions';
@@ -125,6 +125,7 @@ export class BackendService implements OnDestroy {
       headers: { 'Apollo-Require-Preflight': 'true' },
     });
 
+    console.log(`graphql link: ${wssPrefix}${baseGraphQLUri}`);
     if (this.graphQLWsClient) this.graphQLWsClient.dispose();
     this.graphQLWsClient = createClient({
       url: `${wssPrefix}${baseGraphQLUri}`,
@@ -153,7 +154,7 @@ export class BackendService implements OnDestroy {
         if (typettaError.includes('Token unauthorized')) {
           this.authService.logout();
         }
-        console.log("NetworkError: ", networkError);
+        console.log('NetworkError: ', networkError);
       }
     });
 
@@ -185,7 +186,8 @@ export class BackendService implements OnDestroy {
   async cacheEvict(options: Cache.EvictOptions) {
     this.apollo.client.cache.evict({
       broadcast: true,
-      ...options });
+      ...options,
+    });
   }
 
   async clearCache() {

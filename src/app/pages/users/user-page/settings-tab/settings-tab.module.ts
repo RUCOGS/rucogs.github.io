@@ -15,6 +15,7 @@ import { EditLoginIdentityDialogComponent } from './edit-login-identity-dialog/e
 import { EditUserPrivateDialogComponent } from './edit-user-private-dialog/edit-user-private-dialog.component';
 import { LinkNetIdDialogComponent } from './link-netid-dialog/link-netid-dialog.component';
 import { SettingsTabComponent } from './settings-tab/settings-tab.component';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 
 @NgModule({
   declarations: [
@@ -36,6 +37,7 @@ import { SettingsTabComponent } from './settings-tab/settings-tab.component';
     ReactiveFormsModule,
     MatSelectModule,
     ButtonStylesModule,
+    MatCheckboxModule,
   ],
   exports: [SettingsTabComponent],
 })

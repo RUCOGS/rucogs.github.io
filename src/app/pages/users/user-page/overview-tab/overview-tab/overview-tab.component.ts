@@ -102,6 +102,18 @@ export class OverviewTabComponent implements AfterViewChecked, OnChanges {
     };
   }
 
+  isVerified(): boolean {
+    return (this.user?.netId ?? '') != '' || (this.user?.manualVerified ?? '') != '';
+  }
+
+  getVerifiedText(): string {
+    if (this.user.manualVerified) {
+      return `Verified ${this.user.manualVerified}`;
+    } else {
+      return `Verified @${this.user.netId}`;
+    }
+  }
+
   async projectsQuery(filter: any, skip: number, limit: number): Promise<Partial<Project>[]> {
     if (!this.userOptions.hasProjects || !this.user.id || !this.user.projectMembers) return [];
 

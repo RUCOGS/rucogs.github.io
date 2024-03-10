@@ -182,15 +182,23 @@ export class AuthService implements OnDestroy {
     const socialLogin$ = new Observable<AuthPayload>((observer) => {
       const popup = window.open(authUrl, 'myWindow', 'location=1,status=1,scrollbars=1,width=800,height=900');
       let listener = window.addEventListener('message', (message) => {
-        if (message.origin === this.settings.Backend.httpsPrefix + this.settings.Backend.backendDomain) {
+        if (message.origin === this.settings.Backend.backendHttpsURL) {
+          if (message.data == undefined) {
+            // Undefined means the authentication didn't work
+            console.log('on cancelled');
+            observer.next(undefined);
+            observer.complete();
+            return;
+          }
           if (message.data.accessToken && message.data.user) {
+            console.log('on succeeded');
             observer.next(message.data);
             observer.complete();
           }
         }
       });
     });
-    socialLogin$.subscribe({
+    socialLogin$.pipe(takeUntil(this.onDestroy$)).subscribe({
       next: (data: AuthPayload) => {
         this.setPayload(data);
       },

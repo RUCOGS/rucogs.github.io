@@ -21,12 +21,19 @@ export class RolesService implements OnDestroy {
 
   public async getAddableUserRoles() {
     const userRoles = await this.getUserRoles();
-    return getRolesBelowRoles(userRoles).filter((x) => RoleData[x].type.includes(RoleType.User));
+    let addableRoles = getRolesBelowRoles(userRoles).filter((x) => RoleData[x].type.includes(RoleType.User));
+    if (userRoles.includes(RoleCode.SuperAdmin)) {
+      addableRoles.push(RoleCode.SuperAdmin);
+    }
+    return addableRoles;
   }
 
   public async getDisabledUserRoles() {
     const userRoles = await this.getUserRoles();
-    const disabledRoles = getHighestRoles(userRoles);
+    let disabledRoles = getHighestRoles(userRoles);
+    if (userRoles.includes(RoleCode.SuperAdmin)) {
+      disabledRoles = disabledRoles.filter((x) => x != RoleCode.SuperAdmin);
+    }
     if (!disabledRoles.includes(RoleCode.User)) disabledRoles.push(RoleCode.User);
     return disabledRoles;
   }

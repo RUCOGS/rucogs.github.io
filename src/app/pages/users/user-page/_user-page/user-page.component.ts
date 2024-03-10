@@ -60,7 +60,7 @@ export class UserPageComponent implements OnInit, OnDestroy {
     if (invalidateSecurityCache) {
       await this.security.fetchData();
       await this.backend.cacheEvict({
-        id: `User:${this.user.id}`
+        id: `User:${this.user.id}`,
       });
     }
 
@@ -81,6 +81,7 @@ export class UserPageComponent implements OnInit, OnDestroy {
               updatedAt
               classYear
               netId
+              manualVerified
               projectMembers {
                 id
                 projectId
@@ -267,7 +268,7 @@ export class UserPageComponent implements OnInit, OnDestroy {
         `,
         variables: {
           filter: <UserSubscriptionFilter>{
-            id: this.security.securityContext.userId,
+            id: this.user.id,
           },
         },
       })
