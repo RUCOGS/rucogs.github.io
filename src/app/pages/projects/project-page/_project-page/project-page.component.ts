@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { defaultProjectOptions, ProjectOptions } from '@pages/projects/project-page/classes';
 import { UIMessageService } from '@src/app/modules/ui-message/ui-message.module';
 import { AuthService } from '@src/app/services/auth.service';
@@ -44,6 +44,7 @@ export class ProjectPageComponent implements OnInit {
     private authService: AuthService,
     private uiMessageService: UIMessageService,
     private seoService: SEOService,
+    private router: Router,
   ) {}
 
   ngOnInit() {
@@ -72,7 +73,7 @@ export class ProjectPageComponent implements OnInit {
     if (invalidateSecurityCache) {
       await this.security.fetchData();
       await this.backend.cacheEvict({
-        id: `Project:${this.projectId}`
+        id: `Project:${this.projectId}`,
       });
     }
 
@@ -82,128 +83,136 @@ export class ProjectPageComponent implements OnInit {
     };
     const permCalc = this.security.makePermCalc().withDomain(projectOpDomain);
 
-    let invitesQuery;
-    if (this.security.securityContext?.userId) {
-      let invitesOpDomains: OperationSecurityDomain[] | undefined = this.security.getOpDomainsFromPermission(
-        Permission.ManageProjectInvites,
-      );
+    let discordResult, invitesResult, projectResult;
 
-      invitesQuery = firstValueFrom(
-        this.backend
-          .withAuth()
-          .withOpDomains(invitesOpDomains)
-          .query<{
-            projectInvites: {
-              id: string;
-              type: InviteType;
-              user: {
+    try {
+      let invitesQuery;
+      if (this.security.securityContext?.userId) {
+        let invitesOpDomains: OperationSecurityDomain[] | undefined = this.security.getOpDomainsFromPermission(
+          Permission.ManageProjectInvites,
+        );
+
+        invitesQuery = firstValueFrom(
+          this.backend
+            .withAuth()
+            .withOpDomains(invitesOpDomains)
+            .query<{
+              projectInvites: {
                 id: string;
-                displayName: string;
-                username: string;
-                avatarLink: string;
-              };
-            }[];
-          }>({
-            query: gql`
-              query FetchProjectPageInvites($filter: ProjectInviteFilterInput) {
-                projectInvites(filter: $filter) {
+                type: InviteType;
+                user: {
+                  id: string;
+                  displayName: string;
+                  username: string;
+                  avatarLink: string;
+                };
+              }[];
+            }>({
+              query: gql`
+                query FetchProjectPageInvites($filter: ProjectInviteFilterInput) {
+                  projectInvites(filter: $filter) {
+                    id
+                    type
+                    user {
+                      id
+                      displayName
+                      username
+                      avatarLink
+                    }
+                  }
+                }
+              `,
+              variables: {
+                filter: <ProjectInviteFilterInput>{
+                  projectId: { eq: this.projectId },
+                },
+              },
+              ...(invalidateCache && { fetchPolicy: 'network-only' }),
+            }),
+        );
+      }
+
+      let discordQuery;
+      if (permCalc.hasPermission(Permission.ManageProjectDiscord)) {
+        discordQuery = firstValueFrom(
+          this.backend
+            .withAuth()
+            .withOpDomain({
+              projectId: this.projectId,
+            })
+            .query<{
+              projectDiscordConfig: any[];
+            }>({
+              query: gql`
+                query FetchProjectPageDiscord {
+                  projectDiscordConfigs {
+                    id
+                    createdAt
+                    updatedAt
+                    categoryId
+                  }
+                }
+              `,
+            }),
+        );
+      }
+
+      const projectQuery = firstValueFrom(
+        this.backend.withAuth().query<{
+          projects: any[];
+        }>({
+          query: gql`
+            query FetchProjectPageProject($filter: ProjectFilterInput) {
+              projects(filter: $filter) {
+                id
+                cardImageLink
+                bannerLink
+                completedAt
+                createdAt
+                updatedAt
+                name
+                access
+                pitch
+                description
+                tags
+                galleryImageLinks
+                soundcloudEmbedSrc
+                downloadLinks
+                members {
                   id
-                  type
                   user {
                     id
-                    displayName
-                    username
                     avatarLink
+                    bannerLink
+                    bio
+                    classYear
+                    netId
+                    username
+                    displayName
+                  }
+                  contributions
+                  roles {
+                    roleCode
                   }
                 }
               }
-            `,
-            variables: {
-              filter: <ProjectInviteFilterInput>{
-                projectId: { eq: this.projectId },
-              },
-            },
-            ...(invalidateCache && { fetchPolicy: 'network-only' }),
-          }),
-      );
-    }
-
-    let discordQuery;
-    if (permCalc.hasPermission(Permission.ManageProjectDiscord)) {
-      discordQuery = firstValueFrom(
-        this.backend
-          .withAuth()
-          .withOpDomain({
-            projectId: this.projectId,
-          })
-          .query<{
-            projectDiscordConfig: any[];
-          }>({
-            query: gql`
-              query FetchProjectPageDiscord {
-                projectDiscordConfigs {
-                  id
-                  createdAt
-                  updatedAt
-                  categoryId
-                }
-              }
-            `,
-          }),
-      );
-    }
-
-    const projectQuery = firstValueFrom(
-      this.backend.withAuth().query<{
-        projects: any[];
-      }>({
-        query: gql`
-          query FetchProjectPageProject($filter: ProjectFilterInput) {
-            projects(filter: $filter) {
-              id
-              cardImageLink
-              bannerLink
-              completedAt
-              createdAt
-              updatedAt
-              name
-              access
-              pitch
-              description
-              tags
-              galleryImageLinks
-              soundcloudEmbedSrc
-              downloadLinks
-              members {
-                id
-                user {
-                  id
-                  avatarLink
-                  bannerLink
-                  bio
-                  classYear
-                  netId
-                  username
-                  displayName
-                }
-                contributions
-                roles {
-                  roleCode
-                }
-              }
             }
-          }
-        `,
-        variables: {
-          filter: <ProjectFilterInput>{
-            id: { eq: this.projectId },
+          `,
+          variables: {
+            filter: <ProjectFilterInput>{
+              id: { eq: this.projectId },
+            },
           },
-        },
-        ...(invalidateCache && { fetchPolicy: 'network-only' }),
-      }),
-    );
+          ...(invalidateCache && { fetchPolicy: 'network-only' }),
+        }),
+      );
 
-    const [discordResult, invitesResult, projectResult] = await Promise.all([discordQuery, invitesQuery, projectQuery]);
+      [discordResult, invitesResult, projectResult] = await Promise.all([discordQuery, invitesQuery, projectQuery]);
+    } catch {
+      this.projectOptions.nonExistent = true;
+      this.projectOptions.loaded = true;
+      return;
+    }
 
     if (projectResult.data.projects.length == 0) {
       this.projectOptions.nonExistent = true;
@@ -277,7 +286,7 @@ export class ProjectPageComponent implements OnInit {
       .subscribe({
         next: (value) => {
           if (this.projectOptions.canUpdateProject) this.uiMessageService.notifyInfo('New invite!');
-          this.fetchData(true);
+          this.fetchData(true, true);
         },
       });
 
@@ -300,7 +309,7 @@ export class ProjectPageComponent implements OnInit {
       .subscribe({
         next: async (value) => {
           const deletedInvite = value.data?.projectInviteDeleted;
-          await this.fetchData(true);
+          await this.fetchData(true, true);
           if (this.project.members?.some((x) => x?.user?.id === deletedInvite?.userId))
             this.uiMessageService.notifyInfo('Invite accepted!');
           else this.uiMessageService.notifyInfo('Invite rejected!');
@@ -328,10 +337,16 @@ export class ProjectPageComponent implements OnInit {
       .subscribe({
         next: async (value) => {
           const deletedMember = value.data?.projectMemberDeleted;
-          if (deletedMember?.userId === this.security.securityContext?.userId)
+          if (deletedMember?.userId === this.security.securityContext?.userId) {
             this.uiMessageService.notifyInfo('You were kicked!');
-          else this.uiMessageService.notifyInfo('Member kicked!');
-          await this.fetchData(true);
+          } else this.uiMessageService.notifyInfo('Member kicked!');
+          await this.fetchData(true, true);
+          console.log('result after fetch data: ', this.projectOptions);
+          if (this.projectOptions.nonExistent) {
+            console.log("Project doesn't exist, navigating out");
+            // This project was just deleted, so we leave
+            this.router.navigateByUrl('/projects');
+          }
         },
       });
 
@@ -356,7 +371,7 @@ export class ProjectPageComponent implements OnInit {
       .subscribe({
         next: async (value) => {
           if (this.projectOptions.canUpdateProject) this.uiMessageService.notifyInfo('Member added!');
-          await this.fetchData(true);
+          await this.fetchData(true, true);
         },
       });
   }

@@ -64,6 +64,7 @@ export class OverviewTabComponent implements AfterViewChecked, OnChanges {
       this.cardImageSrc = this.project.cardImageLink
         ? this.cdn.getFileLink(this.project.cardImageLink)
         : this.settings.General.defaultCardImageSrc;
+      this.monitor.clearProcesses();
     }
   }
 
@@ -110,9 +111,11 @@ export class OverviewTabComponent implements AfterViewChecked, OnChanges {
         },
       }),
     );
-    this.monitor.removeProcess();
 
-    if (result.errors) return;
+    if (result.errors) {
+      this.monitor.removeProcess();
+      return;
+    }
 
     // Edited notification is handled by a GraphQL subscription already
     this.uiMessageService.notifyConfirmed('Joined project!');
@@ -141,9 +144,11 @@ export class OverviewTabComponent implements AfterViewChecked, OnChanges {
         },
       }),
     );
-    this.monitor.removeProcess();
 
-    if (result.errors) return;
+    if (result.errors) {
+      this.monitor.removeProcess();
+      return;
+    }
 
     // Edited notification is handled by a GraphQL subscription already
     this.uiMessageService.notifyConfirmed('Invite sent!');

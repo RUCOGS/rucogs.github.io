@@ -84,6 +84,8 @@ export class NewProjectPageComponent implements OnInit {
         next: async (value) => {
           if (!value.data?.newProject) return;
 
+          await this.security.fetchData(true);
+
           this.router.navigateByUrl(`/projects/${value.data.newProject}`);
         },
       });

@@ -38,7 +38,11 @@
           word-wrap: break-word;
           display: inline;
         " class="loading">
-          _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+          _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+          _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+          _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+          _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+          _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
         </p>
         <div class="user-page overview-tab socials-container">
           <div class="user-page overview-tab socials-button-container">
@@ -105,7 +109,7 @@
             min-height: 2.125em;
             gap: 0.5em 1.25em;;
           ">
-            <div *ngIf="user.netId" style="
+            <div *ngIf="isVerified()" style="
               display: flex; 
               flex-direction: row;
               align-items: center;
@@ -113,7 +117,7 @@
               flex-wrap: wrap;
             ">
               <app-tag color="blank">
-                ✅ Verified @{{user.netId}}
+                ✅ {{getVerifiedText()}}
               </app-tag>
             </div>
             <div *ngIf="user.classYear" style="
@@ -127,7 +131,8 @@
               <app-tag color="blank">{{ getClassYearString(user.classYear) }}</app-tag>
             </div>
           </div>
-          <button style="flex-shrink: 0;" class="user-page overview-tab edit-button" mat-stroked-button color="basic" pill (click)="edit()" *ngIf="userOptions.canUpdateUser">Edit Profile
+          <button style="flex-shrink: 0;" class="user-page overview-tab edit-button" mat-stroked-button color="basic"
+            pill (click)="edit()" *ngIf="userOptions.canUpdateUser">Edit Profile
           </button>
         </div>
       </div>
@@ -174,7 +179,8 @@
             margin-bottom: 1em;
           ">
             <h2 style="flex: 1; margin-bottom: 0;">Projects</h2>
-            <button *ngIf="userOptions.canUpdateUser && userOptions.canCreateProject" mat-stroked-button pill (click)="onNewProjectClick()">
+            <button *ngIf="userOptions.canUpdateUser && userOptions.canCreateProject" mat-stroked-button pill
+              (click)="onNewProjectClick()">
               <mat-icon>add</mat-icon>
               New Project
             </button>

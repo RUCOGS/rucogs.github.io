@@ -20,7 +20,12 @@ export class LoginPageComponent implements OnDestroy {
 
   protected onDestroy$ = new Subject<void>();
 
-  constructor(formBuilder: UntypedFormBuilder, private authService: AuthService, private router: Router, private securityService: SecurityService) {
+  constructor(
+    formBuilder: UntypedFormBuilder,
+    private authService: AuthService,
+    private router: Router,
+    private securityService: SecurityService,
+  ) {
     this.form = formBuilder.group({
       username: [null, [Validators.required]],
       password: [null, [Validators.required]],
@@ -39,9 +44,11 @@ export class LoginPageComponent implements OnDestroy {
   private performLogin(observable: Observable<any>) {
     observable.pipe(first(), takeUntil(this.onDestroy$)).subscribe({
       next: async (data) => {
-        this.isLoginFailed = false;
-        await this.securityService.waitUntilReady();
-        this.router.navigateByUrl(`/members/${data.user.username}`);
+        if (data) {
+          this.isLoginFailed = false;
+          await this.securityService.waitUntilReady();
+          this.router.navigateByUrl(`/members/${data.user.username}`);
+        }
       },
       error: (err) => {
         this.errorMessage = err.error.message;

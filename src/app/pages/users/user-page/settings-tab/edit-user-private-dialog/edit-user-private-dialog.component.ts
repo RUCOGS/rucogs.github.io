@@ -12,6 +12,7 @@ import { PartialDeep } from 'type-fest';
 
 export interface EditUserPrivateDialogData {
   user: PartialDeep<User>;
+  isManualVerified: boolean;
   userOptions: UserOptions;
 }
 
@@ -34,6 +35,8 @@ export class EditUserPrivateDialogComponent {
   ) {
     this.form = formBuilder.group({
       email: [data.user.email, [Validators.email]],
+      netId: [data.user.netId],
+      manualVerified: [data.user.manualVerified],
     });
     dialogRef.disableClose = true;
   }
@@ -65,6 +68,12 @@ export class EditUserPrivateDialogComponent {
 
     if (this.form.get('email')?.value !== this.data.user.email) {
       input.email = this.form.get('email')?.value ?? null;
+    }
+    if (this.form.get('netId')?.value !== this.data.user.netId) {
+      input.netId = this.form.get('netId')?.value ?? null;
+    }
+    if (this.form.get('manualVerified')?.value !== this.data.user.manualVerified) {
+      input.manualVerified = this.form.get('manualVerified')?.value ?? null;
     }
 
     // If change data is not empty, meaning there were changes...

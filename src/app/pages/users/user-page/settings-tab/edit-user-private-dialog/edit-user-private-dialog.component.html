@@ -7,6 +7,14 @@
       <input matInput formControlName="email" [maxLength]="50">
       <mat-error *ngIf="form.get('email')?.hasError('email')">Expected a valid email.</mat-error>
     </mat-form-field>
+    <mat-form-field appearance="outline" style="width: 100%;">
+      <mat-label>NetID</mat-label>
+      <input matInput formControlName="netId" [maxLength]="50">
+    </mat-form-field>
+    <mat-form-field appearance="outline" style="width: 100%;">
+      <mat-label>Manual Verify Reason</mat-label>
+      <input matInput formControlName="manualVerified" [maxLength]="50">
+    </mat-form-field>
   </form>
 </mat-dialog-content>
 <mat-dialog-actions>

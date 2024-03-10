@@ -21,4 +21,8 @@ export class ProcessMonitor {
       this.processes.pop();
     }
   }
+
+  clearProcesses() {
+    this.processes.length = 0;
+  }
 }

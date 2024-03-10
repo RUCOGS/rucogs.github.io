@@ -14,13 +14,18 @@
       <h2>Email:</h2>
       <p>{{user.email ?? 'None'}}</p>
       <h2>Rutgers NetID:</h2>
-      <p>{{user.netId ?? 'None'}}</p>
-      <button mat-flat-button pill color="primary" (click)="onLinkNetId()" [disabled]="!userOptions.canUpdateUser || monitor.isProcessing" style="
+      <p>{{user.netId ? user.netId : 'None'}}</p>
+      <button mat-flat-button pill class="mb-16" color="primary" (click)="onLinkNetId()"
+        [disabled]="!userOptions.canUpdateUser || monitor.isProcessing" style="
           max-width: 20em;
         ">
         <mat-icon>add</mat-icon>
         {{user.netId ? 'Relink' : 'Link'}} NetID
       </button>
+      <div *ngIf="user.manualVerified">
+        <h2>Manual Verification Reason:</h2>
+        <p class="mb=0">{{user.manualVerified}}</p>
+      </div>
     </div>
     <div>
       <div style="
@@ -71,7 +76,8 @@
     </div>
     <div>
       <h2>Utilities</h2>
-      <button mat-flat-button pill tall-button color="primary" (click)="onClearCache()" [disabled]="monitor.isProcessing" style="
+      <button mat-flat-button pill tall-button color="primary" (click)="onClearCache()"
+        [disabled]="monitor.isProcessing" style="
           max-width: 20em;
         ">
         <mat-icon>delete</mat-icon>
@@ -81,7 +87,8 @@
     <div>
       <h2>Danger Zone</h2>
       <div [matTooltip]="userOptions.deleteUserTooltip" style="width: min-content;">
-        <button mat-flat-button pill tall-button color="primary" (click)="onDeleteUser()" [disabled]="!userOptions.canDeleteUser || monitor.isProcessing" style="
+        <button mat-flat-button pill tall-button color="primary" (click)="onDeleteUser()"
+          [disabled]="!userOptions.canDeleteUser || monitor.isProcessing" style="
           max-width: 20em;
         ">
           <mat-icon>delete</mat-icon>
