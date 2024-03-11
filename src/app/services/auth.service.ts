@@ -182,7 +182,7 @@ export class AuthService implements OnDestroy {
     const socialLogin$ = new Observable<AuthPayload>((observer) => {
       const popup = window.open(authUrl, 'myWindow', 'location=1,status=1,scrollbars=1,width=800,height=900');
       let listener = window.addEventListener('message', (message) => {
-        if (message.origin === this.settings.Backend.backendHttpsURL) {
+        if (message.origin === this.settings.Backend.httpsPrefix + this.settings.Backend.backendDomain) {
           if (message.data == undefined) {
             // Undefined means the authentication didn't work
             console.log('on cancelled');
