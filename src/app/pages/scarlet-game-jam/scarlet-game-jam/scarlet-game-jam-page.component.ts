@@ -21,7 +21,7 @@ export class ScarletGameJamPageComponent implements OnInit {
 
   merchLink: string = 'http://scarlet-game-jam.allcolorsllc.com/';
   signupLink: string = 'https://docs.google.com/forms/d/19P7yAW_3LHBU6gGmAWTxkjh7ZloJeJV38LoxELVizEc/';
-  itchioLink: string = 'https://itch.io/jam/sgj-spring-2024';
+  itchioLink: string = 'https://itch.io/jam/scarlet-game-jam-spring-2024';
   stickerPinDesignLink: string = 'https://forms.gle/2Kp8yfb3eDQJDz1CA';
 
   startDateEventPage: string = 'https://rutgers.campuslabs.com/engage/event/10072788';
