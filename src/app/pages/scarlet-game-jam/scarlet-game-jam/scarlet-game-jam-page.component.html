@@ -1,4 +1,4 @@
-<app-full-page-header color="primary" bgImage="assets/images/sgj-bg-f2023.png" bgRepeatMode="repeat" bgPosition="0 0">
+<app-full-page-header color="primary" bgImage="assets/images/sgj-bg-s2024.png" bgRepeatMode="repeat" bgPosition="0 0">
   <div class="app-scarlet-game-jam split-section">
     <div style="
       display: flex;
@@ -28,7 +28,7 @@
       </div>
     </div>
     <div class="app-scarlet-game-jam logo-container" *ngIf="breakpointManager.matchedBreakpointOrAbove('SMALL_DESKTOP')">
-      <img src="assets/images/sgj-logo-f2023.png" class="app-scarlet-game-jam logo-painted" [ngClass]="breakpointManager.currentBreakpoint">
+      <img src="assets/images/sgj-logo-s2024.png" class="app-scarlet-game-jam logo-painted" [ngClass]="breakpointManager.currentBreakpoint">
     </div>
   </div>
 </app-full-page-header>
@@ -62,33 +62,28 @@
       </div>
       <iframe rightHalf src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d787.9953975583434!2d-74.4621380054329!3d40.52144548870397!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c3c70c4ccb1769%3A0x4da1a6ca989dc72a!2sComputing%20Research%20and%20Education%20Building%2C%20Piscataway%2C%20NJ%2008854!5e0!3m2!1sen!2sus!4v1697516611311!5m2!1sen!2sus" style="border:0; width:100%; height:100%; min-height: 300px;" allowfullscreen="" loading="lazy"></iframe>
     </app-event-card>
-    <app-event-card title="Working Day" date="Nov 14" time="7pm - 9pm" type="In-Person">
+    <app-event-card title="Working Day" date="Apr 7" time="4pm - 6pm" type="In-Person">
       <div>
-        In-person meeting time for people to work on their game jam games together. This is also the club's normal Tuesday meeting times.
+        In-person meeting time for people to work on their game jam games together. This is also the club's normal Sunday meeting times.
       </div>
       <iframe rightHalf src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d787.9953975583434!2d-74.4621380054329!3d40.52144548870397!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c3c70c4ccb1769%3A0x4da1a6ca989dc72a!2sComputing%20Research%20and%20Education%20Building%2C%20Piscataway%2C%20NJ%2008854!5e0!3m2!1sen!2sus!4v1697516611311!5m2!1sen!2sus" style="border:0; width:100%; height:100%; min-height: 300px;" allowfullscreen="" loading="lazy"></iframe>
     </app-event-card>
-    <app-event-card title="Live Music Performance by VGM Club" date="Nov 16" time="5pm - 6pm" type="In-Person">
+  </app-event-card>
+  <app-event-card title="Working Day" date="Apr 9" time="7pm - 9pm" type="In-Person">
+    <div>
+      In-person meeting time for people to work on their game jam games together. This is also the club's normal Tuesday meeting times.
+    </div>
+    <iframe rightHalf src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d787.9953975583434!2d-74.4621380054329!3d40.52144548870397!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c3c70c4ccb1769%3A0x4da1a6ca989dc72a!2sComputing%20Research%20and%20Education%20Building%2C%20Piscataway%2C%20NJ%2008854!5e0!3m2!1sen!2sus!4v1697516611311!5m2!1sen!2sus" style="border:0; width:100%; height:100%; min-height: 300px;" allowfullscreen="" loading="lazy"></iframe>
+  </app-event-card>
+    <app-event-card title="Game Showcase & Closing Ceremony" date="{{endDate}}" time="{{endDateTime}}" type="In-Person" event-page="{{endDateEventPage}}">
       <div>
-        Rutgers Club for Video Game Music (RUCVGM) will be hosting a musical performance of popular video game soundtracks as part of the Scarlet Game Jam! This event will also feature game music related workshops. If you're interested making or listening to video game music, please stop by!
+        The final part of Scarlet Game Jam, this is where you will race to finish up your project, showcase your final work, and see everyone else's projects as well. This is the main event of Scarlet Game Jam and it will be a lot of fun.
         <br><br>
-        RUCVGM is a club dedicated to analysis, performance, and enjoyment of video game music. They meet every Thursday at 3pm in the Bauer Music Room.
-        <br><br>
-        <a href="https://discord.gg/anbfWabYe9" target="_blank">RUCVGM Discord Link</a>
-        <br><br>
-        Located at Walters Hall, Room 240
-      </div>
-      <iframe rightHalf src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1079.7592786062082!2d-74.43550956479962!3d40.486712832916254!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c3c7dedbfb1c89%3A0xb0177e7556e69712!2sWalters%20Hall!5e0!3m2!1sen!2sus!4v1698097590219!5m2!1sen!2sus" style="border:0; width:100%; height:100%; min-height: 300px;" allowfullscreen="" loading="lazy"></iframe>
-    </app-event-card>
-    <app-event-card title="Game Showcase & Final Remarks" date="{{endDate}}" time="{{endDateTime}}" type="In-Person" event-page="{{endDateEventPage}}">
-      <div>
-        The main event of Scarlet Game Jam, this is where you will race to finish up your project, showcase your final work, and see everyone else's projects as well. This is the main event of Scarlet Game Jam and it will be a lot of fun.
-        <br><br>
-        Located at the CASC 411.
+        Located at the LSC Collaborative Learning Center.
         <br>
         Food will be served.
       </div>
-      <iframe rightHalf src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d788.2147573278988!2d-74.45234919168887!3d40.502781233443585!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c3c6555ac2d7f7%3A0x8820e7c83ea74250!2sCollege%20Avenue%20Student%20Center!5e0!3m2!1sen!2sus!4v1697516564208!5m2!1sen!2sus" style="border: 0; width: 100%; height:100%; min-height: 300px;" allowfullscreen="" loading="lazy"></iframe>
+      <iframe rightHalf src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1103.6853168167163!2d-74.43811505481717!3d40.52336274716882!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c3c743edd6d37b%3A0xe597f60676ac8eb1!2sLivingston%20Student%20Center!5e0!3m2!1sen!2sus!4v1711870412335!5m2!1sen!2sus" style="border: 0; width: 100%; height:100%; min-height: 300px;" allowfullscreen="" loading="lazy"></iframe>
     </app-event-card>
   </app-card-grid>
 </app-section>
@@ -132,12 +127,12 @@
 <app-section title="FAQ" color="primary" dog-ear last>
   <mat-accordion>
     <app-question-panel title="What is Scarlet Game Jam?">
-      <p>Scarlet Game Jam is an annual game jam hosted by COGS for all Rutgers students and staff! Similar to any other game jam, participants will be given one week(ish) to design and code a game to show off at the end of the jam. At the beginning of each Scarlet Game Jam we will also be unveiling the (optional) theme to inspire or challenge our participants which changes with every scarlet game jam, so each year is a new experience!</p>
-      <p class="mb-0">Participants can join our game jam solo or in a group, its up to you! No experience is required either, so feel free to join regardless of your game design experience. Have no experience and no friends to join with? No worries, at the beginning of every game jam we offer a team assembly time where you can get to know other jammers and team up (or not) to make some amazing games by the end of the week.</p>
+      <p>Scarlet Game Jam is an annual game jam hosted by COGS for all Rutgers students and staff! Similar to any other game jam, participants will be given one week or two(ish) to design and code a game to show off at the end of the jam. At the beginning of each Scarlet Game Jam we will also be unveiling the (optional) theme to inspire or challenge our participants which changes with every scarlet game jam, so each year is a new experience!</p>
+      <p class="mb-0">Participants can join our game jam solo or in a group, its up to you! No experience is required either, so feel free to join regardless of your game design experience. Have no experience and no friends to join with? No worries, at the beginning of every game jam we offer a team assembly time where you can get to know other jammers and team up (or not) to make some amazing games by the end of the event.</p>
     </app-question-panel>
     <app-question-panel title="Where does Scarlet Game Jam take place?">
-      <p>Scarlet Game Jam takes place over a week(ish), but we're not going to keep you in place for that long. We understand you're busy college students (we are too!) so the large majority of Scarlet Game Jam actually takes place wherever you want it to. This means you can work in the comfort of your home (dorm, apartment, ...), the library, the dining hall, a table in the Yard, literally anywhere. We do this so that you can work around your schedule and, if working with other people, find the perfect time to meet for your group without having to worry about our availability or the availability of a single room.</p>
-      <p class="mb-0">There are portions of Scarlet Game Jam in person, though, those being: {{startDate}}, where you can brainstorm with other people, form a group if you want, and just hang out in general; And {{endDate}}, the end, where you get to show off your game, see what other people have made, and reminisce over the long week you just had (and hopefully how fun it was!).</p>
+      <p>Scarlet Game Jam takes place over a week or two(ish), but we're not going to keep you in place for that long. We understand you're busy college students (we are too!) so the large majority of Scarlet Game Jam actually takes place wherever you want it to. This means you can work in the comfort of your home (dorm, apartment, ...), the library, the dining hall, a table in the Yard, literally anywhere. We do this so that you can work around your schedule and, if working with other people, find the perfect time to meet for your group without having to worry about our availability or the availability of a single room.</p>
+      <p class="mb-0">There are portions of Scarlet Game Jam in person, though, those being: {{startDate}}, where you can brainstorm with other people, form a group if you want, and just hang out in general; And {{endDate}}, the end, where you get to show off your game, see what other people have made, and reminisce over the marathon you just sat through (and hopefully how fun it was!).</p>
     </app-question-panel>
     <app-question-panel title="Who can come?">
       <p class="mb-0">Scarlet Game Jam is open to ALL Rutgers students, faculty, and staff. Because of this, Scarlet Game Jam is a great networking/social event where you can meet fellow Rutgers people and form friendships, partnerships, or whatever. Nothing says you have to stop working on your game after the game jam either. If you like your project and you've worked with some likeminded people, we encourage you to finish that game, polish it up, and then release it online for everyone to play (of course make sure to send us the steam link and maybe a key or two 😉). </p>
