@@ -13,19 +13,19 @@ declare var FlipDown: any;
   },
 })
 export class ScarletGameJamPageComponent implements OnInit {
-  startDate: string = 'Nov 12';
-  endDate: string = 'Nov 17';
+  startDate: string = 'Apr 2';
+  endDate: string = 'Apr 14';
 
-  startDateTime: string = '4pm - 8pm';
+  startDateTime: string = '4pm - 6pm';
   endDateTime: string = '3pm - 9pm';
 
   merchLink: string = 'http://scarlet-game-jam.allcolorsllc.com/';
-  signupLink: string = 'https://forms.gle/ZMKend3JweRqRFcq9';
-  itchioLink: string = 'https://itch.io/jam/scarlet-game-jam-fall-2023';
+  signupLink: string = 'https://docs.google.com/forms/d/19P7yAW_3LHBU6gGmAWTxkjh7ZloJeJV38LoxELVizEc/';
+  itchioLink: string = 'https://itch.io/jam/sgj-spring-2024';
   stickerPinDesignLink: string = 'https://forms.gle/2Kp8yfb3eDQJDz1CA';
 
-  startDateEventPage: string = 'https://rutgers.campuslabs.com/engage/event/9008349';
-  endDateEventPage: string = 'https://rutgers.campuslabs.com/engage/event/9008349';
+  startDateEventPage: string = 'https://rutgers.campuslabs.com/engage/event/10072788';
+  endDateEventPage: string = 'https://rutgers.campuslabs.com/engage/event/10072788';
 
   eventActive: boolean = false;
 
