@@ -23,16 +23,20 @@
             Sign Up
           </ng-template>
         </app-button>
-        <app-button iconifyIcon="discord" target="_blank" color="discord" [link]="settings.General.discordLink">Discord</app-button>
-        <app-button *ngIf="eventActive" iconifyIcon="itchdotio" target="_blank" color="blank" [link]="itchioLink">Itchio Page</app-button>
+        <app-button iconifyIcon="discord" target="_blank" color="discord"
+          [link]="settings.General.discordLink">Discord</app-button>
+        <app-button *ngIf="eventActive" iconifyIcon="itchdotio" target="_blank" color="blank" [link]="itchioLink">Itchio
+          Page</app-button>
       </div>
     </div>
-    <div class="app-scarlet-game-jam logo-container" *ngIf="breakpointManager.matchedBreakpointOrAbove('SMALL_DESKTOP')">
-      <img src="assets/images/sgj-logo-s2024.png" class="app-scarlet-game-jam logo-painted" [ngClass]="breakpointManager.currentBreakpoint">
+    <div class="app-scarlet-game-jam logo-container"
+      *ngIf="breakpointManager.matchedBreakpointOrAbove('SMALL_DESKTOP')">
+      <img src="assets/images/sgj-logo-s2024.png" class="app-scarlet-game-jam logo-painted"
+        [ngClass]="breakpointManager.currentBreakpoint">
     </div>
   </div>
 </app-full-page-header>
-<app-section title="Collaborations" color="blank" full-width>
+<!-- <app-section title="Collaborations" color="blank" full-width>
   <app-card-grid column-width="250px">
     <app-card outlined hover="fill" color="primary">
       <h1>🕹️ RU ESports</h1>
@@ -43,46 +47,63 @@
     <app-card outlined hover="fill" color="primary">
       <h1>🎸 VGM Club</h1>
       <p class="mb-0">
-        The Rutgers Club for Video Game Music is going play live music during the game jam, as well as host a video game music workshop. Check the itinerary for more details!
+        The Rutgers Club for Video Game Music is going play live music during the game jam, as well as host a video game
+        music workshop. Check the itinerary for more details!
       </p>
     </app-card>
   </app-card-grid>
-</app-section>
+</app-section> -->
 <app-section title="Itinerary" color="foreground-accent-200">
   <p class="mb-0">
   </p>
   <app-card-grid columns="1">
-    <app-event-card title="Jam Meetup and Discussion" date="{{startDate}}" time="{{startDateTime}}" type="In-Person" event-page="{{startDateEventPage}}">
+    <app-event-card title="Jam Meetup and Discussion" date="{{startDate}}" time="{{startDateTime}}" type="In-Person"
+      event-page="{{startDateEventPage}}">
       <div>
-        First in-person meetup of Scarlet Game Jam. This is the time to meet other people participating in the jam and form groups. The meetup marks the official start of Scarlet Game Jam and will be the reveal of the big theme of the game jam.
+        First in-person meetup of Scarlet Game Jam. This is the time to meet other people participating in the jam and
+        form groups. The meetup marks the official start of Scarlet Game Jam and will be the reveal of the big theme of
+        the game jam.
         <br><br>
         Located at the CoRE 301 room.
         <br>
         Food will be served.
       </div>
-      <iframe rightHalf src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d787.9953975583434!2d-74.4621380054329!3d40.52144548870397!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c3c70c4ccb1769%3A0x4da1a6ca989dc72a!2sComputing%20Research%20and%20Education%20Building%2C%20Piscataway%2C%20NJ%2008854!5e0!3m2!1sen!2sus!4v1697516611311!5m2!1sen!2sus" style="border:0; width:100%; height:100%; min-height: 300px;" allowfullscreen="" loading="lazy"></iframe>
+      <iframe rightHalf
+        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d787.9953975583434!2d-74.4621380054329!3d40.52144548870397!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c3c70c4ccb1769%3A0x4da1a6ca989dc72a!2sComputing%20Research%20and%20Education%20Building%2C%20Piscataway%2C%20NJ%2008854!5e0!3m2!1sen!2sus!4v1697516611311!5m2!1sen!2sus"
+        style="border:0; width:100%; height:100%; min-height: 300px;" allowfullscreen="" loading="lazy"></iframe>
     </app-event-card>
     <app-event-card title="Working Day" date="Apr 7" time="4pm - 6pm" type="In-Person">
       <div>
-        In-person meeting time for people to work on their game jam games together. This is also the club's normal Sunday meeting times.
+        In-person meeting time for people to work on their game jam games together. This is also the club's normal
+        Sunday meeting times.
       </div>
-      <iframe rightHalf src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d787.9953975583434!2d-74.4621380054329!3d40.52144548870397!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c3c70c4ccb1769%3A0x4da1a6ca989dc72a!2sComputing%20Research%20and%20Education%20Building%2C%20Piscataway%2C%20NJ%2008854!5e0!3m2!1sen!2sus!4v1697516611311!5m2!1sen!2sus" style="border:0; width:100%; height:100%; min-height: 300px;" allowfullscreen="" loading="lazy"></iframe>
+      <iframe rightHalf
+        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d787.9953975583434!2d-74.4621380054329!3d40.52144548870397!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c3c70c4ccb1769%3A0x4da1a6ca989dc72a!2sComputing%20Research%20and%20Education%20Building%2C%20Piscataway%2C%20NJ%2008854!5e0!3m2!1sen!2sus!4v1697516611311!5m2!1sen!2sus"
+        style="border:0; width:100%; height:100%; min-height: 300px;" allowfullscreen="" loading="lazy"></iframe>
     </app-event-card>
-  <app-event-card title="Working Day" date="Apr 9" time="7pm - 9pm" type="In-Person">
-    <div>
-      In-person meeting time for people to work on their game jam games together. This is also the club's normal Tuesday meeting times.
-    </div>
-    <iframe rightHalf src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d787.9953975583434!2d-74.4621380054329!3d40.52144548870397!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c3c70c4ccb1769%3A0x4da1a6ca989dc72a!2sComputing%20Research%20and%20Education%20Building%2C%20Piscataway%2C%20NJ%2008854!5e0!3m2!1sen!2sus!4v1697516611311!5m2!1sen!2sus" style="border:0; width:100%; height:100%; min-height: 300px;" allowfullscreen="" loading="lazy"></iframe>
-  </app-event-card>
-    <app-event-card title="Game Showcase & Closing Ceremony" date="{{endDate}}" time="{{endDateTime}}" type="In-Person" event-page="{{endDateEventPage}}">
+    <app-event-card title="Working Day" date="Apr 9" time="7pm - 9pm" type="In-Person">
       <div>
-        The final part of Scarlet Game Jam, this is where you will race to finish up your project, showcase your final work, and see everyone else's projects as well. This is the main event of Scarlet Game Jam and it will be a lot of fun.
+        In-person meeting time for people to work on their game jam games together. This is also the club's normal
+        Tuesday meeting times.
+      </div>
+      <iframe rightHalf
+        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d787.9953975583434!2d-74.4621380054329!3d40.52144548870397!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c3c70c4ccb1769%3A0x4da1a6ca989dc72a!2sComputing%20Research%20and%20Education%20Building%2C%20Piscataway%2C%20NJ%2008854!5e0!3m2!1sen!2sus!4v1697516611311!5m2!1sen!2sus"
+        style="border:0; width:100%; height:100%; min-height: 300px;" allowfullscreen="" loading="lazy"></iframe>
+    </app-event-card>
+    <app-event-card title="Game Showcase & Closing Ceremony" date="{{endDate}}" time="{{endDateTime}}" type="In-Person"
+      event-page="{{endDateEventPage}}">
+      <div>
+        The final part of Scarlet Game Jam, this is where you will race to finish up your project, showcase your final
+        work, and see everyone else's projects as well. This is the main event of Scarlet Game Jam and it will be a lot
+        of fun.
         <br><br>
         Located at the LSC Collaborative Learning Center.
         <br>
         Food will be served.
       </div>
-      <iframe rightHalf src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1103.6853168167163!2d-74.43811505481717!3d40.52336274716882!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c3c743edd6d37b%3A0xe597f60676ac8eb1!2sLivingston%20Student%20Center!5e0!3m2!1sen!2sus!4v1711870412335!5m2!1sen!2sus" style="border: 0; width: 100%; height:100%; min-height: 300px;" allowfullscreen="" loading="lazy"></iframe>
+      <iframe rightHalf
+        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1103.6853168167163!2d-74.43811505481717!3d40.52336274716882!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c3c743edd6d37b%3A0xe597f60676ac8eb1!2sLivingston%20Student%20Center!5e0!3m2!1sen!2sus!4v1711870412335!5m2!1sen!2sus"
+        style="border: 0; width: 100%; height:100%; min-height: 300px;" allowfullscreen="" loading="lazy"></iframe>
     </app-event-card>
   </app-card-grid>
 </app-section>
@@ -92,17 +113,21 @@
     margin-bottom: 1.5em;
     max-width: 25em;
   ">
-    Help support the COGs club by buying merchandise! We will use the money raised to make our future events bigger and better. 😄
+    Help support the COGs club by buying merchandise! We will use the money raised to make our future events bigger and
+    better. 😄
   </p>
-  <app-button link="{{merchLink}}" target="_blank" color="primary" style="width: 100%;" [hidden]="merchLink == ''">👕 Merch Shop</app-button>
+  <app-button link="{{merchLink}}" target="_blank" color="primary" style="width: 100%;" [hidden]="merchLink == ''">👕
+    Merch Shop</app-button>
 </app-section>
 <app-section title="Stickers & Pins" color="foreground-accent-300" dog-ear>
   <app-column-layout style="gap: 8px 32px;" class="mb-16">
     <p>
-      We will be selling stickers throughout Scarlet Game Jam! Single stickers will cost a $1 each, and a 5-pack bundle of 4 matte and 1 holographic stickers will cost $4 each.
+      We will be selling stickers throughout Scarlet Game Jam! Single stickers will cost a $1 each, and a 5-pack bundle
+      of 4 matte and 1 holographic stickers will cost $4 each.
     </p>
     <p>
-      We will also be selling pins, which come in sizes of 25mm, 32mm, and 58mm. 25mm pins cost $2 each, 32mm pins cost $3 each, and 58mm pins cost $4 each.
+      We will also be selling pins, which come in sizes of 25mm, 32mm, and 58mm. 25mm pins cost $2 each, 32mm pins cost
+      $3 each, and 58mm pins cost $4 each.
     </p>
   </app-column-layout>
   <app-column-layout class="mb-64">
@@ -114,10 +139,13 @@
     <app-column-layout class="mb-64">
       <div>
         <p class="mb-24">
-          If you make your own sticker/pin design for COGS to help us fundraise, you can get a free version of your sticker/pin! Here's the form to submit your custom sticker/pin designs. Keep in mind they should be game or COGS themed.
+          If you make your own sticker/pin design for COGS to help us fundraise, you can get a free version of your
+          sticker/pin! Here's the form to submit your custom sticker/pin designs. Keep in mind they should be game or
+          COGS themed.
         </p>
         <div style="max-width: 300px;">
-          <app-button link="{{stickerPinDesignLink}}" target="_blank" color="form" iconifyIcon="form"> Merch Design Form</app-button>
+          <app-button link="{{stickerPinDesignLink}}" target="_blank" color="form" iconifyIcon="form"> Merch Design
+            Form</app-button>
         </div>
       </div>
     </app-column-layout>
@@ -126,24 +154,47 @@
 <app-section title="FAQ" color="primary" dog-ear last>
   <mat-accordion>
     <app-question-panel title="What is Scarlet Game Jam?">
-      <p>Scarlet Game Jam is an annual game jam hosted by COGS for all Rutgers students and staff! Similar to any other game jam, participants will be given one week or two(ish) to design and code a game to show off at the end of the jam. At the beginning of each Scarlet Game Jam we will also be unveiling the (optional) theme to inspire or challenge our participants which changes with every scarlet game jam, so each year is a new experience!</p>
-      <p class="mb-0">Participants can join our game jam solo or in a group, its up to you! No experience is required either, so feel free to join regardless of your game design experience. Have no experience and no friends to join with? No worries, at the beginning of every game jam we offer a team assembly time where you can get to know other jammers and team up (or not) to make some amazing games by the end of the event.</p>
+      <p>Scarlet Game Jam is an annual game jam hosted by COGS for all Rutgers students and staff! Similar to any other
+        game jam, participants will be given one week or two(ish) to design and code a game to show off at the end of
+        the jam. At the beginning of each Scarlet Game Jam we will also be unveiling the (optional) theme to inspire or
+        challenge our participants which changes with every scarlet game jam, so each year is a new experience!</p>
+      <p class="mb-0">Participants can join our game jam solo or in a group, its up to you! No experience is required
+        either, so feel free to join regardless of your game design experience. Have no experience and no friends to
+        join with? No worries, at the beginning of every game jam we offer a team assembly time where you can get to
+        know other jammers and team up (or not) to make some amazing games by the end of the event.</p>
     </app-question-panel>
     <app-question-panel title="Where does Scarlet Game Jam take place?">
-      <p>Scarlet Game Jam takes place over a week or two(ish), but we're not going to keep you in place for that long. We understand you're busy college students (we are too!) so the large majority of Scarlet Game Jam actually takes place wherever you want it to. This means you can work in the comfort of your home (dorm, apartment, ...), the library, the dining hall, a table in the Yard, literally anywhere. We do this so that you can work around your schedule and, if working with other people, find the perfect time to meet for your group without having to worry about our availability or the availability of a single room.</p>
-      <p class="mb-0">There are portions of Scarlet Game Jam in person, though, those being: {{startDate}}, where you can brainstorm with other people, form a group if you want, and just hang out in general; And {{endDate}}, the end, where you get to show off your game, see what other people have made, and reminisce over the marathon you just sat through (and hopefully how fun it was!).</p>
+      <p>Scarlet Game Jam takes place over a week or two(ish), but we're not going to keep you in place for that long.
+        We understand you're busy college students (we are too!) so the large majority of Scarlet Game Jam actually
+        takes place wherever you want it to. This means you can work in the comfort of your home (dorm, apartment, ...),
+        the library, the dining hall, a table in the Yard, literally anywhere. We do this so that you can work around
+        your schedule and, if working with other people, find the perfect time to meet for your group without having to
+        worry about our availability or the availability of a single room.</p>
+      <p class="mb-0">There are portions of Scarlet Game Jam in person, though, those being: {{startDate}}, where you
+        can brainstorm with other people, form a group if you want, and just hang out in general; And {{endDate}}, the
+        end, where you get to show off your game, see what other people have made, and reminisce over the marathon you
+        just sat through (and hopefully how fun it was!).</p>
     </app-question-panel>
     <app-question-panel title="Who can come?">
-      <p class="mb-0">Scarlet Game Jam is open to ALL Rutgers students, faculty, and staff. Because of this, Scarlet Game Jam is a great networking/social event where you can meet fellow Rutgers people and form friendships, partnerships, or whatever. Nothing says you have to stop working on your game after the game jam either. If you like your project and you've worked with some likeminded people, we encourage you to finish that game, polish it up, and then release it online for everyone to play (of course make sure to send us the steam link and maybe a key or two 😉). </p>
+      <p class="mb-0">Scarlet Game Jam is open to ALL Rutgers students, faculty, and staff. Because of this, Scarlet
+        Game Jam is a great networking/social event where you can meet fellow Rutgers people and form friendships,
+        partnerships, or whatever. Nothing says you have to stop working on your game after the game jam either. If you
+        like your project and you've worked with some likeminded people, we encourage you to finish that game, polish it
+        up, and then release it online for everyone to play (of course make sure to send us the steam link and maybe a
+        key or two 😉). </p>
     </app-question-panel>
     <app-question-panel title="Can non-Rutgers students come?">
-      <p class="mb-0">Yes! Though they must bring proof of vaccination or an official negative COVID-19 test within 72 hours to all in-person events held during SGJ.</p>
+      <p class="mb-0">Yes! Though they must bring proof of vaccination or an official negative COVID-19 test within 72
+        hours to all in-person events held during SGJ.</p>
     </app-question-panel>
     <app-question-panel title="What if I can't code?">
-      <p class="mb-0">COGS is the perfect place for people who want to explore ALL aspects of game development. This means we accept all artists, music composers, programmers, etc with open arms! If you have an idea for a game, or just want to learn how to make them, COGS will help you find a place to apply what you're good at.</p>
+      <p class="mb-0">COGS is the perfect place for people who want to explore ALL aspects of game development. This
+        means we accept all artists, music composers, programmers, etc with open arms! If you have an idea for a game,
+        or just want to learn how to make them, COGS will help you find a place to apply what you're good at.</p>
     </app-question-panel>
     <app-question-panel title="What can we do with our games?">
-      <p class="mb-0">Your team owns 100% of the game you make during jam. Feel free to turn your game jam games into a full release if you think the game has potential. </p>
+      <p class="mb-0">Your team owns 100% of the game you make during jam. Feel free to turn your game jam games into a
+        full release if you think the game has potential. </p>
     </app-question-panel>
   </mat-accordion>
 </app-section>
