@@ -16,7 +16,7 @@ export class ScarletGameJamPageComponent implements OnInit {
   startDate: string = 'Apr 2';
   endDate: string = 'Apr 14';
 
-  startDateTime: string = '4pm - 6pm';
+  startDateTime: string = '7pm - 9pm';
   endDateTime: string = '3pm - 9pm';
 
   merchLink: string = 'http://scarlet-game-jam.allcolorsllc.com/';
