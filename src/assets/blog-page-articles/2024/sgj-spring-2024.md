@@ -7,6 +7,8 @@
 	Tags:			SGJ, event, spring
 -->
 
+![Picture](assets/pictures-page-images/2024/sgj-spring-photo.jpg)
+
 [Itch.io Page](https://itch.io/jam/scarlet-game-jam-spring-2024)
 
 This semester's theme was "**Worm**," and our submissions were *infested* with creative games!
