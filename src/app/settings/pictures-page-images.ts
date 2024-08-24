@@ -765,21 +765,6 @@ export const PicturesPageImages = [
 		/* Tags        */ [],
 	),
   new ImageInfo(
-		/* File path   */ "2023/2_fall/2_fireside-1.png",
-		/* Description */ "",
-		/* Tags        */ [],
-	),
-  new ImageInfo(
-		/* File path   */ "2023/2_fall/2_fireside-2.png",
-		/* Description */ "",
-		/* Tags        */ [],
-	),
-  new ImageInfo(
-		/* File path   */ "2023/2_fall/3_final-1.png",
-		/* Description */ "",
-		/* Tags        */ [],
-	),
-  new ImageInfo(
 		/* File path   */ "2023/2_fall/3_final-2.png",
 		/* Description */ "",
 		/* Tags        */ [],
