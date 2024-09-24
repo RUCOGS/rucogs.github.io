@@ -804,4 +804,9 @@ export const PicturesPageImages = [
 		/* Description */ "",
 		/* Tags        */ [],
 	),
+  new ImageInfo(
+		/* File path   */ "2024/1_spring/sgj-spring-photo.png",
+		/* Description */ "",
+		/* Tags        */ [],
+	),
 ];
