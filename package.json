@@ -33,7 +33,6 @@
     "@visurel/iconify-angular": "^11.0.0",
     "apollo-angular": "^3.0.1",
     "apollo-upload-client": "^17.0.0",
-    "cogs-angular-website": "file:",
     "colorthief": "^2.2.0",
     "convert-css-length": "^2.0.1",
     "deep-equal": "^2.0.5",
