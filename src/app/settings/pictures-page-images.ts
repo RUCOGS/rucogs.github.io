@@ -805,26 +805,6 @@ export const PicturesPageImages = [
 		/* Tags        */ [],
 	),
   new ImageInfo(
-		/* File path   */ "2024/1_spring/PXL_20240414_231132400.png",
-		/* Description */ "",
-		/* Tags        */ [],
-	),
-  new ImageInfo(
-		/* File path   */ "2024/1_spring/PXL_20240414_231543688PORTRAIT.png",
-		/* Description */ "",
-		/* Tags        */ [],
-	),
-  new ImageInfo(
-		/* File path   */ "2024/1_spring/PXL_20240415_000548846LONG_EXPOSURE-02ORIGINAL.png",
-		/* Description */ "",
-		/* Tags        */ [],
-	),
-  new ImageInfo(
-		/* File path   */ "2024/1_spring/PXL_20240415_003158359.png",
-		/* Description */ "",
-		/* Tags        */ [],
-	),
-  new ImageInfo(
 		/* File path   */ "2024/1_spring/sgj-spring-photo.png",
 		/* Description */ "",
 		/* Tags        */ [],
