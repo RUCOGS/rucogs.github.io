@@ -1,0 +1,5 @@
+@use './scarlet-showcase/scarlet-showcase-page.component-theme' as ggj;
+
+@mixin theme($theme) {
+  @include ggj.theme($theme);
+}

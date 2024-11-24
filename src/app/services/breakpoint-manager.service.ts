@@ -15,6 +15,7 @@ export class BreakpointManagerService implements OnDestroy {
     return BreakpointsData[BreakpointsData.length - 1].name;
   }
 
+  onBreakpointChanged = new Subject<void>();
   private breakpointsMatched: boolean[] = [];
   protected onDestroy$ = new Subject<void>();
 
@@ -25,6 +26,7 @@ export class BreakpointManagerService implements OnDestroy {
         .pipe(takeUntil(this.onDestroy$))
         .subscribe((state: BreakpointState) => {
           this.breakpointsMatched[i] = state.matches;
+          this.onBreakpointChanged.next();
         });
     }
     // Last element is the default and will always be matched.

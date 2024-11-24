@@ -1,13 +1,13 @@
 .button {
-	border: none;
-	text-align: center;
-	text-decoration: none;
-	display: inline-block;
-	padding: 0 1.25em;
-	height: 3em;
+  border: none;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  padding: 0 1.25em;
+  height: 3em;
   width: 100%;
   border-radius: 30em;
-  display: flex;  
+  display: flex;
   align-items: center;
   justify-content: center;
   outline: 0px;
@@ -17,4 +17,8 @@
   background-color: transparent;
   border: solid;
   border-width: 2px;
+}
+
+:host {
+  display: block;
 }

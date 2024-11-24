@@ -10,6 +10,8 @@ export class FullPageHeaderComponent implements OnInit {
   @Input() color: string = 'primary';
   @Input() bgRepeatMode: string = '';
   @Input() bgPosition: string = '';
+  @Input() gradient: boolean = true;
+  @Input() fgColor: string = '';
 
   constructor() {}
 
@@ -17,9 +19,20 @@ export class FullPageHeaderComponent implements OnInit {
 
   getBgStyle(): Object {
     return {
-      'background-image': 'linear-gradient(to bottom, var(--background-color), #00000000), url(' + this.bgImage + ')',
+      'background-image':
+        (this.gradient ? 'linear-gradient(to bottom, var(--background-color), #00000000),' : '') +
+        ' url(' +
+        this.bgImage +
+        ')',
       ...(this.bgRepeatMode !== '' && { 'background-repeat': this.bgRepeatMode, 'background-size': 'auto' }),
       ...(this.bgPosition !== '' && { 'background-position': this.bgPosition }),
+      ...(this.color == 'none' && { 'background-color': 'none' }),
+    };
+  }
+
+  getIconClass(): Object {
+    return {
+      [this.fgColor]: true,
     };
   }
 }

@@ -51,7 +51,7 @@ export class SettingsService {
     public pageLinks: PageLink[] = [
       new PageLink('Home', 'home'),
       // new PageLink('SGJ', 'scarlet-game-jam'),
-      // new PageLink('GGJ', 'global-game-jam'),
+      new PageLink('Scarlet S', 'scarlet-showcase'),
       new PageLink('Members', 'members'),
       new PageLink('Projects', 'projects'),
       new PageLink('Pics', 'pictures'),

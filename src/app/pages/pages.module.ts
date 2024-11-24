@@ -26,12 +26,13 @@ const routes: Route[] = [
       import('./scarlet-game-jam/scarlet-game-jam-page.module').then((m) => m.ScarletGameJamPageModule),
   },
   {
-    path: 'ggj',
-    redirectTo: 'global-game-jam',
+    path: 'ss',
+    redirectTo: 'scarlet-showcase',
   },
   {
-    path: 'global-game-jam',
-    loadChildren: () => import('./global-game-jam/global-game-jam-page.module').then((m) => m.GlobalGameJamPageModule),
+    path: 'scarlet-showcase',
+    loadChildren: () =>
+      import('./scarlet-showcase/scarlet-showcase-page.module').then((m) => m.ScarletShowcasePageModule),
   },
   { path: 'blog', loadChildren: () => import('./blog/blog-dir.module').then((m) => m.BlogDirModule) },
   { path: 'login', loadChildren: () => import('./login/login-page.module').then((m) => m.LoginPageModule) },

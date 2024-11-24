@@ -5,29 +5,27 @@ import { SettingsService } from '@src/_settings';
 declare var FlipDown: any;
 
 @Component({
-  selector: 'app-global-game-jam-page',
-  templateUrl: './global-game-jam-page.component.html',
-  styleUrls: ['./global-game-jam-page.component.css'],
+  selector: 'app-scarlet-showcase-page',
+  templateUrl: './scarlet-showcase-page.component.html',
+  styleUrls: ['./scarlet-showcase-page.component.css'],
   host: {
     class: 'page',
   },
 })
-export class GlobalGameJamPageComponent implements AfterViewInit {
-  startDate: string = 'Feb 3 5:00 pm';
+export class ScarletShowcasePageComponent implements AfterViewInit {
+  startDate: string = 'Dec 8 5:00 pm';
 
   eventActive: boolean = false;
 
-  signupLink: string = 'https://docs.google.com/forms/d/e/1FAIpQLSdKO4CJxCXNtefgiYBx07Fq03feDFc897z6lLGrEi7wttPRLA/viewform';
-  siteLink: string = 'https://globalgamejam.org/2023/jam-sites/rutgers-new-brunswick-creation-games-society';
+  eventPage: string = 'https://rutgers.campuslabs.com/engage/event/10744395';
 
   constructor(public breakpointManager: BreakpointManagerService, public settings: SettingsService) {}
 
   getSemesterString = getSemesterString;
-  
+
   ngAfterViewInit(): void {
     if (!this.eventActive) {
-      var finalDateSeconds =
-        new Date(this.startDate + ', ' + new Date().getFullYear() + ' EST').getTime() / 1000;
+      var finalDateSeconds = new Date(this.startDate + ', ' + new Date().getFullYear() + ' EST').getTime() / 1000;
       var flipdown = new FlipDown(finalDateSeconds, 'sgj-countdown', {
         theme: 'dark',
       }).start();

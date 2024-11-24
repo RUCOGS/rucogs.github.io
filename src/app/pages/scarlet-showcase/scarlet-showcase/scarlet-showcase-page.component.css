@@ -1,0 +1,162 @@
+.flipdown {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.logo-painted {
+  max-width: 100%;
+  max-height: 60vh;
+  filter: drop-shadow(0 0 1rem black);
+  float: right;
+}
+
+/* Uni Sans */
+@font-face {
+  font-family: 'Uni Sans';
+  src: url('/assets/fonts/uni-sans/Uni Sans Thin.otf') format('opentype');
+  font-weight: 100;
+}
+
+@font-face {
+  font-family: 'Uni Sans';
+  src: url('/assets/fonts/uni-sans/Uni Sans Thin Italic.otf') format('opentype');
+  font-weight: 100;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'Uni Sans';
+  src: url('/assets/fonts/uni-sans/Uni Sans Heavy.otf') format('opentype');
+  font-weight: 500;
+}
+
+@font-face {
+  font-family: 'Uni Sans';
+  src: url('/assets/fonts/uni-sans/Uni Sans Heavy Italic.otf') format('opentype');
+  font-weight: 500;
+  font-style: italic;
+}
+
+/* Steelfish */
+@font-face {
+  font-family: 'Steelfish';
+  src: url('/assets/fonts/steelfish/steelfish rg.otf') format('opentype');
+  font-weight: 500;
+}
+
+@font-face {
+  font-family: 'Steelfish';
+  src: url('/assets/fonts/steelfish/steelfish rg it.otf') format('opentype');
+  font-weight: 500;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'Steelfish';
+  src: url('/assets/fonts/steelfish/steelfish bd.otf') format('opentype');
+  font-weight: 700;
+}
+
+@font-face {
+  font-family: 'Steelfish';
+  src: url('/assets/fonts/steelfish/steelfish bd it.otf') format('opentype');
+  font-weight: 700;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'Steelfish';
+  src: url('/assets/fonts/steelfish/steelfish eb.otf') format('opentype');
+  font-weight: 800;
+}
+
+@font-face {
+  font-family: 'Steelfish';
+  src: url('/assets/fonts/steelfish/steelfish eb it.otf') format('opentype');
+  font-weight: 800;
+  font-style: italic;
+}
+
+/* Now */
+@font-face {
+  font-family: 'Now';
+  src: url('/assets/fonts/now/Now-Thin.otf') format('opentype');
+  font-weight: 100;
+}
+
+@font-face {
+  font-family: 'Now';
+  src: url('/assets/fonts/now/Now-Light.otf') format('opentype');
+  font-weight: 300;
+}
+
+@font-face {
+  font-family: 'Now';
+  src: url('/assets/fonts/now/Now-Regular.otf') format('opentype');
+  font-weight: 400;
+}
+
+@font-face {
+  font-family: 'Now';
+  src: url('/assets/fonts/now/Now-Medium.otf') format('opentype');
+  font-weight: 500;
+}
+
+@font-face {
+  font-family: 'Now';
+  src: url('/assets/fonts/now/Now-Bold.otf') format('opentype');
+  font-weight: 700;
+}
+
+@font-face {
+  font-family: 'Now';
+  src: url('/assets/fonts/now/Now-Black.otf') format('opentype');
+  font-weight: 900;
+}
+
+.club-scroll {
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  overflow: hidden;
+}
+
+.club-scroll .marquee {
+  white-space: nowrap;
+  animation: marquee 16s linear infinite;
+  max-width: none;
+
+  display: flex;
+  flex-direction: row;
+  gap: 1em;
+  padding-right: 1em;
+  align-items: center;
+}
+
+.club-scroll.reverse .marquee {
+  animation: marquee 16s linear infinite reverse;
+}
+
+.club-scroll .marquee h1 {
+  font-family: 'Now';
+  font-size: 2.5em;
+  margin: 0;
+  color: #828282;
+}
+
+.club-scroll .marquee p {
+  font-weight: 300;
+  font-size: 1.5em;
+  margin: 0;
+  color: #828282;
+}
+
+@keyframes marquee {
+  0% {
+    transform: translate(0, 0);
+  }
+  100% {
+    transform: translate(-100%, 0);
+  }
+}

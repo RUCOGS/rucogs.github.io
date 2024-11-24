@@ -9,6 +9,7 @@
       behavior: 'smooth' 
     });
   ">
-    <ic-icon class="app-full-page-header scroll-icon iconify {{color}}" size="42px" icon="arrowDownCircleFill"></ic-icon>
+    <ic-icon class="app-full-page-header scroll-icon iconify {{color}}" [ngClass]="getIconClass()" size="42px"
+      icon="arrowDownCircleFill"></ic-icon>
   </button>
 </div>

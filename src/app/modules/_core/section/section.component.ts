@@ -18,6 +18,7 @@ export class SectionComponent implements OnInit {
   fullWidth: boolean;
   shadow: boolean;
   bottomGradient: boolean;
+  topGradient: boolean;
 
   constructor(
     private elementRef: ElementRef,
@@ -26,6 +27,7 @@ export class SectionComponent implements OnInit {
     @Optional() @Attribute('full-page') fullPage: any,
     @Optional() @Attribute('full-width') fullWidth: any,
     @Optional() @Attribute('shadow') shadow: any,
+    @Optional() @Attribute('top-gradient') topGradient: any,
     @Optional() @Attribute('bottom-gradient') bottomGradient: any,
   ) {
     this.last = last != undefined;
@@ -34,6 +36,7 @@ export class SectionComponent implements OnInit {
     this.fullWidth = fullWidth != undefined;
     this.shadow = shadow != undefined;
     this.bottomGradient = bottomGradient != undefined;
+    this.topGradient = topGradient != undefined;
   }
 
   ngOnInit(): void {
@@ -47,17 +50,22 @@ export class SectionComponent implements OnInit {
 
   //transparent-background-color
   getBgStyle(): Object {
+    let gradient = '';
+    if (this.topGradient || this.bottomGradient) {
+      gradient =
+        'linear-gradient(' +
+        (this.topGradient ? 'var(--background-color),' : '') +
+        '#00000000' +
+        (this.bottomGradient ? ', var(--background-color)' : '') +
+        '),';
+    }
     return {
       ...(this.bgImage && {
-        'background-image':
-          'linear-gradient(var(--background-color), #00000000' +
-          (this.bottomGradient ? ', var(--background-color)' : '') +
-          '), url(' +
-          this.bgImage +
-          ')',
+        'background-image': gradient + 'url(' + this.bgImage + ')',
       }),
       ...(this.bgRepeatMode !== '' && { 'background-repeat': this.bgRepeatMode, 'background-size': 'auto' }),
       ...(this.bgPosition !== '' && { 'background-position': this.bgPosition }),
+      ...(this.color == 'none' && { 'background-color': 'none' }),
     };
   }
 }

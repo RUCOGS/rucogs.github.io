@@ -7,18 +7,18 @@ import { CardsModule } from '@src/app/modules/cards/cards.module';
 import { CoreModule } from '@src/app/modules/_core/core.module';
 import { SEOUpdateData } from '@src/app/services/seo.service';
 import { IconModule } from '@visurel/iconify-angular';
-import { GlobalGameJamPageComponent } from './global-game-jam/global-game-jam-page.component';
+import { ScarletShowcasePageComponent } from './scarlet-showcase/scarlet-showcase-page.component';
 
-export { GlobalGameJamPageComponent };
+export { ScarletShowcasePageComponent };
 
 const ROUTES: Route[] = [
   {
     path: '',
-    component: GlobalGameJamPageComponent,
+    component: ScarletShowcasePageComponent,
     data: {
-      titleAll: 'Global Game Jam',
+      titleAll: 'Scarlet Showcase',
       description:
-        'Come make a game with friends in a week. Programmers, artists, and musicians are welcomed, and no experience is required! Global Game Jam is hosted by the Creation of Games Society at Rutgers, and is a week long event.',
+        'Come checkout creative works made by COGS, RUCVGM, VANCE, Animation Club, and Digital Art Club! Participate in fun activities, win prizes, and buy merch.',
       twitterCard: 'summary_large_image',
       ogImage: 'assets/images/sgj-summary-banner-f2022.png',
     } as SEOUpdateData,
@@ -26,7 +26,7 @@ const ROUTES: Route[] = [
 ];
 
 @NgModule({
-  declarations: [GlobalGameJamPageComponent],
+  declarations: [ScarletShowcasePageComponent],
   imports: [
     RouterModule.forChild(ROUTES),
     CommonModule,
@@ -37,4 +37,4 @@ const ROUTES: Route[] = [
     IconModule,
   ],
 })
-export class GlobalGameJamPageModule {}
+export class ScarletShowcasePageModule {}

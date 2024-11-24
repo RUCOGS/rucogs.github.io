@@ -1,0 +1,289 @@
+<div style="
+  background: url('assets/images/ss-bg.png');
+">
+  <app-full-page-header color="none" fgColor="primary" [gradient]="false">
+    <div class="app-scarlet-showcase">
+      <div style="
+      display: flex;
+      flex-direction: column;
+    ">
+        <h1 class="mat-display-4 app-scarlet-showcase text mb-2" style="
+        font-family: 'Uni Sans';
+        font-weight: 700;
+        font-size: 3.8em;
+        font-style: italic;
+      ">Scarlet Showcase</h1>
+        <div style="
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5em 0.75em;
+        ">
+          <div style="
+          display: inline-block;
+          background-color: white;
+          padding: 0.25em 0.5em 0.25em 0.5em;
+        ">
+            <h1 class="mb-0" style="
+          font-family: 'Steelfish';
+          font-weight: 900;
+          text-transform: uppercase;
+          color: black;
+          font-size: 1.5em;">With high hopes we race toward the finish line</h1>
+          </div>
+          <div style="
+          display: inline-block;
+          background-color: white;
+          padding: 0.25em 0.5em 0.25em 0.5em;
+        ">
+            <h1 class="mb-0" style="
+          position: relative;
+          top: 0.1em;
+          font-family: 'Now';
+          font-weight: 900;
+          color: black;
+          text-transform: uppercase;
+          letter-spacing: 0.75em;
+          margin-right: -0.75em;
+          font-size: 1.5em;">{{getSemesterString()}}</h1>
+          </div>
+        </div>
+        <div [ngStyle]="{
+        'display': eventActive ? 'none' : ''
+        }" id="sgj-countdown" class="app-scarlet-showcase flipdown" style="
+  padding-bottom: 1em;"></div>
+        <p style="
+        font-family: 'Now';
+        font-weight: 400;
+        font-size: 0.75em;
+        color: #828282;
+        line-height: 1.3em;
+      ">RUSA Allocations Board, paid for by student fees.<br>
+          Event sponsored by Creation of Games Society, a<br>
+          Rutgers Univerrsity Student Organization</p>
+        <div class="app-scarlet-showcase logo-container" [ngClass]="breakpointManager.currentBreakpoint"
+          style="width: 100%">
+          <img src="assets/images/ss-logo.png" class="app-scarlet-showcase logo-painted"
+            [ngClass]="breakpointManager.currentBreakpoint">
+        </div>
+      </div>
+    </div>
+  </app-full-page-header>
+  <app-section color="none" class="theme">
+    <div style="width: 100vw"></div>
+    <div style="display: flex; gap: 4em; flex-direction: column;">
+      <div>
+        <h1>What is Scarlet Showcase?</h1>
+        <p>Scarlet Showcase is a showcase of the creative-work from creative-oriented clubs at Rutgers! Creation of
+          Games
+          Society (COGS), Animation Club (AC), Digital Art Club (DAC), Voice Acting Network and Collective of
+          Entertainers
+          (VANCE), and Rutgers
+          University Club for Video Game Music (RUCVGM), are coming together to showcase member projects and run fun
+          activities!.<br><br> Come try
+          out
+          video
+          games from COGS, listen to music made by RUCVGM, voice act in a mini recording booth ran by VANCE, see art
+          made
+          by Digital Art Club members, and view the rough-cut of Animation Club's upcoming animated short-film! See the
+          Itinerary below for a full list of activities.</p>
+      </div>
+      <app-column-layout style="gap: 2em;">
+        <div style="width: 100%">
+          <h1>Dec 8th, 5 - 8 PM Livingston Hall</h1>
+          <p class="mb-0">
+            Scarlet Showcase will be hosted inside Livingston Hall, which is in the Livingston Student
+            Center. The event will run from 5 pm to 8 pm. A Google Map view of the location is shown for your
+            convenience.
+          </p>
+          <p class="mt-16 mb-16">RSVP for the event on this event's GetInvolved page, and join the COGS discord for more
+            information!
+          </p>
+          <div style="display: inline-block; max-width: 300px; width: 100%;">
+            <app-button [link]="eventPage" target="_blank" color="primary" class="mb-16">📃 Event RSVP</app-button>
+            <app-button iconifyIcon="discord" target="_blank" color="discord"
+              [link]="settings.General.discordLink">Discord</app-button>
+          </div>
+        </div>
+        <iframe
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3032.8205973338113!2d-74.43978022398375!3d40.52345627142261!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c3c743edd6d37b%3A0xe597f60676ac8eb1!2sLivingston%20Student%20Center!5e0!3m2!1sen!2sus!4v1732416112162!5m2!1sen!2sus"
+          style="border: 0; width: 100%; min-height: 300px; height: 100%" allowfullscreen="" loading="lazy"></iframe>
+      </app-column-layout>
+      <div style="display: flex; gap: 0.5em; flex-direction: column;">
+        <div class="club-scroll" *ngFor="let i of [0, 1]" [ngClass]="{
+      'reverse': i % 2 == 0
+    }">
+          <div class="marquee" *ngFor="let _ of [].constructor(4)">
+            <h1>COGS</h1>
+            <p>X</p>
+            <h1>VANCE</h1>
+            <p>X</p>
+            <h1>RUCVGM</h1>
+            <p>X</p>
+            <h1>AC</h1>
+            <p>X</p>
+            <h1>DAC</h1>
+            <p>X</p>
+          </div>
+        </div>
+      </div>
+      <div>
+        <h1 style="
+        font-family: 'Uni Sans';
+        font-style: italic;
+        margin-bottom: 1em;
+      ">Itinerary</h1>
+        <div style="display: flex; flex-direction: column; gap: 2em;">
+          <app-column-layout style="gap: 0;" grid-template-columns="12em 1fr">
+            <h2 style="
+          font-family: 'Now';
+          font-weight: 900;
+          font-size: 2em;
+          min-width: 5em;
+          margin: 0;
+        ">5:00 PM</h2>
+            <div style="flex-grow: 1;">
+              <h2>Showcase + Activities</h2>
+              <p>In the first part of the event, clubs will showcase their projects and host various activities. If you
+                participate in 5+ activities, you're eligible for a <b>secret raffle prize</b>! Here's
+                a list of all the activities and showcases:</p>
+              <div>
+                <h2 style="font-weight: 900; font-size: 2em;">
+                  COGS
+                </h2>
+                <ul style="margin-top: 0;">
+                  <li>
+                    Demoing COGS member semesterly video game projects
+                  </li>
+                  <li>
+                    COGS speedrun competition
+                    <ul>
+                      <li>
+                        A speedrun competition will be held for a COGS-made video game. Try to complete the game as fast
+                        as possible and place in the top 3 on the leaderboard!
+                      </li>
+                      <li>
+                        Top 3 fastest times will win free stickers and candy.
+                      </li>
+                      <li>
+                        1st place will <b>win an official 7 inch Among Us plushie</b>
+                      </li>
+                    </ul>
+                  </li>
+                  <li>
+                    Merch
+                    <ul>
+                      <li>
+                        Buy video game themed merchnadise to help support COGS!
+                      </li>
+                    </ul>
+                  </li>
+                </ul>
+              </div>
+              <div>
+                <h2 style="font-weight: 900; font-size: 2em;">
+                  RUCVGM
+                </h2>
+                <ul style="margin-top: 0;">
+                  <li>
+                    Showcasing member performances and projects
+                  </li>
+                  <li>
+                    Guess the video game music quiz
+                  </li>
+                </ul>
+              </div>
+              <div>
+                <h2 style="font-weight: 900; font-size: 2em;">
+                  VANCE
+                </h2>
+                <ul style="margin-top: 0;">
+                  <li>
+                    Showcase of VANCE projects
+                  </li>
+                  <li>
+                    Live script reading and dubbing
+                    <ul>
+                      <li>Spin a giant spinner to select a random short voice-acting script, and deliver your best take
+                        into the mic!</li>
+                    </ul>
+                  </li>
+                  <li>
+                    Technical introduction to voice acting equipment and software
+                  </li>
+                </ul>
+              </div>
+              <div>
+                <h2 style="font-weight: 900; font-size: 2em;">
+                  Animation Club
+                </h2>
+                <ul style="margin-top: 0;">
+                  <li>
+                    Premiere of a rough cut/trailer for their annual animated short-film
+                  </li>
+                  <li>
+                    Animation activity
+                    <ul>
+                      Learn how to use animation software and make a basic animation!
+                    </ul>
+                  </li>
+                  <li>
+                    Dollar Doodles
+                    <ul>
+                      <li>
+                        Comission Animation Club members to draw a sketch of anything for one dollar!
+                      </li>
+                    </ul>
+                  </li>
+                </ul>
+              </div>
+              <div>
+                <h2 style="font-weight: 900; font-size: 2em;">
+                  Digital Art Club
+                </h2>
+                <ul style="margin-top: 0;">
+                  <li>
+                    Showcase of member artworks
+                  </li>
+                  <li>
+                    Live digital art software demo
+                    <ul>
+                      Learn how to use digital art software and digital art tablets!
+                    </ul>
+                  </li>
+                  <li>
+                    Merch
+                    <ul>
+                      Buy merchnadise from Digital Art Club artists!
+                    </ul>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </app-column-layout>
+          <app-column-layout style="gap: 0" grid-template-columns="12em 1fr">
+            <h2 style="
+          font-family: 'Now';
+          font-weight: 900;
+          font-size: 2em;
+          min-width: 5em;
+          margin: 0;
+        ">7:00 PM</h2>
+            <div>
+              <h2>Awards Ceremony</h2>
+              <p>A formal awards ceremony will be held where clubs will give out awards to their members in various
+                categories. Two awards from each club will be presented as a physical trophy. The award trophies are
+                generously
+                provided
+                by <a href="https://rutgers.campuslabs.com/engage/organization/rumakersclub"
+                  target="_blank">RUMakers</a>.
+                Attendees
+                can vote on a few
+                community awards, so be sure to vote on your
+                favorite club projects!</p>
+            </div>
+          </app-column-layout>
+        </div>
+      </div>
+    </div>
+  </app-section>
+</div>

@@ -1,15 +1,8 @@
 :host {
-	display: grid;
-	grid-template-columns: repeat(2, 1fr);
-	gap: 32px;
-}
-
-@media only screen and (max-width: 1080px) {
-	:host {
-		grid-template-columns: repeat(1, 1fr);
-	}
+  display: grid;
+  gap: 32px;
 }
 
 :host > * {
-	display: block;
+  display: block;
 }
