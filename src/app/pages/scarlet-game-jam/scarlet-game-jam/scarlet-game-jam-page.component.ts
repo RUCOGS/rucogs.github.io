@@ -34,8 +34,8 @@ export class ScarletGameJamPageComponent implements OnInit {
   getSemesterString = getSemesterString;
 
   ngOnInit(): void {
-    let startDateTimeStart = convertHourMinute12to24(this.startDateTime.split('-')[0]);
-    let startDateObj = new Date(this.startDate + ', ' + new Date().getFullYear() + ' ' + startDateTimeStart + ' EST');
+    let startDateTime24Hr = convertHourMinute12to24(this.startDateTime.split('-')[0]);
+    let startDateObj = new Date(this.startDate + ', ' + new Date().getFullYear() + ' ' + startDateTime24Hr + ' EST');
     this.eventActive = startDateObj < new Date();
     let finalDateSeconds = startDateObj.getTime() / 1000;
 

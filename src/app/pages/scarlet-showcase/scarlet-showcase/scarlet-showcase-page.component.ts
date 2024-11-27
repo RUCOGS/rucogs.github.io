@@ -1,6 +1,6 @@
 import { AfterViewInit, Component } from '@angular/core';
 import { BreakpointManagerService } from '@app/services/breakpoint-manager.service';
-import { getSemesterString } from '@src/app/utils/duration-utils';
+import { convertHourMinute12to24, getSemesterString } from '@src/app/utils/duration-utils';
 import { SettingsService } from '@src/_settings';
 declare var FlipDown: any;
 
@@ -14,7 +14,7 @@ declare var FlipDown: any;
 })
 export class ScarletShowcasePageComponent implements AfterViewInit {
   startDate: string = 'Dec 8';
-  startTime: string = '5pm';
+  startTime: string = '5:00 pm';
 
   eventActive: boolean = false;
 
@@ -25,9 +25,11 @@ export class ScarletShowcasePageComponent implements AfterViewInit {
   getSemesterString = getSemesterString;
 
   ngAfterViewInit(): void {
+    let startTime24Hr = convertHourMinute12to24(this.startTime);
     if (!this.eventActive) {
       var finalDateSeconds =
-        new Date(this.startDate + ', ' + new Date().getFullYear() + ' ' + this.startTime + ' EST').getTime() / 1000;
+        new Date(this.startDate + ', ' + new Date().getFullYear() + ' ' + startTime24Hr + ' EST').getTime() / 1000;
+      console.log('using file seconds: ', finalDateSeconds);
       var flipdown = new FlipDown(finalDateSeconds, 'sgj-countdown', {
         theme: 'dark',
       }).start();
