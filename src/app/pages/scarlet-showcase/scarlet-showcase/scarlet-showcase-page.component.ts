@@ -13,7 +13,8 @@ declare var FlipDown: any;
   },
 })
 export class ScarletShowcasePageComponent implements AfterViewInit {
-  startDate: string = 'Dec 8 5:00 pm';
+  startDate: string = 'Dec 8';
+  startTime: string = '5pm';
 
   eventActive: boolean = false;
 
@@ -25,7 +26,8 @@ export class ScarletShowcasePageComponent implements AfterViewInit {
 
   ngAfterViewInit(): void {
     if (!this.eventActive) {
-      var finalDateSeconds = new Date(this.startDate + ', ' + new Date().getFullYear() + ' EST').getTime() / 1000;
+      var finalDateSeconds =
+        new Date(this.startDate + ', ' + new Date().getFullYear() + ' ' + this.startTime + ' EST').getTime() / 1000;
       var flipdown = new FlipDown(finalDateSeconds, 'sgj-countdown', {
         theme: 'dark',
       }).start();
