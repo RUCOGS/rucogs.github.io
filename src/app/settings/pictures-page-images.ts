@@ -829,4 +829,44 @@ export const PicturesPageImages = [
 		/* Description */ "",
 		/* Tags        */ [],
 	),
+  new ImageInfo(
+		/* File path   */ "2024/2_fall/IMG_0224.png",
+		/* Description */ "",
+		/* Tags        */ [],
+	),
+  new ImageInfo(
+		/* File path   */ "2024/2_fall/IMG_9253.png",
+		/* Description */ "",
+		/* Tags        */ [],
+	),
+  new ImageInfo(
+		/* File path   */ "2024/2_fall/IMG_9310.png",
+		/* Description */ "",
+		/* Tags        */ [],
+	),
+  new ImageInfo(
+		/* File path   */ "2024/2_fall/PXL_20241111_003451107.png",
+		/* Description */ "",
+		/* Tags        */ [],
+	),
+  new ImageInfo(
+		/* File path   */ "2024/2_fall/PXL_20241111_003520157.png",
+		/* Description */ "",
+		/* Tags        */ [],
+	),
+  new ImageInfo(
+		/* File path   */ "2024/2_fall/PXL_20241111_011453414.png",
+		/* Description */ "",
+		/* Tags        */ [],
+	),
+  new ImageInfo(
+		/* File path   */ "2024/2_fall/PXL_20241111_023623589.png",
+		/* Description */ "",
+		/* Tags        */ [],
+	),
+  new ImageInfo(
+		/* File path   */ "2024/2_fall/PXL_20241208_234428830.png",
+		/* Description */ "",
+		/* Tags        */ [],
+	),
 ];
