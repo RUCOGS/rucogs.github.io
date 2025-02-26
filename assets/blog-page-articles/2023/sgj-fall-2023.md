@@ -9,7 +9,7 @@
 
 ![Picture](assets/pictures-page-images/2023/2_fall/1_sgj-everyone.png)
 
-[Itch.io page](https://itch.io/jam/scarlet-game-jam-fall-2023)
+**[Itch.io page](https://itch.io/jam/scarlet-game-jam-fall-2023)**
 
 This semester's theme was "**One Shot**," and there were so many different submissions!
 
