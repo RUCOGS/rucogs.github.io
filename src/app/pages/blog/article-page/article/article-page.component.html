@@ -1,20 +1,16 @@
-<div class="app-article-page bg" [style]="getBgStyle()"></div>
 <div class="app-article-page content-container">
-  <app-scrollspy-nav-layout [headings]="headings">
-    <h1 class="app-article-page title mat-display-4">{{article?.title}}</h1>
-    <div class="app-article-page subtitle-container">
-      <div class="app-article-page subtitle-nested-container">
-        <div class="app-article-page authors">{{article?.getAuthorsString()}}</div>
-        <div class="app-article-page date">{{article?.date}}</div>
-      </div>
-      <app-tag-container style="text-align: left; flex: 1;">
-        <app-tag color="primary" *ngFor="let tag of article?.tags">{{tag}}</app-tag>
-      </app-tag-container>
+  <h1 class="app-article-page title mat-display-4">{{article?.title}}</h1>
+  <div class="app-article-page subtitle-container">
+    <div class="app-article-page subtitle-nested-container">
+      <div class="app-article-page authors">{{article?.getAuthorsString()}}</div>
+      <div class="app-article-page date">{{article?.date}}</div>
     </div>
-    <markdown
-      lineNumbers
-      src="{{articlesDir}}{{article?.filePath}}.md"
-      (load)="onLoad()">
+    <app-tag-container style="text-align: left; flex: 1;">
+      <app-tag color="primary" *ngFor="let tag of article?.tags">{{tag}}</app-tag>
+    </app-tag-container>
+  </div>
+  <app-scrollspy-nav-layout [headings]="headings">
+    <markdown lineNumbers src="{{articlesDir}}{{article?.filePath}}.md" (load)="onLoad()">
     </markdown>
   </app-scrollspy-nav-layout>
 </div>

@@ -49,6 +49,15 @@ export const BlogPageArticles = [
     /* Tags        */ ["SGJ", "event", "spring"],
   ),
   new ArticleInfo(
+    /* File path   */ "2024/scs-fall-2024",
+    /* Title       */ "Scarlet Showcase Fall 2024",
+    /* Description */ "Our epic end-of semester finale!",
+    /* Date        */ "December 9, 2024",
+    /* Image Path  */ "assets/blog-page-articles/2024/assets/scs-fall.png",
+    /* Authors     */ ["Alan Tong"],
+    /* Tags        */ ["ScS", "event", "fall"],
+  ),
+  new ArticleInfo(
     /* File path   */ "2024/sgj-fall-2024",
     /* Title       */ "Scarlet Game Jam Fall 2024",
     /* Description */ "Recounting how scarlet game jam went.",

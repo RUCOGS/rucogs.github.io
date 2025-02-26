@@ -9,7 +9,7 @@
 
 ![Picture](assets/pictures-page-images/2023/1_spring/2_sgj-whisk.png)
 
-[Itch.io page](https://itch.io/jam/scarlet-game-jam-spring-2023)
+**[Itch.io page](https://itch.io/jam/scarlet-game-jam-spring-2023)**
 
 This semester's theme was "**Out of Order**," and many submissions had creative interpretations of this theme.
 
