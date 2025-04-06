@@ -10,19 +10,19 @@
     color: mat.get-color-from-palette($primary, 500-contrast);
   }
 
-  .logo-container {
+  .app-scarlet-showcase.logo-container {
     max-height: 50em;
     flex-grow: 1;
     margin-top: -7em;
   }
 
   @media screen and (max-width: variables.$mobile-width) {
-    .logo-container {
+    .app-scarlet-showcase.logo-container {
       margin-top: -3em;
     }
   }
 
-  .theme {
+  .app-scarlet-showcase.theme {
     ul,
     div,
     ol,
