@@ -21,13 +21,13 @@ export class ScarletGameJamPageComponent implements OnInit {
 
   merchLink: string = 'http://scarlet-game-jam.allcolorsllc.com/';
   signupLink: string = 'https://forms.gle/2AMGdrM8mtG4TGvR7'; //done
-  itchioLink: string = 'about://blank';
+  itchioLink: string = 'https://itch.io/jam/scarlet-game-jam-spring-2025';
   stickerPinDesignLink: string = 'https://forms.gle/2Kp8yfb3eDQJDz1CA';
 
   startDateEventPage: string = 'https://rutgers.campuslabs.com/engage/event/11213887';
   endDateEventPage: string = 'https://rutgers.campuslabs.com/engage/event/11213887';
 
-  eventActive: boolean = false;
+  eventActive: boolean = true;
 
   constructor(public breakpointManager: BreakpointManagerService, public settings: SettingsService) {}
 
