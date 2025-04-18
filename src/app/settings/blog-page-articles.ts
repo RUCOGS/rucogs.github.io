@@ -79,7 +79,7 @@ export const BlogPageArticles = [
     /* File path   */ "2025/sgj-spring-2025",
     /* Title       */ "Scarlet Game Jam Spring 2025",
     /* Description */ "Recounting how scarlet game jam went.",
-    /* Date        */ "April 17, 2024",
+    /* Date        */ "April 17, 2025",
     /* Image Path  */ "assets/assets/images/sgj-logo-s2025.png",
     /* Authors     */ ["Nihal Pinto"],
     /* Tags        */ ["SGJ", "event", "spring"],
