@@ -1,13 +1,13 @@
 <!--
   Title: 			Scarlet Game Jam Spring 2025
   Description:	Recounting how scarlet game jam went.
-  Date:		    April 17, 2024
+  Date:		    April 17, 2025
   Image:			assets/assets/images/sgj-logo-s2025.png
   Authors: 		Nihal Pinto
   Tags:			SGJ, event, spring
 -->
 
-![Picture](assets/blog-page-articles/2025/sgj-s25-group-photo.png)
+![Picture](assets/blog-page-articles/2025/assets/sgj-s25-group-photo.png)
 
 **[Itch.io Page](https://itch.io/jam/scarlet-game-jam-spring-2025)**
 
