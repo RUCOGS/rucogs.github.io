@@ -18,7 +18,7 @@ export class ScarletShowcasePageComponent implements AfterViewInit {
 
   eventActive: boolean = false;
 
-  eventPage: string = 'https://rutgers.campuslabs.com/engage/event/10744395';
+  eventPage: string = 'https://rutgers.campuslabs.com/engage/event/11286317';
 
   constructor(public breakpointManager: BreakpointManagerService, public settings: SettingsService) {}
 
