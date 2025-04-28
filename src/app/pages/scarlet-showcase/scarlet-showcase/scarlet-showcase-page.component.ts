@@ -13,8 +13,8 @@ declare var FlipDown: any;
   },
 })
 export class ScarletShowcasePageComponent implements AfterViewInit {
-  startDate: string = 'Dec 8';
-  startTime: string = '5:00 pm';
+  startDate: string = 'May 4';
+  startTime: string = '3:00 pm';
 
   eventActive: boolean = false;
 
