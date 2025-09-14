@@ -44,15 +44,17 @@ export const RoleData: {
       RoleCode.CommunityManager,
       RoleCode.Webmaster,
       RoleCode.Treasurer,
-      RoleCode.SocialmediaManager,
       RoleCode.BotDeveloper,
       RoleCode.ClubGraphicArtist,
+      RoleCode.SocialmediaManager,
       RoleCode.CommunicationsSpecialist,
       RoleCode.PromotionsManager,
       RoleCode.MerchandiseManager,
       RoleCode.PortfolioManager,
       RoleCode.PreProfessionalManager,
-
+      RoleCode.OutreachDirector,
+      RoleCode.Secretary,
+      RoleCode.MinieventCoordinator,
       // Project Roles
       RoleCode.ProjectOwner,
     ],
@@ -153,7 +155,20 @@ export const RoleData: {
     type: [RoleType.EBoard],
     name: '🤵 Pre-Professional Manager'
   },
-  
+  [RoleCode.OutreachDirector]: {
+    type: [RoleType.EBoard],
+    name: '🗣️ Outreach Director'
+  },
+  [RoleCode.Secretary]: {
+    type: [RoleType.EBoard],
+    name: '📨 Secretary'
+  },
+  [RoleCode.MinieventCoordinator]: {
+    type: [RoleType.EBoard],
+    name: '🧑‍🏫 Mini Event Coordinator'
+  },
+
+ 
   // #endregion // -- EBOARD ROLES ----- //
 
   // #region // ----- PROJECT MEMBER ROLES ----- //
