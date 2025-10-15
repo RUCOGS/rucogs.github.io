@@ -869,4 +869,19 @@ export const PicturesPageImages = [
 		/* Description */ "",
 		/* Tags        */ [],
 	),
+  new ImageInfo(
+		/* File path   */ "2025/IMG_7055.png",
+		/* Description */ "",
+		/* Tags        */ [],
+	),
+  new ImageInfo(
+		/* File path   */ "2025/IMG_7063.png",
+		/* Description */ "",
+		/* Tags        */ [],
+	),
+  new ImageInfo(
+		/* File path   */ "2025/IMG_7079.png",
+		/* Description */ "",
+		/* Tags        */ [],
+	),
 ];
