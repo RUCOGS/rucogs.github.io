@@ -7,7 +7,7 @@
   Tags:			SGJ, event, fall
 -->
 
-![Picture](assets/blog-page-articles/2025/assets/sgj-f25-group-photo.png)
+![Picture](assets/blog-page-articles/2025/assets/sgj-f25-group-photo.jpg)
 
 **[Itch.io Page](https://itch.io/jam/scarlet-game-jam-fall-2025)**
 
