@@ -24,8 +24,8 @@ export class ScarletGameJamPageComponent implements OnInit {
   itchioLink: string = 'https://itch.io/jam/scarlet-game-jam-spring-2026';
   stickerPinDesignLink: string = 'https://forms.gle/2Kp8yfb3eDQJDz1CA';
 
-  startDateEventPage: string = 'https://rutgers.campuslabs.com/engage/event/12101377';
-  endDateEventPage: string = 'https://rutgers.campuslabs.com/engage/event/12101378';
+  startDateEventPage: string = '';
+  endDateEventPage: string = '';
 
   eventActive: boolean = true;
 
