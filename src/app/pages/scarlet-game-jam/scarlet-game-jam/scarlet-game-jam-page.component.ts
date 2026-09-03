@@ -13,8 +13,8 @@ declare var FlipDown: any;
   },
 })
 export class ScarletGameJamPageComponent implements OnInit {
-  startDate: string = 'Feb 3';
-  endDate: string = 'Feb 7';
+  startDate: string = 'Sep 15';
+  endDate: string = 'Sep 20';
 
   startDateTime: string = '7pm - 9pm';
   endDateTime: string = '12pm - 9pm';
