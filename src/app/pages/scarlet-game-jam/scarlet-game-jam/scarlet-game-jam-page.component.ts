@@ -21,7 +21,7 @@ export class ScarletGameJamPageComponent implements OnInit {
 
   merchLink: string = 'http://scarlet-game-jam.allcolorsllc.com/';
   signupLink: string = 'https://forms.gle/yothue89FRx5tAK37'; //done
-  itchioLink: string = 'https://itch.io/jam/scarlet-game-jam-spring-2026';
+  itchioLink: string = 'https://itch.io/jam/scarlet-game-jam-fall-2026';
   stickerPinDesignLink: string = 'https://forms.gle/2Kp8yfb3eDQJDz1CA';
 
   startDateEventPage: string = '';
